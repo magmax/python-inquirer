@@ -9,3 +9,4 @@ class Question(object):
 class Text(Question):
     def __init__(self, name, message, validate=None):
         super(Text, self).__init__(name, validate)
+        self.message = message
