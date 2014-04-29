@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 class Question(object):
-    def __init__(self, name, default=None, unless=False, validate=None):
+    def __init__(self, kind, name, default=None, unless=False, validate=None):
+        self.kind = kind
         self.name = name
         self.default = default
         self.unless = unless
@@ -13,5 +14,5 @@ class Question(object):
 
 class Text(Question):
     def __init__(self, name, message, default=None, unless=False, validate=None):
-        super(Text, self).__init__(name, default, unless, validate)
+        super(Text, self).__init__('text', name, default, unless, validate)
         self.message = message

@@ -3,6 +3,7 @@
 from render import ConsoleRender
 
 def prompt(questions, render=None):
+    print
     render = render or ConsoleRender()
 
     result = {}

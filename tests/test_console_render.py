@@ -35,7 +35,7 @@ class TextRenderTest(unittest.TestCase):
         self.assertIn(message, stdout)
 
 
-    def test_unless_true(self):
+    def test_unless_true_should_return(self):
         value = 'This is a foo message'
         message = 'Foo message'
         variable = 'Bar variable'
@@ -56,3 +56,6 @@ class TextRenderTest(unittest.TestCase):
         sys.stdout.seek(0)
         stdout = sys.stdout.read()
         self.assertNotIn(message, stdout)
+
+    def test_validation_fails(self):
+        self.fail('to do')
