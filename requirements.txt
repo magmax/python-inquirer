@@ -1,0 +1,2 @@
+blessings==1.5.1
+pyyaml==3.10
