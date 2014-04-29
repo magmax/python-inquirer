@@ -33,3 +33,26 @@ class TextRenderTest(unittest.TestCase):
         sys.stdout.seek(0)
         stdout = sys.stdout.read()
         self.assertIn(message, stdout)
+
+
+    def test_unless_true(self):
+        value = 'This is a foo message'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        expected = object()
+
+        sys.stdin = StringIO(value)
+        sys.stdout = StringIO()
+        question = Text(variable,
+                        unless=True,
+                        default=expected,
+                        message=message)
+
+        sut = ConsoleRender()
+        result = sut.render(question)
+
+        self.assertEquals((variable, expected), result)
+
+        sys.stdout.seek(0)
+        stdout = sys.stdout.read()
+        self.assertNotIn(message, stdout)

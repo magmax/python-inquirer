@@ -10,4 +10,6 @@ class Render(object):
 
 class ConsoleRender(Render):
     def render(self, question):
-        return question.name, raw_input(question.message)
+        message = '[?] %s: ' % question.message
+        result =  question.default if question.ignore else raw_input(message)
+        return question.name, result
