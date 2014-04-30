@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 sys.path.append(os.path.realpath('.'))
 from pprint import pprint
 
@@ -12,7 +13,7 @@ questions = [
                   message="What's your surname"),
     inquirer.Text('phone',
                   message="What's your phone number",
-                  validate=lambda x: True,
+                  validation=lambda x: re.match('\d+', x),
                   )
 ]
 

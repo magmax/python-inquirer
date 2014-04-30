@@ -1,4 +1,5 @@
 import sys
+import re
 import unittest
 from StringIO import StringIO
 
@@ -38,7 +39,7 @@ class TextRenderTest(unittest.TestCase):
         sut = ConsoleRender()
         result = sut.render(question)
 
-        self.assertEquals((variable, value), result)
+        self.assertEquals(value, result)
         self.assertInStdout(message)
 
 
@@ -57,8 +58,23 @@ class TextRenderTest(unittest.TestCase):
         sut = ConsoleRender()
         result = sut.render(question)
 
-        self.assertEquals((variable, expected), result)
+        self.assertEquals(expected, result)
         self.assertNotInStdout(message)
 
     def test_validation_fails(self):
-        self.fail('to do')
+        value = 'Invalid message\n9999'
+        message = 'Insert number'
+        variable = 'foo'
+        expected = '9999'
+
+        sys.stdin = StringIO(value)
+        question = Text(variable,
+                        validation=lambda x: re.match('\d+', x),
+                        message=message)
+
+        sut = ConsoleRender()
+        result = sut.render(question)
+
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('Invalid value')

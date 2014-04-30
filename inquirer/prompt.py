@@ -8,6 +8,5 @@ def prompt(questions, render=None):
 
     result = {}
     for question in questions:
-        q, v = render.render(question)
-        result[q] = v
+        result[question.name] = render.render(question)
     return result
