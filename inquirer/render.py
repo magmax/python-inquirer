@@ -54,7 +54,7 @@ class ConsoleRender(Render):
         with self.terminal.location(0, self.terminal.height - 2):
             self.terminal.clear_eos()
             default = question.default.upper() if question.default else 'N'
-            confirm = '(n/Y)' if default == 'Y' else '(N/y)'
+            confirm = '(Y/n)' if default == 'Y' else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
                        .format(msg=question.message, t=self.terminal, c=confirm))
             return question.default if question.ignore else raw_input(message)

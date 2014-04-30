@@ -119,3 +119,27 @@ class PasswordRenderTest(unittest.TestCase, BaseTestCase):
         self.assertEquals(value, result)
         self.assertInStdout(message)
         self.assertNotInStdout(value)
+
+
+class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
+    def setUp(self):
+        self.base_setup()
+
+    def tearDown(self):
+        self.base_teardown()
+
+    def test_no_as_default(self):
+        value = 'This is a foo message'
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        sys.stdin = StringIO(value)
+        question = questions.Confirm(variable, message)
+
+        sut = ConsoleRender()
+        result = sut.render(question)
+
+        self.assertEquals(value, result)
+        self.assertInStdout(message)
+        self.assertInStdout('(y/N)')
+        self.assertNotInStdout(value)
