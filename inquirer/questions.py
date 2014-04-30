@@ -31,3 +31,5 @@ class Password(Question):
 
 class Confirm(Question):
     kind = 'confirm'
+    def __init__(self, name, default=False, **kwargs):
+        super(Confirm, self).__init__(name, default=default, **kwargs)

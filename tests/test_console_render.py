@@ -129,17 +129,36 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_no_as_default(self):
-        value = 'This is a foo message'
+        input_str = '\n'
         message = 'Foo message'
         variable = 'Bar variable'
+        expected = False
 
-        sys.stdin = StringIO(value)
-        question = questions.Confirm(variable, message)
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message)
 
         sut = ConsoleRender()
         result = sut.render(question)
 
-        self.assertEquals(value, result)
+        self.assertEquals(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(y/N)')
-        self.assertNotInStdout(value)
+
+    def test_yes_as_default(self):
+        input_str = '\n'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        expected = True
+
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message,
+                                     default=True)
+
+        sut = ConsoleRender()
+        result = sut.render(question)
+
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('(Y/n)')

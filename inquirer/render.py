@@ -53,11 +53,17 @@ class ConsoleRender(Render):
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
             self.terminal.clear_eos()
-            default = question.default.upper() if question.default else 'N'
-            confirm = '(Y/n)' if default == 'Y' else '(y/N)'
+            confirm = '(Y/n)' if question.default else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
                        .format(msg=question.message, t=self.terminal, c=confirm))
-            return question.default if question.ignore else raw_input(message)
+
+            if question.ignore:
+                return question.default
+
+            answer = raw_input(message)
+            if answer == '':
+                return question.default
+            return answer in ('y', 'Y')
 
     def render_error(self, message):
         if message:
