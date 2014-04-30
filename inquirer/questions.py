@@ -3,12 +3,16 @@
 import errors
 
 class Question(object):
-    def __init__(self, kind, name, default=None, unless=False, validation=True):
-        self.kind = kind
+    def __init__(self, name, message='', default=None, unless=False, validation=True):
         self.name = name
+        self.message = message
         self.default = default
         self.unless = unless
         self.validation = validation
+
+    @property
+    def kind(self):
+        raise NotImplemented('Invalid Question type')
 
     @property
     def ignore(self):
@@ -20,7 +24,18 @@ class Question(object):
         if not v:
             raise errors.ValidationError()
 
+
 class Text(Question):
-    def __init__(self, name, message, default=None, unless=False, validation=True):
-        super(Text, self).__init__('text', name, default, unless, validation)
-        self.message = message
+    @property
+    def kind(self):
+        return 'text'
+
+class Password(Question):
+    @property
+    def kind(self):
+        return 'password'
+
+class Confirm(Question):
+    @property
+    def kind(self):
+        return 'confirm'

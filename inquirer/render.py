@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import getpass
 import questions
 import errors
 from blessings import Terminal
@@ -16,26 +17,58 @@ class ConsoleRender(Render):
 
     def render(self, question):
         message = ''
+        self.terminal.clear_eos()
+
         while True:
+            self.render_error(message)
+            if question.kind == 'text':
+                result = self.render_as_text(question)
+            elif question.kind == 'password':
+                result = self.render_as_password(question)
+            elif question.kind == 'confirm':
+                result = self.render_as_confirm(question)
+            else:
+                raise errors.UnknownQuestionTypeError()
             try:
-                if question.kind == 'text':
-                    result = self.render_as_text(question, message)
                 question.validate(result)
+                print()
                 return result
             except errors.ValidationError:
                 message = 'Invalid value.'
 
-    def render_as_text(self, question, bar_message):
-        self.terminal.clear_eos()
+    def render_as_text(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
             self.terminal.clear_eos()
-            self.print_in_bar(bar_message)
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            result = question.default if question.ignore else raw_input(message)
-            print
-        return result
+            return question.default if question.ignore else raw_input(message)
 
-    def print_in_bar(self, message):
+    def render_as_password(self, question):
+        with self.terminal.location(0, self.terminal.height - 2):
+            self.terminal.clear_eos()
+            message = ('[{t.yellow}?{t.normal}] {msg}: '
+                       .format(msg=question.message, t=self.terminal))
+            return question.default if question.ignore else getpass.getpass(message)
+
+    def render_as_confirm(self, question):
+        with self.terminal.location(0, self.terminal.height - 2):
+            self.terminal.clear_eos()
+            default = question.default.upper() if question.default else 'N'
+            confirm = '(n/Y)' if default == 'Y' else '(N/y)'
+            message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
+                       .format(msg=question.message, t=self.terminal, c=confirm))
+            return question.default if question.ignore else raw_input(message)
+
+    def render_error(self, message):
+        if message:
+            self.render_in_bottombar(
+                '{t.red}>> {t.normal}{t.bold}{msg}{t.normal} '
+                .format(msg=message, t=self.terminal)
+                )
+        else:
+            self.render_in_bottombar('')
+
+    def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):
-            print message,
+            self.terminal.clear_eos()
+            print(message),
