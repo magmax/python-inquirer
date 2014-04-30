@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import questions
-import exceptions
+import errors
 from blessings import Terminal
 
 class Render(object):
@@ -22,7 +22,7 @@ class ConsoleRender(Render):
                     result = self.render_as_text(question, message)
                 question.validate(result)
                 return result
-            except exceptions.ValidationError:
+            except errors.ValidationError:
                 message = 'Invalid value.'
 
     def render_as_text(self, question, bar_message):

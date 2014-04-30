@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import exceptions
+import errors
 
 class Question(object):
     def __init__(self, kind, name, default=None, unless=False, validation=True):
@@ -18,7 +18,7 @@ class Question(object):
         v = self.validation(value) if callable(self.validation) else self.validation
 
         if not v:
-            raise exceptions.ValidationError()
+            raise errors.ValidationError()
 
 class Text(Question):
     def __init__(self, name, message, default=None, unless=False, validation=True):
