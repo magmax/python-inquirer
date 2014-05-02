@@ -26,6 +26,8 @@ class ConsoleRender(Render):
         self.terminal.clear_eos()
 
         while True:
+            if question.ignore:
+                return question.default
             self.render_error(message)
             render = getattr(self, 'render_as_' + question.kind, None)
             if not render:
@@ -43,16 +45,14 @@ class ConsoleRender(Render):
             self.terminal.clear_eos()
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            return question.default if question.ignore else input(message)
+            return input(message)
 
     def render_as_password(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
             self.terminal.clear_eos()
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            return (question.default
-                    if question.ignore
-                    else getpass.getpass(message))
+            return getpass.getpass(message)
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
@@ -62,9 +62,6 @@ class ConsoleRender(Render):
                        .format(msg=question.message,
                                t=self.terminal,
                                c=confirm))
-
-            if question.ignore:
-                return question.default
 
             answer = input(message)
             if answer == '':
