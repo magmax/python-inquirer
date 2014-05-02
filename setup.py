@@ -3,10 +3,18 @@
 from setuptools import setup, find_packages
 from inquirer import __version__
 
+
+def read_description():
+    import markdown
+    m = markdown.Markdown()
+    with open('README.md') as fd:
+        return m.convert(fd.read())
+
+
 setup(name='inquirer',
       version=__version__,
       description="Collection of common interactive command line user interfaces, based on Inquirer.js",
-      long_description=open('README.md').read(),
+      long_description=read_description(),
       classifiers=[
           'Development Status :: 4 - Beta',
           'Environment :: Console',

@@ -1,12 +1,9 @@
-> Nobody expects the Spanish Inquisition
-
-TESTS                                     | COVERAGE
-------------------------------------------|------------------------------------------------
-[![Travis status][travis image]][Travis]  | [![Coverage Status][coverage image]][Coveralls]
+|TESTS                                     | COVERAGE
+|------------------------------------------|------------------------------------------------
+|[![Travis status][travis image]][Travis]  | [![Coverage Status][coverage image]][Coveralls]
 
 
 Collection of common interactive command line user interfaces, based on [Inquirer.js]
-
 
 
 [Inquirer.js]: https://github.com/SBoudrias/Inquirer.js
