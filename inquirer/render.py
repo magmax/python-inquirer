@@ -5,6 +5,7 @@ import questions
 import errors
 from blessings import Terminal
 
+
 class Render(object):
     def render(self, question):
         raise NotImplemented("Abstract method")
@@ -48,14 +49,18 @@ class ConsoleRender(Render):
             self.terminal.clear_eos()
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            return question.default if question.ignore else getpass.getpass(message)
+            return (question.default
+                    if question.ignore
+                    else getpass.getpass(message))
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
             self.terminal.clear_eos()
             confirm = '(Y/n)' if question.default else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
-                       .format(msg=question.message, t=self.terminal, c=confirm))
+                       .format(msg=question.message,
+                               t=self.terminal,
+                               c=confirm))
 
             if question.ignore:
                 return question.default
