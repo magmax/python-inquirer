@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import errors
+from . import errors
 
 
 class Question(object):

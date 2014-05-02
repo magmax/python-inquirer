@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import getpass
-import errors
 from blessings import Terminal
+from . import errors
+
+
+try:
+    input = raw_input
+except NameError:
+    pass
 
 
 class Render(object):
@@ -21,14 +27,10 @@ class ConsoleRender(Render):
 
         while True:
             self.render_error(message)
-            if question.kind == 'text':
-                result = self.render_as_text(question)
-            elif question.kind == 'password':
-                result = self.render_as_password(question)
-            elif question.kind == 'confirm':
-                result = self.render_as_confirm(question)
-            else:
+            render = getattr(self, 'render_as_' + question.kind, None)
+            if not render:
                 raise errors.UnknownQuestionTypeError()
+            result = render(question)
             try:
                 question.validate(result)
                 print()
@@ -41,7 +43,7 @@ class ConsoleRender(Render):
             self.terminal.clear_eos()
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            return question.default if question.ignore else raw_input(message)
+            return question.default if question.ignore else input(message)
 
     def render_as_password(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
@@ -64,7 +66,7 @@ class ConsoleRender(Render):
             if question.ignore:
                 return question.default
 
-            answer = raw_input(message)
+            answer = input(message)
             if answer == '':
                 return question.default
             return answer in ('y', 'Y')

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from render import ConsoleRender
+from .render import ConsoleRender
 
 
 def prompt(questions, render=None):
