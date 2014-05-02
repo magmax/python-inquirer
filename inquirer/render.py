@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import getpass
-import questions
 import errors
 from blessings import Terminal
 
