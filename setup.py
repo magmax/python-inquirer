@@ -5,10 +5,8 @@ from inquirer import __version__
 
 
 def read_description():
-    import markdown
-    m = markdown.Markdown()
-    with open('README.md') as fd:
-        return m.convert(fd.read())
+    with open('README.rst') as fd:
+        return fd.read()
 
 
 setup(name='inquirer',
