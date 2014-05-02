@@ -6,7 +6,8 @@ python:
   - "3.3"
 
 install:
-  - pip install -r requirements.txt python-coveralls
+  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
   - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2; fi
   - python setup.py install
 
