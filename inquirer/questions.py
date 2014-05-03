@@ -52,3 +52,7 @@ class Confirm(Question):
 
     def __init__(self, name, default=False, **kwargs):
         super(Confirm, self).__init__(name, default=default, **kwargs)
+
+
+class List(Question):
+    kind = 'list'

@@ -3,6 +3,7 @@
 import getpass
 from blessings import Terminal
 from . import errors
+import getch
 
 
 try:
@@ -37,7 +38,6 @@ class ConsoleRender(Render):
             result = render(question)
             try:
                 question.validate(self.answers, result)
-                print()
                 return result
             except errors.ValidationError:
                 message = 'Invalid value.'
@@ -69,6 +69,40 @@ class ConsoleRender(Render):
             if answer == '':
                 return question.default(self.answers)
             return answer in ('y', 'Y')
+
+    def render_as_list(self, question):
+        choices = question.choices(self.answers)
+        try:
+            selection = choices.index(question.default(self.answers))
+        except ValueError:
+            selection = 0
+
+        with self.terminal.location(0, self.terminal.height - 2 - len(choices)):
+            self.terminal.clear_eos()
+            while True:
+                with self.terminal.location():
+                    self.terminal.clear_eos()
+                    message = ('[{t.yellow}?{t.normal}] {msg}: '
+                               .format(msg=question.message,
+                                       t=self.terminal))
+                    print message
+                    for choice in choices:
+                        if choice == choices[selection]:
+                            print (' {t.blue}> {c}{t.normal}'
+                                   .format(c=choice, t=self.terminal))
+                        else:
+                            print ('   {c}'.format(c=choice))
+                    key = getch.get_key()
+                    if key == getch.UP:
+                        selection = max(0, selection - 1)
+                        continue
+                    if key == getch.DOWN:
+                        selection = min(len(choices), selection + 1)
+                        continue
+                    if key == getch.ENTER:
+                        return choices[selection]
+                    if key == getch.CTRL_c:
+                        raise errors.Aborted()
 
     def render_error(self, message):
         if message:

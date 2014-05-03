@@ -165,3 +165,28 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         self.assertEquals(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
+
+
+class ListRenderTest(unittest.TestCase, BaseTestCase):
+    def setUp(self):
+        self.base_setup()
+
+    def tearDown(self):
+        self.base_teardown()
+
+    def test_all_choices_are_shown(self):
+        value = 'This is a foo message'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        sys.stdin = StringIO(value)
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender()
+        result = sut.render(question)
+
+        self.assertEquals(value, result)
+        self.assertInStdout(message)
+        for choice in choices:
+            self.assertInStdout(choice)

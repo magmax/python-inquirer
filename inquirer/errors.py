@@ -8,3 +8,7 @@ class ValidationError(InquirerError):
 
 class UnknownQuestionTypeError(InquirerError):
     pass
+
+
+class Aborted(InquirerError):
+    pass

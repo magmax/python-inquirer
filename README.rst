@@ -43,7 +43,7 @@ Examples
 
 The `examples/`_ directory contains several examples. Feel free to run them::
 
-  python examples/input.py
+  python examples/text.py
 
 
 Objects
@@ -76,6 +76,8 @@ Prompt types
 Text
 ----
 
+``choices`` argument is not used.
+
 Example:
 
 .. code:: python
@@ -96,6 +98,8 @@ Example:
 Password
 --------
 
+``choices`` argument is not used.
+
 Example:
 
 .. code:: python
@@ -109,6 +113,8 @@ Example:
 
 Confirm
 -------
+
+``choices`` argument is not used.
 
 Example:
 

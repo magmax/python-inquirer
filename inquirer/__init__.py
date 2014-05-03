@@ -1,6 +1,6 @@
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 from .prompt import prompt
-from .questions import Text, Password, Confirm
+from .questions import Text, Password, Confirm, List
 
-__all__ = ['prompt', 'Text', 'Password', 'Confirm']
+__all__ = ['prompt', 'Text', 'Password', 'Confirm', 'List']
