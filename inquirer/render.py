@@ -26,12 +26,14 @@ class ConsoleRender(Render):
     def render(self, question, answers=None):
         self.answers = answers or {}
         message = ''
-        print self.terminal.clear_eos(),
 
         while True:
+            if not message:
+                print self.terminal.clear_eos()
             if question.ignore(self.answers):
                 return question.default(self.answers)
             self.render_error(message)
+            message = ''
             render = getattr(self, 'render_as_' + question.kind, None)
             if not render:
                 raise errors.UnknownQuestionTypeError()
@@ -44,7 +46,6 @@ class ConsoleRender(Render):
 
     def render_as_text(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            print self.terminal.clear_eos(),
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
             return input(message)
