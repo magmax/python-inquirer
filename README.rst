@@ -24,7 +24,9 @@ Installation
 
    pip install inquirer
 
-Usage example::
+Usage example:
+
+.. code:: python
 
   import inquirer
 
@@ -74,7 +76,9 @@ Prompt types
 Text
 ----
 
-Example::
+Example:
+
+.. code:: python
 
   import inquirer
   questions = [
@@ -88,10 +92,13 @@ Example::
 
 |inquirer text|
 
+
 Password
 --------
 
-Example::
+Example:
+
+.. code:: python
 
   import inquirer
   questions = [
@@ -103,7 +110,9 @@ Example::
 Confirm
 -------
 
-Example::
+Example:
+
+.. code:: python
 
   import inquirer
   questions = [
@@ -124,12 +133,17 @@ Licensed under `the MIT license`_.
 
 .. |travis| image:: https://travis-ci.org/magmax/python-inquirer.png
   :target: `Travis`_
+  :alt: Travis results
 
 .. |coveralls| image:: https://coveralls.io/repos/magmax/python-inquirer/badge.png
-  :target: `Coveralls`_
+  :target: `Coveralls`
+  :alt: Coveralls results_
 
 .. |inquirer text| image:: http://magmax.org/images/inquirer/inquirer_text.png
+  :alt: Example of Text Question
+
 .. |inquirer confirm| image:: http://magmax.org/images/inquirer/inquirer_confirm.png
+  :alt: Example of Confirm Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _Travis: https://travis-ci.org/magmax/python-inquirer
