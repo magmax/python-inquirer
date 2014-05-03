@@ -29,13 +29,9 @@ Usage example::
   import inquirer
 
   questions = [
-    inquirer.Text('name',
-                  message="What's your name"),
-    inquirer.Password('password',
-                  message="Add a password"),
-    inquirer.Confirm('correct',
-                  message="Is correct",
-                  )
+    inquirer.Text    ('name',     message="What's your name"),
+    inquirer.Password('password', message="Add a password"),
+    inquirer.Confirm ('correct',  message="Is correct"),
   ]
 
   answers = inquirer.prompt(questions)
@@ -55,21 +51,21 @@ The main object is ``Question``, but it should not be
 instantiated. You must use any of the subclasses, listed below. All of
 them have the next attributes that can be set in the initialization:
 
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| Attribute  | Type          | Explanation                                                                                                                                       |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| name       | String        | The key in the hash of answers.                                                                                                                   |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| message    | String        | To be shown in the prompt to the user                                                                                                             |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| default    | Any|Function  | Default value. Functions will receive the hash with previous values.                                                                              |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| choices    | List|Function | List of available options. Functions will receive the hash with previous values.                                                                  |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| validation | Bool|Function | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| unless     | Bool|Function | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
-+------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Attribute** | **Type**      | **Explanation**                                                                                                                                   |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| name          | String        | The key in the hash of answers.                                                                                                                   |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| message       | String        | To be shown in the prompt to the user                                                                                                             |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| default       | Any|Function  | Default value. Functions will receive the hash with previous values.                                                                              |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| choices       | List|Function | List of available options. Functions will receive the hash with previous values.                                                                  |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| validation    | Bool|Function | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| unless        | Bool|Function | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
++---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 Prompt types
@@ -85,11 +81,6 @@ Example::
   answers = inquirer.prompt(questions)
   print(answers)
 
-.. raw:: html
-  <p>
-  [<span class="ansiyellow">?</span>] What's your name: miguel<br/>
-  {'name': 'miguel'}
-  </p>
 
 
 Password
