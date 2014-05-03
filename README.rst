@@ -1,8 +1,8 @@
-=========  ============
-TESTS      COVERAGE
-=========  ============
-|travis|   |coveralls|
-=========  ============
+==============  ===============  =========  ============
+VERSION         DOWNLOADS        TESTS      COVERAGE
+==============  ===============  =========  ============
+|pip version|   |pip downloads|  |travis|   |coveralls|
+==============  ===============  =========  ============
 
 Collection of common interactive command line user interfaces, based on `Inquirer.js`_.
 
@@ -138,6 +138,14 @@ Licensed under `the MIT license`_.
 .. |coveralls| image:: https://coveralls.io/repos/magmax/python-inquirer/badge.png
   :target: `Coveralls`_
   :alt: Coveralls results_
+
+.. |pip version| image:: https://pypip.in/v/inquirer/badge.png
+    :target: https://pypi.python.org/pypi/inquirer
+    :alt: Latest PyPI version
+
+.. |pip downloads| image:: https://pypip.in/d/inquirer/badge.png
+    :target: https://pypi.python.org/pypi/inquirer
+    :alt: Number of PyPI downloads
 
 .. |inquirer text| image:: http://magmax.org/images/inquirer/inquirer_text.png
   :alt: Example of Text Question
