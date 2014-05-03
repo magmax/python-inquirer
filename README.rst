@@ -77,11 +77,16 @@ Text
 Example::
 
   import inquirer
-  questions = [inquirer.Text('name', "What's your name")]
+  questions = [
+    inquirer.Text('name', message="What's your name"),
+    inquirer.Text('surname', message="What's your surname"),
+    inquirer.Text('phone', message="What's your phone number",
+                  validation=lambda x: re.match('\d+', x),
+                  )
+  ]
   answers = inquirer.prompt(questions)
-  print(answers)
 
-
+|inquirer text|
 
 Password
 --------
@@ -90,7 +95,16 @@ Password
 Confirm
 -------
 
+Example::
 
+  import inquirer
+  questions = [
+    inquirer.Confirm('continue', message="Should I continue"),
+    inquirer.Confirm('stop', message="Should I stop", default=True),
+  ]
+  answers = inquirer.prompt(questions)
+
+|inquirer confirm|
 
 License
 =======
@@ -105,6 +119,9 @@ Licensed under `the MIT license`_.
 
 .. |coveralls| image:: https://coveralls.io/repos/magmax/python-inquirer/badge.png
   :target: `Coveralls`_
+
+.. |inquirer text| image:: http://magmax.org/images/inquirer/inquirer_text.png
+.. |inquirer confirm| image:: http://magmax.org/images/inquirer/inquirer_confirm.png
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _Travis: https://travis-ci.org/magmax/python-inquirer
