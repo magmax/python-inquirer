@@ -91,6 +91,14 @@ Example::
 Password
 --------
 
+Example::
+
+  import inquirer
+  questions = [
+    inquirer.Password('password', message="What's your password"),
+  ]
+  answers = inquirer.prompt(questions)
+
 
 Confirm
 -------
