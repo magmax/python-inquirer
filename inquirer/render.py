@@ -26,7 +26,7 @@ class ConsoleRender(Render):
     def render(self, question, answers=None):
         self.answers = answers or {}
         message = ''
-        self.terminal.clear_eos()
+        print self.terminal.clear_eos(),
 
         while True:
             if question.ignore(self.answers):
@@ -38,28 +38,27 @@ class ConsoleRender(Render):
             result = render(question)
             try:
                 question.validate(self.answers, result)
-                self.terminal.clear_eos()
                 return result
             except errors.ValidationError:
                 message = 'Invalid value.'
 
     def render_as_text(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            self.terminal.clear_eos()
+            print self.terminal.clear_eos(),
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
             return input(message)
 
     def render_as_password(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            self.terminal.clear_eos()
+            print self.terminal.clear_eos(),
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
             return getpass.getpass(message)
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            self.terminal.clear_eos()
+            print self.terminal.clear_eos(),
             confirm = '(Y/n)' if question.default(self.answers) else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
                        .format(msg=question.message,
@@ -83,30 +82,27 @@ class ConsoleRender(Render):
         print message
         for choice in choices:
             print
-        print
+        print self.terminal.clear_eos()
 
-        with self.terminal.location(0, self.terminal.height - 2 - len(choices)):
-            self.terminal.clear_eos()
-            while True:
-                with self.terminal.location():
-                    self.terminal.clear_eos()
-                    for choice in choices:
-                        if choice == choices[selection]:
-                            print (' {t.blue}> {c}{t.normal}'
-                                   .format(c=choice, t=self.terminal))
-                        else:
-                            print ('   {c}'.format(c=choice))
-                    key = getch.get_key()
-                    if key == getch.UP:
-                        selection = max(0, selection - 1)
-                        continue
-                    if key == getch.DOWN:
-                        selection = min(len(choices) - 1, selection + 1)
-                        continue
-                    if key == getch.ENTER:
-                        return choices[selection]
-                    if key == getch.CTRL_c:
-                        raise errors.Aborted()
+        while True:
+            with self.terminal.location(0, self.terminal.height - 2 - len(choices)):
+                for choice in choices:
+                    if choice == choices[selection]:
+                        print (' {t.blue}> {c}{t.normal}'
+                               .format(c=choice, t=self.terminal))
+                    else:
+                        print ('   {c}'.format(c=choice))
+                key = getch.get_key()
+                if key == getch.UP:
+                    selection = max(0, selection - 1)
+                    continue
+                if key == getch.DOWN:
+                    selection = min(len(choices) - 1, selection + 1)
+                    continue
+                if key == getch.ENTER:
+                    return choices[selection]
+                if key == getch.CTRL_c:
+                    raise errors.Aborted()
 
     def render_error(self, message):
         if message:
