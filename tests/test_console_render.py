@@ -63,7 +63,7 @@ class TextRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout(message)
 
 
-    def test_unless_true_should_return(self):
+    def test_ignore_true_should_return(self):
         value = 'This is a foo message'
         message = 'Foo message'
         variable = 'Bar variable'
@@ -71,7 +71,7 @@ class TextRenderTest(unittest.TestCase, BaseTestCase):
 
         sys.stdin = StringIO(value)
         question = questions.Text(variable,
-                                  unless=True,
+                                  ignore=True,
                                   default=expected,
                                   message=message)
 
@@ -89,7 +89,7 @@ class TextRenderTest(unittest.TestCase, BaseTestCase):
 
         sys.stdin = StringIO(value)
         question = questions.Text(variable,
-                                  validation=lambda x: re.match('\d+', x),
+                                  validate=lambda _, x: re.match('\d+', x),
                                   message=message)
 
         sut = ConsoleRender()

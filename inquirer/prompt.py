@@ -3,11 +3,11 @@
 from .render import ConsoleRender
 
 
-def prompt(questions, render=None):
-    print
+def prompt(questions, render=None, answers=None):
     render = render or ConsoleRender()
+    answers = answers or {}
 
-    result = {}
+    print
     for question in questions:
-        result[question.name] = render.render(question)
-    return result
+        answers[question.name] = render.render(question, answers)
+    return answers

@@ -64,9 +64,9 @@ them have the next attributes that can be set in the initialization:
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 | choices       | List|Function | List of available options. Functions will receive the hash with previous values.                                                                  |
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| validation    | Bool|Function | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
+| validate      | Bool|Function | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| unless        | Bool|Function | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
+| ignore        | Bool|Function | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
@@ -85,7 +85,7 @@ Example:
     inquirer.Text('name', message="What's your name"),
     inquirer.Text('surname', message="What's your surname"),
     inquirer.Text('phone', message="What's your phone number",
-                  validation=lambda x: re.match('\d+', x),
+                  validate=lambda x, _: re.match('\d+', x),
                   )
   ]
   answers = inquirer.prompt(questions)
@@ -136,7 +136,7 @@ Licensed under `the MIT license`_.
   :alt: Travis results
 
 .. |coveralls| image:: https://coveralls.io/repos/magmax/python-inquirer/badge.png
-  :target: `Coveralls`
+  :target: `Coveralls`_
   :alt: Coveralls results_
 
 .. |inquirer text| image:: http://magmax.org/images/inquirer/inquirer_text.png

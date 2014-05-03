@@ -6,27 +6,37 @@ from . import errors
 class Question(object):
     kind = 'base question'
 
-    def __init__(self, name, message='', default=None, unless=False,
-                 validation=True):
+    def __init__(self,
+                 name,
+                 message='',
+                 choices=None,
+                 default=None,
+                 ignore=False,
+                 validate=True):
         self.name = name
         self.message = message
-        self.default = default
-        self.unless = unless
-        self.validation = validation
+        self._choices = choices or []
+        self._default = default
+        self._ignore = ignore
+        self._validate = validate
 
-    @property
-    def ignore(self):
-        return (self.unless()
-                if callable(self.unless)
-                else self.unless)
+    def ignore(self, values):
+        return self._solve(self._ignore, values)
 
-    def validate(self, value):
-        v = (self.validation(value)
-             if callable(self.validation)
-             else self.validation)
-
-        if not v:
+    def validate(self, values, current):
+        if not self._solve(self._validate, values, current):
             raise errors.ValidationError()
+
+    def default(self, values):
+        return self._solve(self._default, values)
+
+    def choices(self, values):
+        return self._solve(self._choices, values)
+
+    def _solve(self, value, *args, **kwargs):
+        return (value(*args, **kwargs)
+                if callable(value)
+                else value)
 
 
 class Text(Question):
