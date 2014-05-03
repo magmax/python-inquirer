@@ -3,5 +3,6 @@ flake8==2.1.0
 nose==1.3.1
 coverage==3.7.1
 nosexcover==1.0.10
+python-coveralls==2.4.2
 ipython
 
