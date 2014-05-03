@@ -77,15 +77,19 @@ class ConsoleRender(Render):
         except ValueError:
             selection = 0
 
+        message = ('[{t.yellow}?{t.normal}] {msg}: '
+                   .format(msg=question.message,
+                           t=self.terminal))
+        print message
+        for choice in choices:
+            print
+        print
+
         with self.terminal.location(0, self.terminal.height - 2 - len(choices)):
             self.terminal.clear_eos()
             while True:
                 with self.terminal.location():
                     self.terminal.clear_eos()
-                    message = ('[{t.yellow}?{t.normal}] {msg}: '
-                               .format(msg=question.message,
-                                       t=self.terminal))
-                    print message
                     for choice in choices:
                         if choice == choices[selection]:
                             print (' {t.blue}> {c}{t.normal}'
