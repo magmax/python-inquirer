@@ -62,7 +62,7 @@ class ConsoleRender(Render):
             while True:
                 key = getch.get_key()
                 if key == getch.CTRL_C:
-                    raise error.Aborted()
+                    raise errors.Aborted()
                 if key == getch.ENTER:
                     break
                 if len(key) != 1:
