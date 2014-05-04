@@ -5,5 +5,5 @@ coverage==3.7.1
 nosexcover==1.0.10
 python-coveralls==2.4.2
 doublex==1.8.1
+pexpect==3.2
 ipython
-

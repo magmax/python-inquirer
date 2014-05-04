@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import getpass
 from blessings import Terminal
 from . import errors
 import getch
 
 
+# Fixes for python 3 compatibility
 try:
     input = raw_input
 except NameError:
@@ -29,7 +32,7 @@ class ConsoleRender(Render):
 
         while True:
             if not message:
-                print self.terminal.clear_eos()
+                print(self.terminal.clear_eos())
             if question.ignore(self.answers):
                 return question.default(self.answers)
             self.render_error(message)
@@ -52,14 +55,14 @@ class ConsoleRender(Render):
 
     def render_as_password(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            print self.terminal.clear_eos(),
+            print(self.terminal.clear_eos(), end='')
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
             return getpass.getpass(message)
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            print self.terminal.clear_eos(),
+            print(self.terminal.clear_eos(), end='')
             confirm = '(Y/n)' if question.default(self.answers) else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
                        .format(msg=question.message,
@@ -80,10 +83,10 @@ class ConsoleRender(Render):
 
         message = ('[{t.yellow}?{t.normal}] {msg}: '
                    .format(msg=question.message, t=self.terminal))
-        print message
+        print(message)
         for choice in choices:
-            print
-        print self.terminal.clear_eos()
+            print('')
+        print(self.terminal.clear_eos())
 
         pos_y = self.terminal.height - 2 - len(choices)
 
@@ -91,10 +94,10 @@ class ConsoleRender(Render):
             with self.terminal.location(0, pos_y):
                 for choice in choices:
                     if choice == choices[selection]:
-                        print (' {t.blue}> {c}{t.normal}'
-                               .format(c=choice, t=self.terminal))
+                        print(' {t.blue}> {c}{t.normal}'
+                              .format(c=choice, t=self.terminal))
                     else:
-                        print ('   {c}'.format(c=choice))
+                        print('   {c}'.format(c=choice))
                 key = getch.get_key()
                 if key == getch.UP:
                     selection = max(0, selection - 1)
@@ -119,4 +122,4 @@ class ConsoleRender(Render):
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):
             self.terminal.clear_eos()
-            print(message),
+            print(message, end='')
