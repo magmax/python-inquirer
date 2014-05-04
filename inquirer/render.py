@@ -5,7 +5,7 @@ from __future__ import print_function
 import getpass
 from blessings import Terminal
 from . import errors
-import getch
+from . import getch
 
 
 # Fixes for python 3 compatibility

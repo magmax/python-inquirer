@@ -25,4 +25,4 @@ run_unit_tests:
 
 run_acceptance_tests:
 	@echo Running Tests...
-	@nosetests -d --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/acceptance
+	@nosetests -d --exe tests/acceptance
