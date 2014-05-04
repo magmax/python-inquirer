@@ -12,15 +12,13 @@ except ImportError:
     import msvcrt
     unix = False
 
-windows = not unix
-
 
 UP = '\x1b\x5b\x41'
 DOWN = '\x1b\x5b\x42'
 LEFT = '\x1b\x5b\x44'
 RIGHT = '\x1b\x5b\x43'
 ENTER = '\x0d'
-CTRL_c = '\x03'
+CTRL_C = '\x03'
 
 
 def _getch_unix():

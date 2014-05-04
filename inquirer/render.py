@@ -85,8 +85,10 @@ class ConsoleRender(Render):
             print
         print self.terminal.clear_eos()
 
+        pos_y = self.terminal.height - 2 - len(choices)
+
         while True:
-            with self.terminal.location(0, self.terminal.height - 2 - len(choices)):
+            with self.terminal.location(0, pos_y):
                 for choice in choices:
                     if choice == choices[selection]:
                         print (' {t.blue}> {c}{t.normal}'
@@ -102,7 +104,7 @@ class ConsoleRender(Render):
                     continue
                 if key == getch.ENTER:
                     return choices[selection]
-                if key == getch.CTRL_c:
+                if key == getch.CTRL_C:
                     raise errors.Aborted()
 
     def render_error(self, message):
