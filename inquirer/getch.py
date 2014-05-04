@@ -19,6 +19,7 @@ LEFT = '\x1b\x5b\x44'
 RIGHT = '\x1b\x5b\x43'
 ENTER = '\x0d'
 CTRL_C = '\x03'
+BACKSPACE = '\x7f'
 
 
 def _getch_unix():

@@ -2,7 +2,6 @@
 
 from __future__ import print_function
 
-import getpass
 from blessings import Terminal
 from . import errors
 from . import getch
@@ -58,7 +57,25 @@ class ConsoleRender(Render):
             print(self.terminal.clear_eos(), end='')
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            return getpass.getpass(message)
+            print(message, end='')
+            password = ''
+            while True:
+                key = getch.get_key()
+                if key == getch.CTRL_C:
+                    raise error.Aborted()
+                if key == getch.ENTER:
+                    break
+                if len(key) != 1:
+                    continue
+                if key == getch.BACKSPACE:
+                    if len(password):
+                        password = password[:-1]
+                        print(self.terminal.move_left, end='')
+                        print(self.terminal.clear_eol, end='')
+                else:
+                    password += key
+                    print('*', end='')
+            return password
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):

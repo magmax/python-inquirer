@@ -3,7 +3,7 @@ import unittest
 import pexpect
 
 
-class ListTest(unittest.TestCase):
+class TextTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn ('python examples/text.py')
 
