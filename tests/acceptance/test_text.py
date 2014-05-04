@@ -23,9 +23,9 @@ class TextTest(unittest.TestCase):
         self.set_name()
         self.set_surname()
         self.set_phone()
-        self.sut.expect_list([re.compile("'name': 'foo'"),
-                              re.compile("'surname': 'bar'"),
-                              re.compile("'phone': '123456789'")],
+        self.sut.expect_list([re.compile(b"'name': 'foo'"),
+                              re.compile(b"'surname': 'bar'"),
+                              re.compile(b"'phone': '123456789'")],
                              timeout=1)
 
     def test_invalid_phone(self):
@@ -34,7 +34,7 @@ class TextTest(unittest.TestCase):
         self.set_phone('abcde')
         self.sut.expect('Invalid value.*', timeout=1)
         self.sut.sendline('12345')
-        self.sut.expect_list([re.compile("'name': 'foo'"),
-                              re.compile("'surname': 'bar'"),
-                              re.compile("'phone': '12345'")],
+        self.sut.expect_list([re.compile(b"'name': 'foo'"),
+                              re.compile(b"'surname': 'bar'"),
+                              re.compile(b"'phone': '12345'")],
                              timeout=1)
