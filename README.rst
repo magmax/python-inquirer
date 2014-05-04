@@ -129,6 +129,29 @@ Example:
 
 |inquirer confirm|
 
+
+List
+----
+
+Shows a list of choices, and allows the selection of one of them.
+
+Example:
+
+.. code:: python
+
+
+  import inquirer
+  questions = [
+    inquirer.List('size',
+                  message="What size do you need?",
+                  choices=['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
+              ),
+  ]
+  answers = inquirer.prompt(questions)
+
+|inquirer list|
+
+
 License
 =======
 
@@ -158,6 +181,9 @@ Licensed under `the MIT license`_.
 
 .. |inquirer confirm| image:: http://magmax.org/images/inquirer/inquirer_confirm.png
   :alt: Example of Confirm Question
+
+.. |inquirer list| image:: http://magmax.org/images/inquirer/inquirer_list.png
+  :alt: Example of List Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _Travis: https://travis-ci.org/magmax/python-inquirer
