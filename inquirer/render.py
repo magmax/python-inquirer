@@ -57,7 +57,7 @@ class ConsoleRender(Render):
             print(self.terminal.clear_eos(), end='')
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message, t=self.terminal))
-            print(message, end='')
+            print(message, end='', flush=True)
             password = ''
             while True:
                 key = getch.get_key()
@@ -70,11 +70,11 @@ class ConsoleRender(Render):
                 if key == getch.BACKSPACE:
                     if len(password):
                         password = password[:-1]
-                        print(self.terminal.move_left, end='')
-                        print(self.terminal.clear_eol, end='')
+                        print(self.terminal.move_left, end='', flush=True)
+                        print(self.terminal.clear_eol, end='', flush=True)
                 else:
                     password += key
-                    print('*', end='')
+                    print('*', end='', flush=True)
             return password
 
     def render_as_confirm(self, question):
