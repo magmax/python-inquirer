@@ -14,29 +14,39 @@ class Question(object):
                  ignore=False,
                  validate=True):
         self.name = name
-        self.message = message
+        self._message = message
         self._choices = choices or []
         self._default = default
         self._ignore = ignore
         self._validate = validate
+        self.answers = {}
 
-    def ignore(self, values):
-        return self._solve(self._ignore, values)
+    @property
+    def ignore(self):
+        return self._solve(self._ignore)
 
-    def validate(self, values, current):
-        if not self._solve(self._validate, values, current):
+    @property
+    def message(self):
+        return self._solve(self._message)
+
+    @property
+    def default(self):
+        return self._solve(self._default)
+
+    @property
+    def choices(self):
+        return self._solve(self._choices)
+
+    def validate(self, current):
+        if not self._solve(self._validate, current):
             raise errors.ValidationError()
 
-    def default(self, values):
-        return self._solve(self._default, values)
-
-    def choices(self, values):
-        return self._solve(self._choices, values)
-
-    def _solve(self, value, *args, **kwargs):
-        return (value(*args, **kwargs)
-                if callable(value)
-                else value)
+    def _solve(self, prop, *args, **kwargs):
+        if callable(prop):
+            return prop(self.answers, *args, **kwargs)
+        if isinstance(prop, str):
+            return prop.format(self.answers)
+        return prop
 
 
 class Text(Question):

@@ -28,13 +28,14 @@ class ConsoleRender(Render):
 
     def render(self, question, answers=None):
         self.answers = answers or {}
+        question.answers = self.answers
         message = ''
 
         while True:
+            if question.ignore:
+                return question.default
             if not message:
-                print(self.terminal.clear_eos())
-            if question.ignore(self.answers):
-                return question.default(self.answers)
+                self.clear_eos()
             self.render_error(message)
             message = ''
             render = getattr(self, 'render_as_' + question.kind, None)
@@ -42,24 +43,23 @@ class ConsoleRender(Render):
                 raise errors.UnknownQuestionTypeError()
             result = render(question)
             try:
-                question.validate(self.answers, result)
+                question.validate(result)
                 return result
             except errors.ValidationError:
-                message = 'Invalid value.'
+                message = 'Invalid value for {q}.'.format(q=question.name)
 
     def render_as_text(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
             message = ('[{t.yellow}?{t.normal}] {msg}: '
-                       .format(msg=question.message, t=self.terminal))
+                       .format(msg=question.message,
+                               t=self.terminal))
             return input(message)
 
     def render_as_password(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            print(self.terminal.clear_eos(), end='')
-            message = ('[{t.yellow}?{t.normal}] {msg}: '
-                       .format(msg=question.message, t=self.terminal))
-            print(message, end='')
-            sys.stdout.flush()
+            self.terminal.clear_eos(False)
+            self._print_str('[{t.yellow}?{t.normal}] {msg}: ',
+                            msg=question.message)
             password = ''
             while True:
                 key = getch.get_key()
@@ -74,17 +74,15 @@ class ConsoleRender(Render):
                         password = password[:-1]
                         print(self.terminal.move_left, end='')
                         print(self.terminal.clear_eol, end='')
-                        sys.stdout.flush()
                 else:
                     password += key
                     print('*', end='')
-                    sys.stdout.flush()
             return password
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
             print(self.terminal.clear_eos(), end='')
-            confirm = '(Y/n)' if question.default(self.answers) else '(y/N)'
+            confirm = '(Y/n)' if question.default else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
                        .format(msg=question.message,
                                t=self.terminal,
@@ -92,19 +90,18 @@ class ConsoleRender(Render):
 
             answer = input(message)
             if answer == '':
-                return question.default(self.answers)
+                return question.default
             return answer in ('y', 'Y')
 
     def render_as_list(self, question):
-        choices = question.choices(self.answers)
+        choices = question.choices
         try:
-            selection = choices.index(question.default(self.answers))
+            selection = choices.index(question.default)
         except ValueError:
             selection = 0
 
-        message = ('[{t.yellow}?{t.normal}] {msg}: '
-                   .format(msg=question.message, t=self.terminal))
-        print(message)
+        self._print_line('[{t.yellow}?{t.normal}] {msg}: ',
+                         msg=question.message)
         for choice in choices:
             print('')
         print(self.terminal.clear_eos())
@@ -115,10 +112,10 @@ class ConsoleRender(Render):
             with self.terminal.location(0, pos_y):
                 for choice in choices:
                     if choice == choices[selection]:
-                        print(' {t.blue}> {c}{t.normal}'
-                              .format(c=choice, t=self.terminal))
+                        self._print_line(' {t.blue}> {c}{t.normal}',
+                                         c=choice)
                     else:
-                        print('   {c}'.format(c=choice))
+                        self._print_line('   {c}', c=choice)
                 key = getch.get_key()
                 if key == getch.UP:
                     selection = max(0, selection - 1)
@@ -143,4 +140,14 @@ class ConsoleRender(Render):
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):
             self.terminal.clear_eos()
-            print(message, end='')
+            self._print_str(message)
+
+    def _print_line(self, base, **kwargs):
+        self._print_str(base + self.terminal.clear_eol(), lf=True, **kwargs)
+
+    def _print_str(self, base, lf=False, **kwargs):
+        print(base.format(t=self.terminal, **kwargs), end='\n' if lf else '')
+        sys.stdout.flush()
+
+    def clear_eos(self, lf=True):
+        print(self.terminal.clear_eos(), end='\n' if lf else '')
