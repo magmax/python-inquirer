@@ -192,3 +192,26 @@ class ListRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout(message)
         for choice in choices:
             self.assertInStdout(choice)
+
+class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
+    def setUp(self):
+        self.base_setup()
+
+    def tearDown(self):
+        self.base_teardown()
+
+    def test_all_choices_are_shown(self):
+        stdin = getch.ENTER
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        sys.stdin = StringIO(stdin)
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertInStdout(message)
+        for choice in choices:
+            self.assertInStdout(choice)
