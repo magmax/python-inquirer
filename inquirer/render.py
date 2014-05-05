@@ -21,8 +21,9 @@ class Render(object):
 
 
 class ConsoleRender(Render):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, key_generator=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
+        self._key_gen = key_generator or getch.get_key
         self.terminal = Terminal()
         self.answers = {}
 
@@ -62,7 +63,7 @@ class ConsoleRender(Render):
                             msg=question.message)
             password = ''
             while True:
-                key = getch.get_key()
+                key = self._key_gen()
                 if key == getch.CTRL_C:
                     raise errors.Aborted()
                 if key == getch.ENTER:
@@ -116,7 +117,7 @@ class ConsoleRender(Render):
                                          c=choice)
                     else:
                         self._print_line('   {c}', c=choice)
-                key = getch.get_key()
+                key = self._key_gen()
                 if key == getch.UP:
                     current = max(0, current - 1)
                     continue
@@ -158,7 +159,7 @@ class ConsoleRender(Render):
                     self._print_line(' {color}{sel} {s} {c}{t.normal}',
                                      c=choice, s=symbol, sel=selector,
                                      color=color)
-                key = getch.get_key()
+                key = self._key_gen()
                 if key == getch.UP:
                     current = max(0, current - 1)
                     continue
