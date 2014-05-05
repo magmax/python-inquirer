@@ -73,16 +73,16 @@ class ConsoleRender(Render):
                 if key == getch.BACKSPACE:
                     if len(password):
                         password = password[:-1]
-                        print(self.terminal.move_left, end='')
-                        print(self.terminal.clear_eol, end='')
+                        self._print_str(self.terminal.move_left
+                                        + self.terminal.clear_eol)
                 else:
                     password += key
-                    print('*', end='')
+                    self._print_str('*')
             return password
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            print(self.terminal.clear_eos(), end='')
+            self.clear_eos(lf=False)
             confirm = '(Y/n)' if question.default else '(y/N)'
             message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
                        .format(msg=question.message,
@@ -113,10 +113,13 @@ class ConsoleRender(Render):
             with self.terminal.location(0, pos_y):
                 for choice in choices:
                     if choice == choices[current]:
-                        self._print_line(' {t.blue}> {c}{t.normal}',
-                                         c=choice)
+                        color = self.terminal.blue
+                        symbol = '>'
                     else:
-                        self._print_line('   {c}', c=choice)
+                        color = self.terminal.normal
+                        symbol = ' '
+                    self._print_line(' {color}{s} {c}{t.normal}',
+                                     c=choice, color=color, s=symbol)
                 key = self._key_gen()
                 if key == getch.UP:
                     current = max(0, current - 1)
