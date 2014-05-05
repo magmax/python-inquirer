@@ -130,7 +130,7 @@ class ConsoleRender(Render):
 
     def render_as_checkbox(self, question):
         choices = question.choices
-        selection  = []
+        selection = []
         current = 0
 
         self._print_line('[{t.yellow}?{t.normal}] {msg}: ',
@@ -151,12 +151,13 @@ class ConsoleRender(Render):
                     else:
                         symbol = 'o'
                         color = ''
-                    selector=' '
+                    selector = ' '
                     if n == current:
                         selector = '>'
                         color = self.terminal.blue
                     self._print_line(' {color}{sel} {s} {c}{t.normal}',
-                                     c=choice, s=symbol, sel=selector, color=color)
+                                     c=choice, s=symbol, sel=selector,
+                                     color=color)
                 key = getch.get_key()
                 if key == getch.UP:
                     current = max(0, current - 1)
