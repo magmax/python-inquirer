@@ -66,3 +66,7 @@ class Confirm(Question):
 
 class List(Question):
     kind = 'list'
+
+
+class Checkbox(Question):
+    kind = 'checkbox'

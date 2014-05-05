@@ -20,7 +20,7 @@ RIGHT = '\x1b\x5b\x43'
 ENTER = '\x0d'
 CTRL_C = '\x03'
 BACKSPACE = '\x7f'
-
+SPACE = '\x20'
 
 def _getch_unix():
     fd = sys.stdin.fileno()

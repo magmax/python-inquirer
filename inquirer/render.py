@@ -96,9 +96,9 @@ class ConsoleRender(Render):
     def render_as_list(self, question):
         choices = question.choices
         try:
-            selection = choices.index(question.default)
+            current = choices.index(question.default)
         except ValueError:
-            selection = 0
+            current = 0
 
         self._print_line('[{t.yellow}?{t.normal}] {msg}: ',
                          msg=question.message)
@@ -111,21 +111,73 @@ class ConsoleRender(Render):
         while True:
             with self.terminal.location(0, pos_y):
                 for choice in choices:
-                    if choice == choices[selection]:
+                    if choice == choices[current]:
                         self._print_line(' {t.blue}> {c}{t.normal}',
                                          c=choice)
                     else:
                         self._print_line('   {c}', c=choice)
                 key = getch.get_key()
                 if key == getch.UP:
-                    selection = max(0, selection - 1)
+                    current = max(0, current - 1)
                     continue
                 if key == getch.DOWN:
-                    selection = min(len(choices) - 1, selection + 1)
+                    current = min(len(choices) - 1, current + 1)
                     continue
                 if key == getch.ENTER:
-                    return choices[selection]
+                    return choices[current]
                 if key == getch.CTRL_C:
+                    raise errors.Aborted()
+
+    def render_as_checkbox(self, question):
+        choices = question.choices
+        selection  = []
+        current = 0
+
+        self._print_line('[{t.yellow}?{t.normal}] {msg}: ',
+                         msg=question.message)
+        for choice in choices:
+            print('')
+        print(self.terminal.clear_eos())
+
+        pos_y = self.terminal.height - 2 - len(choices)
+
+        while True:
+            with self.terminal.location(0, pos_y):
+                for n in range(len(choices)):
+                    choice = choices[n]
+                    if n in selection:
+                        symbol = 'X'
+                        color = self.terminal.yellow + self.terminal.bold
+                    else:
+                        symbol = 'o'
+                        color = ''
+                    selector=' '
+                    if n == current:
+                        selector = '>'
+                        color = self.terminal.blue
+                    self._print_line(' {color}{sel} {s} {c}{t.normal}',
+                                     c=choice, s=symbol, sel=selector, color=color)
+                key = getch.get_key()
+                if key == getch.UP:
+                    current = max(0, current - 1)
+                    continue
+                elif key == getch.DOWN:
+                    current = min(len(choices) - 1, current + 1)
+                    continue
+                elif key == getch.SPACE:
+                    if current in selection:
+                        selection.remove(current)
+                    else:
+                        selection.append(current)
+                elif key == getch.LEFT:
+                    if current in selection:
+                        selection.remove(current)
+                elif key == getch.RIGHT:
+                    if current not in selection:
+                        selection.append(current)
+                elif key == getch.ENTER:
+                    return [choices[x] for x in selection]
+                elif key == getch.CTRL_C:
                     raise errors.Aborted()
 
     def render_error(self, message):

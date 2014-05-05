@@ -152,6 +152,26 @@ Example:
 |inquirer list|
 
 
+Checkbox
+--------
+
+Shows a list of choices, with multiple selection.
+
+Example:
+
+.. code:: python
+
+
+  import inquirer
+  questions = [
+    inquirer.Checkbox('interests',
+                      message="What are you interested in?",
+                      choices=['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'],
+                      ),
+  ]
+  answers = inquirer.prompt(questions)
+
+
 License
 =======
 
