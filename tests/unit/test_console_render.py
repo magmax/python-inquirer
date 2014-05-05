@@ -9,6 +9,11 @@ except ImportError:
 from inquirer.render import ConsoleRender
 import inquirer.questions as questions
 import inquirer.errors as errors
+from inquirer import getch
+
+
+def fake_key_generator():
+    return sys.stdin.read(1)
 
 
 class BaseTestCase(object):
@@ -49,27 +54,27 @@ class TextRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_basic_render(self):
-        value = 'This is a foo message'
+        stdin = 'This is a foo message'
         message = 'Foo message'
         variable = 'Bar variable'
 
-        sys.stdin = StringIO(value)
+        sys.stdin = StringIO(stdin)
         question = questions.Text(variable, message)
 
         sut = ConsoleRender()
         result = sut.render(question)
 
-        self.assertEquals(value, result)
+        self.assertEquals(stdin, result)
         self.assertInStdout(message)
 
 
     def test_ignore_true_should_return(self):
-        value = 'This is a foo message'
+        stdin = 'This is a foo message'
         message = 'Foo message'
         variable = 'Bar variable'
         expected = object()
 
-        sys.stdin = StringIO(value)
+        sys.stdin = StringIO(stdin)
         question = questions.Text(variable,
                                   ignore=True,
                                   default=expected,
@@ -82,12 +87,12 @@ class TextRenderTest(unittest.TestCase, BaseTestCase):
         self.assertNotInStdout(message)
 
     def test_validation_fails(self):
-        value = 'Invalid message\n9999'
+        stdin = 'Invalid message\n9999'
         message = 'Insert number'
         variable = 'foo'
         expected = '9999'
 
-        sys.stdin = StringIO(value)
+        sys.stdin = StringIO(stdin)
         question = questions.Text(variable,
                                   validate=lambda _, x: re.match('\d+', x),
                                   message=message)
@@ -107,21 +112,19 @@ class PasswordRenderTest(unittest.TestCase, BaseTestCase):
     def tearDown(self):
         self.base_teardown()
 
-    @unittest.skip('Not working because getpass mocks stdin too')
     def test_do_not_show_values(self):
-        value = 'This is a foo message'
+        stdin = 'The password' + getch.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
 
-        sys.stdin = StringIO(value)
+        sys.stdin = StringIO(stdin)
         question = questions.Password(variable, message)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=fake_key_generator)
         result = sut.render(question)
 
-        self.assertEquals(value, result)
         self.assertInStdout(message)
-        self.assertNotInStdout(value)
+        self.assertNotInStdout(stdin)
 
 
 class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
@@ -167,7 +170,6 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout('(Y/n)')
 
 
-@unittest.skip('problems with IO')
 class ListRenderTest(unittest.TestCase, BaseTestCase):
     def setUp(self):
         self.base_setup()
@@ -176,18 +178,17 @@ class ListRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_all_choices_are_shown(self):
-        value = 'This is a foo message'
+        stdin = getch.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        sys.stdin = StringIO(value)
+        sys.stdin = StringIO(stdin)
         question = questions.List(variable, message, choices=choices)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=fake_key_generator)
         result = sut.render(question)
 
-        self.assertEquals(value, result)
         self.assertInStdout(message)
         for choice in choices:
             self.assertInStdout(choice)
