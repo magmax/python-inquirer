@@ -5,7 +5,7 @@ from inquirer.getch import DOWN, UP, LEFT, RIGHT, SPACE, ENTER
 
 class ListTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn ('python examples/checkbox.py')
+        self.sut = pexpect.spawn('python examples/checkbox.py')
         self.sut.expect('History.*', timeout=1)
 
     def test_default_input(self):

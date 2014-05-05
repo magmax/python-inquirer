@@ -5,7 +5,7 @@ import pexpect
 
 class TextTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn ('python examples/text.py')
+        self.sut = pexpect.spawn('python examples/text.py')
 
     def set_name(self, name='foo'):
         self.sut.expect("What's your name.*", timeout=1)

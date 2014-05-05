@@ -5,7 +5,7 @@ from inquirer.getch import DOWN, UP, ENTER, BACKSPACE
 
 class PasswordTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn ('python examples/password.py')
+        self.sut = pexpect.spawn('python examples/password.py')
 
     def test_default_input(self):
         self.sut.expect("What's your password.*", timeout=1)

@@ -67,7 +67,6 @@ class TextRenderTest(unittest.TestCase, BaseTestCase):
         self.assertEquals(stdin, result)
         self.assertInStdout(message)
 
-
     def test_ignore_true_should_return(self):
         stdin = 'This is a foo message'
         message = 'Foo message'
@@ -192,6 +191,7 @@ class ListRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout(message)
         for choice in choices:
             self.assertInStdout(choice)
+
 
 class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
     def setUp(self):
