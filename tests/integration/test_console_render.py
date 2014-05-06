@@ -215,3 +215,76 @@ class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout(message)
         for choice in choices:
             self.assertInStdout(choice)
+
+    def test_one_choice(self):
+        stdin = getch.SPACE + getch.ENTER
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        sys.stdin = StringIO(stdin)
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertInStdout(message)
+        self.assertEqual(['foo'], result)
+
+    def test_can_move(self):
+        stdin = (getch.DOWN
+                 + getch.DOWN
+                 + getch.UP
+                 + getch.SPACE
+                 + getch.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        sys.stdin = StringIO(stdin)
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEqual(['bar'], result)
+
+    def test_cannot_move_beyond_upper_limit(self):
+        stdin = (getch.UP
+                 + getch.UP
+                 + getch.UP
+                 + getch.SPACE
+                 + getch.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        sys.stdin = StringIO(stdin)
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEqual(['foo'], result)
+
+    def test_cannot_move_beyond_lower_limit(self):
+        stdin = (getch.DOWN
+                 + getch.DOWN
+                 + getch.DOWN
+                 + getch.DOWN
+                 + getch.DOWN
+                 + getch.DOWN
+                 + getch.DOWN
+                 + getch.SPACE
+                 + getch.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        sys.stdin = StringIO(stdin)
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEqual(['bazz'], result)

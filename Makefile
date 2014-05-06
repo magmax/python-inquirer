@@ -23,15 +23,15 @@ coveralls::
 
 run_unit_tests:
 	@echo Running Tests...
-	@nosetests -d --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/unit
+	@nosetests -dv --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/unit
 
 run_integration_tests:
 	@echo Running Tests...
-	@nosetests -d --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/integration
+	@nosetests -dv --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/integration
 
 run_acceptance_tests:
 	@echo Running Tests...
-	@nosetests -d --exe tests/acceptance
+	@nosetests -dv --exe tests/acceptance
 
 clear_coverage:
 	@echo Cleaning previous coverage...
