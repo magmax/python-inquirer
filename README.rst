@@ -171,6 +171,8 @@ Example:
   ]
   answers = inquirer.prompt(questions)
 
+|inquirer checkbox|
+
 
 License
 =======
@@ -204,6 +206,9 @@ Licensed under `the MIT license`_.
 
 .. |inquirer list| image:: http://magmax.org/images/inquirer/inquirer_list.png
   :alt: Example of List Question
+
+.. |inquirer checkbox| image:: http://magmax.org/images/inquirer/inquirer_checkbox.png
+  :alt: Example of Checkbox Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _Travis: https://travis-ci.org/magmax/python-inquirer
