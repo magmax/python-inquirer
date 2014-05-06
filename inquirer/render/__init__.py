@@ -4,8 +4,8 @@ from __future__ import print_function
 
 import sys
 from blessings import Terminal
-from . import errors
-from . import getch
+from .. import errors
+from .. import getch
 
 
 # Fixes for python 3 compatibility
