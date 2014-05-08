@@ -47,25 +47,16 @@ class ConsoleRender(object):
                 self.clear_eos()
             self.render_error(message)
             message = ''
-            if question.kind in matrix:
-                clazz = matrix.get(question.kind)
-                render = clazz(self._key_gen, self.terminal)
-                result = render.render(question)
-                try:
-                    question.validate(result)
-                    return result
-                except errors.ValidationError:
-                    message = 'Invalid value for {q}.'.format(q=question.name)
-            else:
-                render = getattr(self, 'render_as_' + question.kind, None)
-                if not render:
-                    raise errors.UnknownQuestionTypeError()
-                result = render(question)
-                try:
-                    question.validate(result)
-                    return result
-                except errors.ValidationError:
-                    message = 'Invalid value for {q}.'.format(q=question.name)
+            if question.kind not in matrix:
+                raise errors.UnknownQuestionTypeError()
+            clazz = matrix.get(question.kind)
+            render = clazz(self._key_gen, self.terminal)
+            result = render.render(question)
+            try:
+                question.validate(result)
+                return result
+            except errors.ValidationError:
+                message = 'Invalid value for {q}.'.format(q=question.name)
 
     def render_error(self, message):
         if message:
@@ -80,9 +71,6 @@ class ConsoleRender(object):
         with self.terminal.location(0, self.terminal.height - 1):
             self.terminal.clear_eos()
             self._print_str(message)
-
-    def _print_line(self, base, **kwargs):
-        self._print_str(base + self.terminal.clear_eol(), lf=True, **kwargs)
 
     def _print_str(self, base, lf=False, **kwargs):
         print(base.format(t=self.terminal, **kwargs), end='\n' if lf else '')
