@@ -29,6 +29,11 @@ class ConsoleRender(object):
         question.answers = self.answers
         message = ''
 
+        matrix = {
+            'text': Text,
+            'password': Password,
+            }
+
         while True:
             if question.ignore:
                 return question.default
@@ -36,16 +41,9 @@ class ConsoleRender(object):
                 self.clear_eos()
             self.render_error(message)
             message = ''
-            if question.kind == 'text':
-                render = Text(self._key_gen, self.terminal)
-                result = render.render(question)
-                try:
-                    question.validate(result)
-                    return result
-                except errors.ValidationError:
-                    message = 'Invalid value for {q}.'.format(q=question.name)
-            elif question.kind == 'password':
-                render = Password(self._key_gen, self.terminal)
+            if question.kind in ('text', 'password'):
+                clazz = matrix.get(question.kind)
+                render = clazz(self._key_gen, self.terminal)
                 result = render.render(question)
                 try:
                     question.validate(result)
