@@ -6,8 +6,9 @@ from blessings import Terminal
 import readchar
 
 from inquirer import errors
-from inquirer.render.console.text import Text
-from inquirer.render.console.password import Password
+from .text import Text
+from .password import Password
+from .confirm import Confirm
 
 
 # Fixes for python 3 compatibility
@@ -32,6 +33,7 @@ class ConsoleRender(object):
         matrix = {
             'text': Text,
             'password': Password,
+            'confirm': Confirm,
             }
 
         while True:
@@ -41,7 +43,7 @@ class ConsoleRender(object):
                 self.clear_eos()
             self.render_error(message)
             message = ''
-            if question.kind in ('text', 'password'):
+            if question.kind in matrix:
                 clazz = matrix.get(question.kind)
                 render = clazz(self._key_gen, self.terminal)
                 result = render.render(question)
@@ -60,20 +62,6 @@ class ConsoleRender(object):
                     return result
                 except errors.ValidationError:
                     message = 'Invalid value for {q}.'.format(q=question.name)
-
-    def render_as_confirm(self, question):
-        with self.terminal.location(0, self.terminal.height - 2):
-            self.clear_eos(lf=False)
-            confirm = '(Y/n)' if question.default else '(y/N)'
-            message = ('[{t.yellow}?{t.normal}] {msg} {c}: '
-                       .format(msg=question.message,
-                               t=self.terminal,
-                               c=confirm))
-
-            answer = input(message)
-            if answer == '':
-                return question.default
-            return answer in ('y', 'Y')
 
     def render_as_list(self, question):
         choices = question.choices
