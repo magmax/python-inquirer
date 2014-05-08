@@ -10,6 +10,7 @@ from .text import Text
 from .password import Password
 from .confirm import Confirm
 from .list import List
+from .checkbox import Checkbox
 
 
 # Fixes for python 3 compatibility
@@ -36,6 +37,7 @@ class ConsoleRender(object):
             'password': Password,
             'confirm': Confirm,
             'list': List,
+            'checkbox': Checkbox,
             }
 
         while True:
@@ -64,59 +66,6 @@ class ConsoleRender(object):
                     return result
                 except errors.ValidationError:
                     message = 'Invalid value for {q}.'.format(q=question.name)
-
-    def render_as_checkbox(self, question):
-        choices = question.choices
-        selection = []
-        current = 0
-
-        self._print_line('[{t.yellow}?{t.normal}] {msg}: ',
-                         msg=question.message)
-        for choice in choices:
-            print('')
-        print(self.terminal.clear_eos())
-
-        pos_y = self.terminal.height - 2 - len(choices)
-
-        while True:
-            with self.terminal.location(0, pos_y):
-                for n in range(len(choices)):
-                    choice = choices[n]
-                    if n in selection:
-                        symbol = 'X'
-                        color = self.terminal.yellow + self.terminal.bold
-                    else:
-                        symbol = 'o'
-                        color = ''
-                    selector = ' '
-                    if n == current:
-                        selector = '>'
-                        color = self.terminal.blue
-                    self._print_line(' {color}{sel} {s} {c}{t.normal}',
-                                     c=choice, s=symbol, sel=selector,
-                                     color=color)
-                key = self._key_gen()
-                if key == readchar.key.UP:
-                    current = max(0, current - 1)
-                    continue
-                elif key == readchar.key.DOWN:
-                    current = min(len(choices) - 1, current + 1)
-                    continue
-                elif key == readchar.key.SPACE:
-                    if current in selection:
-                        selection.remove(current)
-                    else:
-                        selection.append(current)
-                elif key == readchar.key.LEFT:
-                    if current in selection:
-                        selection.remove(current)
-                elif key == readchar.key.RIGHT:
-                    if current not in selection:
-                        selection.append(current)
-                elif key == readchar.key.ENTER:
-                    return [choices[x] for x in selection]
-                elif key == readchar.key.CTRL_C:
-                    raise errors.Aborted()
 
     def render_error(self, message):
         if message:
