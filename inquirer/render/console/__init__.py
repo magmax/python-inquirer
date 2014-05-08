@@ -36,9 +36,9 @@ class ConsoleRender(object):
 
         self.clear_eos()
 
+        clazz = self.render_factory(question.kind)
+        render = clazz(self._key_gen, self.terminal)
         while True:
-            clazz = self.render_factory(question.kind)
-            render = clazz(self._key_gen, self.terminal)
             result = render.render(question)
             try:
                 question.validate(result)
