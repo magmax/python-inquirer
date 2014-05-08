@@ -30,7 +30,7 @@ class ConsoleRender(object):
     def render(self, question, answers=None):
         self.answers = answers or {}
         question.answers = self.answers
-        message = ''
+        previous_error = None
 
         matrix = {
             'text': Text,
@@ -43,10 +43,10 @@ class ConsoleRender(object):
         while True:
             if question.ignore:
                 return question.default
-            if not message:
+            if not previous_error:
                 self.clear_eos()
-            self.render_error(message)
-            message = ''
+            self.render_error(previous_error)
+            previous_error = None
             if question.kind not in matrix:
                 raise errors.UnknownQuestionTypeError()
             clazz = matrix.get(question.kind)
@@ -56,7 +56,8 @@ class ConsoleRender(object):
                 question.validate(result)
                 return result
             except errors.ValidationError:
-                message = 'Invalid value for {q}.'.format(q=question.name)
+                previous_error = ('Invalid value for {q}.'
+                                  .format(q=question.name))
 
     def render_error(self, message):
         if message:
