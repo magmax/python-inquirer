@@ -21,6 +21,9 @@ flakes:
 coveralls::
 	coveralls
 
+publish::
+	@python setup.py sdist upload
+
 run_unit_tests:
 	@echo Running Tests...
 	@nosetests -dv --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/unit

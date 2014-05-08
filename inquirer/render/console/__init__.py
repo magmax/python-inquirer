@@ -7,6 +7,7 @@ import readchar
 
 from inquirer import errors
 from inquirer.render.console.text import Text
+from inquirer.render.console.password import Password
 
 
 # Fixes for python 3 compatibility
@@ -36,7 +37,15 @@ class ConsoleRender(object):
             self.render_error(message)
             message = ''
             if question.kind == 'text':
-                render = Text()
+                render = Text(self._key_gen, self.terminal)
+                result = render.render(question)
+                try:
+                    question.validate(result)
+                    return result
+                except errors.ValidationError:
+                    message = 'Invalid value for {q}.'.format(q=question.name)
+            elif question.kind == 'password':
+                render = Password(self._key_gen, self.terminal)
                 result = render.render(question)
                 try:
                     question.validate(result)
@@ -53,37 +62,6 @@ class ConsoleRender(object):
                     return result
                 except errors.ValidationError:
                     message = 'Invalid value for {q}.'.format(q=question.name)
-
-    def render_as_text(self, question):
-        with self.terminal.location(0, self.terminal.height - 2):
-            message = ('[{t.yellow}?{t.normal}] {msg}: '
-                       .format(msg=question.message,
-                               t=self.terminal))
-            return input(message)
-
-    def render_as_password(self, question):
-        with self.terminal.location(0, self.terminal.height - 2):
-            self.terminal.clear_eos(False)
-            self._print_str('[{t.yellow}?{t.normal}] {msg}: ',
-                            msg=question.message)
-            password = ''
-            while True:
-                key = self._key_gen()
-                if key == readchar.key.CTRL_C:
-                    raise errors.Aborted()
-                if key == readchar.key.ENTER:
-                    break
-                if len(key) != 1:
-                    continue
-                if key == readchar.key.BACKSPACE:
-                    if len(password):
-                        password = password[:-1]
-                        self._print_str(self.terminal.move_left
-                                        + self.terminal.clear_eol)
-                else:
-                    password += key
-                    self._print_str('*')
-            return password
 
     def render_as_confirm(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
