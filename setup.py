@@ -30,5 +30,8 @@ setup(name='inquirer',
       packages=find_packages(exclude=['tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=[line for line in open('requirements.txt')],
+      install_requires=[
+        'blessings==1.5.1',
+        'readchar==0.4',
+        ],
       )

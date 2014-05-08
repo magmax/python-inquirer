@@ -6,10 +6,10 @@ try:
 except ImportError:
     from io import StringIO
 
-from inquirer.render import ConsoleRender
+from inquirer.render import Render, ConsoleRender
 import inquirer.questions as questions
 import inquirer.errors as errors
-from inquirer import getch
+from readchar import key
 
 
 def fake_key_generator():
@@ -112,7 +112,7 @@ class PasswordRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_do_not_show_values(self):
-        stdin = 'The password' + getch.ENTER
+        stdin = 'The password' + key.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
 
@@ -177,7 +177,7 @@ class ListRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_all_choices_are_shown(self):
-        stdin = getch.ENTER
+        stdin = key.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
@@ -201,7 +201,7 @@ class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_all_choices_are_shown(self):
-        stdin = getch.ENTER
+        stdin = key.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
@@ -217,7 +217,7 @@ class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
             self.assertInStdout(choice)
 
     def test_one_choice(self):
-        stdin = getch.SPACE + getch.ENTER
+        stdin = key.SPACE + key.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
@@ -233,11 +233,11 @@ class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
 
     @unittest.skip('failing by unknown reasons.')
     def test_can_move(self):
-        stdin = (getch.DOWN
-                 + getch.DOWN
-                 + getch.UP
-                 + getch.SPACE
-                 + getch.ENTER)
+        stdin = (key.DOWN
+                 + key.DOWN
+                 + key.UP
+                 + key.SPACE
+                 + key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
@@ -251,11 +251,11 @@ class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
         self.assertEqual(['bar'], result)
 
     def test_cannot_move_beyond_upper_limit(self):
-        stdin = (getch.UP
-                 + getch.UP
-                 + getch.UP
-                 + getch.SPACE
-                 + getch.ENTER)
+        stdin = (key.UP
+                 + key.UP
+                 + key.UP
+                 + key.SPACE
+                 + key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
@@ -270,15 +270,15 @@ class CheckboxRenderTest(unittest.TestCase, BaseTestCase):
 
     @unittest.skip('failing by unknown reasons.')
     def test_cannot_move_beyond_lower_limit(self):
-        stdin = (getch.DOWN
-                 + getch.DOWN
-                 + getch.DOWN
-                 + getch.DOWN
-                 + getch.DOWN
-                 + getch.DOWN
-                 + getch.DOWN
-                 + getch.SPACE
-                 + getch.ENTER)
+        stdin = (key.DOWN
+                 + key.DOWN
+                 + key.DOWN
+                 + key.DOWN
+                 + key.DOWN
+                 + key.DOWN
+                 + key.DOWN
+                 + key.SPACE
+                 + key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
