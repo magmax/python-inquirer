@@ -23,7 +23,7 @@ class Question(object):
 
     @property
     def ignore(self):
-        return self._solve(self._ignore)
+        return bool(self._solve(self._ignore))
 
     @property
     def message(self):

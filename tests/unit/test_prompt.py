@@ -4,7 +4,7 @@ import doublex
 from inquirer import prompt
 
 
-class PromtTests(unittest.TestCase):
+class PromptTests(unittest.TestCase):
     def test_prompt_returns_a_hash(self):
         self.assertEquals({}, prompt([]))
 
