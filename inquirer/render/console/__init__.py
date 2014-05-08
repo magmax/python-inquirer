@@ -30,16 +30,13 @@ class ConsoleRender(object):
     def render(self, question, answers=None):
         self.answers = answers or {}
         question.answers = self.answers
-        previous_error = None
 
         if question.ignore:
             return question.default
 
+        self.clear_eos()
+
         while True:
-            if not previous_error:
-                self.clear_eos()
-            self.render_error(previous_error)
-            previous_error = None
             clazz = self.render_factory(question.kind)
             render = clazz(self._key_gen, self.terminal)
             result = render.render(question)
@@ -47,8 +44,8 @@ class ConsoleRender(object):
                 question.validate(result)
                 return result
             except errors.ValidationError:
-                previous_error = ('Invalid value for {q}.'
-                                  .format(q=question.name))
+                msg = ('Invalid value for {q}.'.format(q=question.name))
+                self.render_error(msg)
 
     def render_factory(self, question_type):
         matrix = {
