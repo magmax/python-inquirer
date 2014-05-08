@@ -9,6 +9,7 @@ from inquirer import errors
 from .text import Text
 from .password import Password
 from .confirm import Confirm
+from .list import List
 
 
 # Fixes for python 3 compatibility
@@ -34,6 +35,7 @@ class ConsoleRender(object):
             'text': Text,
             'password': Password,
             'confirm': Confirm,
+            'list': List,
             }
 
         while True:
@@ -62,44 +64,6 @@ class ConsoleRender(object):
                     return result
                 except errors.ValidationError:
                     message = 'Invalid value for {q}.'.format(q=question.name)
-
-    def render_as_list(self, question):
-        choices = question.choices
-        try:
-            current = choices.index(question.default)
-        except ValueError:
-            current = 0
-
-        self._print_line('[{t.yellow}?{t.normal}] {msg}: ',
-                         msg=question.message)
-        for choice in choices:
-            print('')
-        print(self.terminal.clear_eos())
-
-        pos_y = self.terminal.height - 2 - len(choices)
-
-        while True:
-            with self.terminal.location(0, pos_y):
-                for choice in choices:
-                    if choice == choices[current]:
-                        color = self.terminal.blue
-                        symbol = '>'
-                    else:
-                        color = self.terminal.normal
-                        symbol = ' '
-                    self._print_line(' {color}{s} {c}{t.normal}',
-                                     c=choice, color=color, s=symbol)
-                key = self._key_gen()
-                if key == readchar.key.UP:
-                    current = max(0, current - 1)
-                    continue
-                if key == readchar.key.DOWN:
-                    current = min(len(choices) - 1, current + 1)
-                    continue
-                if key == readchar.key.ENTER:
-                    return choices[current]
-                if key == readchar.key.CTRL_C:
-                    raise errors.Aborted()
 
     def render_as_checkbox(self, question):
         choices = question.choices
