@@ -34,7 +34,7 @@ class ConsoleRender(object):
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):
             self.terminal.clear_eos()
-            self._print_str(message)
+            self.print_str(message)
 
     def print_line(self, base, **kwargs):
         self.print_str(base + self.terminal.clear_eol(), lf=True, **kwargs)
