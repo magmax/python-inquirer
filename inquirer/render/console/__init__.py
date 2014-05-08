@@ -32,24 +32,15 @@ class ConsoleRender(object):
         question.answers = self.answers
         previous_error = None
 
-        matrix = {
-            'text': Text,
-            'password': Password,
-            'confirm': Confirm,
-            'list': List,
-            'checkbox': Checkbox,
-            }
+        if question.ignore:
+            return question.default
 
         while True:
-            if question.ignore:
-                return question.default
             if not previous_error:
                 self.clear_eos()
             self.render_error(previous_error)
             previous_error = None
-            if question.kind not in matrix:
-                raise errors.UnknownQuestionTypeError()
-            clazz = matrix.get(question.kind)
+            clazz = self.render_factory(question.kind)
             render = clazz(self._key_gen, self.terminal)
             result = render.render(question)
             try:
@@ -58,6 +49,19 @@ class ConsoleRender(object):
             except errors.ValidationError:
                 previous_error = ('Invalid value for {q}.'
                                   .format(q=question.name))
+
+    def render_factory(self, question_type):
+        matrix = {
+            'text': Text,
+            'password': Password,
+            'confirm': Confirm,
+            'list': List,
+            'checkbox': Checkbox,
+            }
+
+        if question_type not in matrix:
+            raise errors.UnknownQuestionTypeError()
+        return matrix.get(question_type)
 
     def render_error(self, message):
         if message:
