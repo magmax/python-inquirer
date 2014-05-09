@@ -41,7 +41,7 @@ class Question(object):
         try:
             if self._solve(self._validate, current):
                 return
-        except Exception as e:
+        except Exception:
             pass
         raise errors.ValidationError()
 

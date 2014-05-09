@@ -13,4 +13,3 @@ class RenderTests(unittest.TestCase):
         sut = Render(render_impl)
 
         sut.render(question, answers)
-

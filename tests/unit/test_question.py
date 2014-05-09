@@ -130,6 +130,7 @@ class BaseQuestionTests(unittest.TestCase):
     def test_validate_function_receives_object(self):
         expected = object()
         obtained = None
+
         def compare(x, y):
             return expected == y
         name = 'foo'
