@@ -15,8 +15,8 @@ class Checkbox(ConsoleRender):
         self.print_line('[{t.yellow}?{t.normal}] {msg}: ',
                         msg=question.message)
         for choice in choices:
-            print('')
-        print(self.terminal.clear_eos())
+            self.print_line('')
+        self.clear_eos()
 
         pos_y = self.terminal.height - 2 - len(choices)
 

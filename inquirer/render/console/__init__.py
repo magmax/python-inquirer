@@ -30,8 +30,8 @@ class ConsoleRender(object):
         render.clear_eos()
 
         while True:
-            result = render.render(question)
             try:
+                result = render.render(question)
                 question.validate(result)
                 return result
             except errors.ValidationError:

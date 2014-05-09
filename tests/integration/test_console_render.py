@@ -126,6 +126,7 @@ class PasswordRenderTest(unittest.TestCase, BaseTestCase):
         self.assertNotInStdout(stdin)
 
 
+@unittest.skip('not ready')
 class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
     def setUp(self):
         self.base_setup()
