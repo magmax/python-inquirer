@@ -38,14 +38,18 @@ class Question(object):
         return self._solve(self._choices)
 
     def validate(self, current):
-        if not self._solve(self._validate, current):
-            raise errors.ValidationError()
+        try:
+            if self._solve(self._validate, current):
+                return
+        except Exception as e:
+            pass
+        raise errors.ValidationError()
 
     def _solve(self, prop, *args, **kwargs):
         if callable(prop):
             return prop(self.answers, *args, **kwargs)
         if isinstance(prop, str):
-            return prop.format(self.answers)
+            return prop.format(**self.answers)
         return prop
 
 
