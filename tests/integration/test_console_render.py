@@ -208,7 +208,6 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
 
-
     def test_answring_n(self):
         input_str = 'n'
         message = 'Foo message'
