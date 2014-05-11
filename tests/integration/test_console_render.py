@@ -26,6 +26,10 @@ class BaseTestCase(object):
         sys.stdin = self._base_stdin
         sys.stdout = self._base_stdout
 
+    def printStdout(self):
+        sys.stdout.seek(0)
+        self._base_stdout.write(sys.stdout.read())
+
     def assertInStdout(self, message):
         sys.stdout.seek(0)
         stdout = sys.stdout.read()
@@ -126,7 +130,6 @@ class PasswordRenderTest(unittest.TestCase, BaseTestCase):
         self.assertNotInStdout(stdin)
 
 
-@unittest.skip('not ready')
 class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
     def setUp(self):
         self.base_setup()
@@ -135,7 +138,7 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         self.base_teardown()
 
     def test_no_as_default(self):
-        input_str = '\n'
+        input_str = key.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
@@ -144,7 +147,7 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         question = questions.Confirm(variable,
                                      message=message)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=fake_key_generator)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -152,7 +155,7 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
         self.assertInStdout('(y/N)')
 
     def test_yes_as_default(self):
-        input_str = '\n'
+        input_str = key.ENTER
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
@@ -162,12 +165,100 @@ class ConfirmRenderTest(unittest.TestCase, BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=fake_key_generator)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
+
+    def test_answring_y(self):
+        input_str = 'y'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        expected = True
+
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message,
+                                     default=True)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('(Y/n)')
+
+    def test_answring_Y(self):
+        input_str = 'Y'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        expected = True
+
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message,
+                                     default=True)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('(Y/n)')
+
+
+    def test_answring_n(self):
+        input_str = 'n'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        expected = False
+
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message,
+                                     default=True)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('(Y/n)')
+
+    def test_answring_N(self):
+        input_str = 'N'
+        message = 'Foo message'
+        variable = 'Bar variable'
+        expected = False
+
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message,
+                                     default=True)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        result = sut.render(question)
+
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('(Y/n)')
+
+    def test_invalid_answer(self):
+        input_str = 'aN'
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        sys.stdin = StringIO(input_str)
+        question = questions.Confirm(variable,
+                                     message=message,
+                                     default=True)
+
+        sut = ConsoleRender(key_generator=fake_key_generator)
+        sut.render(question)
+
+        self.assertInStdout('Invalid value')
 
 
 class ListRenderTest(unittest.TestCase, BaseTestCase):
