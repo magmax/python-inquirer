@@ -47,18 +47,34 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout(message)
         self.assertEqual(['foo'], result)
 
-    @unittest.skip('failing by unknown reasons.')
-    def test_can_move(self):
-        stdin = (key.DOWN
-                 + key.DOWN
-                 + key.UP
-                 + key.SPACE
-                 + key.ENTER)
+    def test_choose_the_second(self):
+        stdin = [key.DOWN, key.SPACE, key.ENTER]
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        self.set_input(stdin)
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=helper.key_factory(stdin))
+        result = sut.render(question)
+
+        self.printStdout()
+
+        self.assertInStdout(message)
+        self.assertEqual(['bar'], result)
+
+    @unittest.skip('failing by unknown reasons.')
+    def test_can_move(self):
+        self.set_input(
+            '\x1b\x5b\x42'
+            + key.DOWN
+            + key.UP
+            + key.SPACE
+            + key.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
         question = questions.Checkbox(variable, message, choices=choices)
 
         sut = ConsoleRender(key_generator=helper.fake_key_generator)
@@ -67,16 +83,16 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertEqual(['bar'], result)
 
     def test_cannot_move_beyond_upper_limit(self):
-        stdin = (key.UP
-                 + key.UP
-                 + key.UP
-                 + key.SPACE
-                 + key.ENTER)
+        self.set_input(
+            key.UP
+            + key.UP
+            + key.UP
+            + key.SPACE
+            + key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        self.set_input(stdin)
         question = questions.Checkbox(variable, message, choices=choices)
 
         sut = ConsoleRender(key_generator=helper.fake_key_generator)
@@ -86,23 +102,25 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
     @unittest.skip('failing by unknown reasons.')
     def test_cannot_move_beyond_lower_limit(self):
-        stdin = (key.DOWN
-                 + key.DOWN
-                 + key.DOWN
-                 + key.DOWN
-                 + key.DOWN
-                 + key.DOWN
-                 + key.DOWN
-                 + key.SPACE
-                 + key.ENTER)
+        self.set_input(
+            key.DOWN
+            + key.DOWN
+            + key.DOWN
+            + key.DOWN
+            + key.DOWN
+            + key.DOWN
+            + key.DOWN
+            + key.SPACE
+            + key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        self.set_input(stdin)
         question = questions.Checkbox(variable, message, choices=choices)
 
         sut = ConsoleRender(key_generator=helper.fake_key_generator)
         result = sut.render(question)
+
+        self.printStdout()
 
         self.assertEqual(['bazz'], result)

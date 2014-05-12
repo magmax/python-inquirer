@@ -10,10 +10,19 @@ def fake_key_generator():
     return sys.stdin.read(1)
 
 
+def key_factory(array):
+    iterator = array.__iter__()
+
+    def inner():
+        return iterator.next()
+    return inner
+
+
 class BaseTestCase(object):
     def base_setup(self):
         self._base_stdin = sys.stdin
         self._base_stdout = sys.stdout
+        sys.stdin = StringIO()
         sys.stdout = StringIO()
 
     def base_teardown(self):
@@ -35,4 +44,5 @@ class BaseTestCase(object):
         self.assertNotIn(message, stdout)
 
     def set_input(self, stream):
-        sys.stdin = StringIO(stream)
+        sys.stdin.write(stream)
+        sys.stdin.seek(0)
