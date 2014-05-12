@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from inquirer import errors
 
 from .base import ConsoleRender
 
@@ -17,7 +16,7 @@ class Password(ConsoleRender):
             while True:
                 pressed = self._key_gen()
                 if pressed == key.CTRL_C:
-                    raise errors.Aborted()
+                    raise KeyboardInterrupt()
                 if pressed == key.ENTER:
                     break
                 if len(pressed) != 1:
