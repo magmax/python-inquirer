@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from .base import safe_input, ConsoleRender
+from readchar import key
+from inquirer import errors
+from .base import ConsoleRender
 
 
 class Text(ConsoleRender):
@@ -10,4 +12,23 @@ class Text(ConsoleRender):
             message = ('[{t.yellow}?{t.normal}] {msg}: '
                        .format(msg=question.message,
                                t=self.terminal))
-            return safe_input(message)
+            self.print_str(message)
+            text = ''
+            while True:
+                pressed = self._key_gen()
+                if pressed == key.CTRL_C:
+                    raise errors.Aborted()
+                if pressed == key.ENTER:
+                    break
+                if len(pressed) != 1:
+                    continue
+                if pressed == key.BACKSPACE:
+                    if len(text):
+                        text = text[:-1]
+                        self.print_str(self.terminal.move_left
+                                       + self.terminal.clear_eol)
+                else:
+                    text += pressed
+                    self.print_str(pressed)
+
+            return text

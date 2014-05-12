@@ -17,15 +17,14 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_all_choices_are_shown(self):
-        stdin = key.ENTER
+        stdin = helper.key_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        self.set_input(stdin)
         question = questions.List(variable, message, choices=choices)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertInStdout(message)

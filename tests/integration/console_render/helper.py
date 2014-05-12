@@ -6,15 +6,11 @@ except ImportError:
     from io import StringIO
 
 
-def fake_key_generator():
-    return sys.stdin.read(1)
-
-
-def key_factory(array):
-    iterator = array.__iter__()
+def key_factory(*args):
+    iterator = args.__iter__()
 
     def inner():
-        return iterator.next()
+        return next(iterator)
     return inner
 
 
@@ -42,7 +38,3 @@ class BaseTestCase(object):
         sys.stdout.seek(0)
         stdout = sys.stdout.read()
         self.assertNotIn(message, stdout)
-
-    def set_input(self, stream):
-        sys.stdin.write(stream)
-        sys.stdin.seek(0)

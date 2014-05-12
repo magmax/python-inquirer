@@ -1,3 +1,4 @@
+import re
 import sys
 import unittest
 import inquirer.questions as questions
@@ -17,17 +18,18 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_basic_render(self):
-        stdin = 'This is a foo message'
+        stdin_msg = 'This is a foo message'
+        stdin_array = [x for x in stdin_msg + key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
-        self.set_input(stdin)
         question = questions.Text(variable, message)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(stdin, result)
+        self.assertEquals(stdin_msg, result)
         self.assertInStdout(message)
 
     def test_ignore_true_should_return(self):
@@ -36,7 +38,6 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         variable = 'Bar variable'
         expected = object()
 
-        self.set_input(stdin)
         question = questions.Text(variable,
                                   ignore=True,
                                   default=expected,
@@ -48,21 +49,21 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertEquals(expected, result)
         self.assertNotInStdout(message)
 
-    @unittest.skip('Unknown failure')
     def test_validation_fails(self):
-        stdin = 'Invalid message\n9999'
+        stdin_array = [x for x in
+                       'Invalid' + key.ENTER
+                       + '9999' + key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
         message = 'Insert number'
         variable = 'foo'
         expected = '9999'
 
-        self.set_input(stdin)
         question = questions.Text(variable,
                                   validate=lambda _, x: re.match('\d+', x),
                                   message=message)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
-
         self.assertEquals(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('Invalid value')

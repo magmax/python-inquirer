@@ -17,16 +17,15 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_no_as_default(self):
-        input_str = key.ENTER
+        stdin = helper.key_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -34,17 +33,16 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(y/N)')
 
     def test_yes_as_default(self):
-        input_str = key.ENTER
+        stdin = helper.key_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -52,17 +50,16 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_y(self):
-        input_str = 'y'
+        stdin = helper.key_factory('y')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -70,17 +67,16 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_Y(self):
-        input_str = 'Y'
+        stdin = helper.key_factory('Y')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -88,17 +84,16 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_n(self):
-        input_str = 'n'
+        stdin = helper.key_factory('n')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -106,17 +101,16 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_N(self):
-        input_str = 'N'
+        stdin = helper.key_factory('N')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -124,16 +118,15 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_invalid_answer(self):
-        input_str = 'aN'
+        stdin = helper.key_factory('a', 'N')
         message = 'Foo message'
         variable = 'Bar variable'
 
-        self.set_input(input_str)
         question = questions.Confirm(variable,
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         sut.render(question)
 
         self.assertInStdout('Invalid value')

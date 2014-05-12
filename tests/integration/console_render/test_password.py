@@ -17,15 +17,16 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_do_not_show_values(self):
-        stdin = 'The password' + key.ENTER
+        stdin = helper.key_factory(
+            'm', 'y', ' ', 'p', 'a', 's', 's', 'w', 'o', 'r', 'd',
+            key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
 
-        self.set_input(stdin)
         question = questions.Password(variable, message)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertInStdout(message)
-        self.assertNotInStdout(stdin)
+        self.assertNotInStdout('my password')
