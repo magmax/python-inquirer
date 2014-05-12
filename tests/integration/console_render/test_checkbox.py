@@ -59,7 +59,6 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout(message)
         self.assertEqual(['bar'], result)
 
-    @unittest.skip('failing by unknown reasons.')
     def test_can_move(self):
         stdin = helper.key_factory(
             key.DOWN,
@@ -73,7 +72,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         question = questions.Checkbox(variable, message, choices=choices)
 
-        sut = ConsoleRender(key_generator=helper.fake_key_generator)
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(['bar'], result)

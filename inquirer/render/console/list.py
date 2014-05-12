@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from inquirer import errors
 from .base import ConsoleRender
 
 
@@ -43,4 +42,4 @@ class List(ConsoleRender):
                 if pressed == key.ENTER:
                     return choices[current]
                 if pressed == key.CTRL_C:
-                    raise errors.Aborted()
+                    raise KeyboardInterrupt()
