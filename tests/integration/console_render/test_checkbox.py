@@ -118,3 +118,15 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.printStdout()
 
         self.assertEqual(['bazz'], result)
+
+    def test_ctrl_c_breaks_execution(self):
+        stdin_array = [key.CTRL_C]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        question = questions.Checkbox(variable, message)
+
+        sut = ConsoleRender(key_generator=stdin)
+        with self.assertRaises(KeyboardInterrupt):
+            sut.render(question)

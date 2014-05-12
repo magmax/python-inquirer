@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from inquirer import errors
 from .base import ConsoleRender
 
 
@@ -58,4 +57,4 @@ class Checkbox(ConsoleRender):
                 elif pressed == key.ENTER:
                     return [choices[x] for x in selection]
                 elif pressed == key.CTRL_C:
-                    raise errors.Aborted()
+                    raise KeyboardInterrupt()
