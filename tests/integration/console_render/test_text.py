@@ -67,3 +67,52 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertEquals(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('Invalid value')
+
+    def test_allows_deletion(self):
+        stdin_array = ['a', key.BACKSPACE, 'b', key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        question = questions.Text(variable, message)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEquals('b', result)
+
+    def test_ignore_cursors(self):
+        stdin_array = [
+            'a',
+            key.UP,
+            'b',
+            key.DOWN,
+            'c',
+            key.LEFT,
+            'd',
+            key.RIGHT,
+            'e',
+            key.ENTER,
+            ]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        question = questions.Text(variable, message)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEquals('abcde', result)
+
+    def test_ctrl_c_breaks_execution(self):
+        stdin_array = [key.CTRL_C]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        question = questions.Text(variable, message)
+
+        sut = ConsoleRender(key_generator=stdin)
+        with self.assertRaises(KeyboardInterrupt):
+            sut.render(question)
