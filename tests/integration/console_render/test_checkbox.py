@@ -124,9 +124,80 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         stdin = helper.key_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
 
-        question = questions.Checkbox(variable, message)
+        question = questions.Checkbox(variable, message, choices=choices)
 
         sut = ConsoleRender(key_generator=stdin)
         with self.assertRaises(KeyboardInterrupt):
             sut.render(question)
+
+    def test_deselection(self):
+        stdin_array = [key.SPACE, key.SPACE, key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual([], result)
+
+    def test_right_cursor_selects_too(self):
+        stdin_array = [key.RIGHT, key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual(['foo'], result)
+
+    def test_right_cursor_do_not_unselect(self):
+        stdin_array = [key.RIGHT, key.RIGHT, key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual(['foo'], result)
+
+    def test_left_cursor_unselect(self):
+        stdin_array = [key.SPACE, key.LEFT, key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual([], result)
+
+    def test_left_cursor_do_not_select(self):
+        stdin_array = [key.SPACE, key.LEFT, key.LEFT, key.ENTER]
+        stdin = helper.key_factory(*stdin_array)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(key_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual([], result)

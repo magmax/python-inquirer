@@ -28,8 +28,6 @@ class ConsoleRender(object):
                 '{t.red}>> {t.normal}{t.bold}{msg}{t.normal} '
                 .format(msg=message, t=self.terminal)
                 )
-        else:
-            self.render_in_bottombar('')
 
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):

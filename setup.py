@@ -32,6 +32,6 @@ setup(name='inquirer',
       zip_safe=False,
       install_requires=[
         'blessings==1.5.1',
-        'readchar==0.5',
+        'readchar==0.4',
         ],
       )
