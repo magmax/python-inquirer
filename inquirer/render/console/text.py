@@ -17,7 +17,7 @@ class Text(ConsoleRender):
                 pressed = self._key_gen()
                 if pressed == key.CTRL_C:
                     raise KeyboardInterrupt()
-                if pressed in ('\r', '\n', key.ENTER):
+                if pressed in (key.CR, key.LF, key.ENTER):
                     break
                 if len(pressed) != 1:
                     continue
