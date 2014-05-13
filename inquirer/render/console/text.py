@@ -8,11 +8,12 @@ class Text(ConsoleRender):
 
     def render(self, question):
         with self.terminal.location(0, self.terminal.height - 2):
-            message = ('[{t.yellow}?{t.normal}] {msg}: '
+            text = question.default or ''
+            message = ('[{t.yellow}?{t.normal}] {msg}: {default}'
                        .format(msg=question.message,
-                               t=self.terminal))
+                               t=self.terminal,
+                               default=text))
             self.print_str(message)
-            text = ''
             while True:
                 pressed = self._key_gen()
                 if pressed == key.CTRL_C:

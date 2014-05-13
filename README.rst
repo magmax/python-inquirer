@@ -174,6 +174,31 @@ Example:
 |inquirer checkbox|
 
 
+Advanced usage
+==============
+
+Some tips:
+
+Reusing previous answers
+------------------------
+
+Every ``String`` argument but ``name`` can use any previous answer just putting it in roots:
+
+.. code:: python
+
+
+  import inquirer
+  questions = [
+    inquirer.Text('name', message="What's your name?"),
+    inquirer.Text('surname', message="{name}, what's your surname?"),
+    inquirer.Text('alias', message="What's your Alias"
+      default="{name}"),
+  ]
+  answers = inquirer.prompt(questions)
+
+
+
+
 License
 =======
 
