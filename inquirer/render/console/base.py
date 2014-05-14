@@ -8,13 +8,6 @@ import readchar
 # from inquirer import errors
 
 
-# Fixes for python 3 compatibility
-try:
-    safe_input = raw_input
-except NameError:
-    safe_input = input
-
-
 class ConsoleRender(object):
     def __init__(self, key_generator=None, terminal=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
