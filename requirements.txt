@@ -1,2 +1,2 @@
-blessings==1.5.1
-readchar==0.6
+blessings >= 1.5.1
+readchar >= 0.7

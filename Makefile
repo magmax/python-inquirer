@@ -1,6 +1,6 @@
 MODULES=inquirer
 
-all: pep8 flakes test
+all: flakes test
 
 test:: clear_coverage run_unit_tests run_integration_tests run_acceptance_tests
 
@@ -8,21 +8,17 @@ unit_test:: run_unit_tests
 
 acceptance_test:: run_acceptance_tests
 
-analysis:: pep8 flakes
-
-pep8:
-	@echo Checking PEP8 style...
-	@pep8 --statistics ${MODULES} tests
+analysis:: flakes
 
 flakes:
 	@echo Searching for static errors...
-	@pyflakes ${MODULES}
+	@flake8 --statistics --count  ${MODULES} tests
 
 coveralls::
 	coveralls
 
 publish::
-	@python setup.py sdist upload
+	@python setup.py sdist bdist_wheel upload
 
 run_unit_tests:
 	@echo Running Tests...

@@ -1,7 +1,5 @@
-import sys
 import unittest
 import inquirer.questions as questions
-import inquirer.errors as errors
 
 from . import helper
 from readchar import key
@@ -26,7 +24,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         question = questions.Password(variable, message)
 
         sut = ConsoleRender(key_generator=stdin)
-        result = sut.render(question)
+        sut.render(question)
 
         self.assertInStdout(message)
         self.assertNotInStdout('my password')

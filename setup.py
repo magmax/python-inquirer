@@ -9,7 +9,7 @@ def read_description():
         return fd.read()
 
 
-setup(name='inquirer',
+setup(name='colorize',
       version=__version__,
       description="Collection of common interactive command line user interfaces, based on Inquirer.js",
       long_description=read_description(),
@@ -27,7 +27,7 @@ setup(name='inquirer',
           'Topic :: Software Development :: User Interfaces',
           'Topic :: Software Development :: Libraries :: Application Frameworks',
       ],
-      keywords='interface,command line',
+      keywords='color',
       author='Miguel Ángel García',
       author_email='miguelangel.garcia@gmail.com',
       url='https://github.com/magmax/python-inquirer',
@@ -36,7 +36,8 @@ setup(name='inquirer',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'blessings==1.5.1',
-        'readchar==0.6',
-        ],
+      ],
+      test_requires=[
+          'freshen'
+      ],
       )

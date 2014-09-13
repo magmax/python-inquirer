@@ -1,8 +1,6 @@
 import re
-import sys
 import unittest
 import inquirer.questions as questions
-import inquirer.errors as errors
 
 from . import helper
 from readchar import key
@@ -43,7 +41,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
                                   default=expected,
                                   message=message)
 
-        sut = ConsoleRender()
+        sut = ConsoleRender(key_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)

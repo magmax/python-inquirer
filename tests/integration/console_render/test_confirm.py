@@ -1,7 +1,5 @@
-import sys
 import unittest
 import inquirer.questions as questions
-import inquirer.errors as errors
 
 from . import helper
 from readchar import key
