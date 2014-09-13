@@ -1,4 +1,4 @@
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 from .prompt import prompt
 from .questions import Text, Password, Confirm, List, Checkbox
