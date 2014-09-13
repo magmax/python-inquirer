@@ -36,8 +36,7 @@ setup(name='colorize',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-      ],
-      test_requires=[
-          'freshen'
+          'blessings >= 1.5.1',
+          'readchar >= 0.7',
       ],
       )
