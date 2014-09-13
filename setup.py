@@ -9,7 +9,7 @@ def read_description():
         return fd.read()
 
 
-setup(name='colorize',
+setup(name='inquirer',
       version=__version__,
       description="Collection of common interactive command line user interfaces, based on Inquirer.js",
       long_description=read_description(),
