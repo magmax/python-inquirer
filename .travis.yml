@@ -5,6 +5,9 @@ python:
   - "3.3"
   - "3.4"
   - "pypy"
+env:
+  - "linux"
+  - "osx"
 
 install:
   - pip install -r requirements-dev.txt  -r requirements.txt
