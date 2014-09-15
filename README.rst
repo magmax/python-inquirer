@@ -58,7 +58,7 @@ them have the next attributes that can be set in the initialization:
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 | name          | String        | The key in the hash of answers.                                                                                                                   |
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| message       | String|Func   | To be shown in the prompt to the user. Functions will receive the hash with previous values.                                                                                                            |
+| message       | String|Func   | To be shown in the prompt to the user. Functions will receive the hash with previous values.                                                      |
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 | default       | Any|Function  | Default value. Functions will receive the hash with previous values.                                                                              |
 +---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
