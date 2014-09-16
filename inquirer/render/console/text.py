@@ -7,6 +7,10 @@ from .base import ConsoleRender
 class Text(ConsoleRender):
     title_inline = True
 
+    def __init__(self, *args, **kwargs):
+        super(Text, self).__init__(*args, **kwargs)
+        self.current = self.question.default or ''
+
     def get_message(self, question):
         if question.default:
             template = '{msg} ({default})'
@@ -15,24 +19,22 @@ class Text(ConsoleRender):
         return (template.format(msg=question.message,
                                 default=question.default or ''))
 
-    def run(self, question):
-        text = question.default or ''
-        with self.terminal.location(0, self.terminal.height):
-            while True:
-                pressed = self._key_gen()
-                if pressed == key.CTRL_C:
-                    raise KeyboardInterrupt()
-                if pressed in (key.CR, key.LF, key.ENTER):
-                    break
-                if len(pressed) != 1:
-                    continue
-                if pressed == key.BACKSPACE:
-                    if len(text):
-                        text = text[:-1]
-                        self.print_str(self.terminal.move_left
-                                       + self.terminal.clear_eol)
-                else:
-                    text += pressed
-                    self.print_str(pressed)
+    def get_options(self):
+        return []
 
-            return text
+    def process_input(self, pressed):
+        if pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+        if pressed in (key.CR, key.LF, key.ENTER):
+            return self.current
+        if len(pressed) != 1:
+            return
+        if pressed == key.BACKSPACE:
+            if len(self.current):
+                self.current = self.current[:-1]
+                self.print_str(self.terminal.move_left
+                               + self.terminal.clear_eol)
+            return
+
+        self.current += pressed
+        self.print_str(pressed)

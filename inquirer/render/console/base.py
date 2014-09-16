@@ -70,8 +70,6 @@ class ConsoleRender(object):
                             m=message, color=color, s=symbol)
 
     def reserve_height(self, size):
-        if self.title_inline:
-            return
         for i in range(size):
             print('')
         print(self.terminal.clear_eos())
