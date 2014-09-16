@@ -5,7 +5,7 @@ from __future__ import print_function
 import sys
 from blessings import Terminal
 import readchar
-
+from inquirer import errors
 
 class ConsoleRender(object):
     def __init__(self, key_generator=None, terminal=None, *args, **kwargs):
@@ -19,7 +19,10 @@ class ConsoleRender(object):
 
         self.reserve_height(self.get_height(question))
 
-        return self.run(question)
+        try:
+            return self.run(question)
+        except errors.EndOfInput as e:
+            return e.selection
 
     def render_error(self, message):
         if message:

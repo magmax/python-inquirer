@@ -14,12 +14,6 @@ class List(ConsoleRender):
         return len(question.choices)
 
     def run(self, question):
-        try:
-            self._event_loop(question)
-        except errors.EndOfInput as e:
-            return e.selection
-
-    def _event_loop(self, question):
         choices = question.choices
         current = self._current_index(question)
         pos_y = self.terminal.height - 2 - len(choices)

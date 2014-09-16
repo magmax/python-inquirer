@@ -2,20 +2,21 @@
 
 from readchar import key
 from .base import ConsoleRender
+from inquirer import errors
 
 
 class Checkbox(ConsoleRender):
 
-    def render(self, question):
+    def get_message(self, question):
+        return question.message
+
+    def get_height(self, question):
+        return len(question.choices)
+
+    def run(self, question):
         choices = question.choices
         selection = []
         current = 0
-
-        self.print_line('[{t.yellow}?{t.normal}] {msg}: ',
-                        msg=question.message)
-        for choice in choices:
-            self.print_line('')
-        self.clear_eos()
 
         pos_y = self.terminal.height - 2 - len(choices)
 
@@ -33,9 +34,7 @@ class Checkbox(ConsoleRender):
                     if n == current:
                         selector = '>'
                         color = self.terminal.blue
-                    self.print_line(' {color}{sel} {s} {c}{t.normal}',
-                                    c=choice, s=symbol, sel=selector,
-                                    color=color)
+                    self.print_option(choice, selector + ' ' + symbol, color)
                 pressed = self._key_gen()
                 if pressed == key.UP:
                     current = max(0, current - 1)
@@ -55,6 +54,6 @@ class Checkbox(ConsoleRender):
                     if current not in selection:
                         selection.append(current)
                 elif pressed == key.ENTER:
-                    return [choices[x] for x in selection]
+                    raise errors.EndOfInput([choices[x] for x in selection])
                 elif pressed == key.CTRL_C:
                     raise KeyboardInterrupt()
