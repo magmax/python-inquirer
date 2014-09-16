@@ -43,7 +43,7 @@ class Question(object):
                 return
         except Exception:
             pass
-        raise errors.ValidationError()
+        raise errors.ValidationError(current)
 
     def _solve(self, prop, *args, **kwargs):
         if callable(prop):

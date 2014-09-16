@@ -2,6 +2,7 @@
 
 from readchar import key
 from .base import ConsoleRender
+from inquirer import errors
 
 
 class Text(ConsoleRender):
@@ -22,18 +23,24 @@ class Text(ConsoleRender):
     def get_options(self):
         return []
 
+    def get_current_value(self):
+        return self.current
+
     def process_input(self, pressed):
+        if pressed in (key.CR, key.LF, key.ENTER):
+            raise errors.EndOfInput(self.current)
+
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
-        if pressed in (key.CR, key.LF, key.ENTER):
-            return self.current
-        if len(pressed) != 1:
-            return
+
         if pressed == key.BACKSPACE:
             if len(self.current):
                 self.current = self.current[:-1]
-                self.print_str(self.terminal.move_left
-                               + self.terminal.clear_eol)
+                print(self.terminal.move(-1, 0))
+                print(self.terminal.clear_eol)
+            return
+
+        if len(pressed) != 1:
             return
 
         self.current += pressed

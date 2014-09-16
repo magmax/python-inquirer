@@ -3,7 +3,9 @@ class InquirerError(Exception):
 
 
 class ValidationError(InquirerError):
-    pass
+    def __init__(self, value, *args, **kwargs):
+        super(ValidationError, self).__init__(*args, **kwargs)
+        self.value = value
 
 
 class UnknownQuestionTypeError(InquirerError):

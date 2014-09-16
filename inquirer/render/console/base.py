@@ -30,7 +30,7 @@ class ConsoleRender(object):
                     self.print_header()
                     self.print_options()
 
-                    self.process_input(self._key_gen())
+                    result = self.process_input(self._key_gen())
         except errors.EndOfInput as e:
             return e.selection
         except KeyboardInterrupt:
@@ -42,6 +42,9 @@ class ConsoleRender(object):
 
     def get_header(self):
         return self.question.message
+
+    def get_current_value(self):
+        return ''
 
     def get_options(self):
         raise NotImplemented('Abstract')
@@ -57,12 +60,15 @@ class ConsoleRender(object):
                 )
 
     def print_header(self):
-        base = self.get_header()
+        base = self.terminal.clear_eol() + self.get_header()
 
         header = (base[:self.terminal.width - 9] + '...'
                    if len(base) > self.terminal.width - 6
                    else base)
-        self.print_str('[{t.yellow}?{t.normal}] {msg}: ', msg=header, lf=not self.title_inline)
+        header += ': {c}'.format(c=self.get_current_value())
+        self.print_str('[{t.yellow}?{t.normal}] {msg}',
+                       msg=header,
+                       lf=not self.title_inline)
 
     def print_options(self):
         for message, symbol, color in self.get_options():
@@ -76,7 +82,7 @@ class ConsoleRender(object):
 
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):
-            self.terminal.clear_eos()
+            self.clear_eos()
             self.print_str(message)
 
     def print_line(self, base, lf=True, **kwargs):

@@ -34,8 +34,8 @@ class ConsoleRender(object):
                 result = render.render()
                 question.validate(result)
                 return result
-            except errors.ValidationError:
-                msg = ('Invalid value for {q}.'.format(q=question.name))
+            except errors.ValidationError as e:
+                msg = ('"{e}" is not a valid {q}.'.format(e=e.value, q=question.name))
                 render.render_error(msg)
 
     def render_factory(self, question_type):
