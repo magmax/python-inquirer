@@ -5,15 +5,19 @@ from .base import ConsoleRender
 
 
 class Text(ConsoleRender):
+    title_inline = True
 
-    def render(self, question):
-        with self.terminal.location(0, self.terminal.height - 2):
-            text = question.default or ''
-            message = ('[{t.yellow}?{t.normal}] {msg}: {default}'
-                       .format(msg=question.message,
-                               t=self.terminal,
-                               default=text))
-            self.print_str(message)
+    def get_message(self, question):
+        if question.default:
+            template = '{msg} ({default})'
+        else:
+            template = '{msg}'
+        return (template.format(msg=question.message,
+                                default=question.default or ''))
+
+    def run(self, question):
+        text = question.default or ''
+        with self.terminal.location(0, self.terminal.height):
             while True:
                 pressed = self._key_gen()
                 if pressed == key.CTRL_C:

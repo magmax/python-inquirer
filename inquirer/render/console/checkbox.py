@@ -7,9 +7,6 @@ from inquirer import errors
 
 class Checkbox(ConsoleRender):
 
-    def get_message(self, question):
-        return question.message
-
     def get_height(self, question):
         return len(question.choices)
 

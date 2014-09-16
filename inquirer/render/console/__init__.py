@@ -25,13 +25,13 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        render = clazz(self._key_gen, self.terminal)
+        render = clazz(question, self._key_gen, self.terminal)
 
         render.clear_eos()
 
         while True:
             try:
-                result = render.render(question)
+                result = render.render()
                 question.validate(result)
                 return result
             except errors.ValidationError:

@@ -6,45 +6,41 @@ from inquirer import errors
 
 
 class List(ConsoleRender):
+    def __init__(self, *args, **kwargs):
+        super(List, self).__init__(*args, **kwargs)
+        self.current = self._current_index()
 
-    def get_message(self, question):
-        return question.message
+    def get_height(self):
+        return len(self.question.choices)
 
-    def get_height(self, question):
-        return len(question.choices)
+    def get_options(self):
+        choices = self.question.choices
 
-    def run(self, question):
-        choices = question.choices
-        current = self._current_index(question)
-        pos_y = self.terminal.height - 2 - len(choices)
+        for choice in choices:
+            selected = choice == choices[self.current]
 
-        while True:
-            with self.terminal.location(0, pos_y):
-                for choice in choices:
-                    self._print_choice(choice, choice == choices[current])
-                pressed = self._key_gen()
-                if pressed == key.UP:
-                    current = max(0, current - 1)
-                    continue
-                if pressed == key.DOWN:
-                    current = min(len(choices) - 1, current + 1)
-                    continue
-                if pressed == key.ENTER:
-                    raise errors.EndOfInput(choices[current])
-                if pressed == key.CTRL_C:
-                    raise KeyboardInterrupt()
+            if selected:
+                color = self.terminal.blue
+                symbol = '>'
+            else:
+                color = self.terminal.normal
+                symbol = ' '
+            yield choice, symbol, color
 
-    def _current_index(self, question):
+    def process_input(self, pressed):
+        if pressed == key.UP:
+            self.current = max(0, self.current - 1)
+            return
+        if pressed == key.DOWN:
+            self.current = min(len(self.question.choices) - 1, self.current + 1)
+            return
+        if pressed == key.ENTER:
+            raise errors.EndOfInput(self.question.choices[self.current])
+        if pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+
+    def _current_index(self):
         try:
-            return question.choices.index(question.default)
+            return self.question.choices.index(self.question.default)
         except ValueError:
             return 0
-
-    def _print_choice(self, choice, selected):
-        if selected:
-            color = self.terminal.blue
-            symbol = '>'
-        else:
-            color = self.terminal.normal
-            symbol = ' '
-        self.print_option(choice, symbol, color)
