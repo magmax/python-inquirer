@@ -7,15 +7,13 @@ from inquirer import errors
 
 class List(ConsoleRender):
 
-    def render(self, question):
-        choices = question.choices
+    def get_message(self, question):
+        return question.message
 
-        self.print_line('[{t.yellow}?{t.normal}] {msg}: ',
-                        msg=question.message)
-        for choice in choices:
-            print('')
-        print(self.terminal.clear_eos())
+    def get_height(self, question):
+        return len(question.choices)
 
+    def run(self, question):
         try:
             self._event_loop(question)
         except errors.EndOfInput as e:
@@ -55,5 +53,4 @@ class List(ConsoleRender):
         else:
             color = self.terminal.normal
             symbol = ' '
-        self.print_line(' {color}{s} {c}{t.normal}',
-                        c=choice, color=color, s=symbol)
+        self.print_option(choice, symbol, color)

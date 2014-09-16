@@ -5,7 +5,6 @@ from __future__ import print_function
 import sys
 from blessings import Terminal
 import readchar
-# from inquirer import errors
 
 
 class ConsoleRender(object):
@@ -15,6 +14,13 @@ class ConsoleRender(object):
         self.terminal = terminal or Terminal()
         self.answers = {}
 
+    def render(self, question):
+        self.print_header(self.get_message(question))
+
+        self.reserve_height(self.get_height(question))
+
+        return self.run(question)
+
     def render_error(self, message):
         if message:
             self.render_in_bottombar(
@@ -22,10 +28,25 @@ class ConsoleRender(object):
                 .format(msg=message, t=self.terminal)
                 )
 
+    def print_header(self, message):
+        message = (message[:self.terminal.width - 9] + '...'
+                   if len(message) > self.terminal.width - 6
+                   else message)
+        self.print_line('[{t.yellow}?{t.normal}] {msg}: ', msg=message)
+
+    def reserve_height(self, size):
+        for i in range(size):
+            print('')
+        print(self.terminal.clear_eos())
+
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 1):
             self.terminal.clear_eos()
             self.print_str(message)
+
+    def print_option(self, message, symbol, color):
+        self.print_line(' {color}{s} {m}{t.normal}',
+                        m=message, color=color, s=symbol)
 
     def print_line(self, base, **kwargs):
         self.print_str(base + self.terminal.clear_eol(), lf=True, **kwargs)
