@@ -29,14 +29,7 @@ class ConsoleRender(object):
 
         render.clear_eos()
 
-        while True:
-            try:
-                result = render.render()
-                question.validate(result)
-                return result
-            except errors.ValidationError as e:
-                msg = ('"{e}" is not a valid {q}.'.format(e=e.value, q=question.name))
-                render.render_error(msg)
+        return render.render()
 
     def render_factory(self, question_type):
         matrix = {

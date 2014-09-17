@@ -23,22 +23,30 @@ class ConsoleRender(object):
 
         self.reserve_height(height)
 
-        try:
-            result = None
-            while result is None:
-                with self.terminal.location(0, pos_y):
-                    self.print_header()
-                    self.print_options()
+        error = None
+        result = None
+        while True:
+            with self.terminal.location(0, pos_y):
+                self.print_header()
+                self.print_options()
+                if error is not None:
+                    self.render_error(error)
 
-                    result = self.process_input(self._key_gen())
-        except errors.EndOfInput as e:
-            return e.selection
-        except KeyboardInterrupt:
-            self.print_line('Cancelled by user')
-            raise
+                try:
+                    self.process_input(self._key_gen())
+                except errors.EndOfInput as e:
+                    try:
+                        self.question.validate(e.selection)
+                        return e.selection
+                    except errors.ValidationError as e:
+                        error = ('"{e}" is not a valid {q}.'
+                                 .format(e=e.value, q=self.question.name))
+                except KeyboardInterrupt:
+                    self.print_line('Cancelled by user')
+                    raise
 
     def get_height(self):
-        return 1
+        return 0
 
     def get_header(self):
         return self.question.message
