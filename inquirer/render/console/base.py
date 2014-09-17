@@ -31,22 +31,24 @@ class ConsoleRender(object):
                 self.print_options()
                 if error is not None:
                     self.render_error(error)
-
+                    error = None
                 try:
                     self.process_input(self._key_gen())
                 except errors.EndOfInput as e:
                     try:
                         self.question.validate(e.selection)
+                        self.clear_bottombar()
                         return e.selection
                     except errors.ValidationError as e:
                         error = ('"{e}" is not a valid {q}.'
                                  .format(e=e.value, q=self.question.name))
                 except KeyboardInterrupt:
+                    self.clear_bottombar()
                     self.print_line('Cancelled by user')
                     raise
 
     def get_height(self):
-        return 0
+        return 1
 
     def get_header(self):
         return self.question.message
@@ -62,9 +64,17 @@ class ConsoleRender(object):
 
     def render_error(self, message):
         if message:
+            symbol = '>> '
+            size = len(symbol) + 1
+            length = len(message)
+            message = message.rstrip()
+            message = (message
+                       if length + size < self.terminal.width
+                       else message[:self.terminal.width - (size + 3)] + '...')
+
             self.render_in_bottombar(
-                '{t.red}>> {t.normal}{t.bold}{msg}{t.normal} '
-                .format(msg=message.rstrip(), t=self.terminal)
+                '{t.red}{s}{t.normal}{t.bold}{msg}{t.normal} '
+                .format(msg=message, s=symbol, t=self.terminal)
                 )
 
     def print_header(self):
@@ -89,9 +99,13 @@ class ConsoleRender(object):
         print(self.terminal.clear_eos())
 
     def render_in_bottombar(self, message):
-        with self.terminal.location(0, self.terminal.height - 1):
+        with self.terminal.location(0, self.terminal.height - 2):
             self.clear_eos()
             self.print_str(message)
+
+    def clear_bottombar(self):
+        with self.terminal.location(0, self.terminal.height - 2):
+            self.clear_eos()
 
     def print_line(self, base, lf=True, **kwargs):
         self.print_str(base + self.terminal.clear_eol(), lf=lf, **kwargs)
