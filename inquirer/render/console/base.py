@@ -64,7 +64,7 @@ class ConsoleRender(object):
         if message:
             self.render_in_bottombar(
                 '{t.red}>> {t.normal}{t.bold}{msg}{t.normal} '
-                .format(msg=message, t=self.terminal)
+                .format(msg=message.rstrip(), t=self.terminal)
                 )
 
     def print_header(self):
