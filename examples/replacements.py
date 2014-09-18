@@ -15,7 +15,7 @@ questions = [
     inquirer.Text('surname',
                   message="{name}, what's your surname?"),
     inquirer.Text('alias',
-                  message="What's your Alias [{name}]",
+                  message="What's your Alias, {name}?",
                   default="{surname}"),
     inquirer.Confirm('initials',
                   message=initials,
