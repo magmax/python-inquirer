@@ -10,9 +10,6 @@ class List(ConsoleRender):
         super(List, self).__init__(*args, **kwargs)
         self.current = self._current_index()
 
-    def get_height(self):
-        return len(self.question.choices)
-
     def get_options(self):
         choices = self.question.choices
 

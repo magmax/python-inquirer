@@ -6,11 +6,53 @@ from inquirer import errors
 
 
 class Checkbox(ConsoleRender):
+    def __init__(self, *args, **kwargs):
+        super(Checkbox, self).__init__(*args, **kwargs)
+        self.selection = []
+        self.current = 0
 
-    def get_height(self, question):
-        return len(question.choices)
+    def get_options(self):
+        for n in range(len(self.question.choices)):
+            choice = self.question.choices[n]
+            if n in self.selection:
+                symbol = 'X'
+                color = self.terminal.yellow + self.terminal.bold
+            else:
+                symbol = 'o'
+                color = ''
+            selector = ' '
+            if n == self.current:
+                selector = '>'
+                color = self.terminal.blue
+            yield choice, selector + ' ' + symbol, color
 
-    def run(self, question):
+    def process_input(self, pressed):
+        if pressed == key.UP:
+            self.current = max(0, self.current - 1)
+            return
+        elif pressed == key.DOWN:
+            self.current = min(len(self.question.choices) - 1,
+                               self.current + 1)
+            return
+        elif pressed == key.SPACE:
+            if self.current in self.selection:
+                self.selection.remove(self.current)
+            else:
+                self.selection.append(self.current)
+        elif pressed == key.LEFT:
+            if self.current in self.selection:
+                self.selection.remove(self.current)
+        elif pressed == key.RIGHT:
+            if self.current not in self.selection:
+                self.selection.append(self.current)
+        elif pressed == key.ENTER:
+            raise errors.EndOfInput([self.question.choices[x]
+                                     for x in self.selection])
+        elif pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+
+
+    def old(self):
         choices = question.choices
         selection = []
         current = 0
