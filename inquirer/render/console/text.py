@@ -24,11 +24,11 @@ class Text(ConsoleRender):
         return self.current
 
     def process_input(self, pressed):
-        if pressed in (key.CR, key.LF, key.ENTER):
-            raise errors.EndOfInput(self.current)
-
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
+
+        if pressed in (key.CR, key.LF, key.ENTER):
+            raise errors.EndOfInput(self.current)
 
         if pressed == key.BACKSPACE:
             if len(self.current):
@@ -41,4 +41,3 @@ class Text(ConsoleRender):
             return
 
         self.current += pressed
-        self.print_str(pressed)
