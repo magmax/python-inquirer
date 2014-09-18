@@ -29,7 +29,8 @@ class List(ConsoleRender):
             self.current = max(0, self.current - 1)
             return
         if pressed == key.DOWN:
-            self.current = min(len(self.question.choices) - 1, self.current + 1)
+            self.current = min(len(self.question.choices) - 1,
+                               self.current + 1)
             return
         if pressed == key.ENTER:
             raise errors.EndOfInput(self.question.choices[self.current])

@@ -16,7 +16,7 @@ class Confirm(ConsoleRender):
 
     def process_input(self, pressed):
         if pressed.lower() == key.ENTER:
-            return self.question.default
+            raise errors.EndOfInput(self.question.default)
 
         self.print_str(pressed)
         print('')
@@ -25,4 +25,4 @@ class Confirm(ConsoleRender):
             raise errors.EndOfInput(True)
         if pressed in 'nN':
             raise errors.EndOfInput(False)
-        raise errors.ValidationError()
+        raise errors.ValidationError(pressed)

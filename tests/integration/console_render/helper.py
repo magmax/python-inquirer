@@ -19,7 +19,7 @@ class BaseTestCase(object):
         self._base_stdin = sys.stdin
         self._base_stdout = sys.stdout
         sys.stdin = StringIO()
-        sys.stdout = StringIO()
+#        sys.stdout = StringIO()
 
     def base_teardown(self):
         sys.stdin = self._base_stdin

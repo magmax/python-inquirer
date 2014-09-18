@@ -5,6 +5,7 @@ from . import helper
 from readchar import key
 
 from inquirer.render import ConsoleRender
+from inquirer import errors
 
 
 class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
@@ -125,6 +126,5 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      default=True)
 
         sut = ConsoleRender(key_generator=stdin)
-        sut.render(question)
-
-        self.assertInStdout('Invalid value')
+        with self.assertRaises(errors.ValidationError):
+            sut.render(question)

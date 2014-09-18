@@ -13,6 +13,8 @@ def prompt(questions, render=None, answers=None):
             answers[question.name] = render.render(question, answers)
         return answers
     except KeyboardInterrupt:
-        pass
+        print('')
+        render.print_line('Cancelled by user')
+        render.clear_bottombar()
     finally:
         render.reset()

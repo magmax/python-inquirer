@@ -7,10 +7,12 @@ from blessings import Terminal
 import readchar
 from inquirer import errors
 
+
 class ConsoleRender(object):
     title_inline = False
 
-    def __init__(self, question, key_generator=None, terminal=None, *args, **kwargs):
+    def __init__(self, question, key_generator=None, terminal=None,
+                 *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
         self._key_gen = key_generator or readchar.readkey
         self.question = question
@@ -40,11 +42,6 @@ class ConsoleRender(object):
                         except errors.ValidationError as e:
                             error = ('"{e}" is not a valid {q}.'
                                      .format(e=e.value, q=self.question.name))
-        except KeyboardInterrupt:
-            print('')
-            self.print_line('Cancelled by user')
-            self.clear_bottombar()
-            raise
         finally:
             print('')
 
@@ -79,8 +76,8 @@ class ConsoleRender(object):
         base = self.terminal.clear_eol() + self.get_header()
 
         header = (base[:self.terminal.width - 9] + '...'
-                   if len(base) > self.terminal.width - 6
-                   else base)
+                  if len(base) > self.terminal.width - 6
+                  else base)
         header += ': {c}'.format(c=self.get_current_value())
         self.print_str('[{t.yellow}?{t.normal}] {msg}',
                        msg=header,

@@ -50,8 +50,9 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
     def test_validation_fails(self):
         stdin_array = [x for x in
                        'Invalid' + key.ENTER
-                       + '9999' + key.ENTER]
+                       + '9999' + key.ENTER + key.CTRL_C]
         stdin = helper.key_factory(*stdin_array)
+
         message = 'Insert number'
         variable = 'foo'
         expected = '9999'
