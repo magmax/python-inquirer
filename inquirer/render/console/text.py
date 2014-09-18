@@ -20,9 +20,6 @@ class Text(ConsoleRender):
         return (template.format(msg=question.message,
                                 default=question.default or ''))
 
-    def get_options(self):
-        return []
-
     def get_current_value(self):
         return self.current
 

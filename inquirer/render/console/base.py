@@ -55,7 +55,7 @@ class ConsoleRender(object):
         return ''
 
     def get_options(self):
-        raise NotImplemented('Abstract')
+        return []
 
     def read_input(self):
         raise NotImplemented('Abstract')
