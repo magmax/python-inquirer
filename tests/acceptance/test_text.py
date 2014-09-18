@@ -28,7 +28,8 @@ class TextTest(unittest.TestCase):
                               re.compile(b"'phone': '123456789'")],
                              timeout=1)
 
-    @unittest.skip('Unknown failure')
+    @unittest.skip('Unknown failure.'
+                   ' It does not find the string that is there')
     def test_invalid_phone(self):
         self.set_name()
         self.set_surname()
