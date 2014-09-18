@@ -1,32 +1,29 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-
+from inquirer import errors
 from .base import ConsoleRender
 
 
 class Password(ConsoleRender):
+    title_inline = True
 
-    def render(self, question):
-        with self.terminal.location(0, self.terminal.height - 2):
-            self.terminal.clear_eos(False)
-            self.print_str('[{t.yellow}?{t.normal}] {msg}: ',
-                           msg=question.message)
-            password = ''
-            while True:
-                pressed = self._key_gen()
-                if pressed == key.CTRL_C:
-                    raise KeyboardInterrupt()
-                if pressed == key.ENTER:
-                    break
-                if len(pressed) != 1:
-                    continue
-                if pressed == key.BACKSPACE:
-                    if len(password):
-                        password = password[:-1]
-                        self.print_str(self.terminal.move_left
-                                       + self.terminal.clear_eol)
-                else:
-                    password += pressed
-                    self.print_str('*')
-            return password
+    def __init__(self, *args, **kwargs):
+        super(Password, self).__init__(*args, **kwargs)
+        self.current = ''
+
+    def process_input(self, pressed):
+        if pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+        if pressed == key.ENTER:
+            raise errors.EndOfInput(self.current)
+        if len(pressed) != 1:
+            return
+        if pressed == key.BACKSPACE:
+            if len(self.current):
+                self.current = self.current[:-1]
+                self.print_str(self.terminal.move_left
+                               + self.terminal.clear_eol)
+        else:
+            self.current += pressed
+            self.print_str('*')
