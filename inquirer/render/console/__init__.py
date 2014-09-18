@@ -18,6 +18,9 @@ class ConsoleRender(object):
         self._key_gen = key_generator or readchar.readkey
         self.terminal = Terminal()
 
+    def reset(self):
+        print(self.terminal.move(0, 0) + self.terminal.clear_eos())
+
     def render(self, question, answers=None):
         question.answers = answers or {}
 
@@ -43,3 +46,6 @@ class ConsoleRender(object):
         if question_type not in matrix:
             raise errors.UnknownQuestionTypeError()
         return matrix.get(question_type)
+
+    def move_to_end(self):
+        print(self.terminal.move(0, 7))

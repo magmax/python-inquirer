@@ -18,37 +18,35 @@ class ConsoleRender(object):
         self.answers = {}
 
     def render(self):
-        height = self.get_height()
-        pos_y = self.terminal.height - 3 - height
+        try:
+            error = None
 
-        self.reserve_height(height)
-
-        error = None
-        result = None
-        while True:
-            with self.terminal.location(0, pos_y):
-                self.print_header()
-                self.print_options()
+            while True:
                 if error is not None:
                     self.render_error(error)
                     error = None
-                try:
-                    self.process_input(self._key_gen())
-                except errors.EndOfInput as e:
-                    try:
-                        self.question.validate(e.selection)
-                        self.clear_bottombar()
-                        return e.selection
-                    except errors.ValidationError as e:
-                        error = ('"{e}" is not a valid {q}.'
-                                 .format(e=e.value, q=self.question.name))
-                except KeyboardInterrupt:
+                else:
                     self.clear_bottombar()
-                    self.print_line('Cancelled by user')
-                    raise
 
-    def get_height(self):
-        return 1
+                with self.terminal.location():
+                    self.print_header()
+                    self.print_options()
+                    try:
+                        self.process_input(self._key_gen())
+                    except errors.EndOfInput as e:
+                        try:
+                            self.question.validate(e.selection)
+                            return e.selection
+                        except errors.ValidationError as e:
+                            error = ('"{e}" is not a valid {q}.'
+                                     .format(e=e.value, q=self.question.name))
+        except KeyboardInterrupt:
+            print('')
+            self.print_line('Cancelled by user')
+            self.clear_bottombar()
+            raise
+        finally:
+            print('')
 
     def get_header(self):
         return self.question.message
@@ -92,11 +90,6 @@ class ConsoleRender(object):
         for message, symbol, color in self.get_options():
             self.print_line(' {color}{s} {m}{t.normal}',
                             m=message, color=color, s=symbol)
-
-    def reserve_height(self, size):
-        for i in range(size):
-            print('')
-        print(self.terminal.clear_eos())
 
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.terminal.height - 2):

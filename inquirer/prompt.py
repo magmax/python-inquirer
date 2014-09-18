@@ -8,8 +8,11 @@ def prompt(questions, render=None, answers=None):
     answers = answers or {}
 
     try:
+        render.reset()
         for question in questions:
             answers[question.name] = render.render(question, answers)
         return answers
     except KeyboardInterrupt:
         pass
+    finally:
+        render.reset()
