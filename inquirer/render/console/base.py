@@ -8,18 +8,19 @@ import readchar
 from inquirer import errors
 
 
-class ConsoleRender(object):
+class BaseConsoleRender(object):
     title_inline = False
 
     def __init__(self, question, key_generator=None, terminal=None,
                  *args, **kwargs):
-        super(ConsoleRender, self).__init__(*args, **kwargs)
+        super(BaseConsoleRender, self).__init__(*args, **kwargs)
         self._key_gen = key_generator or readchar.readkey
         self.question = question
         self.terminal = terminal or Terminal()
         self.answers = {}
 
     def render(self):
+        # FIXME: move to __init__.py
         try:
             error = None
 

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import ConsoleRender
+from .base import BaseConsoleRender
 from inquirer import errors
 
 
-class Text(ConsoleRender):
+class Text(BaseConsoleRender):
     title_inline = True
 
     def __init__(self, *args, **kwargs):

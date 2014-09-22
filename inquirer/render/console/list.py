@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import ConsoleRender
+from .base import BaseConsoleRender
 from inquirer import errors
 
 
-class List(ConsoleRender):
+class List(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super(List, self).__init__(*args, **kwargs)
         self.current = self._current_index()

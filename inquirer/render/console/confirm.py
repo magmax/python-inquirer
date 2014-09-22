@@ -2,10 +2,10 @@
 
 from readchar import key
 from inquirer import errors
-from .base import ConsoleRender
+from .base import BaseConsoleRender
 
 
-class Confirm(ConsoleRender):
+class Confirm(BaseConsoleRender):
     title_inline = True
 
     def get_header(self):

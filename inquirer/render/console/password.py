@@ -2,10 +2,10 @@
 
 from readchar import key
 from inquirer import errors
-from .base import ConsoleRender
+from .base import BaseConsoleRender
 
 
-class Password(ConsoleRender):
+class Password(BaseConsoleRender):
     title_inline = True
 
     def __init__(self, *args, **kwargs):

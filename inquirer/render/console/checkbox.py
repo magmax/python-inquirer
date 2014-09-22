@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import ConsoleRender
+from .base import BaseConsoleRender
 from inquirer import errors
 
 
-class Checkbox(ConsoleRender):
+class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super(Checkbox, self).__init__(*args, **kwargs)
         self.selection = []
