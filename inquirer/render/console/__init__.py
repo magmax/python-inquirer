@@ -28,7 +28,7 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        render = clazz(question, self._key_gen, self.terminal)
+        render = clazz(question, self.terminal)
 
         render.clear_eos()
 
@@ -46,7 +46,7 @@ class ConsoleRender(object):
                     render.print_header()
                     render.print_options()
                     try:
-                        render.process_input(render._key_gen())
+                        render.process_input(self._key_gen())
                     except errors.EndOfInput as e:
                         try:
                             render.question.validate(e.selection)

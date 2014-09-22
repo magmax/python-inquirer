@@ -4,16 +4,14 @@ from __future__ import print_function
 
 import sys
 from blessings import Terminal
-import readchar
 
 
 class BaseConsoleRender(object):
     title_inline = False
 
-    def __init__(self, question, key_generator=None, terminal=None,
+    def __init__(self, question, terminal=None,
                  *args, **kwargs):
         super(BaseConsoleRender, self).__init__(*args, **kwargs)
-        self._key_gen = key_generator or readchar.readkey
         self.question = question
         self.terminal = terminal or Terminal()
         self.answers = {}
