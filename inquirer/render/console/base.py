@@ -5,7 +5,6 @@ from __future__ import print_function
 import sys
 from blessings import Terminal
 import readchar
-from inquirer import errors
 
 
 class BaseConsoleRender(object):
@@ -18,33 +17,6 @@ class BaseConsoleRender(object):
         self.question = question
         self.terminal = terminal or Terminal()
         self.answers = {}
-
-    def render(self):
-        # FIXME: move to __init__.py
-        try:
-            error = None
-
-            while True:
-                if error is not None:
-                    self.render_error(error)
-                    error = None
-                else:
-                    self.clear_bottombar()
-
-                with self.terminal.location():
-                    self.print_header()
-                    self.print_options()
-                    try:
-                        self.process_input(self._key_gen())
-                    except errors.EndOfInput as e:
-                        try:
-                            self.question.validate(e.selection)
-                            return e.selection
-                        except errors.ValidationError as e:
-                            error = ('"{e}" is not a valid {q}.'
-                                     .format(e=e.value, q=self.question.name))
-        finally:
-            print('')
 
     def get_header(self):
         return self.question.message

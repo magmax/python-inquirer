@@ -32,7 +32,31 @@ class ConsoleRender(object):
 
         render.clear_eos()
 
-        return render.render()
+        try:
+            error = None
+
+            while True:
+                if error is not None:
+                    render.render_error(error)
+                    error = None
+                else:
+                    render.clear_bottombar()
+
+                with render.terminal.location():
+                    render.print_header()
+                    render.print_options()
+                    try:
+                        render.process_input(render._key_gen())
+                    except errors.EndOfInput as e:
+                        try:
+                            render.question.validate(e.selection)
+                            return e.selection
+                        except errors.ValidationError as e:
+                            error = ('"{e}" is not a valid {q}.'
+                                     .format(e=e.value,
+                                             q=render.question.name))
+        finally:
+            print('')
 
     def render_factory(self, question_type):
         matrix = {
