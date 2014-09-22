@@ -2,9 +2,10 @@
 from __future__ import print_function
 
 from blessings import Terminal
-import readchar
 
 from inquirer import errors
+from inquirer import events
+
 from .text import Text
 from .password import Password
 from .confirm import Confirm
@@ -13,9 +14,9 @@ from .checkbox import Checkbox
 
 
 class ConsoleRender(object):
-    def __init__(self, key_generator=None, *args, **kwargs):
+    def __init__(self, event_generator=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
-        self._key_gen = key_generator or readchar.readkey
+        self._event_gen = event_generator or events.KeyEventGenerator()
         self.terminal = Terminal()
 
     def reset(self):
@@ -52,7 +53,9 @@ class ConsoleRender(object):
                 render.print_options()
 
                 try:
-                    render.process_input(self._key_gen())
+                    ev = self._event_gen.next()
+                    if isinstance(ev, events.KeyPressed):
+                        render.process_input(ev.value)
                 except errors.EndOfInput as e:
                     try:
                         render.question.validate(e.selection)
