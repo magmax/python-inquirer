@@ -12,7 +12,6 @@ def prompt(questions, render=None, answers=None):
         for question in questions:
             answers[question.name] = render.render(question, answers)
         return answers
-        render.reset()
     except KeyboardInterrupt:
         render.reset()
         print('')

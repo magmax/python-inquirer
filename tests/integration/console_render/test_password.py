@@ -15,7 +15,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_do_not_show_values(self):
-        stdin = helper.key_factory(
+        stdin = helper.event_factory(
             'm', 'y', ' ', 'p', 'a', 's', 's', 'w', 'o', 'r', 'd',
             key.ENTER)
         message = 'Foo message'
@@ -23,7 +23,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         question = questions.Password(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         sut.render(question)
 
         self.assertInStdout(message)
@@ -31,13 +31,13 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
 
     def test_allows_deletion(self):
         stdin_array = ['a', key.BACKSPACE, 'b', key.ENTER]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Password(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals('b', result)
@@ -55,25 +55,25 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
             'e',
             key.ENTER,
             ]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Password(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals('abcde', result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Password(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         with self.assertRaises(KeyboardInterrupt):
             sut.render(question)

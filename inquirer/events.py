@@ -15,5 +15,8 @@ class Repaint(Event):
 
 
 class KeyEventGenerator(object):
+    def __init__(self, key_generator=None):
+        self._key_gen = readchar.readkey
+
     def next(self):
-        return KeyPressed(readchar.readkey())
+        return KeyPressed(self._key_gen())
