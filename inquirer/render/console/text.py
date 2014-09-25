@@ -33,8 +33,6 @@ class Text(BaseConsoleRender):
         if pressed == key.BACKSPACE:
             if len(self.current):
                 self.current = self.current[:-1]
-                print(self.terminal.move(-1, 0))
-                print(self.terminal.clear_eol)
             return
 
         if len(pressed) != 1:

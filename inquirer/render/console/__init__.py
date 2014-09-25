@@ -108,12 +108,12 @@ class ConsoleRender(object):
 
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.height - 2):
-            self.clear_eos()
+            self.clear_eos(lf=False)
             self.print_str(message)
 
     def clear_bottombar(self):
         with self.terminal.location(0, self.height - 2):
-            self.clear_eos()
+            self.clear_eos(lf=False)
 
     def render_factory(self, question_type):
         matrix = {
