@@ -1,6 +1,7 @@
 import re
 import unittest
 import pexpect
+from readchar import key
 
 
 class TextTest(unittest.TestCase):
@@ -28,14 +29,12 @@ class TextTest(unittest.TestCase):
                               re.compile(b"'phone': '123456789'")],
                              timeout=1)
 
-    @unittest.skip('Unknown failure.'
-                   ' It does not find the string that is there')
     def test_invalid_phone(self):
         self.set_name()
         self.set_surname()
         self.set_phone('abcde')
         self.sut.expect('"abcde" is not a valid phone', timeout=1)
-        self.sut.sendline('12345')
+        self.sut.sendline(5*key.BACKSPACE + '12345')
         self.sut.expect_list([re.compile(b"'name': 'foo'"),
                               re.compile(b"'surname': 'bar'"),
                               re.compile(b"'phone': '12345'")],
