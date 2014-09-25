@@ -18,6 +18,7 @@ class ConsoleRender(object):
         super(ConsoleRender, self).__init__(*args, **kwargs)
         self._event_gen = event_generator or events.KeyEventGenerator()
         self.terminal = Terminal()
+        self._previous_error = None
 
     def reset(self):
         print(self.terminal.move(0, 0) + self.terminal.clear_eos())
@@ -39,31 +40,39 @@ class ConsoleRender(object):
             print('')
 
     def _event_loop(self, render):
-        error = None
+        try:
+            while True:
+                self._print_status_bar(render)
 
-        while True:
-            if error is not None:
-                render.render_error(error)
-                error = None
-            else:
-                render.clear_bottombar()
+                with render.terminal.location():
+                    render.print_header()
+                    render.print_options()
 
-            with render.terminal.location():
-                render.print_header()
-                render.print_options()
+                    self._process_input(render)
+        except errors.EndOfInput as e:
+            return e.selection
 
-                try:
-                    ev = self._event_gen.next()
-                    if isinstance(ev, events.KeyPressed):
-                        render.process_input(ev.value)
-                except errors.EndOfInput as e:
-                    try:
-                        render.question.validate(e.selection)
-                        return e.selection
-                    except errors.ValidationError as e:
-                        error = ('"{e}" is not a valid {q}.'
-                                 .format(e=e.value,
-                                         q=render.question.name))
+    def _print_status_bar(self, render):
+        if self._previous_error is None:
+            render.clear_bottombar()
+            return
+
+        render.render_error(self._previous_error)
+        self._previous_error = None
+
+    def _process_input(self, render):
+        try:
+            ev = self._event_gen.next()
+            if isinstance(ev, events.KeyPressed):
+                render.process_input(ev.value)
+        except errors.EndOfInput as e:
+            try:
+                render.question.validate(e.selection)
+                raise
+            except errors.ValidationError as e:
+                self._previous_error = ('"{e}" is not a valid {q}.'
+                                        .format(e=e.value,
+                                                q=render.question.name))
 
     def render_factory(self, question_type):
         matrix = {
