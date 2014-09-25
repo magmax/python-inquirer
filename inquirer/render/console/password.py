@@ -25,12 +25,11 @@ class Password(BaseConsoleRender):
         if pressed == key.BACKSPACE:
             if len(self.current):
                 self.current = self.current[:-1]
-                self.print_str(self.terminal.move_left
-                               + self.terminal.clear_eol)
+                print(self.terminal.move(-1, 0))
+                print(self.terminal.clear_eol)
             return
 
         if len(pressed) != 1:
             return
 
         self.current += pressed
-        self.print_str('*')

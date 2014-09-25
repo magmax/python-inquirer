@@ -18,8 +18,7 @@ class Confirm(BaseConsoleRender):
         if pressed.lower() == key.ENTER:
             raise errors.EndOfInput(self.question.default)
 
-        self.print_str(pressed)
-        print('')
+        print(pressed)
 
         if pressed in 'yY':
             raise errors.EndOfInput(True)
