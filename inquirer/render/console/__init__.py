@@ -20,9 +20,11 @@ class ConsoleRender(object):
         self._event_gen = event_generator or events.KeyEventGenerator()
         self.terminal = Terminal()
         self._previous_error = None
+        self._position = 0
 
     def reset(self):
         print(self.terminal.move(0, 0) + self.terminal.clear_eos())
+        self._position = 1
 
     def render(self, question, answers=None):
         question.answers = answers or {}
@@ -43,13 +45,16 @@ class ConsoleRender(object):
     def _event_loop(self, render):
         try:
             while True:
+                self._relocate()
                 self._print_status_bar(render)
 
-                with render.terminal.location():
-                    self._print_header(render)
-                    self._print_options(render)
+                self._print_header(render)
+                self._print_options(render)
+                if render.title_inline:
+                    print('')
 
-                    self._process_input(render)
+                self._process_input(render)
+                self._force_initial_column()
         except errors.EndOfInput as e:
             return e.selection
 
@@ -65,6 +70,7 @@ class ConsoleRender(object):
         for message, symbol, color in render.get_options():
             self.print_line(' {color}{s} {m}{t.normal}',
                             m=message, color=color, s=symbol)
+            self._position += 1
 
     def _print_header(self, render):
         base = self.terminal.clear_eol() + render.get_header()
@@ -76,6 +82,7 @@ class ConsoleRender(object):
         self.print_str('[{t.yellow}?{t.normal}] {msg}',
                        msg=header,
                        lf=not render.title_inline)
+        self._position += 1
 
     def _process_input(self, render):
         try:
@@ -90,6 +97,13 @@ class ConsoleRender(object):
                 self._previous_error = ('"{e}" is not a valid {q}.'
                                         .format(e=e.value,
                                                 q=render.question.name))
+
+    def _relocate(self):
+        print(self._position * self.terminal.move_up)
+        self._position = 1
+
+    def _force_initial_column(self):
+        self.print_str(self.terminal.move_x(0))
 
     def render_error(self, message):
         if message:
@@ -127,9 +141,6 @@ class ConsoleRender(object):
         if question_type not in matrix:
             raise errors.UnknownQuestionTypeError()
         return matrix.get(question_type)
-
-    def move_to_end(self):
-        print(self.terminal.move(0, 7))
 
     def print_line(self, base, lf=True, **kwargs):
         self.print_str(base + self.terminal.clear_eol(), lf=lf, **kwargs)
