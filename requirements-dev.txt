@@ -9,3 +9,4 @@ python-coveralls >= 2.4.2
 
 wheel >= 0.24.0
 
+releaseme >= 0.2.8

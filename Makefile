@@ -17,8 +17,13 @@ flakes:
 coveralls::
 	coveralls
 
-publish::
+publish: run_publish run_tag
+
+run_publish::
 	@python setup.py sdist bdist_wheel upload
+
+run_tag::
+	@python -m releaseme --git --file releaseme/__init__.py
 
 run_unit_tests:
 	@echo Running Tests...
