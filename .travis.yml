@@ -5,9 +5,6 @@ python:
   - "3.3"
   - "3.4"
   - "pypy"
-env:
-  - "linux"
-  - "osx"
 
 install:
   - pip install -r requirements-dev.txt  -r requirements.txt
@@ -16,8 +13,6 @@ install:
 
 script:
   - make flakes
-  - make clear_coverage
-  - make run_unit_tests
   - make run_integration_tests
   - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
 
