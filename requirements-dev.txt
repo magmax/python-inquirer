@@ -2,7 +2,8 @@ flake8 >= 2.2.3
 doublex >= 1.8.1
 pexpect >= 3.3
 
-nose >= 1.3.1
+pytest
+pytest-cov
 nosexcover >= 1.0.10
 
 python-coveralls >= 2.4.2
