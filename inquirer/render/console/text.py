@@ -1,34 +1,41 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import ConsoleRender
+from .base import BaseConsoleRender
+from inquirer import errors
 
 
-class Text(ConsoleRender):
+class Text(BaseConsoleRender):
+    title_inline = True
 
-    def render(self, question):
-        with self.terminal.location(0, self.terminal.height - 2):
-            text = question.default or ''
-            message = ('[{t.yellow}?{t.normal}] {msg}: {default}'
-                       .format(msg=question.message,
-                               t=self.terminal,
-                               default=text))
-            self.print_str(message)
-            while True:
-                pressed = self._key_gen()
-                if pressed == key.CTRL_C:
-                    raise KeyboardInterrupt()
-                if pressed in (key.CR, key.LF, key.ENTER):
-                    break
-                if len(pressed) != 1:
-                    continue
-                if pressed == key.BACKSPACE:
-                    if len(text):
-                        text = text[:-1]
-                        self.print_str(self.terminal.move_left
-                                       + self.terminal.clear_eol)
-                else:
-                    text += pressed
-                    self.print_str(pressed)
+    def __init__(self, *args, **kwargs):
+        super(Text, self).__init__(*args, **kwargs)
+        self.current = self.question.default or ''
 
-            return text
+    def get_message(self, question):
+        if question.default:
+            template = '{msg} ({default})'
+        else:
+            template = '{msg}'
+        return (template.format(msg=question.message,
+                                default=question.default or ''))
+
+    def get_current_value(self):
+        return self.current
+
+    def process_input(self, pressed):
+        if pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+
+        if pressed in (key.CR, key.LF, key.ENTER):
+            raise errors.EndOfInput(self.current)
+
+        if pressed == key.BACKSPACE:
+            if len(self.current):
+                self.current = self.current[:-1]
+            return
+
+        if len(pressed) != 1:
+            return
+
+        self.current += pressed

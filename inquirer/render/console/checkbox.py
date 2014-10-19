@@ -1,60 +1,52 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import ConsoleRender
+from .base import BaseConsoleRender
+from inquirer import errors
 
 
-class Checkbox(ConsoleRender):
+class Checkbox(BaseConsoleRender):
+    def __init__(self, *args, **kwargs):
+        super(Checkbox, self).__init__(*args, **kwargs)
+        self.selection = []
+        self.current = 0
 
-    def render(self, question):
-        choices = question.choices
-        selection = []
-        current = 0
+    def get_options(self):
+        for n in range(len(self.question.choices)):
+            choice = self.question.choices[n]
+            if n in self.selection:
+                symbol = 'X'
+                color = self.terminal.yellow + self.terminal.bold
+            else:
+                symbol = 'o'
+                color = ''
+            selector = ' '
+            if n == self.current:
+                selector = '>'
+                color = self.terminal.blue
+            yield choice, selector + ' ' + symbol, color
 
-        self.print_line('[{t.yellow}?{t.normal}] {msg}: ',
-                        msg=question.message)
-        for choice in choices:
-            self.print_line('')
-        self.clear_eos()
-
-        pos_y = self.terminal.height - 2 - len(choices)
-
-        while True:
-            with self.terminal.location(0, pos_y):
-                for n in range(len(choices)):
-                    choice = choices[n]
-                    if n in selection:
-                        symbol = 'X'
-                        color = self.terminal.yellow + self.terminal.bold
-                    else:
-                        symbol = 'o'
-                        color = ''
-                    selector = ' '
-                    if n == current:
-                        selector = '>'
-                        color = self.terminal.blue
-                    self.print_line(' {color}{sel} {s} {c}{t.normal}',
-                                    c=choice, s=symbol, sel=selector,
-                                    color=color)
-                pressed = self._key_gen()
-                if pressed == key.UP:
-                    current = max(0, current - 1)
-                    continue
-                elif pressed == key.DOWN:
-                    current = min(len(choices) - 1, current + 1)
-                    continue
-                elif pressed == key.SPACE:
-                    if current in selection:
-                        selection.remove(current)
-                    else:
-                        selection.append(current)
-                elif pressed == key.LEFT:
-                    if current in selection:
-                        selection.remove(current)
-                elif pressed == key.RIGHT:
-                    if current not in selection:
-                        selection.append(current)
-                elif pressed == key.ENTER:
-                    return [choices[x] for x in selection]
-                elif pressed == key.CTRL_C:
-                    raise KeyboardInterrupt()
+    def process_input(self, pressed):
+        if pressed == key.UP:
+            self.current = max(0, self.current - 1)
+            return
+        elif pressed == key.DOWN:
+            self.current = min(len(self.question.choices) - 1,
+                               self.current + 1)
+            return
+        elif pressed == key.SPACE:
+            if self.current in self.selection:
+                self.selection.remove(self.current)
+            else:
+                self.selection.append(self.current)
+        elif pressed == key.LEFT:
+            if self.current in self.selection:
+                self.selection.remove(self.current)
+        elif pressed == key.RIGHT:
+            if self.current not in self.selection:
+                self.selection.append(self.current)
+        elif pressed == key.ENTER:
+            raise errors.EndOfInput([self.question.choices[x]
+                                     for x in self.selection])
+        elif pressed == key.CTRL_C:
+            raise KeyboardInterrupt()

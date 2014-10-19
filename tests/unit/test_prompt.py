@@ -13,6 +13,7 @@ class PromptTests(unittest.TestCase):
         question1.name = 'foo'
         result1 = object()
         with doublex.Mock() as render:
+            render.reset()
             render.render(question1, {}).returns(result1)
 
         result = prompt([question1], render=render)
@@ -30,6 +31,7 @@ class PromptTests(unittest.TestCase):
 
         result = object()
         with doublex.Mock() as render:
+            render.reset()
             render.render(question1, {}).returns(result1)
             render.render(question2, {'foo': result1}).returns(result2)
 

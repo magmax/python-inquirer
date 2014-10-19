@@ -1,45 +1,44 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import ConsoleRender
+from .base import BaseConsoleRender
+from inquirer import errors
 
 
-class List(ConsoleRender):
+class List(BaseConsoleRender):
+    def __init__(self, *args, **kwargs):
+        super(List, self).__init__(*args, **kwargs)
+        self.current = self._current_index()
 
-    def render(self, question):
-        choices = question.choices
-        try:
-            current = choices.index(question.default)
-        except ValueError:
-            current = 0
+    def get_options(self):
+        choices = self.question.choices
 
-        self.print_line('[{t.yellow}?{t.normal}] {msg}: ',
-                        msg=question.message)
         for choice in choices:
-            print('')
-        print(self.terminal.clear_eos())
+            selected = choice == choices[self.current]
 
-        pos_y = self.terminal.height - 2 - len(choices)
+            if selected:
+                color = self.terminal.blue
+                symbol = '>'
+            else:
+                color = self.terminal.normal
+                symbol = ' '
+            yield choice, symbol, color
 
-        while True:
-            with self.terminal.location(0, pos_y):
-                for choice in choices:
-                    if choice == choices[current]:
-                        color = self.terminal.blue
-                        symbol = '>'
-                    else:
-                        color = self.terminal.normal
-                        symbol = ' '
-                    self.print_line(' {color}{s} {c}{t.normal}',
-                                    c=choice, color=color, s=symbol)
-                pressed = self._key_gen()
-                if pressed == key.UP:
-                    current = max(0, current - 1)
-                    continue
-                if pressed == key.DOWN:
-                    current = min(len(choices) - 1, current + 1)
-                    continue
-                if pressed == key.ENTER:
-                    return choices[current]
-                if pressed == key.CTRL_C:
-                    raise KeyboardInterrupt()
+    def process_input(self, pressed):
+        if pressed == key.UP:
+            self.current = max(0, self.current - 1)
+            return
+        if pressed == key.DOWN:
+            self.current = min(len(self.question.choices) - 1,
+                               self.current + 1)
+            return
+        if pressed == key.ENTER:
+            raise errors.EndOfInput(self.question.choices[self.current])
+        if pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+
+    def _current_index(self):
+        try:
+            return self.question.choices.index(self.question.default)
+        except ValueError:
+            return 0

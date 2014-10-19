@@ -15,14 +15,14 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_all_choices_are_shown(self):
-        stdin = helper.key_factory(key.ENTER)
+        stdin = helper.event_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
         question = questions.List(variable, message, choices=choices)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         sut.render(question)
 
         self.assertInStdout(message)
@@ -30,52 +30,52 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
             self.assertInStdout(choice)
 
     def test_choose_the_first(self):
-        stdin = helper.key_factory(key.ENTER)
+        stdin = helper.event_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
         question = questions.List(variable, message, choices=choices)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual('foo', result)
 
     def test_choose_the_second(self):
-        stdin = helper.key_factory(key.DOWN, key.ENTER)
+        stdin = helper.event_factory(key.DOWN, key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
         question = questions.List(variable, message, choices=choices)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual('bar', result)
 
     def test_move_up(self):
-        stdin = helper.key_factory(key.DOWN, key.UP, key.ENTER)
+        stdin = helper.event_factory(key.DOWN, key.UP, key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
         question = questions.List(variable, message, choices=choices)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual('foo', result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.List(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         with self.assertRaises(KeyboardInterrupt):
             sut.render(question)

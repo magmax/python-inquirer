@@ -3,7 +3,9 @@ class InquirerError(Exception):
 
 
 class ValidationError(InquirerError):
-    pass
+    def __init__(self, value, *args, **kwargs):
+        super(ValidationError, self).__init__(*args, **kwargs)
+        self.value = value
 
 
 class UnknownQuestionTypeError(InquirerError):
@@ -12,3 +14,9 @@ class UnknownQuestionTypeError(InquirerError):
 
 class Aborted(InquirerError):
     pass
+
+
+class EndOfInput(InquirerError):
+    def __init__(self, selection, *args, **kwargs):
+        super(EndOfInput, self).__init__(*args, **kwargs)
+        self.selection = selection

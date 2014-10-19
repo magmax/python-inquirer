@@ -1,8 +1,6 @@
-MODULES=inquirer
-
 all: flakes test
 
-test:: clear_coverage run_unit_tests run_integration_tests run_acceptance_tests
+test:: clear_coverage run_integration_tests run_acceptance_tests
 
 unit_test:: run_unit_tests
 
@@ -12,7 +10,7 @@ analysis:: flakes
 
 flakes:
 	@echo Searching for static errors...
-	@flake8 --statistics --count  ${MODULES} tests
+	@flake8 --statistics --count  inquirer tests
 
 coveralls::
 	coveralls
@@ -27,15 +25,15 @@ run_tag::
 
 run_unit_tests:
 	@echo Running Tests...
-	@nosetests -dv --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/unit
+	@py.test --cov inquirer tests/unit
 
 run_integration_tests:
 	@echo Running Tests...
-	@nosetests -dv --exe --with-xcoverage --cover-package=${MODULES} --cover-tests tests/integration
+	@py.test --cov inquirer tests/unit tests/integration
 
 run_acceptance_tests:
 	@echo Running Tests...
-	@nosetests -dv --exe tests/acceptance
+	@py.test tests/acceptance
 
 clear_coverage:
 	@echo Cleaning previous coverage...

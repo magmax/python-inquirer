@@ -5,13 +5,19 @@ try:
 except ImportError:
     from io import StringIO
 
+from inquirer import events
 
-def key_factory(*args):
-    iterator = args.__iter__()
 
-    def inner():
-        return next(iterator)
-    return inner
+class Iterable(object):
+    def __init__(self, *args):
+        self.iterator = args.__iter__()
+
+    def next(self):
+        return events.KeyPressed(next(self.iterator))
+
+
+def event_factory(*args):
+    return Iterable(*args)
 
 
 class BaseTestCase(object):

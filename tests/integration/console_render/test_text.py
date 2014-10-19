@@ -18,13 +18,13 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
     def test_basic_render(self):
         stdin_msg = 'This is a foo message'
         stdin_array = [x for x in stdin_msg + key.ENTER]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Text(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(stdin_msg, result)
@@ -41,7 +41,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
                                   default=expected,
                                   message=message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -50,8 +50,10 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
     def test_validation_fails(self):
         stdin_array = [x for x in
                        'Invalid' + key.ENTER
+                       + (key.BACKSPACE*20)
                        + '9999' + key.ENTER]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
+
         message = 'Insert number'
         variable = 'foo'
         expected = '9999'
@@ -60,21 +62,21 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
                                   validate=lambda _, x: re.match('\d+', x),
                                   message=message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
         self.assertEquals(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('Invalid value')
+        self.assertInStdout('"Invalid" is not a valid foo')
 
     def test_allows_deletion(self):
         stdin_array = ['a', key.BACKSPACE, 'b', key.ENTER]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Text(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals('b', result)
@@ -92,25 +94,25 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
             'e',
             key.ENTER,
             ]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Text(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals('abcde', result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
-        stdin = helper.key_factory(*stdin_array)
+        stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
 
         question = questions.Text(variable, message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         with self.assertRaises(KeyboardInterrupt):
             sut.render(question)

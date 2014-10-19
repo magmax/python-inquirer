@@ -5,6 +5,7 @@ from . import helper
 from readchar import key
 
 from inquirer.render import ConsoleRender
+from inquirer import errors
 
 
 class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
@@ -15,7 +16,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_no_as_default(self):
-        stdin = helper.key_factory(key.ENTER)
+        stdin = helper.event_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
@@ -23,7 +24,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         question = questions.Confirm(variable,
                                      message=message)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -31,7 +32,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(y/N)')
 
     def test_yes_as_default(self):
-        stdin = helper.key_factory(key.ENTER)
+        stdin = helper.event_factory(key.ENTER)
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
@@ -40,7 +41,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -48,7 +49,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_y(self):
-        stdin = helper.key_factory('y')
+        stdin = helper.event_factory('y')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
@@ -57,7 +58,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -65,7 +66,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_Y(self):
-        stdin = helper.key_factory('Y')
+        stdin = helper.event_factory('Y')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = True
@@ -74,7 +75,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -82,7 +83,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_n(self):
-        stdin = helper.key_factory('n')
+        stdin = helper.event_factory('n')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
@@ -91,7 +92,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -99,7 +100,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_answring_N(self):
-        stdin = helper.key_factory('N')
+        stdin = helper.event_factory('N')
         message = 'Foo message'
         variable = 'Bar variable'
         expected = False
@@ -108,7 +109,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=stdin)
+        sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEquals(expected, result)
@@ -116,7 +117,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_invalid_answer(self):
-        stdin = helper.key_factory('a', 'N')
+        stdin = helper.event_factory('a', 'N')
         message = 'Foo message'
         variable = 'Bar variable'
 
@@ -124,7 +125,6 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      message=message,
                                      default=True)
 
-        sut = ConsoleRender(key_generator=stdin)
-        sut.render(question)
-
-        self.assertInStdout('Invalid value')
+        sut = ConsoleRender(event_generator=stdin)
+        with self.assertRaises(errors.ValidationError):
+            sut.render(question)
