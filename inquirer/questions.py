@@ -24,11 +24,16 @@ class Question(object):
 
     @staticmethod
     def factory(kind, *args, **kwargs):
-        if kind == 'text': return Text(*args, **kwargs)
-        if kind == 'password': return Password(*args, **kwargs)
-        if kind == 'confirm': return Confirm(*args, **kwargs)
-        if kind == 'list': return List(*args, **kwargs)
-        if kind == 'checkbox': return Checkbox(*args, **kwargs)
+        if kind == 'text':
+            return Text(*args, **kwargs)
+        if kind == 'password':
+            return Password(*args, **kwargs)
+        if kind == 'confirm':
+            return Confirm(*args, **kwargs)
+        if kind == 'list':
+            return List(*args, **kwargs)
+        if kind == 'checkbox':
+            return Checkbox(*args, **kwargs)
         raise errors.UnknownQuestionTypeError()
 
     @staticmethod

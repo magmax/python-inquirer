@@ -6,6 +6,7 @@ try:
     from .prompt import prompt
     from .questions import Text, Password, Confirm, List, Checkbox, Question
 
-    __all__ = ['prompt', 'Text', 'Password', 'Confirm', 'List', 'Checkbox', 'Question']
+    __all__ = ['prompt', 'Text', 'Password', 'Confirm', 'List', 'Checkbox',
+               'Question']
 except ImportError as e:
     print("An error was found, but returning just with the version: %s" % e)

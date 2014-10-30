@@ -190,7 +190,8 @@ class BaseQuestionTests(unittest.TestCase):
 
     def test_load_from_json_text_type(self):
         name = 'foo'
-        q = questions.Question.load_from_json('{"kind": "text", "name": "%s"}' % name)
+        q = questions.Question.load_from_json(
+            '{"kind": "text", "name": "%s"}' % name)
 
         self.assertEquals('text', q.kind)
         self.assertEquals(type(q), questions.Text)
@@ -198,9 +199,9 @@ class BaseQuestionTests(unittest.TestCase):
 
     def test_factory_bad_type(self):
         name = 'foo'
-
         with self.assertRaises(errors.UnknownQuestionTypeError):
-            q = questions.Question.factory('bad', name)
+            questions.Question.factory('bad', name)
+
 
 class TestConfirmQuestion(unittest.TestCase):
     def test_default_default_value_is_false_instead_of_none(self):
