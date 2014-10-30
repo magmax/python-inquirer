@@ -12,7 +12,8 @@ class Question(object):
                  choices=None,
                  default=None,
                  ignore=False,
-                 validate=True):
+                 validate=True,
+                 kind='base question'):
         self.name = name
         self._message = message
         self._choices = choices or []
@@ -20,6 +21,7 @@ class Question(object):
         self._ignore = ignore
         self._validate = validate
         self.answers = {}
+        self.kind = kind
 
     @property
     def ignore(self):
@@ -56,21 +58,59 @@ class Question(object):
 class Text(Question):
     kind = 'text'
 
+    def __init__(self, name,
+                 message='',
+                 choices=None,
+                 default=None,
+                 ignore=False,
+                 validate=True,
+                 kind="text", **kwargs):
+        super(Text, self).__init__(name, message, choices, default, ignore, validate, kind='text')
 
 class Password(Question):
     kind = 'password'
 
+    def __init__(self, name,
+                 message='',
+                 choices=None,
+                 default=None,
+                 ignore=False,
+                 validate=True, kind="password", **kwargs):
+        super(Password, self).__init__(name, message, choices, default, ignore, validate, kind='password')
 
 class Confirm(Question):
     kind = 'confirm'
 
-    def __init__(self, name, default=False, **kwargs):
-        super(Confirm, self).__init__(name, default=default, **kwargs)
+    def __init__(self, name,
+                 message='',
+                 choices=None,
+                 default=False,
+                 ignore=False,
+                 validate=True,
+                 kind="confirm", **kwargs):
+        super(Confirm, self).__init__(name, message, choices, default, ignore, validate, kind='confirm')
 
 
 class List(Question):
     kind = 'list'
 
+    def __init__(self, name,
+                 message='',
+                 choices=None,
+                 default=False,
+                 ignore=False,
+                 validate=True,
+                 kind="list", **kwargs):
+        super(List, self).__init__(name, message, choices, default, ignore, validate, kind='list')
 
 class Checkbox(Question):
     kind = 'checkbox'
+
+    def __init__(self, name,
+                 message='',
+                 choices=None,
+                 default=False,
+                 ignore=False,
+                 validate=True,
+                 kind="checkbox", **kwargs):
+        super(Checkbox, self).__init__(name, message, choices, default, ignore, validate, kind='checkbox')
