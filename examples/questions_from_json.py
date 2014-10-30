@@ -10,7 +10,7 @@ import inquirer
 with open('examples/test_questions.json') as fd:
     questions_data = json.loads(fd.read())
 
-questions = [inquirer.Question.factory(**q) for q in questions_data]
+questions = [inquirer.Question.load_from_dict(q) for q in questions_data]
 
 answers = inquirer.prompt(questions)
 

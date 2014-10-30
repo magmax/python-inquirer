@@ -140,6 +140,67 @@ class BaseQuestionTests(unittest.TestCase):
         except errors.ValidationError:
             self.fail('Validation function did not receive the current value')
 
+    def test_factory_text_type(self):
+        name = 'foo'
+        q = questions.Question.factory('text', name)
+
+        self.assertEquals('text', q.kind)
+        self.assertEquals(type(q), questions.Text)
+        self.assertEquals(name, q.name)
+
+    def test_factory_confirm_type(self):
+        name = 'foo'
+        q = questions.Question.factory('confirm', name)
+
+        self.assertEquals('confirm', q.kind)
+        self.assertEquals(type(q), questions.Confirm)
+        self.assertEquals(name, q.name)
+
+    def test_factory_password_type(self):
+        name = 'foo'
+        q = questions.Question.factory('password', name)
+
+        self.assertEquals('password', q.kind)
+        self.assertEquals(type(q), questions.Password)
+        self.assertEquals(name, q.name)
+
+    def test_factory_list_type(self):
+        name = 'foo'
+        q = questions.Question.factory('list', name)
+
+        self.assertEquals('list', q.kind)
+        self.assertEquals(type(q), questions.List)
+        self.assertEquals(name, q.name)
+
+    def test_factory_checkbox_type(self):
+        name = 'foo'
+        q = questions.Question.factory('checkbox', name)
+
+        self.assertEquals('checkbox', q.kind)
+        self.assertEquals(type(q), questions.Checkbox)
+        self.assertEquals(name, q.name)
+
+    def test_load_from_dict_text_type(self):
+        name = 'foo'
+        q = questions.Question.load_from_dict({'kind': 'text', 'name': name})
+
+        self.assertEquals('text', q.kind)
+        self.assertEquals(type(q), questions.Text)
+        self.assertEquals(name, q.name)
+
+    def test_load_from_json_text_type(self):
+        name = 'foo'
+        q = questions.Question.load_from_json('{"kind": "text", "name": "%s"}' % name)
+
+        self.assertEquals('text', q.kind)
+        self.assertEquals(type(q), questions.Text)
+        self.assertEquals(name, q.name)
+
+    def test_factory_bad_type(self):
+        name = 'foo'
+
+        with self.assertRaises(errors.UnknownQuestionTypeError):
+            q = questions.Question.factory('bad', name)
 
 class TestConfirmQuestion(unittest.TestCase):
     def test_default_default_value_is_false_instead_of_none(self):

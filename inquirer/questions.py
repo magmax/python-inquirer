@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 
 from . import errors
 
@@ -28,6 +29,15 @@ class Question(object):
         if kind == 'confirm': return Confirm(*args, **kwargs)
         if kind == 'list': return List(*args, **kwargs)
         if kind == 'checkbox': return Checkbox(*args, **kwargs)
+        raise errors.UnknownQuestionTypeError()
+
+    @staticmethod
+    def load_from_dict(question_dict):
+        return Question.factory(**question_dict)
+
+    @staticmethod
+    def load_from_json(question_json):
+        return Question.factory(**json.loads(question_json))
 
     @property
     def ignore(self):
