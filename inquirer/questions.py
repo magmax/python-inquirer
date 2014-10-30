@@ -4,6 +4,21 @@ import json
 from . import errors
 
 
+def question_factory(kind, *args, **kwargs):
+    for clazz in (Text, Password, Confirm, List, Checkbox):
+        if clazz.kind == kind:
+            return clazz(*args, **kwargs)
+    raise errors.UnknownQuestionTypeError()
+
+
+def load_from_dict(question_dict):
+    return question_factory(**question_dict)
+
+
+def load_from_json(question_json):
+    return question_factory(**json.loads(question_json))
+
+
 class Question(object):
     kind = 'base question'
 
@@ -21,28 +36,6 @@ class Question(object):
         self._ignore = ignore
         self._validate = validate
         self.answers = {}
-
-    @staticmethod
-    def factory(kind, *args, **kwargs):
-        if kind == 'text':
-            return Text(*args, **kwargs)
-        if kind == 'password':
-            return Password(*args, **kwargs)
-        if kind == 'confirm':
-            return Confirm(*args, **kwargs)
-        if kind == 'list':
-            return List(*args, **kwargs)
-        if kind == 'checkbox':
-            return Checkbox(*args, **kwargs)
-        raise errors.UnknownQuestionTypeError()
-
-    @staticmethod
-    def load_from_dict(question_dict):
-        return Question.factory(**question_dict)
-
-    @staticmethod
-    def load_from_json(question_json):
-        return Question.factory(**json.loads(question_json))
 
     @property
     def ignore(self):
