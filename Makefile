@@ -17,7 +17,7 @@ coveralls::
 
 publish::
 	@python setup.py sdist bdist_wheel upload
-	@python -m releaseme --git --file innquirer/__init__.py
+	@python -m releaseme --git --file inquirer/__init__.py
 
 run_unit_tests::
 	@echo Running Tests...
