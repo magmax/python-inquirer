@@ -1,6 +1,22 @@
 # -*- coding: utf-8 -*-
+import json
 
 from . import errors
+
+
+def question_factory(kind, *args, **kwargs):
+    for clazz in (Text, Password, Confirm, List, Checkbox):
+        if clazz.kind == kind:
+            return clazz(*args, **kwargs)
+    raise errors.UnknownQuestionTypeError()
+
+
+def load_from_dict(question_dict):
+    return question_factory(**question_dict)
+
+
+def load_from_json(question_json):
+    return question_factory(**json.loads(question_json))
 
 
 class Question(object):

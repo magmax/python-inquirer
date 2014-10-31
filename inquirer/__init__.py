@@ -4,8 +4,10 @@ __version__ = '2.0.1'
 
 try:
     from .prompt import prompt
-    from .questions import Text, Password, Confirm, List, Checkbox
+    from .questions import Text, Password, Confirm, List, Checkbox, \
+        load_from_dict, load_from_json
 
-    __all__ = ['prompt', 'Text', 'Password', 'Confirm', 'List', 'Checkbox']
+    __all__ = ['prompt', 'Text', 'Password', 'Confirm', 'List', 'Checkbox',
+               'load_from_dict', 'load_from_json']
 except ImportError as e:
     print("An error was found, but returning just with the version: %s" % e)
