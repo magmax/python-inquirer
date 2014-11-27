@@ -22,10 +22,6 @@ class ConsoleRender(object):
         self._previous_error = None
         self._position = 0
 
-    def reset(self):
-        print(self.terminal.move(0, 0) + self.terminal.clear_eos())
-        self._position = 1
-
     def render(self, question, answers=None):
         question.answers = answers or {}
 
@@ -100,14 +96,14 @@ class ConsoleRender(object):
                                                 q=render.question.name))
 
     def _relocate(self):
-        print(self._position * self.terminal.move_up)
-        self._position = 1
+        print(self._position * self.terminal.move_up, end='')
+        self._position = 0
 
     def _go_to_end(self, render):
         positions = len(list(render.get_options())) - self._position
         if positions > 0:
-            print(self._position * self.terminal.move_down)
-        self._position = 1
+            print(self._position * self.terminal.move_down, end='')
+        self._position = 0
 
     def _force_initial_column(self):
         self.print_str(self.terminal.move_x(0))
