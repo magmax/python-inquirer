@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
+import subprocess
+from setuptools import setup, find_packages, Command
 from inquirer import __version__
 
 
@@ -9,10 +10,25 @@ def read_description():
         return fd.read()
 
 
+class PyTest(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import sys,subprocess
+        errno = subprocess.call([sys.executable, 'runtests.py'])
+        raise SystemExit(errno)
+
+
 setup(name='inquirer',
       version=__version__,
       description="Collection of common interactive command line user interfaces, based on Inquirer.js",
       long_description=read_description(),
+      cmdclass = {'test': PyTest},
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Programming Language :: Python :: 2.6',

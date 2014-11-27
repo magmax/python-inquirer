@@ -7,11 +7,11 @@ from blessings import Terminal
 from inquirer import errors
 from inquirer import events
 
-from .text import Text
-from .password import Password
-from .confirm import Confirm
-from .list import List
-from .checkbox import Checkbox
+from ._text import Text
+from ._password import Password
+from ._confirm import Confirm
+from ._list import List
+from ._checkbox import Checkbox
 
 
 class ConsoleRender(object):
@@ -56,6 +56,7 @@ class ConsoleRender(object):
                 self._process_input(render)
                 self._force_initial_column()
         except errors.EndOfInput as e:
+            self._go_to_end(render)
             return e.selection
 
     def _print_status_bar(self, render):
@@ -100,6 +101,12 @@ class ConsoleRender(object):
 
     def _relocate(self):
         print(self._position * self.terminal.move_up)
+        self._position = 1
+
+    def _go_to_end(self, render):
+        positions = len(list(render.get_options())) - self._position
+        if positions > 0:
+            print(self._position * self.terminal.move_down)
         self._position = 1
 
     def _force_initial_column(self):
