@@ -38,6 +38,12 @@ Usage example:
 
   answers = inquirer.prompt(questions)
 
+Changelog
+---------
+
+It is maintained in the separated file `changes.rst`_
+
+
 Examples
 --------
 
@@ -266,3 +272,5 @@ Licensed under `the MIT license`_.
 .. _@magmax9: https://twitter.com/magmax9
 
 .. _the MIT license: http://opensource.org/licenses/MIT
+
+.. _changes.rst: https://github.com/magmax/python-inquirer/blob/master/changes.rst
