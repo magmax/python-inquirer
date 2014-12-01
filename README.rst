@@ -53,21 +53,21 @@ The main object is ``Question``, but it should not be
 instantiated. You must use any of the subclasses, listed below. All of
 them have the next attributes that can be set in the initialization:
 
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Attribute** | **Type**      | **Explanation**                                                                                                                                   |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| name          | String        | The key in the hash of answers.                                                                                                                   |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| message       | String|Func   | To be shown in the prompt to the user. Functions will receive the hash with previous values.                                                      |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| default       | Any|Function  | Default value. Functions will receive the hash with previous values.                                                                              |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| choices       | List|Function | List of available options. Functions will receive the hash with previous values.                                                                  |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| validate      | Bool|Function | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| ignore        | Bool|Function | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
-+---------------+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Attribute** | **Type**        | **Explanation**                                                                                                                                   |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| name          | String          | The key in the hash of answers.                                                                                                                   |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| message       | String|Function | To be shown in the prompt to the user. Functions will receive the hash with previous values.                                                      |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| default       | Any|Function    | Default value. Functions will receive the hash with previous values.                                                                              |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| choices       | List|Function   | List of available options. Functions will receive the hash with previous values.                                                                  |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| validate      | Bool|Function   | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+| ignore        | Bool|Function   | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
++---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 Prompt types
@@ -178,6 +178,28 @@ Advanced usage
 ==============
 
 Some tips:
+
+
+Instantiate from JSON
+---------------------
+
+From version 2.0.2, you can instantiate from JSON strings:
+
+.. code:: python
+
+  import inquirer
+  json = """[
+    {"name": "name", "kind": "text", "message"="What's your name?"},
+    {"name": "surname", "kind": "text", "message"="{name}, what's your surname?"},
+    {"name": "alias", "kind": "text", "message"="What's your Alias", "default"="{name}"}
+  ]"""
+  questions = [inquirer.load_from_json(q) for q in json]
+  answers = inquirer.prompt(questions)
+
+As you can see, it is mandatory to add the :code:`name` and :code:`kind` fields. The rest of fields are the same that was documented.
+
+The JSON version has a problem: As you can imagine, it is not possible to use functions anywhere.
+
 
 Reusing previous answers
 ------------------------
