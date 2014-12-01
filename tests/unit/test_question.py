@@ -202,6 +202,17 @@ class BaseQuestionTests(unittest.TestCase):
         with self.assertRaises(errors.UnknownQuestionTypeError):
             questions.question_factory('bad', name)
 
+    def test_load_from_json_list(self):
+        name = 'foo'
+        result = questions.load_from_json(
+            '[{"kind": "text", "name": "%s"}]' % name)
+
+        self.assertIsInstance(result, list)
+        self.assertEquals(1, len(result))
+        self.assertEquals('text', result[0].kind)
+        self.assertIsInstance(result[0], questions.Text)
+        self.assertEquals(name, result[0].name)
+
 
 class TestConfirmQuestion(unittest.TestCase):
     def test_default_default_value_is_false_instead_of_none(self):

@@ -12,11 +12,40 @@ def question_factory(kind, *args, **kwargs):
 
 
 def load_from_dict(question_dict):
+    """
+    Load one question from a dict.
+    It requires the keys 'name' and 'kind'.
+    :return: The Question object with associated data.
+    :return type: Question
+    """
     return question_factory(**question_dict)
 
 
+def load_from_list(question_list):
+    """
+    Load a list of questions from a list of dicts.
+    It requires the keys 'name' and 'kind' for each dict.
+    :return: A list of Question objects with associated data.
+    :return type: List
+    """
+    return [load_from_dict(q) for q in question_list]
+
+
 def load_from_json(question_json):
-    return question_factory(**json.loads(question_json))
+    """
+    Load Questions from a JSON string.
+    :return: A list of Question objects with associated data if the JSON
+             contains a list or a Question if the JSON contains a dict.
+    :return type: List or Dict
+    """
+    data = json.loads(question_json)
+    if isinstance(data, list):
+        return load_from_list(data)
+    if isinstance(data, dict):
+        return load_from_dict(data)
+    raise TypeError(
+        'Json contained a %s variable when a dict or list was expected',
+        type(data))
 
 
 class Question(object):

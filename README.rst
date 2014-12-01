@@ -206,6 +206,20 @@ As you can see, it is mandatory to add the :code:`name` and :code:`kind` fields.
 
 The JSON version has a problem: As you can imagine, it is not possible to use functions anywhere.
 
+There is a shortcut from version 2.0.3 to load lists of questions, because it is supported from :code:`load_from_json` directly:
+
+.. code:: python
+
+  import inquirer
+  json = """[
+    {"name": "name", "kind": "text", "message"="What's your name?"},
+    {"name": "surname", "kind": "text", "message"="{name}, what's your surname?"},
+    {"name": "alias", "kind": "text", "message"="What's your Alias", "default"="{name}"}
+  ]"""
+  questions = inquirer.load_from_json(json)
+  answers = inquirer.prompt(questions)
+
+
 
 Reusing previous answers
 ------------------------
