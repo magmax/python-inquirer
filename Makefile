@@ -8,6 +8,10 @@ acceptance_test:: run_acceptance_tests
 
 analysis:: flakes
 
+doc:
+	sphinx-apidoc inquirer -o docs/source -f
+	python setup.py build_sphinx
+
 flakes:
 	@echo Searching for static errors...
 	@flake8 --statistics --count  inquirer tests
