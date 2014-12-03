@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module that implements the questions types 
+Module that implements the questions types
 """
 
 import json
