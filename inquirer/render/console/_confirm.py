@@ -8,7 +8,6 @@ from .base import BaseConsoleRender
 class Confirm(BaseConsoleRender):
     title_inline = True
 
-
     def get_header(self):
         confirm = '(Y/n)' if self.question.default else '(y/N)'
         return ('{msg} {c}'
@@ -25,4 +24,3 @@ class Confirm(BaseConsoleRender):
         if pressed in 'nN':
             print(pressed)
             raise errors.EndOfInput(False)
-

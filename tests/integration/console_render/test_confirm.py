@@ -117,7 +117,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('(Y/n)')
 
     def test_invalid_answer(self):
-        stdin = helper.event_factory('a', 'N')
+        stdin = helper.event_factory('Z', 'Z', 'Z', 'Y')
         message = 'Foo message'
         variable = 'Bar variable'
 
@@ -126,5 +126,8 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
                                      default=True)
 
         sut = ConsoleRender(event_generator=stdin)
-        with self.assertRaises(errors.ValidationError):
-            sut.render(question)
+        result = sut.render(question)
+
+        self.assertNotInStdout('Z')
+        self.assertTrue(result)
+
