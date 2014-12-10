@@ -46,8 +46,6 @@ class ConsoleRender(object):
 
                 self._print_header(render)
                 self._print_options(render)
-                if render.title_inline:
-                    print('')
 
                 self._process_input(render)
                 self._force_initial_column()
@@ -67,7 +65,6 @@ class ConsoleRender(object):
         for message, symbol, color in render.get_options():
             self.print_line(' {color}{s} {m}{t.normal}',
                             m=message, color=color, s=symbol)
-            self._position += 1
 
     def _print_header(self, render):
         base = self.terminal.clear_eol() + render.get_header()
@@ -79,7 +76,6 @@ class ConsoleRender(object):
         self.print_str('[{t.yellow}?{t.normal}] {msg}',
                        msg=header,
                        lf=not render.title_inline)
-        self._position += 1
 
     def _process_input(self, render):
         try:
@@ -97,6 +93,7 @@ class ConsoleRender(object):
 
     def _relocate(self):
         print(self._position * self.terminal.move_up, end='')
+        self._force_initial_column()
         self._position = 0
 
     def _go_to_end(self, render):
@@ -106,7 +103,7 @@ class ConsoleRender(object):
         self._position = 0
 
     def _force_initial_column(self):
-        self.print_str(self.terminal.move_x(0))
+        self.print_str(self.width * self.terminal.move_left)
 
     def render_error(self, message):
         if message:
@@ -149,6 +146,9 @@ class ConsoleRender(object):
         self.print_str(base + self.terminal.clear_eol(), lf=lf, **kwargs)
 
     def print_str(self, base, lf=False, **kwargs):
+        if lf:
+            self._position += 1
+
         print(base.format(t=self.terminal, **kwargs), end='\n' if lf else '')
         sys.stdout.flush()
 
