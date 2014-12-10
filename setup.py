@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import subprocess
 from setuptools import setup, find_packages, Command
 from inquirer import __version__
@@ -20,6 +21,8 @@ class PyTest(Command):
 
     def run(self):
         import sys,subprocess
+        if not os.path.exists('runtests.py'):
+            subprocess.call(['py.test', '--genscript=runtests.py'])
         errno = subprocess.call([sys.executable, 'runtests.py'])
         raise SystemExit(errno)
 
