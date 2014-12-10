@@ -5,7 +5,6 @@ from . import helper
 from readchar import key
 
 from inquirer.render import ConsoleRender
-from inquirer import errors
 
 
 class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
@@ -130,4 +129,3 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertNotInStdout('Z')
         self.assertTrue(result)
-
