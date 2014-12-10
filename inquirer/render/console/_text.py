@@ -12,14 +12,6 @@ class Text(BaseConsoleRender):
         super(Text, self).__init__(*args, **kwargs)
         self.current = self.question.default or ''
 
-    def get_message(self, question):
-        if question.default:
-            template = '{msg} ({default})'
-        else:
-            template = '{msg}'
-        return (template.format(msg=question.message,
-                                default=question.default or ''))
-
     def get_current_value(self):
         return self.current
 
