@@ -12,6 +12,7 @@ Features
 Bugs
 ~~~~
 
+* `#6`_ Removed new line after questions
 
 2.0.2
 -----
@@ -55,3 +56,4 @@ Features
 .. _#1: https://github.com/magmax/python-inquirer/issues/1
 .. _#4: https://github.com/magmax/python-inquirer/issues/4
 .. _#5: https://github.com/magmax/python-inquirer/issues/5
+.. _#6: https://github.com/magmax/python-inquirer/issues/6

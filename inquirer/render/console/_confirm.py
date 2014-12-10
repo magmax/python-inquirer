@@ -8,6 +8,7 @@ from .base import BaseConsoleRender
 class Confirm(BaseConsoleRender):
     title_inline = True
 
+
     def get_header(self):
         confirm = '(Y/n)' if self.question.default else '(y/N)'
         return ('{msg} {c}'
@@ -18,10 +19,10 @@ class Confirm(BaseConsoleRender):
         if pressed.lower() == key.ENTER:
             raise errors.EndOfInput(self.question.default)
 
-        print(pressed)
-
         if pressed in 'yY':
+            print(pressed)
             raise errors.EndOfInput(True)
         if pressed in 'nN':
+            print(pressed)
             raise errors.EndOfInput(False)
-        raise errors.ValidationError(pressed)
+
