@@ -1,0 +1,2 @@
+sphinx
+sphinx-bootstrap-theme
