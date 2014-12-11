@@ -13,78 +13,19 @@ Born as a `Inquirer.js`_ clone, it shares part of the goals and philosophy.
 
 So, **Inquirer** should ease the process of asking end user **questions**, **parsing**, **validating** answers, managing **hierarchical prompts** and providing **error feedback**.
 
+You can `download the python-inquirer code from GitHub`_ or `download the wheel from Pypi`_.
+
 
 Documentation
 =============
 
-Installation
-------------
+Documentation has been moved to `ReadTheDocs`_.
 
-::
+But here you have a couple of usage examples:
 
-   pip install inquirer
-
-Usage example:
-
-.. code:: python
-
-  import inquirer
-
-  questions = [
-    inquirer.Text    ('name',     message="What's your name"),
-    inquirer.Password('password', message="Add a password"),
-    inquirer.Confirm ('correct',  message="Is correct"),
-  ]
-
-  answers = inquirer.prompt(questions)
-
-Changelog
----------
-
-It is maintained in the separated file `changes.rst`_
-
-
-Examples
---------
-
-The `examples/`_ directory contains several examples. Feel free to run them::
-
-  python examples/text.py
-
-
-Objects
--------
-
-The main object is ``Question``, but it should not be
-instantiated. You must use any of the subclasses, listed below. All of
-them have the next attributes that can be set in the initialization:
-
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Attribute** | **Type**        | **Explanation**                                                                                                                                   |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| name          | String          | The key in the hash of answers.                                                                                                                   |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| message       | String|Function | To be shown in the prompt to the user. Functions will receive the hash with previous values.                                                      |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| default       | Any|Function    | Default value. Functions will receive the hash with previous values.                                                                              |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| choices       | List|Function   | List of available options. Functions will receive the hash with previous values.                                                                  |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| validate      | Bool|Function   | If the value set is valid. Functions will receive the hash with previous values and the value set in this question, and should return a boolean.  |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| ignore        | Bool|Function   | If the quiestion should be shown. Functions will receive the hash with previous values and should return a boolean.                               |
-+---------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-
-
-Prompt types
-============
 
 Text
 ----
-
-``choices`` argument is not used.
-
-Example:
 
 .. code:: python
 
@@ -101,39 +42,6 @@ Example:
 |inquirer text|
 
 
-Password
---------
-
-``choices`` argument is not used.
-
-Example:
-
-.. code:: python
-
-  import inquirer
-  questions = [
-    inquirer.Password('password', message="What's your password"),
-  ]
-  answers = inquirer.prompt(questions)
-
-
-Confirm
--------
-
-``choices`` argument is not used.
-
-Example:
-
-.. code:: python
-
-  import inquirer
-  questions = [
-    inquirer.Confirm('continue', message="Should I continue"),
-    inquirer.Confirm('stop', message="Should I stop", default=True),
-  ]
-  answers = inquirer.prompt(questions)
-
-|inquirer confirm|
 
 
 List
@@ -179,68 +87,6 @@ Example:
 
 |inquirer checkbox|
 
-
-Advanced usage
-==============
-
-Some tips:
-
-
-Instantiate from JSON
----------------------
-
-From version 2.0.2, you can instantiate from JSON strings:
-
-.. code:: python
-
-  import inquirer
-  json = """[
-    {"name": "name", "kind": "text", "message"="What's your name?"},
-    {"name": "surname", "kind": "text", "message"="{name}, what's your surname?"},
-    {"name": "alias", "kind": "text", "message"="What's your Alias", "default"="{name}"}
-  ]"""
-  questions = [inquirer.load_from_json(q) for q in json]
-  answers = inquirer.prompt(questions)
-
-As you can see, it is mandatory to add the :code:`name` and :code:`kind` fields. The rest of fields are the same that was documented.
-
-The JSON version has a problem: As you can imagine, it is not possible to use functions anywhere.
-
-There is a shortcut from version 2.0.3 to load lists of questions, because it is supported from :code:`load_from_json` directly:
-
-.. code:: python
-
-  import inquirer
-  json = """[
-    {"name": "name", "kind": "text", "message"="What's your name?"},
-    {"name": "surname", "kind": "text", "message"="{name}, what's your surname?"},
-    {"name": "alias", "kind": "text", "message"="What's your Alias", "default"="{name}"}
-  ]"""
-  questions = inquirer.load_from_json(json)
-  answers = inquirer.prompt(questions)
-
-
-
-Reusing previous answers
-------------------------
-
-Every ``String`` argument but ``name`` can use any previous answer just putting it in roots:
-
-.. code:: python
-
-
-  import inquirer
-  questions = [
-    inquirer.Text('name', message="What's your name?"),
-    inquirer.Text('surname', message="{name}, what's your surname?"),
-    inquirer.Text('alias', message="What's your Alias"
-      default="{name}"),
-  ]
-  answers = inquirer.prompt(questions)
-
-
-
-
 License
 =======
 
@@ -265,22 +111,22 @@ Licensed under `the MIT license`_.
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Number of PyPI downloads
 
-.. |inquirer text| image:: http://magmax.org/images/inquirer/inquirer_text.png
+.. |inquirer text| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_text.png
   :alt: Example of Text Question
 
-.. |inquirer confirm| image:: http://magmax.org/images/inquirer/inquirer_confirm.png
-  :alt: Example of Confirm Question
-
-.. |inquirer list| image:: http://magmax.org/images/inquirer/inquirer_list.png
+.. |inquirer list| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_list.png
   :alt: Example of List Question
 
-.. |inquirer checkbox| image:: http://magmax.org/images/inquirer/inquirer_checkbox.png
+.. |inquirer checkbox| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_checkbox.png
   :alt: Example of Checkbox Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _Travis: https://travis-ci.org/magmax/python-inquirer
 .. _Coveralls: https://coveralls.io/r/magmax/python-inquirer
 .. _examples/: https://github.com/magmax/python-inquirer/tree/master/examples
+.. _ReadTheDocs: http://python-inquirer.readthedocs.org/
+.. _`download the python-inquirer code from GitHub`: https://github.com/magmax/python-inquirer
+.. _`download the wheel from Pypi`: https://pypi.python.org/pypi/inquirer
 
 .. _@vaxilart: https://twitter.com/vaxilart
 .. _@magmax9: https://twitter.com/magmax9

@@ -13,6 +13,7 @@ Born as a `Inquirer.js`_ clone, it shares part of the goals and philosophy.
 
 So, **Inquirer** should ease the process of asking end user **questions**, **parsing**, **validating** answers, managing **hierarchical prompts** and providing **error feedback**.
 
+You can `download the code from GitHub`.
 
 Contents
 ========
@@ -24,6 +25,7 @@ Contents
    usage
    examples
    changes
+   license
    modules
 
 
@@ -35,3 +37,4 @@ Indices and tables
 * :ref:`search`
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
+.. _download the code from GitHub: https://github.com/magmax/python-inquirer
