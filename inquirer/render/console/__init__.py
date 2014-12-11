@@ -103,7 +103,7 @@ class ConsoleRender(object):
         self._position = 0
 
     def _force_initial_column(self):
-        self.print_str(self.width * self.terminal.move_left)
+        self.print_str('\r')
 
     def render_error(self, message):
         if message:
