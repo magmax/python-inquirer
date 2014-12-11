@@ -67,7 +67,12 @@ class ConsoleRender(object):
                             m=message, color=color, s=symbol)
 
     def _print_header(self, render):
-        base = self.terminal.clear_eol() + render.get_header()
+        base = (
+            '\n'
+            + self.terminal.move_up
+            + self.terminal.clear_eol()
+            + render.get_header()
+        )
 
         header = (base[:self.width - 9] + '...'
                   if len(base) > self.width - 6
