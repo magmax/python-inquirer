@@ -17,7 +17,8 @@ class ListTest(unittest.TestCase):
         self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)
+        self.sut.expect(
+            "{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)
 
     def test_select_one_more(self):
         self.sut.send(key.DOWN)
@@ -26,7 +27,10 @@ class ListTest(unittest.TestCase):
         self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*", timeout=1)
+        self.sut.expect(
+            "{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",
+            timeout=1
+        )
 
     def test_unselect(self):
         self.sut.send(key.SPACE)
@@ -39,7 +43,10 @@ class ListTest(unittest.TestCase):
         self.sut.send(key.DOWN)
         self.sut.send(key.RIGHT)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)
+        self.sut.expect(
+            "{'interests': \['Computers', 'Books', 'Science'\]}.*",
+            timeout=1
+        )
 
     def test_unselect_with_arrows(self):
         self.sut.send(key.DOWN)
@@ -52,4 +59,7 @@ class ListTest(unittest.TestCase):
             self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)
+        self.sut.expect(
+            "{'interests': \['Computers', 'Books', 'History'\]}.*",
+            timeout=1
+        )
