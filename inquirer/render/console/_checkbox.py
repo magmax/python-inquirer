@@ -9,6 +9,11 @@ class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super(Checkbox, self).__init__(*args, **kwargs)
         self.selection = []
+        if self.question.default:
+            for d in self.question.default:
+                index = self.question.choices.index(d)
+                if index != -1:
+                    self.selection.append(index)
         self.current = 0
 
     def get_options(self):
