@@ -8,12 +8,8 @@ from inquirer import errors
 class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super(Checkbox, self).__init__(*args, **kwargs)
-        self.selection = []
-        if self.question.default:
-            for d in self.question.default:
-                index = self.question.choices.index(d)
-                if index != -1:
-                    self.selection.append(index)
+        self.selection = [k for (k,v) in enumerate(self.question.choices)
+                          if v in (self.question.default or [])]
         self.current = 0
 
     def get_options(self):
