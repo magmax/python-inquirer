@@ -87,7 +87,9 @@ As in ``message` , you can use a new format string or a function with the sign:
 
           def get_default(answers): return str()
 
-Where ``answeres`` is a ``dict`` containing all previous answers.
+Where ``answers`` is a ``dict`` containing all previous answers.
+
+Remember that it should be an array for `Checkbox` questions.
 
 
 choices

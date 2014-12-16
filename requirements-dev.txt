@@ -4,6 +4,7 @@ pexpect >= 3.3
 
 pytest >= 2.6.3
 pytest-cov >= 1.8.0
+pytest-xdist >= 1.10
 nosexcover >= 1.0.10
 
 python-coveralls >= 2.4.2

@@ -1,9 +1,16 @@
 Changelog
 =========
 
-2.1.2 (Unreleased)
+2.1.3 (Unreleased)
 ------------------
 
+2.1.2 (2014/12/16)
+------------------
+
+Features
+~~~~~~~~
+
+* `#7`_ Adding default values for `Checkbox`, by ptbrowne_
 
 
 2.1.1 (2014/12/11)
@@ -56,7 +63,7 @@ Features
 * `#4`_: Instantiate from JSON
 
   * Internal refactors
-  * added load_from_dict and load_from_json factories
+  * added load_from_dict and load_from_json factories, by mfwarren_
 
 
 2.0.0 (2014/10/19)
@@ -67,12 +74,34 @@ Features
 
 * Complete refactor of :code:`Question`, :code:`ConsoleRender` and the way it was rendered with :code:`blessings` library.
 
+1.X.X
+-----
+
+Special thanks to matiboy_ by his contributions to these releases.
+
+
+Hall Of Fame
+============
+
+Contributors:
+
+* matiboy_
+* mfwarren_
+* ptbrowne_
+
 
 .. _pytest: http://pytest.org/
 .. _nose: https://nose.readthedocs.org/
 .. _ReadTheDocs: https://python-inquirer.readthedocs.org/
 
 .. _#1: https://github.com/magmax/python-inquirer/issues/1
-.. _#4: https://github.com/magmax/python-inquirer/issues/4
+.. _#4: https://github.com/magmax/python-inquirer/pull/2
+.. _#4: https://github.com/magmax/python-inquirer/pull/3
+.. _#4: https://github.com/magmax/python-inquirer/pull/4
 .. _#5: https://github.com/magmax/python-inquirer/issues/5
 .. _#6: https://github.com/magmax/python-inquirer/issues/6
+.. _#7: https://github.com/magmax/python-inquirer/pull/7
+
+.. _ptbrowne: https://github.com/ptbrowne
+.. _mfwarren: https://github.com/mfwarren
+.. _matiboy: https://github.com/matiboy
