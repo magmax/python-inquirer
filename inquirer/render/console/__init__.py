@@ -67,20 +67,16 @@ class ConsoleRender(object):
                             m=message, color=color, s=symbol)
 
     def _print_header(self, render):
-        base = (
-            '\n'
-            + self.terminal.move_up
-            + self.terminal.clear_eol()
-            + render.get_header()
-        )
+        base = render.get_header()
 
         header = (base[:self.width - 9] + '...'
                   if len(base) > self.width - 6
                   else base)
         header += ': {c}'.format(c=render.get_current_value())
-        self.print_str('[{t.yellow}?{t.normal}] {msg}',
-                       msg=header,
-                       lf=not render.title_inline)
+        self.print_str(
+            '\n{t.move_up}{t.clear_eol}[{t.yellow}?{t.normal}] {msg}',
+            msg=header,
+            lf=not render.title_inline)
 
     def _process_input(self, render):
         try:
