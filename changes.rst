@@ -1,8 +1,13 @@
 Changelog
 =========
 
-2.1.3 (Unreleased)
+2.1.3 (2014/12/27)
 ------------------
+
+Bugs
+~~~~
+
+* The `Question` start was not shown.
 
 2.1.2 (2014/12/16)
 ------------------
