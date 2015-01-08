@@ -11,6 +11,27 @@ def read_description():
         return fd.read()
 
 
+class PyTest(TestCommand):
+    user_options = [
+        ('pytest-args=', 'a', "Arguments to pass to py.test"),
+    ]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.pytest_args or ['--cov-report=term-missing'])
+        sys.exit(errno)
+
+
 class PyTest(Command):
     user_options = []
     def initialize_options(self):
@@ -54,6 +75,7 @@ setup(name='inquirer',
       packages=find_packages(exclude=['tests']),
       include_package_data=True,
       zip_safe=False,
+      cmdclass={'test': PyTest},
       install_requires=[
           'blessings >= 1.5.1',
           'readchar >= 0.7',
