@@ -3,6 +3,7 @@
 import os
 import subprocess
 from setuptools import setup, find_packages, Command
+from setuptools.command.test import test as TestCommand
 from inquirer import __version__
 
 
@@ -75,9 +76,8 @@ setup(name='inquirer',
       packages=find_packages(exclude=['tests']),
       include_package_data=True,
       zip_safe=False,
-      cmdclass={'test': PyTest},
       install_requires=[
           'blessings >= 1.5.1',
-          'readchar >= 0.7',
+          'readchar == 0.7',
       ],
       )
