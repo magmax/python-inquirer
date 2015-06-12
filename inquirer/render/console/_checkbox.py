@@ -47,7 +47,10 @@ class Checkbox(BaseConsoleRender):
             if self.current not in self.selection:
                 self.selection.append(self.current)
         elif pressed == key.ENTER:
-            raise errors.EndOfInput([self.question.choices[x]
-                                     for x in self.selection])
+            result = []
+            for x in self.selection:
+                value = self.question.choices[x]
+                result.append(getattr(value, 'value', value))
+            raise errors.EndOfInput(result)
         elif pressed == key.CTRL_C:
             raise KeyboardInterrupt()

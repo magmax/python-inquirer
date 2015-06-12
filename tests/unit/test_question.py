@@ -93,7 +93,7 @@ class BaseQuestionTests(unittest.TestCase):
 
     def test_setting_choices_value(self):
         name = 'foo'
-        expected = (object(), )
+        expected = [object(), ]
         q = questions.Question(name, choices=expected)
 
         self.assertEqual(expected, q.choices)

@@ -30,3 +30,13 @@ class ListTest(unittest.TestCase):
             self.sut.expect('Micro.*', timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Micro'}.*", timeout=1)
+
+
+class ListTaggedTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn('python examples/list_tagged.py')
+        self.sut.expect('Micro.*', timeout=1)
+
+    def test_default_input(self):
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'xxl'}.*", timeout=1)

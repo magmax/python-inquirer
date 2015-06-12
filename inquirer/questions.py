@@ -52,6 +52,23 @@ def load_from_json(question_json):
         type(data))
 
 
+class TaggedValue(object):
+    def __init__(self, label, value):
+        self.label = label
+        self.value = value
+
+    def __str__(self):
+        return self.label
+
+    def __repr__(self):
+        return self.value
+
+    def __cmp__(self, other):
+        if isinstance(other, TaggedValue):
+            return self.value != other.value
+        return self.value != other
+
+
 class Question(object):
     kind = 'base question'
 
@@ -83,8 +100,17 @@ class Question(object):
         return self._solve(self._default)
 
     @property
+    def choices_generator(self):
+        for choice in self._solve(self._choices):
+            yield (
+                TaggedValue(*choice)
+                if isinstance(choice, tuple) and len(choice) == 2
+                else choice
+            )
+
+    @property
     def choices(self):
-        return self._solve(self._choices)
+        return list(self.choices_generator)
 
     def validate(self, current):
         try:

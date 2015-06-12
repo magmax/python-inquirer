@@ -3,7 +3,7 @@ import pexpect
 from readchar import key
 
 
-class ListTest(unittest.TestCase):
+class CheckTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn('python examples/checkbox.py')
         self.sut.expect('History.*', timeout=1)
@@ -63,3 +63,13 @@ class ListTest(unittest.TestCase):
             "{'interests': \['Computers', 'Books', 'History'\]}.*",
             timeout=1
         )
+
+
+class CheckWithTaggedValuesTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn('python examples/checkbox_tagged.py')
+        self.sut.expect('History.*', timeout=1)
+
+    def test_default_selection(self):
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'interests': ", timeout=1)

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
-import subprocess
-from setuptools import setup, find_packages, Command
+import sys
+from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 from inquirer import __version__
 
@@ -33,27 +32,14 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-class PyTest(Command):
-    user_options = []
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import sys,subprocess
-        if not os.path.exists('runtests.py'):
-            subprocess.call(['py.test', '--genscript=runtests.py'])
-        errno = subprocess.call([sys.executable, 'runtests.py'])
-        raise SystemExit(errno)
-
-
 setup(name='inquirer',
       version=__version__,
-      description="Collection of common interactive command line user interfaces, based on Inquirer.js",
+      description=(
+          "Collection of common interactive command line user interfaces,"
+          " based on Inquirer.js"
+      ),
       long_description=read_description(),
-      cmdclass = {'test': PyTest},
+      cmdclass={'test': PyTest},
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Programming Language :: Python :: 2.6',
@@ -66,7 +52,8 @@ setup(name='inquirer',
           'License :: OSI Approved :: MIT License',
           'Operating System :: OS Independent',
           'Topic :: Software Development :: User Interfaces',
-          'Topic :: Software Development :: Libraries :: Application Frameworks',
+          'Topic :: Software Development :: '
+          'Libraries :: Application Frameworks',
       ],
       keywords='color terminal',
       author='Miguel Ángel García',

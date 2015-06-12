@@ -99,11 +99,13 @@ choices
 
 It contains the list of selectable answers.
 
-Its value can be a ``list`` of strings or new format style strings, or a `function` that returns that list, with the sign:
+Its value can be a ``list`` of strings, new format style strings or pairs(tuples) or a `function` that returns that list, with the sign:
 
 .. code:: python
 
           def get_choices(answers): return list(str())
+
+If any of the list values is a pair, it should be a tuple like: ``(label, value)``. Then the ``label`` will be shown but the ``value`` will be returned.
 
 As before, the ``answers`` is a `dict` containing the previous answers.
 
