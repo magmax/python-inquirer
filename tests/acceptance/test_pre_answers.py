@@ -2,6 +2,7 @@ import unittest
 import pexpect
 from readchar import key
 
+
 expected_result = r"""\
 {'correct': True,\r\n
  'organization': '',\r\n
@@ -9,6 +10,7 @@ expected_result = r"""\
  'repo': 'default',\r\n
  'topics': \['common'\],\r\n
  'user': 'abcde'}\r\n"""
+
 
 class PreAnswersTest(unittest.TestCase):
     def setUp(self):
