@@ -44,8 +44,7 @@ class BaseQuestionTests(unittest.TestCase):
 
     def test_ignore_function_receives_answers(self):
         name = 'foo'
-        method = lambda x: isinstance(x, dict)
-        q = questions.Question(name, ignore=method)
+        q = questions.Question(name, ignore=lambda x: isinstance(x, dict))
 
         self.assertTrue(q.ignore, "Method was not called with a dict instance")
 
