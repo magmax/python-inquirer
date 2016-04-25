@@ -97,7 +97,7 @@ class Question(object):
 
     @property
     def default(self):
-        return self._solve(self._default)
+        return self.answers.get(self.name) or self._solve(self._default)
 
     @property
     def choices_generator(self):
