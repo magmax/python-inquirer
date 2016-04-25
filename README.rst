@@ -1,8 +1,8 @@
-==============  ===============  =========  ============
-VERSION         DOWNLOADS        TESTS      COVERAGE
-==============  ===============  =========  ============
-|pip version|   |pip downloads|  |travis|   |coveralls|
-==============  ===============  =========  ============
+=========  ============
+TESTS      COVERAGE
+=========  ============
+|travis|   |coveralls|
+=========  ============
 
 Collection of common interactive command line user interfaces, based on `Inquirer.js`_.
 
