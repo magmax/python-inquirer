@@ -3,7 +3,8 @@
 from .render.console import ConsoleRender
 
 
-def prompt(questions, render=None, answers=None, raise_keyboard_interrupt=False):
+def prompt(questions, render=None, answers=None,
+           raise_keyboard_interrupt=False):
     render = render or ConsoleRender()
     answers = answers or {}
 
