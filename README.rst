@@ -107,44 +107,44 @@ Licensed under `the MIT license`_.
   :target: `Coveralls`_
   :alt: Coveralls results_
 
-.. |pip version| image:: https://img.shields.io/pypi/v/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip version| image:: https://img.shields.io/pypi/v/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Latest PyPI version
 
-.. |pip dm| image:: https://img.shields.io/pypi/dm/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip dm| image:: https://img.shields.io/pypi/dm/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Last month downloads from pypi
 
-.. |pip dw| image:: https://img.shields.io/pypi/dw/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip dw| image:: https://img.shields.io/pypi/dw/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Last week downloads from pypi
 
-.. |pip dd| image:: https://img.shields.io/pypi/dd/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip dd| image:: https://img.shields.io/pypi/dd/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Yesterday downloads from pypi
 
-.. |pip license| image:: https://img.shields.io/pypi/l/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip license| image:: https://img.shields.io/pypi/l/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: License
 
-.. |pip wheel| image:: https://img.shields.io/pypi/wheel/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip wheel| image:: https://img.shields.io/pypi/wheel/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Wheel
 
-.. |pip pyversions| image::  	https://img.shields.io/pypi/pyversions/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip pyversions| image::  	https://img.shields.io/pypi/pyversions/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Python versions
 
-.. |pip implem| image::  	https://img.shields.io/pypi/implementation/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |pip implem| image::  	https://img.shields.io/pypi/implementation/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Python interpreters
 
-.. |status| image::	https://img.shields.io/pypi/status/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |status| image::	https://img.shields.io/pypi/status/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Status
 
-.. |version| image:: https://img.shields.io/pypi/v/paratest.svg
-    :target: https://pypi.python.org/pypi/paratest
+.. |version| image:: https://img.shields.io/pypi/v/inquirer.svg
+    :target: https://pypi.python.org/pypi/inquirer
     :alt: Status
 
 
