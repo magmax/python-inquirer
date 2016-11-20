@@ -1,13 +1,21 @@
 Changelog
 =========
 
+2.1.11(2014/12/18)
+------------------
+
+Features
+~~~~~~~~
+
+* `#18`_ The ``Prompt`` shout raise ``KeyboardInterrupt`` if required.
+
 2.1.3 (2014/12/27)
 ------------------
 
 Bugs
 ~~~~
 
-* The `Question` start was not shown.
+* The ``Question`` start was not shown.
 
 2.1.2 (2014/12/16)
 ------------------
@@ -106,6 +114,7 @@ Contributors:
 .. _#5: https://github.com/magmax/python-inquirer/issues/5
 .. _#6: https://github.com/magmax/python-inquirer/issues/6
 .. _#7: https://github.com/magmax/python-inquirer/pull/7
+.. _#18: https://github.com/magmax/python-inquirer/issues/18
 
 .. _ptbrowne: https://github.com/ptbrowne
 .. _mfwarren: https://github.com/mfwarren

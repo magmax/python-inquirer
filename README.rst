@@ -1,8 +1,12 @@
-=========  ============
-TESTS      COVERAGE
-=========  ============
-|travis|   |coveralls|
-=========  ============
+====================  =================================================================================
+Tests                 |travis| |coveralls|
+--------------------  ---------------------------------------------------------------------------------
+Downloads             |pip dm| |pip dw| |pip dd|
+--------------------  ---------------------------------------------------------------------------------
+About                 |pip license| |pip wheel| |pip pyversions| |pip implem|
+--------------------  ---------------------------------------------------------------------------------
+Status                |version| |status|
+====================  =================================================================================
 
 Collection of common interactive command line user interfaces, based on `Inquirer.js`_.
 
@@ -103,13 +107,47 @@ Licensed under `the MIT license`_.
   :target: `Coveralls`_
   :alt: Coveralls results_
 
-.. |pip version| image:: https://pypip.in/v/inquirer/badge.png
-    :target: https://pypi.python.org/pypi/inquirer
+.. |pip version| image:: https://img.shields.io/pypi/v/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
     :alt: Latest PyPI version
 
-.. |pip downloads| image:: https://pypip.in/d/inquirer/badge.png
-    :target: https://pypi.python.org/pypi/inquirer
-    :alt: Number of PyPI downloads
+.. |pip dm| image:: https://img.shields.io/pypi/dm/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Last month downloads from pypi
+
+.. |pip dw| image:: https://img.shields.io/pypi/dw/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Last week downloads from pypi
+
+.. |pip dd| image:: https://img.shields.io/pypi/dd/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Yesterday downloads from pypi
+
+.. |pip license| image:: https://img.shields.io/pypi/l/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: License
+
+.. |pip wheel| image:: https://img.shields.io/pypi/wheel/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Wheel
+
+.. |pip pyversions| image::  	https://img.shields.io/pypi/pyversions/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Python versions
+
+.. |pip implem| image::  	https://img.shields.io/pypi/implementation/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Python interpreters
+
+.. |status| image::	https://img.shields.io/pypi/status/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Status
+
+.. |version| image:: https://img.shields.io/pypi/v/paratest.svg
+    :target: https://pypi.python.org/pypi/paratest
+    :alt: Status
+
+
 
 .. |inquirer text| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_text.png
   :alt: Example of Text Question
