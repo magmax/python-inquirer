@@ -69,12 +69,18 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertEqual('foo', result)
 
     def test_move_down_carousel(self):
-        stdin = helper.event_factory(key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.ENTER)
+        stdin = helper.event_factory(
+            key.DOWN, key.DOWN, key.DOWN, key.DOWN,
+            key.ENTER
+        )
         message = 'Foo message'
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        question = questions.List(variable, message, choices=choices, carousel=True)
+        question = questions.List(
+            variable, message, choices=choices,
+            carousel=True
+        )
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
@@ -87,7 +93,10 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         variable = 'Bar variable'
         choices = ['foo', 'bar', 'bazz']
 
-        question = questions.List(variable, message, choices=choices, carousel=True)
+        question = questions.List(
+            variable, message, choices=choices,
+            carousel=True
+        )
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)

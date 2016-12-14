@@ -155,7 +155,10 @@ class List(Question):
                  validate=True,
                  carousel=False):
 
-        super(List, self).__init__(name, message, choices, default, ignore, validate)
+        super(List, self).__init__(
+            name, message, choices,
+            default, ignore, validate
+        )
         self.carousel = carousel
 
 

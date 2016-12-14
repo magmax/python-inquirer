@@ -36,6 +36,8 @@ class ListCarouselTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn('python examples/list_carousel.py')
         self.sut.expect('Standard.*', timeout=1)
+        import sys
+        self.sut.logfile = sys.stdout
 
     def test_out_of_bounds_up(self):
         self.sut.send(key.UP)
@@ -46,7 +48,9 @@ class ListCarouselTest(unittest.TestCase):
     def test_out_of_bounds_down(self):
         for i in range(3):
             self.sut.send(key.DOWN)
-            self.sut.expect('Jumbo.*', timeout=1)
+            # Not looking at what we expect along the way,
+            # let the last "expect" check that we got the right result
+            self.sut.expect('>.*', timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
 
