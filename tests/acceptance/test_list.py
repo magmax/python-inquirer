@@ -32,6 +32,25 @@ class ListTest(unittest.TestCase):
         self.sut.expect("{'size': 'Micro'}.*", timeout=1)
 
 
+class ListCarouselTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn('python examples/list_carousel.py')
+        self.sut.expect('Standard.*', timeout=1)
+
+    def test_out_of_bounds_up(self):
+        self.sut.send(key.UP)
+        self.sut.expect('Standard.*', timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Standard'}.*", timeout=1)
+
+    def test_out_of_bounds_down(self):
+        for i in range(3):
+            self.sut.send(key.DOWN)
+            self.sut.expect('Jumbo.*', timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
+
+
 class ListTaggedTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn('python examples/list_tagged.py')

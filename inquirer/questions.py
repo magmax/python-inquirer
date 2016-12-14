@@ -146,6 +146,18 @@ class Confirm(Question):
 class List(Question):
     kind = 'list'
 
+    def __init__(self,
+                 name,
+                 message='',
+                 choices=None,
+                 default=None,
+                 ignore=False,
+                 validate=True,
+                 carousel=False):
+
+        super(List, self).__init__(name, message, choices, default, ignore, validate)
+        self.carousel = carousel
+
 
 class Checkbox(Question):
     kind = 'checkbox'
