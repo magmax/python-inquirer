@@ -9,3 +9,4 @@ coverage.xml
 dist/
 build/
 runtests.py
+.cache
