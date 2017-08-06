@@ -17,7 +17,7 @@ class List(BaseConsoleRender):
             selected = choice == choices[self.current]
 
             if selected:
-                color = self.terminal.blue
+                color = self.theme.choice_color
                 symbol = '>'
             else:
                 color = self.terminal.normal

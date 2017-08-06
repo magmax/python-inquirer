@@ -6,6 +6,7 @@ from blessings import Terminal
 
 from inquirer import errors
 from inquirer import events
+from inquirer import themes
 
 from ._text import Text
 from ._password import Password
@@ -13,14 +14,14 @@ from ._confirm import Confirm
 from ._list import List
 from ._checkbox import Checkbox
 
-
 class ConsoleRender(object):
-    def __init__(self, event_generator=None, *args, **kwargs):
+    def __init__(self, event_generator=None, theme=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
         self._event_gen = event_generator or events.KeyEventGenerator()
-        self.terminal = Terminal()
+        self.   terminal = Terminal()
         self._previous_error = None
         self._position = 0
+        self._theme = theme or themes.BasicTheme()
 
     def render(self, question, answers=None):
         question.answers = answers or {}
@@ -29,7 +30,8 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        render = clazz(question, self.terminal)
+        # TODO pass theme class
+        render = clazz(question, terminal=self.terminal, theme=self._theme)
 
         self.clear_eos()
 
@@ -72,11 +74,17 @@ class ConsoleRender(object):
         header = (base[:self.width - 9] + '...'
                   if len(base) > self.width - 6
                   else base)
-        header += ': {c}'.format(c=render.get_current_value())
+        header += ' ({c})'.format(c=render.question.default)
+        msg_template = '{t.move_up}{t.clear_eol}%(msg_prefix)s{t.normal} {msg}%(msg_postfix)s{t.normal}' % {
+            'msg_prefix': self._theme.question_message_prefix,
+            'msg_postfix': self._theme.question_message_postfix
+        }
+
         self.print_str(
-            '\n{t.move_up}{t.clear_eol}[{t.yellow}?{t.normal}] {msg}',
+            '\n%s %s' % (msg_template, render.current),
             msg=header,
-            lf=not render.title_inline)
+            lf=not render.title_inline,
+            theme=self._theme)
 
     def _process_input(self, render):
         try:
