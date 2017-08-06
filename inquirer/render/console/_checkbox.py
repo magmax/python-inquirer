@@ -16,15 +16,15 @@ class Checkbox(BaseConsoleRender):
         for n in range(len(self.question.choices)):
             choice = self.question.choices[n]
             if n in self.selection:
-                symbol = 'X'
-                color = self.terminal.yellow + self.terminal.bold
+                symbol = self.theme.Checkbox.selected_icon
+                color = self.theme.Checkbox.selected_color
             else:
-                symbol = 'o'
-                color = ''
+                symbol = self.theme.Checkbox.unselected_icon
+                color = self.theme.Checkbox.unselected_color
             selector = ' '
             if n == self.current:
-                selector = '>'
-                color = self.terminal.blue
+                selector = self.theme.Checkbox.selection_icon
+                color = self.theme.Checkbox.selection_color
             yield choice, selector + ' ' + symbol, color
 
     def process_input(self, pressed):
@@ -54,3 +54,6 @@ class Checkbox(BaseConsoleRender):
             raise errors.EndOfInput(result)
         elif pressed == key.CTRL_C:
             raise KeyboardInterrupt()
+
+    def get_current_value(self):
+        return ', '.join(self.question.choices[i] for i in self.selection)

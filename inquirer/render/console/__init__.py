@@ -18,7 +18,7 @@ class ConsoleRender(object):
     def __init__(self, event_generator=None, theme=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
         self._event_gen = event_generator or events.KeyEventGenerator()
-        self.   terminal = Terminal()
+        self.terminal = Terminal()
         self._previous_error = None
         self._position = 0
         self._theme = theme or themes.BasicTheme()
@@ -30,7 +30,6 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        # TODO pass theme class
         render = clazz(question, terminal=self.terminal, theme=self._theme)
 
         self.clear_eos()
@@ -74,14 +73,17 @@ class ConsoleRender(object):
         header = (base[:self.width - 9] + '...'
                   if len(base) > self.width - 6
                   else base)
-        header += ' ({c})'.format(c=render.question.default)
+        default_value = ' ({color}{default}{normal})'.format(default=render.question.default,
+                                                       color=self._theme.Question.default_color,
+                                                       normal=self.terminal.normal)
+        header += default_value if render.question.default else ''
         msg_template = '{t.move_up}{t.clear_eol}%(msg_prefix)s{t.normal} {msg}%(msg_postfix)s{t.normal}' % {
-            'msg_prefix': self._theme.question_message_prefix,
-            'msg_postfix': self._theme.question_message_postfix
+            'msg_prefix': self._theme.Question.prefix,
+            'msg_postfix': self._theme.Question.postfix
         }
 
         self.print_str(
-            '\n%s %s' % (msg_template, render.current),
+            '\n%s %s' % (msg_template, render.get_current_value()),
             msg=header,
             lf=not render.title_inline,
             theme=self._theme)

@@ -10,7 +10,7 @@ class Text(BaseConsoleRender):
 
     def __init__(self, *args, **kwargs):
         super(Text, self).__init__(*args, **kwargs)
-        self.current = ''
+        self.current = self.question.default or ''
 
     def get_current_value(self):
         return self.current
@@ -20,7 +20,7 @@ class Text(BaseConsoleRender):
             raise KeyboardInterrupt()
 
         if pressed in (key.CR, key.LF, key.ENTER):
-            raise errors.EndOfInput(self.current or self.question.default)
+            raise errors.EndOfInput(self.current)
 
         if pressed == key.BACKSPACE:
             if len(self.current):
