@@ -14,6 +14,7 @@ from ._confirm import Confirm
 from ._list import List
 from ._checkbox import Checkbox
 
+
 class ConsoleRender(object):
     def __init__(self, event_generator=None, theme=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
@@ -76,9 +77,10 @@ class ConsoleRender(object):
         header = (base[:self.width - 9] + '...'
                   if len(base) > self.width - 6
                   else base)
-        default_value = ' ({color}{default}{normal})'.format(default=render.question.default,
-                                                       color=self._theme.Question.default_color,
-                                                       normal=self.terminal.normal)
+        default_value = ' ({color}{default}{normal})'.format(
+                             default=render.question.default,
+                             color=self._theme.Question.default_color,
+                             normal=self.terminal.normal)
         show_default = render.question.default and render.show_default
         header += default_value if show_default else ''
         msg_template = "{t.move_up}{t.clear_eol}{tq.brackets_color}["\

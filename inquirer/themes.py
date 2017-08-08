@@ -32,7 +32,8 @@ def load_theme_from_dict(dict):
 
 class Theme(object):
     def __init__(self):
-        self.Question = namedtuple('question', 'mark_color brackets_color default_color')
+        self.Question = namedtuple('question', 'mark_color brackets_color '
+                                               'default_color')
         self.Checkbox = namedtuple('common', 'selection_color selection_icon '
                                              'selected_color unselected_color '
                                              'selected_icon unselected_icon')
