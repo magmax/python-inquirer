@@ -11,7 +11,7 @@ class List(BaseConsoleRender):
         self.current = self._current_index()
 
     def get_options(self):
-        choices = self.question.choices
+        choices = self.question.choices or []
 
         for choice in choices:
             selected = choice == choices[self.current]
@@ -47,4 +47,7 @@ class List(BaseConsoleRender):
             return 0
 
     def get_current_value(self):
-        return self.question.choices[self.current]
+        try:
+            return self.question.choices[self.current]
+        except IndexError:
+            return ''

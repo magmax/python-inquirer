@@ -42,7 +42,7 @@ class Theme(object):
 
 class Default(Theme):
     def __init__(self):
-        super().__init__()
+        super(Default, self).__init__()
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.normal
         self.Question.default_color = term.normal
@@ -60,7 +60,7 @@ class Default(Theme):
 class GreenPassion(Theme):
 
     def __init__(self):
-        super().__init__()
+        super(GreenPassion, self).__init__()
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.bright_green
         self.Question.default_color = term.yellow
