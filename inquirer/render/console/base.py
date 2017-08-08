@@ -8,13 +8,14 @@ from blessings import Terminal
 class BaseConsoleRender(object):
     title_inline = False
 
-    def __init__(self, question, theme=None, terminal=None,
+    def __init__(self, question, theme=None, terminal=None, show_default=False,
                  *args, **kwargs):
         super(BaseConsoleRender, self).__init__(*args, **kwargs)
         self.question = question
         self.terminal = terminal or Terminal()
         self.answers = {}
         self.theme = theme
+        self.show_default = show_default
 
     def get_header(self):
         return self.question.message

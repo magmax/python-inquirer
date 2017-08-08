@@ -21,7 +21,7 @@ class ConsoleRender(object):
         self.terminal = Terminal()
         self._previous_error = None
         self._position = 0
-        self._theme = theme or themes.BasicTheme()
+        self._theme = theme or themes.Default()
 
     def render(self, question, answers=None):
         question.answers = answers or {}
@@ -30,7 +30,10 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        render = clazz(question, terminal=self.terminal, theme=self._theme)
+        render = clazz(question,
+                       terminal=self.terminal,
+                       theme=self._theme,
+                       show_default=question.show_default)
 
         self.clear_eos()
 
@@ -76,17 +79,15 @@ class ConsoleRender(object):
         default_value = ' ({color}{default}{normal})'.format(default=render.question.default,
                                                        color=self._theme.Question.default_color,
                                                        normal=self.terminal.normal)
-        header += default_value if render.question.default else ''
-        msg_template = '{t.move_up}{t.clear_eol}%(msg_prefix)s{t.normal} {msg}%(msg_postfix)s{t.normal}' % {
-            'msg_prefix': self._theme.Question.prefix,
-            'msg_postfix': self._theme.Question.postfix
-        }
-
+        show_default = render.question.default and render.show_default
+        header += default_value if show_default else ''
+        msg_template = "{t.move_up}{t.clear_eol}{tq.brackets_color}["\
+                       "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
         self.print_str(
-            '\n%s %s' % (msg_template, render.get_current_value()),
+            '\n%s: %s' % (msg_template, render.get_current_value()),
             msg=header,
             lf=not render.title_inline,
-            theme=self._theme)
+            tq=self._theme.Question)
 
     def _process_input(self, render):
         try:
