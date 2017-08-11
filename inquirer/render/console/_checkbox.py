@@ -54,6 +54,3 @@ class Checkbox(BaseConsoleRender):
             raise errors.EndOfInput(result)
         elif pressed == key.CTRL_C:
             raise KeyboardInterrupt()
-
-    def get_current_value(self):
-        return ', '.join(self.question.choices[i] for i in self.selection)
