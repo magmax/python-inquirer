@@ -169,3 +169,19 @@ The last step is to call the *prompter* With the list of :code:`Question`:
 This line will ask the user for information and will store the answeres in a dict, using the question name as **key** and the user response as **value**.
 
 Remember the ``prompt`` always require a list of ``Question`` as input.
+
+
+Themes
+------
+
+You can change the colorscheme and some icons passing a theme object defined in inquirer.themes
+There are Default and GreenPassion themes, but you can define your own via class, dict or json!
+
+.. literalinclude:: ../../examples/theme.py
+
+Result:
+
+|inquirer theme|
+
+.. |inquirer theme| image:: images/inquirer_theme.gif
+  :alt: Example of theme (GreenPassion)
