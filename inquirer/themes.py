@@ -25,7 +25,7 @@ def load_theme_from_json(json_theme):
         }
     }
 
-    Color values should be strings representing valid blessings.Terminal colors.
+    Color values should be string representing valid blessings.Terminal colors.
     """
     return load_theme_from_dict(json.loads(json_theme))
 
@@ -46,7 +46,7 @@ def load_theme_from_dict(dict_theme):
         }
     }
 
-    Color values should be strings representing valid blessings.Terminal colors.
+    Color values should be string representing valid blessings.Terminal colors.
     """
     t = Default()
     for question_type, settings in dict_theme.items():
