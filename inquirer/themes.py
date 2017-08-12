@@ -1,32 +1,71 @@
 # -*- coding: utf-8 -*-
+import json
 
 from collections import namedtuple
 from blessings import Terminal
 
+from .errors import ThemeError
+
 term = Terminal()
 
 
-def load_theme_from_dict(dict):
+def load_theme_from_json(json_theme):
     """
-    Load a theme from a dict.
+    Load a theme from a json.
     Expected format:
     {
-        "question": {
+        "Question": {
             "mark_color": "yellow",
             "brackets_color": "normal",
             ...
         },
-        "list": {
+        "List": {
             "selection_color": "bold_blue",
             "selection_cursor": "->"
         }
     }
-    Important: color values should be valid blessings.Terminal colors.
+
+    Color values should be strings representing valid blessings.Terminal colors.
+    """
+    return load_theme_from_dict(json.loads(json_theme))
+
+
+def load_theme_from_dict(dict_theme):
+    """
+    Load a theme from a dict.
+    Expected format:
+    {
+        "Question": {
+            "mark_color": "yellow",
+            "brackets_color": "normal",
+            ...
+        },
+        "List": {
+            "selection_color": "bold_blue",
+            "selection_cursor": "->"
+        }
+    }
+
+    Color values should be strings representing valid blessings.Terminal colors.
     """
     t = Default()
-    for question_type, settings in dict.items():
+    for question_type, settings in dict_theme.items():
+        if question_type not in vars(t):
+            raise ThemeError('Error while parsing theme. Question type '
+                             '`{}` not found or not customizable.'
+                             .format(question_type))
+
+        # calculating fields of namedtuple, hence the filtering
+        question_fields = filter(lambda x: not x.startswith('_'),
+                                 vars(getattr(t, question_type)))
+
         for field, value in settings.items():
-            setattr(getattr(t, question_type), field, getattr(term, value))
+            if field not in question_fields:
+                raise ThemeError('Error while parsing theme. Field '
+                                 '`{}` invalid for question type `{}`'
+                                 .format(field, question_type))
+            actual_value = getattr(term, value) or value
+            setattr(getattr(t, question_type), field, actual_value)
     return t
 
 
