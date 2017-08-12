@@ -56,8 +56,8 @@ def load_theme_from_dict(dict_theme):
                              .format(question_type))
 
         # calculating fields of namedtuple, hence the filtering
-        question_fields = filter(lambda x: not x.startswith('_'),
-                                 vars(getattr(t, question_type)))
+        question_fields = list(filter(lambda x: not x.startswith('_'),
+                                      vars(getattr(t, question_type))))
 
         for field, value in settings.items():
             if field not in question_fields:
