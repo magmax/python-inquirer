@@ -78,7 +78,8 @@ class Question(object):
                  choices=None,
                  default=None,
                  ignore=False,
-                 validate=True):
+                 validate=True,
+                 show_default=False):
         self.name = name
         self._message = message
         self._choices = choices or []
@@ -86,6 +87,7 @@ class Question(object):
         self._ignore = ignore
         self._validate = validate
         self.answers = {}
+        self.show_default = show_default
 
     @property
     def ignore(self):

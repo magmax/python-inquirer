@@ -40,6 +40,16 @@ Result on something like:
 
 |inquirer checkbox|
 
+theme.py
+-----------
+
+.. literalinclude:: ../../examples/theme.py
+
+Result on something like:
+
+|inquirer theme|
+
+
 .. |inquirer text| image:: images/inquirer_text.png
   :alt: Example of Text Question
 
@@ -51,3 +61,6 @@ Result on something like:
 
 .. |inquirer checkbox| image:: images/inquirer_checkbox.png
   :alt: Example of Checkbox Question
+
+.. |inquirer theme| image:: images/inquirer_theme.gif
+  :alt: Example of theme (GreenPassion)

@@ -11,16 +11,16 @@ class List(BaseConsoleRender):
         self.current = self._current_index()
 
     def get_options(self):
-        choices = self.question.choices
+        choices = self.question.choices or []
 
         for choice in choices:
             selected = choice == choices[self.current]
 
             if selected:
-                color = self.terminal.blue
-                symbol = '>'
+                color = self.theme.List.selection_color
+                symbol = self.theme.List.selection_cursor
             else:
-                color = self.terminal.normal
+                color = self.theme.List.unselected_color
                 symbol = ' '
             yield choice, symbol, color
 
@@ -45,3 +45,9 @@ class List(BaseConsoleRender):
             return self.question.choices.index(self.question.default)
         except ValueError:
             return 0
+
+    def get_current_value(self):
+        try:
+            return self.question.choices[self.current]
+        except IndexError:
+            return ''
