@@ -25,12 +25,21 @@ class List(BaseConsoleRender):
             yield choice, symbol, color
 
     def process_input(self, pressed):
+        question = self.question
         if pressed == key.UP:
-            self.current = max(0, self.current - 1)
+            if question.carousel and self.current == 0:
+                self.current = len(question.choices) - 1
+            else:
+                self.current = max(0, self.current - 1)
             return
         if pressed == key.DOWN:
-            self.current = min(len(self.question.choices) - 1,
-                               self.current + 1)
+            if question.carousel and self.current == len(question.choices) - 1:
+                self.current = 0
+            else:
+                self.current = min(
+                    len(self.question.choices) - 1,
+                    self.current + 1
+                )
             return
         if pressed == key.ENTER:
             value = self.question.choices[self.current]
