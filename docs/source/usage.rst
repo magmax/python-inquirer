@@ -89,7 +89,7 @@ As in ``message` , you can use a new format string or a function with the sign:
 
 Where ``answers`` is a ``dict`` containing all previous answers.
 
-Remember that it should be an array for `Checkbox` questions.
+Remember that it should be a list for `Checkbox` questions.
 
 
 choices
