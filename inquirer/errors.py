@@ -20,3 +20,7 @@ class EndOfInput(InquirerError):
     def __init__(self, selection, *args, **kwargs):
         super(EndOfInput, self).__init__(*args, **kwargs)
         self.selection = selection
+
+
+class ThemeError(AttributeError):
+    pass

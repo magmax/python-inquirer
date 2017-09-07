@@ -68,6 +68,41 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertEqual('foo', result)
 
+    def test_move_down_carousel(self):
+        stdin = helper.event_factory(
+            key.DOWN, key.DOWN, key.DOWN, key.DOWN,
+            key.ENTER
+        )
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.List(
+            variable, message, choices=choices,
+            carousel=True
+        )
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual('bar', result)
+
+    def test_move_up_carousel(self):
+        stdin = helper.event_factory(key.UP, key.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+        choices = ['foo', 'bar', 'bazz']
+
+        question = questions.List(
+            variable, message, choices=choices,
+            carousel=True
+        )
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual('bazz', result)
+
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
         stdin = helper.event_factory(*stdin_array)
