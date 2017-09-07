@@ -38,7 +38,7 @@ Text
     inquirer.Text('name', message="What's your name"),
     inquirer.Text('surname', message="What's your surname"),
     inquirer.Text('phone', message="What's your phone number",
-                  validate=lambda x, _: re.match('\d+', x),
+                  validate=lambda x, _: re.match('\+?\d[\d ]+\d', x),
                   )
   ]
   answers = inquirer.prompt(questions)
@@ -66,6 +66,8 @@ Example:
               ),
   ]
   answers = inquirer.prompt(questions)
+
+List questions can take one extra argument :code:`carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
 
 |inquirer list|
 
