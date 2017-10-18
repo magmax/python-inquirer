@@ -63,10 +63,13 @@ class TaggedValue(object):
     def __repr__(self):
         return self.value
 
-    def __cmp__(self, other):
+    def __eq__(self, other):
         if isinstance(other, TaggedValue):
-            return self.value != other.value
-        return self.value != other
+            return self.value == other.value
+        return self.value == other
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
 class Question(object):
