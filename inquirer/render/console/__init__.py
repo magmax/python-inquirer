@@ -6,6 +6,7 @@ from blessings import Terminal
 
 from inquirer import errors
 from inquirer import events
+from inquirer import themes
 
 from ._text import Text
 from ._password import Password
@@ -15,12 +16,13 @@ from ._checkbox import Checkbox
 
 
 class ConsoleRender(object):
-    def __init__(self, event_generator=None, *args, **kwargs):
+    def __init__(self, event_generator=None, theme=None, *args, **kwargs):
         super(ConsoleRender, self).__init__(*args, **kwargs)
         self._event_gen = event_generator or events.KeyEventGenerator()
         self.terminal = Terminal()
         self._previous_error = None
         self._position = 0
+        self._theme = theme or themes.Default()
 
     def render(self, question, answers=None):
         question.answers = answers or {}
@@ -29,7 +31,10 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        render = clazz(question, self.terminal)
+        render = clazz(question,
+                       terminal=self.terminal,
+                       theme=self._theme,
+                       show_default=question.show_default)
 
         self.clear_eos()
 
@@ -72,11 +77,19 @@ class ConsoleRender(object):
         header = (base[:self.width - 9] + '...'
                   if len(base) > self.width - 6
                   else base)
-        header += ': {c}'.format(c=render.get_current_value())
+        default_value = ' ({color}{default}{normal})'.format(
+                             default=render.question.default,
+                             color=self._theme.Question.default_color,
+                             normal=self.terminal.normal)
+        show_default = render.question.default and render.show_default
+        header += default_value if show_default else ''
+        msg_template = "{t.move_up}{t.clear_eol}{tq.brackets_color}["\
+                       "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
         self.print_str(
-            '\n{t.move_up}{t.clear_eol}[{t.yellow}?{t.normal}] {msg}',
+            '\n%s: %s' % (msg_template, render.get_current_value()),
             msg=header,
-            lf=not render.title_inline)
+            lf=not render.title_inline,
+            tq=self._theme.Question)
 
     def _process_input(self, render):
         try:

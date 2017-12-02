@@ -40,6 +40,21 @@ Result on something like:
 
 |inquirer checkbox|
 
+
+The :code:`choices` list can also be a list of tuples. The first value in each tuple should be the label displayed to the user. The second value in each tuple should be the actual value for that option. This allows you to have the user choose options that are not plain strings in the code.
+
+.. literalinclude:: ../../examples/checkbox_tagged.py
+
+theme.py
+-----------
+
+.. literalinclude:: ../../examples/theme.py
+
+Result on something like:
+
+|inquirer theme|
+
+
 .. |inquirer text| image:: images/inquirer_text.png
   :alt: Example of Text Question
 
@@ -51,3 +66,6 @@ Result on something like:
 
 .. |inquirer checkbox| image:: images/inquirer_checkbox.png
   :alt: Example of Checkbox Question
+
+.. |inquirer theme| image:: images/inquirer_theme.gif
+  :alt: Example of theme (GreenPassion)

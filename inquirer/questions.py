@@ -63,10 +63,13 @@ class TaggedValue(object):
     def __repr__(self):
         return self.value
 
-    def __cmp__(self, other):
+    def __eq__(self, other):
         if isinstance(other, TaggedValue):
-            return self.value != other.value
-        return self.value != other
+            return self.value == other.value
+        return self.value == other
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
 class Question(object):
@@ -78,7 +81,8 @@ class Question(object):
                  choices=None,
                  default=None,
                  ignore=False,
-                 validate=True):
+                 validate=True,
+                 show_default=False):
         self.name = name
         self._message = message
         self._choices = choices or []
@@ -86,6 +90,7 @@ class Question(object):
         self._ignore = ignore
         self._validate = validate
         self.answers = {}
+        self.show_default = show_default
 
     @property
     def ignore(self):
@@ -145,6 +150,21 @@ class Confirm(Question):
 
 class List(Question):
     kind = 'list'
+
+    def __init__(self,
+                 name,
+                 message='',
+                 choices=None,
+                 default=None,
+                 ignore=False,
+                 validate=True,
+                 carousel=False):
+
+        super(List, self).__init__(
+            name, message, choices,
+            default, ignore, validate
+        )
+        self.carousel = carousel
 
 
 class Checkbox(Question):

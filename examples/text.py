@@ -13,7 +13,7 @@ questions = [
                   message="What's your surname, {name}?"),
     inquirer.Text('phone',
                   message="What's your phone number",
-                  validate=lambda _, x: re.match('\d+', x),
+                  validate=lambda _, x: re.match('\+?\d[\d ]+\d', x),
                   )
 ]
 
