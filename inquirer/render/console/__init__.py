@@ -7,12 +7,15 @@ from blessings import Terminal
 from inquirer import errors
 from inquirer import events
 from inquirer import themes
+from inquirer.questions import Question
+from inquirer.render.console.base import BaseConsoleRender
 
 from ._text import Text
 from ._password import Password
 from ._confirm import Confirm
 from ._list import List
 from ._checkbox import Checkbox
+from ._path import Path
 
 
 class ConsoleRender(object):
@@ -23,6 +26,14 @@ class ConsoleRender(object):
         self._previous_error = None
         self._position = 0
         self._theme = theme or themes.Default()
+        self._question_render_matrix = {
+            'text': Text,
+            'password': Password,
+            'confirm': Confirm,
+            'list': List,
+            'checkbox': Checkbox,
+            'path': Path
+        }
 
     def render(self, question, answers=None):
         question.answers = answers or {}
@@ -143,18 +154,19 @@ class ConsoleRender(object):
         with self.terminal.location(0, self.height - 2):
             self.clear_eos()
 
-    def render_factory(self, question_type):
-        matrix = {
-            'text': Text,
-            'password': Password,
-            'confirm': Confirm,
-            'list': List,
-            'checkbox': Checkbox,
-            }
+    def add_question_render(self, question_type_class, question_render_class):
+        if not issubclass(question_type_class, Question):
+            raise ValueError('Custom question class must subclass Question')
+        if not issubclass(question_render_class, BaseConsoleRender):
+            raise ValueError('Custom question renderer must subclass BaseConsoleRender')
+        self._question_render_matrix.update({
+            question_type_class.kind: question_render_class
+        })
 
-        if question_type not in matrix:
+    def render_factory(self, question_type):
+        if question_type not in self._question_render_matrix:
             raise errors.UnknownQuestionTypeError()
-        return matrix.get(question_type)
+        return self._question_render_matrix.get(question_type)
 
     def print_line(self, base, lf=True, **kwargs):
         self.print_str(base + self.terminal.clear_eol(), lf=lf, **kwargs)

@@ -9,7 +9,7 @@ from . import errors
 
 
 def question_factory(kind, *args, **kwargs):
-    for clazz in (Text, Password, Confirm, List, Checkbox):
+    for clazz in (Text, Password, Confirm, List, Checkbox, Path):
         if clazz.kind == kind:
             return clazz(*args, **kwargs)
     raise errors.UnknownQuestionTypeError()
@@ -169,3 +169,14 @@ class List(Question):
 
 class Checkbox(Question):
     kind = 'checkbox'
+
+
+class Path(Question):
+    kind = 'path'
+
+    def __init__(self,
+                 name,
+                 midtoken_completion=True,
+                 **kwargs):
+        super(Path, self).__init__(name, **kwargs)
+        self.midtoken_completion = midtoken_completion
