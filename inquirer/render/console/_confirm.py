@@ -15,6 +15,9 @@ class Confirm(BaseConsoleRender):
                         c=confirm))
 
     def process_input(self, pressed):
+        if pressed == key.CTRL_C:
+            raise KeyboardInterrupt()
+
         if pressed.lower() == key.ENTER:
             raise errors.EndOfInput(self.question.default)
 

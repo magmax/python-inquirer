@@ -144,8 +144,8 @@ class Password(Question):
 class Confirm(Question):
     kind = 'confirm'
 
-    def __init__(self, name, default=False, **kwargs):
-        super(Confirm, self).__init__(name, default=default, **kwargs)
+    def __init__(self, name, message='', default=False, **kwargs):
+        super(Confirm, self).__init__(name, message, default=default, **kwargs)
 
 
 class List(Question):
@@ -176,7 +176,8 @@ class Path(Question):
 
     def __init__(self,
                  name,
+                 message='',
                  midtoken_completion=True,
                  **kwargs):
-        super(Path, self).__init__(name, **kwargs)
+        super(Path, self).__init__(name, message, **kwargs)
         self.midtoken_completion = midtoken_completion
