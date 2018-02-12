@@ -43,9 +43,9 @@ setup(name='inquirer',
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Programming Language :: Python :: 2.7',
-          'Programming Language :: Python :: 3.3',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
@@ -64,6 +64,6 @@ setup(name='inquirer',
       zip_safe=False,
       install_requires=[
           'blessings >= 1.6',
-          'readchar == 0.7',
+          'readchar == 0.0.9',
       ],
       )
