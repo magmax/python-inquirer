@@ -9,20 +9,22 @@ The idea is quite simple:
 Each :code:`Question` require some common arguments. So, you just need to know which kind of :code:`Questions` and :code:`Arguments` are available.
 
 
-Question types
---------------
+Built-in Question types
+-----------------------
 
-+-------------+--------------------------------------------------+
-|**TEXT**     | Expects a text answer                            |
-+-------------+--------------------------------------------------+
-|**PASSWORD** | Do not prompt the answer.                        |
-+-------------+--------------------------------------------------+
-|**CONFIRM**  | Requires a boolean answer                        |
-+-------------+--------------------------------------------------+
-|**LIST**     | Show a list and allow to select just one answer. |
-+-------------+--------------------------------------------------+
-|**CHECKBOX** | Show a list and allow to select a bunch of them  |
-+-------------+--------------------------------------------------+
++-------------+----------------------------------------------------------------------------------+
+|**TEXT**     | Expects a text answer                                                            |
++-------------+----------------------------------------------------------------------------------+
+|**PATH**     | Same as :code:`Text`, but allows for tab completion of the underlying filesystem |
++-------------+----------------------------------------------------------------------------------+
+|**PASSWORD** | Do not prompt the answer.                                                        |
++-------------+----------------------------------------------------------------------------------+
+|**CONFIRM**  | Requires a boolean answer                                                        |
++-------------+----------------------------------------------------------------------------------+
+|**LIST**     | Show a list and allow to select just one answer.                                 |
++-------------+----------------------------------------------------------------------------------+
+|**CHECKBOX** | Show a list and allow to select a bunch of them                                  |
++-------------+----------------------------------------------------------------------------------+
 
 There are pictures of some of them in the :ref:`examples` section.
 
@@ -169,6 +171,89 @@ The last step is to call the *prompter* With the list of :code:`Question`:
 This line will ask the user for information and will store the answeres in a dict, using the question name as **key** and the user response as **value**.
 
 Remember the ``prompt`` always require a list of ``Question`` as input.
+
+
+Creating Custom Question Types
+------------------------------
+If the built-in :code:`Question` types aren't enough to cover needed functionality, custom :code:`Question` types can be
+created. Two parts must be defined: a class that inherits from :code:`inquirer.questions.Question` used to define the
+user interface for the :code:`Question`, and a class that inherits from
+:code:`inquirer.render.console.BaseConsoleRender` used to define how the :code:`Question` handles user input.
+
+The below example shows how to create a :code:`Question` which prepends the string :code:`'blue'` to user input
+subject to a probability.
+
+.. code:: python
+
+      import random
+      import inquirer
+      from inquirer.questions import Question
+      from inquirer.render.console import Text
+      from inquirer.render import ConsoleRender
+
+
+      # Create Question class
+      class AlwaysBlue(Question):
+          """
+          Must subclass inquirer.questions.Question
+          """
+          kind = 'always_blue'  # Kind must be unique among Questions
+
+          def __init__(self, name, message,
+                       prob_blue=0.9, **kwargs):
+              """
+              Custom arguments to the question can be provided, but the super constructor
+              should still be called
+              """
+              super(AlwaysBlue, self).__init__(name, message, **kwargs)
+              self.prob_blue = prob_blue
+
+
+      # Create Render class
+      class AlwaysBlueRender(Text):
+          """
+          Must subclass inquirer.render.console.BaseConsoleRender, or something that
+          subclasses it (like inquirer.render.console.Text, in this case)
+
+          Custom arguments from the corresponding Question object are available in the
+          self.question attribute of this object
+          """
+          def __init__(self, *args, **kwargs):
+              super(AlwaysBlueRender, self).__init__(*args, **kwargs)
+
+          def process_input(self, pressed):
+              """
+              This method controls rendering of input, so this is most likely what needs to
+              be overridden for custom behavior
+
+              In this case, the string 'blue' is prepended to user input, depending on the
+              user defined probability of the event when the Question was instantiated
+              """
+              if random.random() < self.question.prob_blue:
+                  self.current += 'blue'
+
+              super(AlwaysBlueRender, self).process_input(pressed)
+
+
+      # A ConsoleRender object must be instantiated so the custom Question and Render
+      # classes can be added
+      render = ConsoleRender()
+      render.add_question_render(
+          question_type_class=AlwaysBlue,
+          question_render_class=AlwaysBlueRender
+      )
+
+      # Create a list of AlwaysBlue questions
+      questions = [
+          AlwaysBlue('mostly_blue', 'Always blue!'),
+          AlwaysBlue('sometimes_blue', 'Sometimes blue!', prob_blue=0.2)
+      ]
+
+      # Prompt, using defined ConsoleRender object
+      answers = inquirer.prompt(questions, render=render)
+
+      # See the results
+      print(answers)
 
 
 Themes
