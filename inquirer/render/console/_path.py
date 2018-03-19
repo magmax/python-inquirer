@@ -98,7 +98,7 @@ class Path(Text):
                 if self.show_options:
                     # Show options if this is the second consecutive TAB without a completion
                     show_completion_hint(self.current, self.terminal.width, is_unix=False)
-                # TODO Support for windows
+                # TODO Support for Windows
             else:
                 # Unix style paths
                 if self.show_options:
