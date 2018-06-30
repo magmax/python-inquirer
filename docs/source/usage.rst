@@ -185,3 +185,17 @@ Result:
 
 .. |inquirer theme| image:: images/inquirer_theme.gif
   :alt: Example of theme (GreenPassion)
+
+Shortcut functions
+------------------
+
+For one-off prompts, you can use the shortcut functions.
+
+.. code-block:: python
+
+      text = inquirer.text(message="Enter your username")
+      password = inquirer.password(message='Please enter your password'),
+      choice = inquirer.list_input("Public or private?",
+                                    choices=['public', 'private'])
+      correct = inquirer.confirm("This will delete all your current labels and "
+                              "create a new ones. Continue?", default=False)
