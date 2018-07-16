@@ -63,7 +63,10 @@ setup(name='inquirer',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'blessings >= 1.6',
-          'readchar == 0.0.9',
+          'blessings>=1.6',
+          'readchar==0.8.0',
       ],
+      dependency_links=[
+          'git+https://github.com/magmax/python-readchar.git@0.8.0#egg=readchar-0.8.0'
+      ]
       )

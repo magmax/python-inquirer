@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-__version__ = '2.2.0'
+__version__ = '2.3.0'
 
 try:
     from .prompt import prompt
