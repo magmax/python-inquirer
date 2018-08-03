@@ -1,6 +1,5 @@
 import unittest
 from unittest import mock
-from hamcrest import is_not
 
 from inquirer import prompt
 
