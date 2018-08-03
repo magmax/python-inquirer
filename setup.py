@@ -7,8 +7,12 @@ from inquirer import __version__
 
 
 def read_description():
-    with open('README.rst', encoding='utf8') as fd:
-        return fd.read()
+    try:
+        with open('README.rst', encoding='utf8') as fd:
+            return fd.read()
+    except TypeError:
+        with open('README.rst') as fd:
+            return fd.read()
 
 
 class PyTest(TestCommand):
