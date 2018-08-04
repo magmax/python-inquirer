@@ -1,7 +1,7 @@
 import unittest
 try:
     from unittest import MagicMock, Mock
-except:
+except ImportError:
     from mock import MagicMock, Mock
 
 from inquirer import prompt
