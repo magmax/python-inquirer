@@ -13,6 +13,7 @@ from ._password import Password
 from ._confirm import Confirm
 from ._list import List
 from ._checkbox import Checkbox
+from ._path import Path
 
 
 class ConsoleRender(object):
@@ -150,6 +151,7 @@ class ConsoleRender(object):
             'confirm': Confirm,
             'list': List,
             'checkbox': Checkbox,
+            'path': Path,
             }
 
         if question_type not in matrix:

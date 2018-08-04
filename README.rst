@@ -93,6 +93,25 @@ Example:
 
 |inquirer checkbox|
 
+Path
+--------
+
+Like Text question, but with builtin validations for working with paths.
+
+Example:
+
+.. code:: python
+
+
+  import inquirer
+  questions = [
+    inquirer.Path('log_file',
+                   message="Where logs should be located?",
+                   path_type=inquirer.Path.DIRECTORY,
+                  ),
+  ]
+  answers = inquirer.prompt(questions)
+
 License
 =======
 
