@@ -1,5 +1,8 @@
 import unittest
-from unittest import mock
+try:
+    from unittest import MagicMock, Mock
+except:
+    from mock import MagicMock, Mock
 
 from inquirer import prompt
 
@@ -9,10 +12,10 @@ class PromptTests(unittest.TestCase):
         self.assertEquals({}, prompt([]))
 
     def test_prompt_renders_a_questions(self):
-        question1 = mock.MagicMock()
+        question1 = MagicMock()
         question1.name = 'foo'
         result1 = object()
-        render = mock.Mock()
+        render = Mock()
         render.render.return_value = result1
 
         result = prompt([question1], render=render)
