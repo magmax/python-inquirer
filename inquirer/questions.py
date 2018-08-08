@@ -220,6 +220,8 @@ class Path(Text):
 
     def __init__(self, name, default=None, path_type='any', exists=None,
                  normalize_to_absolute_path=False, **kwargs):
+        super(Path, self).__init__(name, default=default, **kwargs)
+
         self._path_type = path_type
         self._exists = exists
         self._normalize_to_absolute_path = normalize_to_absolute_path
@@ -230,8 +232,6 @@ class Path(Text):
             except errors.ValidationError:
                 raise ValueError("Default value '{}' is not valid based on "
                                  "your Path's criteria".format(default))
-
-        super(Path, self).__init__(name, default=default, **kwargs)
 
     def validate(self, current):
         super(Path, self).validate(current)

@@ -123,6 +123,7 @@ class BaseQuestionTests(unittest.TestCase):
     def test_validate_function_raising_exception(self):
         def raise_exc(x, y):
             raise Exception('foo')
+
         name = 'foo'
         q = questions.Question(name, validate=raise_exc)
 
@@ -134,6 +135,7 @@ class BaseQuestionTests(unittest.TestCase):
 
         def compare(x, y):
             return expected == y
+
         name = 'foo'
         q = questions.Question(name, validate=compare)
 
@@ -238,9 +240,9 @@ class TestPathQuestion(unittest.TestCase):
 
         if os.environ.get('TRAVIS_PYTHON_VERSION') != 'pypy3':
             # Path component must not be longer then 255 bytes
-            do_test('a'*256, False)
-            do_test('/asdf/'+'a'*256, False)
-            do_test('{}/{}'.format('a'*255, 'b'*255), True)
+            do_test('a' * 256, False)
+            do_test('/asdf/' + 'a' * 256, False)
+            do_test('{}/{}'.format('a' * 255, 'b' * 255), True)
 
             # Path component must not contains null bytes
             do_test('some/path/with/{}byte'.format(b'\x00'.decode('utf-8')),
@@ -261,20 +263,25 @@ class TestPathQuestion(unittest.TestCase):
         do_test(questions.Path.ANY, 'aa/')
         do_test(questions.Path.ANY, '/aa/')
         do_test(questions.Path.ANY, '/aa/bb')
+        do_test(questions.Path.ANY, '~/aa/bb')
 
         do_test(questions.Path.FILE, './aa/bb')
         do_test(questions.Path.FILE, './aa/', False)
         do_test(questions.Path.FILE, 'aa/bb')
         do_test(questions.Path.FILE, 'aa/', False)
         do_test(questions.Path.FILE, '/aa/', False)
+        do_test(questions.Path.FILE, '~/aa/', False)
         do_test(questions.Path.FILE, '/aa/bb')
+        do_test(questions.Path.FILE, '~/aa/.bb')
 
         do_test(questions.Path.DIRECTORY, './aa/bb', False)
         do_test(questions.Path.DIRECTORY, './aa/')
         do_test(questions.Path.DIRECTORY, 'aa/bb', False)
         do_test(questions.Path.DIRECTORY, 'aa/')
         do_test(questions.Path.DIRECTORY, '/aa/')
+        do_test(questions.Path.DIRECTORY, '~/aa/')
         do_test(questions.Path.DIRECTORY, '/aa/bb', False)
+        do_test(questions.Path.DIRECTORY, '~/aa/bb', False)
 
     def test_path_type_validation_existing(self):
         root = tempfile.mkdtemp()
@@ -334,3 +341,11 @@ class TestPathQuestion(unittest.TestCase):
         # Normalizing to absolute path
         q = questions.Path('abs_path', normalize_to_absolute_path=True)
         self.assertEqual('/', q.normalize_value('some/relative/path')[0])
+
+    def test_default_value_validation(self):
+
+        with self.assertRaises(ValueError):
+            questions.Path('path', default='~/.toggl_log',
+                           path_type=questions.Path.DIRECTORY)
+
+        questions.Path('path', default='~/.toggl_log')
