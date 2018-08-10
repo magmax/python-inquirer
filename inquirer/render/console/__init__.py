@@ -68,6 +68,8 @@ class ConsoleRender(object):
 
     def _print_options(self, render):
         for message, symbol, color in render.get_options():
+            if hasattr(message, 'decode'):  # python 2
+                message = message.decode('utf-8')
             self.print_line(' {color}{s} {m}{t.normal}',
                             m=message, color=color, s=symbol)
 
