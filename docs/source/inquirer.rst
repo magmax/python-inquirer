@@ -43,6 +43,22 @@ inquirer.questions module
     :undoc-members:
     :show-inheritance:
 
+inquirer.shortcuts module
+-------------------------
+
+.. automodule:: inquirer.shortcuts
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+inquirer.themes module
+----------------------
+
+.. automodule:: inquirer.themes
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

@@ -4,12 +4,15 @@ Module that implements the questions types
 """
 
 import json
+import os
+import errno
+import sys
 
 from . import errors
 
 
 def question_factory(kind, *args, **kwargs):
-    for clazz in (Text, Password, Confirm, List, Checkbox):
+    for clazz in (Text, Password, Confirm, List, Checkbox, Path):
         if clazz.kind == kind:
             return clazz(*args, **kwargs)
     raise errors.UnknownQuestionTypeError()
@@ -169,3 +172,106 @@ class List(Question):
 
 class Checkbox(Question):
     kind = 'checkbox'
+
+
+# Solution for checking valid path based on
+# https://stackoverflow.com/a/34102855/1360532
+ERROR_INVALID_NAME = 123
+
+
+def is_pathname_valid(pathname):
+    """
+    `True` if the passed pathname is a valid pathname for the current OS;
+    `False` otherwise.
+    """
+    try:
+        if not isinstance(pathname, str) or not pathname:
+            return False
+
+        _, pathname = os.path.splitdrive(pathname)
+
+        root_dirname = os.environ.get('HOMEDRIVE', 'C:') \
+            if sys.platform == 'win32' else os.path.sep
+
+        assert os.path.isdir(root_dirname)
+        root_dirname = root_dirname.rstrip(os.path.sep) + os.path.sep
+
+        for pathname_part in pathname.split(os.path.sep):
+            try:
+                os.lstat(root_dirname + pathname_part)
+            except OSError as exc:
+                if hasattr(exc, 'winerror'):
+                    if exc.winerror == ERROR_INVALID_NAME:
+                        return False
+                elif exc.errno in {errno.ENAMETOOLONG, errno.ERANGE}:
+                    return False
+    except (ValueError, TypeError):
+        return False
+    else:
+        return True
+
+
+class Path(Text):
+    ANY = 'any'
+    FILE = 'file'
+    DIRECTORY = 'directory'
+
+    kind = 'path'
+
+    def __init__(self, name, default=None, path_type='any', exists=None,
+                 normalize_to_absolute_path=False, **kwargs):
+        super(Path, self).__init__(name, default=default, **kwargs)
+
+        self._path_type = path_type
+        self._exists = exists
+        self._normalize_to_absolute_path = normalize_to_absolute_path
+
+        if default is not None:
+            try:
+                self.validate(default)
+            except errors.ValidationError:
+                raise ValueError("Default value '{}' is not valid based on "
+                                 "your Path's criteria".format(default))
+
+    def validate(self, current):
+        super(Path, self).validate(current)
+
+        if current is None:
+            raise errors.ValidationError(current)
+
+        if not is_pathname_valid(current):
+            raise errors.ValidationError(current)
+
+        # os.path.isdir and isfile check also existence of the path,
+        # which might not be desirable
+        if self._path_type == 'file':
+            if self._exists is None and os.path.basename(current) == '':
+                raise errors.ValidationError(current)
+            elif self._exists and not os.path.isfile(current):
+                raise errors.ValidationError(current)
+            elif self._exists is not None and not self._exists \
+                    and os.path.isfile(current):
+                raise errors.ValidationError(current)
+
+        elif self._path_type == 'directory':
+            if self._exists is None and os.path.basename(current) != '':
+                raise errors.ValidationError(current)
+            elif self._exists and not os.path.isdir(current):
+                raise errors.ValidationError(current)
+            elif self._exists is not None and not self._exists \
+                    and os.path.isdir(current):
+                raise errors.ValidationError(current)
+
+        elif self._exists and not os.path.exists(current):
+            raise errors.ValidationError(current)
+        elif self._exists is not None and not self._exists \
+                and os.path.exists(current):
+            raise errors.ValidationError(current)
+
+    def normalize_value(self, value):
+        value = os.path.expanduser(value)
+
+        if self._normalize_to_absolute_path:
+            value = os.path.abspath(value)
+
+        return value

@@ -1,4 +1,8 @@
 # encoding: utf-8
+
+import os
+import shutil
+import tempfile
 import unittest
 
 from inquirer import questions
@@ -121,6 +125,7 @@ class BaseQuestionTests(unittest.TestCase):
     def test_validate_function_raising_exception(self):
         def raise_exc(x, y):
             raise Exception('foo')
+
         name = 'foo'
         q = questions.Question(name, validate=raise_exc)
 
@@ -132,6 +137,7 @@ class BaseQuestionTests(unittest.TestCase):
 
         def compare(x, y):
             return expected == y
+
         name = 'foo'
         q = questions.Question(name, validate=compare)
 
@@ -228,3 +234,128 @@ class TestConfirmQuestion(unittest.TestCase):
         q = questions.Confirm(name)
 
         self.assertEquals(False, q.default)
+
+
+class TestPathQuestion(unittest.TestCase):
+    def test_path_validation(self):
+        def do_test(path, result=True):
+            q = questions.Path('validation_test')
+            if result:
+                self.assertIsNone(q.validate(path))
+            else:
+                with self.assertRaises(errors.ValidationError):
+                    q.validate(path)
+
+        do_test(None, False)
+
+        if os.environ.get('TRAVIS_PYTHON_VERSION') != 'pypy3':
+            # Path component must not be longer then 255 bytes
+            do_test('a' * 256, False)
+            do_test('/asdf/' + 'a' * 256, False)
+            do_test('{}/{}'.format('a' * 255, 'b' * 255), True)
+
+            # Path component must not contains null bytes
+            do_test('some/path/with/{}byte'.format(b'\x00'.decode('utf-8')),
+                    False)
+
+    def test_path_type_validation_no_existence_check(self):
+        def do_test(path_type, path, result=True):
+            q = questions.Path('path_type_test', path_type=path_type)
+            if result:
+                self.assertIsNone(q.validate(path))
+            else:
+                with self.assertRaises(errors.ValidationError):
+                    q.validate(path)
+
+        do_test(questions.Path.ANY, './aa/bb')
+        do_test(questions.Path.ANY, './aa/')
+        do_test(questions.Path.ANY, 'aa/bb')
+        do_test(questions.Path.ANY, 'aa/')
+        do_test(questions.Path.ANY, '/aa/')
+        do_test(questions.Path.ANY, '/aa/bb')
+        do_test(questions.Path.ANY, '~/aa/bb')
+
+        do_test(questions.Path.FILE, './aa/bb')
+        do_test(questions.Path.FILE, './aa/', False)
+        do_test(questions.Path.FILE, 'aa/bb')
+        do_test(questions.Path.FILE, 'aa/', False)
+        do_test(questions.Path.FILE, '/aa/', False)
+        do_test(questions.Path.FILE, '~/aa/', False)
+        do_test(questions.Path.FILE, '/aa/bb')
+        do_test(questions.Path.FILE, '~/aa/.bb')
+
+        do_test(questions.Path.DIRECTORY, './aa/bb', False)
+        do_test(questions.Path.DIRECTORY, './aa/')
+        do_test(questions.Path.DIRECTORY, 'aa/bb', False)
+        do_test(questions.Path.DIRECTORY, 'aa/')
+        do_test(questions.Path.DIRECTORY, '/aa/')
+        do_test(questions.Path.DIRECTORY, '~/aa/')
+        do_test(questions.Path.DIRECTORY, '/aa/bb', False)
+        do_test(questions.Path.DIRECTORY, '~/aa/bb', False)
+
+    def test_path_type_validation_existing(self):
+        root = tempfile.mkdtemp()
+        some_existing_dir = os.path.join(root, 'some_dir')
+        some_non_existing_dir = os.path.join(root, 'some_non_existing_dir')
+        some_existing_file = os.path.join(root, 'some_file')
+        some_non_existing_file = os.path.join(root, 'some_non_existing_file')
+
+        os.mkdir(some_existing_dir)
+        open(some_existing_file, 'a').close()
+
+        def do_test(path_type, path, exists, result=True):
+            q = questions.Path('path_type_test', exists=exists,
+                               path_type=path_type)
+            if result:
+                self.assertIsNone(q.validate(path))
+            else:
+                with self.assertRaises(errors.ValidationError):
+                    q.validate(path)
+
+        try:
+            do_test(questions.Path.ANY, some_existing_file, True, True)
+            do_test(questions.Path.ANY, some_non_existing_file, True, False)
+            do_test(questions.Path.ANY, some_existing_file, False, False)
+            do_test(questions.Path.ANY, some_non_existing_file, False, True)
+            do_test(questions.Path.ANY, some_existing_dir, True, True)
+            do_test(questions.Path.ANY, some_non_existing_dir, True, False)
+            do_test(questions.Path.ANY, some_existing_dir, False, False)
+            do_test(questions.Path.ANY, some_non_existing_dir, False, True)
+
+            do_test(questions.Path.FILE, some_existing_file, True, True)
+            do_test(questions.Path.FILE, some_non_existing_file, True, False)
+            do_test(questions.Path.FILE, some_non_existing_file, False, True)
+            do_test(questions.Path.FILE, some_existing_file, False, False)
+
+            do_test(questions.Path.DIRECTORY,
+                    some_existing_dir, True, True)
+            do_test(questions.Path.DIRECTORY,
+                    some_non_existing_dir, True, False)
+            do_test(questions.Path.DIRECTORY,
+                    some_existing_dir, False, False)
+            do_test(questions.Path.DIRECTORY,
+                    some_non_existing_dir, False, True)
+
+        finally:
+            shutil.rmtree(root)
+
+    def test_normalizing_value(self):
+        # Expanding Home
+        home = os.environ.get('HOME')
+        q = questions.Path('home')
+
+        path = '~/some_path/some_file'
+        self.assertNotIn(home, path)
+        self.assertIn(home, q.normalize_value(path))
+
+        # Normalizing to absolute path
+        q = questions.Path('abs_path', normalize_to_absolute_path=True)
+        self.assertEqual('/', q.normalize_value('some/relative/path')[0])
+
+    def test_default_value_validation(self):
+
+        with self.assertRaises(ValueError):
+            questions.Path('path', default='~/.toggl_log',
+                           path_type=questions.Path.DIRECTORY)
+
+        questions.Path('path', default='~/.toggl_log')

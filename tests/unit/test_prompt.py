@@ -1,6 +1,6 @@
 import unittest
 try:
-    from unittest import MagicMock, Mock
+    from unittest.mock import MagicMock, Mock
 except ImportError:
     from mock import MagicMock, Mock
 
@@ -21,5 +21,5 @@ class PromptTests(unittest.TestCase):
         result = prompt([question1], render=render)
 
         self.assertEquals({'foo': result1}, result)
-        render.render.assert_called()
+        self.assertTrue(render.render.called)
         render.render.call_args_list[0][0] == result1

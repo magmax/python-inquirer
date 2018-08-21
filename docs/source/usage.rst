@@ -12,17 +12,19 @@ Each :code:`Question` require some common arguments. So, you just need to know w
 Question types
 --------------
 
-+-------------+--------------------------------------------------+
-|**TEXT**     | Expects a text answer                            |
-+-------------+--------------------------------------------------+
-|**PASSWORD** | Do not prompt the answer.                        |
-+-------------+--------------------------------------------------+
-|**CONFIRM**  | Requires a boolean answer                        |
-+-------------+--------------------------------------------------+
-|**LIST**     | Show a list and allow to select just one answer. |
-+-------------+--------------------------------------------------+
-|**CHECKBOX** | Show a list and allow to select a bunch of them  |
-+-------------+--------------------------------------------------+
++-------------+--------------------------------------------------------+
+|**TEXT**     | Expects a text answer.                                 |
++-------------+--------------------------------------------------------+
+|**PASSWORD** | Do not prompt the answer.                              |
++-------------+--------------------------------------------------------+
+|**CONFIRM**  | Requires a boolean answer.                             |
++-------------+--------------------------------------------------------+
+|**LIST**     | Show a list and allow to select just one answer.       |
++-------------+--------------------------------------------------------+
+|**CHECKBOX** | Show a list and allow to select a bunch of them.       |
++-------------+--------------------------------------------------------+
+|**PATH**     | Requires valid path and allows additional validations. |
++-------------+--------------------------------------------------------+
 
 There are pictures of some of them in the :ref:`examples` section.
 
@@ -137,6 +139,56 @@ It's value is `boolean` or a `function` with the sign:
           def ignore(answers): return boolean()
 
 where ``answers`` contains the `dict` of previous answers again.
+
+
+Path Question
+-------------
+
+Path Question accepts any valid path which can be both absolute or relative.
+By default it only validates the validity of the path. Except of validation
+it return normalized path and it expands home alias (~).
+
+The Path Question have additional arguments for validating paths.
+
+path_type
+~~~~~~~~~
+
+Validation argument that enables to enforce if the path should be aiming
+to file (``Path.FILE``) or directory (``Path.DIRECTORY``).
+
+By default nothing is enforced (``Path.ANY``).
+
+.. code:: python
+
+          Path('log_file', 'Where should be log files located?', path_type=Path.DIRECTORY)
+
+
+exists
+~~~~~~
+
+Validation argument that enables to enforce if the provided path should
+or should not exists. Expects ``True`` if the path should
+exists, or ``False`` if the path should not exists.
+
+By default nothing is enforced (``None``)
+
+.. code:: python
+
+          Path('config_file', 'Point me to your configuration file.', exists=True, path_type=Path.File)
+
+
+normalize_to_absolute_path
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Argument which will enable normalization on the provided path. When enabled, in case of relative path would be provided
+the Question will normalize it to absolute path.
+
+Expects ``bool`` value. Default ``False``.
+
+.. code:: python
+
+          Path('config_file', 'Point me to your configuration file.', normalize_to_absolute_path=True)
+
 
 
 Creating the Question object

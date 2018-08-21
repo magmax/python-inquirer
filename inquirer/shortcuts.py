@@ -30,3 +30,9 @@ def checkbox(message, render=None, **kwargs):
     render = render or ConsoleRender()
     question = questions.Checkbox(name='', message=message, **kwargs)
     return render.render(question)
+
+
+def path(message, render=None, **kwargs):
+    render = render or ConsoleRender()
+    question = questions.Path(name='', message=message, **kwargs)
+    return render.render(question)
