@@ -45,7 +45,6 @@ class List(BaseConsoleRender):
             value = self.question.choices[self.current]
             raise errors.EndOfInput(getattr(value, 'value', value))
 
-            raise errors.EndOfInput(self.question.choices[self.current])
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
 

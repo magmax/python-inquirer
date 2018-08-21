@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 import os
 import shutil
 import tempfile
@@ -170,6 +172,14 @@ class BaseQuestionTests(unittest.TestCase):
 
     def test_factory_list_type(self):
         name = 'foo'
+        q = questions.question_factory('list', name)
+
+        self.assertEquals('list', q.kind)
+        self.assertIsInstance(q, questions.List)
+        self.assertEquals(name, q.name)
+
+    def test_factory_located_list_type(self):
+        name = 'ñçÑÇ'
         q = questions.question_factory('list', name)
 
         self.assertEquals('list', q.kind)
