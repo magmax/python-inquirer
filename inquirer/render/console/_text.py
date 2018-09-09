@@ -30,4 +30,9 @@ class Text(BaseConsoleRender):
         if len(pressed) != 1:
             return
 
-        self.current += pressed
+        if pressed == '{':
+            self.current += '{{'
+        elif pressed == '}':
+            self.current += '}}'
+        else:
+            self.current += pressed
