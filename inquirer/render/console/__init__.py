@@ -88,8 +88,11 @@ class ConsoleRender(object):
         header += default_value if show_default else ''
         msg_template = "{t.move_up}{t.clear_eol}{tq.brackets_color}["\
                        "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
+
+        # ensure any user input with { or } will not cause a formatting error
+        escaped_current_value = render.get_current_value().replace('{', '{{').replace('}', '}}')
         self.print_str(
-            '\n%s: %s' % (msg_template, render.get_current_value()),
+            '\n%s: %s' % (msg_template, escaped_current_value),
             msg=header,
             lf=not render.title_inline,
             tq=self._theme.Question)
