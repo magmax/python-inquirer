@@ -90,7 +90,8 @@ class ConsoleRender(object):
                        "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
 
         # ensure any user input with { or } will not cause a formatting error
-        escaped_current_value = render.get_current_value().replace('{', '{{').replace('}', '}}')
+        escaped_current_value =
+            render.get_current_value().replace('{', '{{').replace('}', '}}')
         self.print_str(
             '\n%s: %s' % (msg_template, escaped_current_value),
             msg=header,
