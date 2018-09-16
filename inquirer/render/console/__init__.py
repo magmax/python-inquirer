@@ -91,7 +91,9 @@ class ConsoleRender(object):
 
         # ensure any user input with { or } will not cause a formatting error
         escaped_current_value = (
-            render.get_current_value().replace('{', '{{').replace('}', '}}')
+            str(render.get_current_value())
+                .replace('{', '{{')
+                .replace('}', '}}')
         )
         self.print_str(
             '\n%s: %s' % (msg_template, escaped_current_value),
