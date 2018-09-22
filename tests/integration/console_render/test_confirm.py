@@ -129,3 +129,14 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertNotInStdout('Z')
         self.assertTrue(result)
+
+    def test_ctrl_c_breaks_execution(self):
+        stdin = helper.event_factory(key.CTRL_C)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        question = questions.Confirm(variable, message)
+
+        sut = ConsoleRender(event_generator=stdin)
+        with self.assertRaises(KeyboardInterrupt):
+            sut.render(question)
