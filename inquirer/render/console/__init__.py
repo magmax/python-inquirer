@@ -111,9 +111,7 @@ class ConsoleRender(object):
                 render.question.validate(e.selection)
                 raise
             except errors.ValidationError as e:
-                self._previous_error = ('"{e}" is not a valid {q}.'
-                                        .format(e=e.value,
-                                                q=render.question.name))
+                self._previous_error = render.handle_validation_error(e)
 
     def _relocate(self):
         print(self._position * self.terminal.move_up, end='')
