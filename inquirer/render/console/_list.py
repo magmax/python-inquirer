@@ -15,7 +15,7 @@ class List(BaseConsoleRender):
         if self.question.strip:
             cmin = max(0, self.current - 6)
             cmax = min(self.current + 6, len(choices))
-            cchoices = choices[cmin:cmax] 
+            cchoices = choices[cmin:cmax]
         else:
             cchoices = choices
 
