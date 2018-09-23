@@ -7,14 +7,8 @@ from pprint import pprint
 import inquirer
 
 questions = [
-    inquirer.Password('password1',
-                      message="What's your password"),
-    inquirer.Password('password2',
-                      message="Password echoing dots",
-                      echo='.'),
-    inquirer.Password('password3',
-                      message="Password no echo",
-                      echo=''),
+    inquirer.Password('password',
+                      message="What's your password")
 ]
 
 answers = inquirer.prompt(questions)
