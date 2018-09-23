@@ -12,8 +12,14 @@ class List(BaseConsoleRender):
 
     def get_options(self):
         choices = self.question.choices or []
+        if self.question.strip:
+            cmin = max(0, self.current - 6)
+            cmax = min(self.current + 6, len(choices))
+            cchoices = choices[cmin:cmax] 
+        else:
+            cchoices = choices
 
-        for choice in choices:
+        for choice in cchoices:
             selected = choice == choices[self.current]
 
             if selected:

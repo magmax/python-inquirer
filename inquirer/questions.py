@@ -161,13 +161,15 @@ class List(Question):
                  default=None,
                  ignore=False,
                  validate=True,
-                 carousel=False):
+                 carousel=False,
+                 strip=False):
 
         super(List, self).__init__(
             name, message, choices,
             default, ignore, validate
         )
         self.carousel = carousel
+        self.strip = strip
 
 
 class Checkbox(Question):
