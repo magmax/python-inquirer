@@ -143,6 +143,10 @@ class Text(Question):
 class Password(Question):
     kind = 'password'
 
+    def __init__(self, name, echo='*', **kwargs):
+        super(Password, self).__init__(name, **kwargs)
+        self.echo = echo
+
 
 class Confirm(Question):
     kind = 'confirm'
