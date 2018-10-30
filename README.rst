@@ -19,6 +19,10 @@ So, **Inquirer** should ease the process of asking end user **questions**, **par
 
 You can `download the python-inquirer code from GitHub`_ or `download the wheel from Pypi`_.
 
+Platforms support
+------------------
+
+Currently the python-inquirer supports only UNIX-based platforms (eq. Mac OS, Linux, etc.). **Windows is not supported at the moment!**
 
 Documentation
 =============
