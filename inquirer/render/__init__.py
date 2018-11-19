@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 from .console import ConsoleRender
+try:
+    from .ncourses import CoursesRender
+except ImportError:
+    # ncourses will not be available
+    pass
 
 
 class Render(object):
