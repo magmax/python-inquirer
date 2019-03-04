@@ -34,7 +34,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         stdin = 'This is a foo message'
         message = 'Foo message'
         variable = 'Bar variable'
-        expected = object()
+        expected = ''
 
         question = questions.Text(variable,
                                   ignore=True,
