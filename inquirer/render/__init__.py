@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .console import ConsoleRender
 try:
-    from .ncourses import CoursesRender
+    from .ncourses import CoursesRender  # noqa
 except ImportError:
     # ncourses will not be available
     pass

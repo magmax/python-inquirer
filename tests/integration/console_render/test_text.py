@@ -59,7 +59,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         expected = '9999'
 
         question = questions.Text(variable,
-                                  validate=lambda _, x: re.match('\d+', x),
+                                  validate=lambda _, x: re.match(r'\d+', x),
                                   message=message)
 
         sut = ConsoleRender(event_generator=stdin)

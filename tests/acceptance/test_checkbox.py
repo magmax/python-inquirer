@@ -10,7 +10,7 @@ class CheckTest(unittest.TestCase):
 
     def test_default_input(self):
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books'\]}.*", timeout=1)
+        self.sut.expect("{'interests': \['Computers', 'Books'\]}.*", timeout=1)  # noqa
 
     def test_select_the_third(self):
         self.sut.send(key.DOWN)
@@ -18,7 +18,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)
+            "{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
 
     def test_select_one_more(self):
         self.sut.send(key.DOWN)
@@ -28,7 +28,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",
+            "{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",  # noqa
             timeout=1
         )
 
@@ -36,7 +36,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Books', 'Computers'\]}.*", timeout=1)
+        self.sut.expect("{'interests': \['Books', 'Computers'\]}.*", timeout=1)  # noqa
 
     def test_select_with_arrows(self):
         self.sut.send(key.DOWN)
@@ -44,7 +44,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.RIGHT)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science'\]}.*",
+            "{'interests': \['Computers', 'Books', 'Science'\]}.*",  # noqa
             timeout=1
         )
 
@@ -52,7 +52,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.DOWN)
         self.sut.send(key.LEFT)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers'\]}.*", timeout=1)
+        self.sut.expect("{'interests': \['Computers'\]}.*", timeout=1)  # noqa
 
     def test_select_last(self):
         for i in range(10):
@@ -60,7 +60,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'History'\]}.*",
+            "{'interests': \['Computers', 'Books', 'History'\]}.*",  # noqa
             timeout=1
         )
 
