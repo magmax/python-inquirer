@@ -1,11 +1,13 @@
-flake8 >= 3.4.1
-pexpect >= 4.2.1
+-r requirements.txt
 
-pytest >= 3.2.1
-pytest-cov >= 2.5.1
-pytest-xdist >= 1.10
-nosexcover >= 1.0.10
+flake8==3.7.7
+pexpect==4.6.0
 
-python-coveralls >= 2.9.1
+pytest==4.3.0
+pytest-cov==2.6.1
+pytest-xdist==1.26.1
+nosexcover==1.0.11
+
+python-coveralls==2.9.1
 
 wheel >= 0.24.0

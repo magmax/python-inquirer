@@ -139,8 +139,13 @@ class Question(object):
 class Text(Question):
     kind = 'text'
 
+    def __init__(self, name, message='', default=None, **kwargs):
+        super(Text, self).__init__(name, message=message,
+                                   default=str(default) if default
+                                   else default, **kwargs)
 
-class Password(Question):
+
+class Password(Text):
     kind = 'password'
 
     def __init__(self, name, echo='*', **kwargs):

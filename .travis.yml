@@ -1,25 +1,99 @@
-language: python
-python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7-dev"
-  - "pypy"
-  - "pypy3"
+stages:
+  - name: lint
+  - name: test
+  - name: deploy-pip
+    if: tag IS present
+#  - name: deploy-mkdocs
+#    if: tag IS present
+  - name: deploy-release
+    if: tag IS present
 
-install:
-  - pip install -r requirements-dev.txt  -r requirements.txt
-  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
-  - python setup.py install
 
-script:
-  - make flakes
-  - make run_integration_tests
-  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
+jobs:
+  include:
+    - stage: lint
+      name: "Flakes"
+      language: python
+      python:
+        - "3.7"
+      dist: xenial
+      sudo: true
+      install:
+        - pip install flake8
+      script:
+        - make flakes
 
-after_success:
-  - make coveralls
+    - stage: test
+      name: "Tests"
+      language: python
+      python:
+        - "2.7"
+        - "3.4"
+        - "3.5"
+        - "3.6"
+        - "3.7"
+        - "3.8-dev"
+        - "pypy"
+        - "pypy3"
+      dist: xenial
+      sudo: true
+      install:
+        - pip install -r requirements-dev.txt
+        - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
+        - python setup.py install
+      script:
+        - make run_integration_tests
+        - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
+      after_success:
+        - make coveralls
+
+    - stage: deploy-pip
+      name: "Publish to PyPi"
+      language: python
+      python: '3.7'
+      dist: xenial
+      sudo: true
+      script:
+        - pip install -r test-requirements.txt
+      deploy:
+        provider: pypi
+        user: AuHau-deploy
+        distributions: sdist bdist_wheel
+        skip_existing: true
+        on:
+          tags: true
+          repo: magmax/python-inquirer
+        password:
+          secure: "U3TCm2jfVDh1jlsLUMNT+3gORy7QselNgXmLaAAVeFsmOjyxDNfQ0jfo7vVuv5/lMvDEJCe/ODDnAudM0YGKXB40viz1fMUddjK5y4PrSIbNG+EZMyLYh6AJt4J6wQuINeyUBiqDM+uV9iRscsEAv/m3Hx05UACPO3RQHRSHwkE="
+
+#    - stage: deploy-mkdocs
+#      name: "Publish documentation"
+#      language: python
+#      python: '3.7'
+#      dist: xenial
+#      sudo: true
+#      install:
+#        - pip install -r test-requirements.txt
+#      script:
+#        - git config user.name "Adam Uhlir";
+#        - git config user.email "hello@adam-uhlir.me";
+#        - git remote add gh-token "https://${GH_TOKEN}@github.com/magmax/python-inquirer.git";
+#        - git fetch gh-token && git fetch gh-token gh-pages:gh-pages;
+#        - mkdocs gh-deploy -v --clean --remote-name gh-token;
+
+    - stage: deploy-release
+      name: "Create release"
+      language: python
+      python: '3.7'
+      dist: xenial
+      sudo: true
+      script: echo 'Lets do it!'
+      deploy:
+        provider: releases
+        api_key: ${GH_TOKEN}
+        on:
+          tags: true
+          repo: magmax/python-inquirer
 
 notifications:
   email:

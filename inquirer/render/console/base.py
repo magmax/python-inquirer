@@ -27,7 +27,7 @@ class BaseConsoleRender(object):
         return []
 
     def read_input(self):
-        raise NotImplemented('Abstract')
+        raise NotImplementedError('Abstract')
 
     def handle_validation_error(self, error):
         return '"{e}" is not a valid {q}.'.format(e=error.value,
