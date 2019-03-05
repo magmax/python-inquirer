@@ -16,10 +16,17 @@ python:
   - "3.6"
   - "3.7"
   - "3.8-dev"
-  - "pypy"
-  - "pypy3"
+  - "pypy2.7-6.0"
+  - "pypy3.5-6.0"
 dist: xenial
 sudo: true
+install:
+  - pip install -r requirements-dev.txt
+  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
+  - python setup.py install
+script:
+  - make run_integration_tests
+  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
 
 jobs:
   include:
@@ -34,13 +41,7 @@ jobs:
 
     - stage: test
       name: "Tests"
-      install:
-        - pip install -r requirements-dev.txt
-        - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
-        - python setup.py install
-      script:
-        - make run_integration_tests
-        - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
+      language: python
       after_success:
         - make coveralls
 
