@@ -8,16 +8,32 @@ stages:
   - name: deploy-release
     if: tag IS present
 
+language: python
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8-dev"
+  - "pypy2.7-6.0"
+  - "pypy3.5-6.0"
+dist: xenial
+sudo: true
+install:
+  - pip install -r requirements-dev.txt
+  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
+  - python setup.py install
+script:
+  - make run_integration_tests
+  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
 
 jobs:
   include:
     - stage: lint
       name: "Flakes"
-      language: python
       python:
         - "3.7"
-      dist: xenial
-      sudo: true
       install:
         - pip install flake8
       script:
@@ -26,33 +42,12 @@ jobs:
     - stage: test
       name: "Tests"
       language: python
-      python:
-        - "2.7"
-        - "3.4"
-        - "3.5"
-        - "3.6"
-        - "3.7"
-        - "3.8-dev"
-        - "pypy"
-        - "pypy3"
-      dist: xenial
-      sudo: true
-      install:
-        - pip install -r requirements-dev.txt
-        - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
-        - python setup.py install
-      script:
-        - make run_integration_tests
-        - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then make run_acceptance_tests; fi
       after_success:
         - make coveralls
 
     - stage: deploy-pip
       name: "Publish to PyPi"
-      language: python
       python: '3.7'
-      dist: xenial
-      sudo: true
       script:
         - pip install -r test-requirements.txt
       deploy:
@@ -83,10 +78,7 @@ jobs:
 
     - stage: deploy-release
       name: "Create release"
-      language: python
       python: '3.7'
-      dist: xenial
-      sudo: true
       script: echo 'Lets do it!'
       deploy:
         provider: releases
