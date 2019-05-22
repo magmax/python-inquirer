@@ -26,7 +26,7 @@ class BaseConsoleRender(object):
     def get_options(self):
         return []
 
-    def read_input(self):
+    def process_input(self, pressed):
         raise NotImplementedError('Abstract')
 
     def handle_validation_error(self, error):
