@@ -124,6 +124,8 @@ class Question(object):
         try:
             if self._solve(self._validate, current):
                 return
+        except errors.ValidationError as e:
+            raise e
         except Exception:
             pass
         raise errors.ValidationError(current)

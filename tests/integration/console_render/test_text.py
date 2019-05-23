@@ -6,6 +6,7 @@ from . import helper
 from readchar import key
 
 from inquirer.render import ConsoleRender
+from inquirer import errors
 
 
 class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
@@ -67,6 +68,32 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertEquals(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('"Invalid" is not a valid foo')
+
+    def test_validation_fails_with_custom_message(self):
+        stdin_array = [x for x in
+                       'Invalid' + key.ENTER +
+                       key.BACKSPACE*20 +
+                       '9999' + key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+
+        message = 'Insert number'
+        variable = 'foo'
+        expected = '9999'
+
+        def raise_exc(x, current):
+            if current != '9999':
+                raise errors.ValidationError('', reason='Custom error')
+            return True
+
+        question = questions.Text(variable,
+                                  validate=raise_exc,
+                                  message=message)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+        self.assertEquals(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('Custom error')
 
     def test_allows_deletion(self):
         stdin_array = ['a', key.BACKSPACE, 'b', key.ENTER]
