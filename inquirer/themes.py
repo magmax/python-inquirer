@@ -73,6 +73,7 @@ class Theme(object):
     def __init__(self):
         self.Question = namedtuple('question', 'mark_color brackets_color '
                                                'default_color')
+        self.Editor = namedtuple('editor', 'opening_prompt')
         self.Checkbox = namedtuple('common', 'selection_color selection_icon '
                                              'selected_color unselected_color '
                                              'selected_icon unselected_icon')
@@ -86,6 +87,7 @@ class Default(Theme):
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.normal
         self.Question.default_color = term.normal
+        self.Editor.opening_prompt_color = term.bright_black
         self.Checkbox.selection_color = term.blue
         self.Checkbox.selection_icon = '>'
         self.Checkbox.selected_icon = 'X'
