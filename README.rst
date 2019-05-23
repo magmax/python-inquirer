@@ -50,6 +50,25 @@ Text
 |inquirer text|
 
 
+Editor
+------
+
+Like a Text question, but used for larger answers. It opens external text editor which is used to collect the answer.
+
+The environment variables $VISUAL and $EDITOR, can be used to specify which editor should be used. If not present
+inquirer fallbacks to `vim -> emacs -> nano` in this order based on availability in the system.
+
+External editor handling is done using great library `python-editor <https://github.com/fmoo/python-editor>`_.
+
+Example:
+
+.. code:: python
+
+  import inquirer
+  questions = [
+    inquirer.Editor('long_text', message="Provide long text")
+  ]
+  answers = inquirer.prompt(questions)
 
 
 List
