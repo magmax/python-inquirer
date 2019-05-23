@@ -30,5 +30,8 @@ class BaseConsoleRender(object):
         raise NotImplementedError('Abstract')
 
     def handle_validation_error(self, error):
+        if error.reason:
+            return error.reason
+
         return '"{e}" is not a valid {q}.'.format(e=error.value,
                                                   q=self.question.name)

@@ -1,10 +1,20 @@
 import os
 import sys
 import re
-sys.path.append(os.path.realpath('.'))
 from pprint import pprint
 
 import inquirer
+from inquirer import errors
+
+sys.path.append(os.path.realpath('.'))
+
+
+def phone_validation(answers, current):
+    if not re.match('\+?\d[\d ]+\d', current):
+        raise errors.ValidationError('', reason='I don\'t like your phone number!')
+
+    return True
+
 
 questions = [
     inquirer.Text('name',
@@ -13,7 +23,7 @@ questions = [
                   message="What's your surname, {name}?"),
     inquirer.Text('phone',
                   message="What's your phone number",
-                  validate=lambda _, x: re.match('\+?\d[\d ]+\d', x),
+                  validate=phone_validation,
                   )
 ]
 

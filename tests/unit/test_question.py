@@ -132,6 +132,20 @@ class BaseQuestionTests(unittest.TestCase):
         with self.assertRaises(errors.ValidationError):
             q.validate(None)
 
+    def test_validate_function_raising_validation_error(self):
+        err = errors.ValidationError('', reason='foo')
+
+        def raise_exc(x, y):
+            raise err
+
+        name = 'foo'
+        q = questions.Question(name, validate=raise_exc)
+
+        try:
+            q.validate(None)
+        except errors.ValidationError as e:
+            self.assertIs(e, err)
+
     def test_validate_function_receives_object(self):
         expected = object()
 

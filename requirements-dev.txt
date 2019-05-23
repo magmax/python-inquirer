@@ -1,7 +1,7 @@
 -r requirements.txt
 
 flake8==3.7.7
-pexpect==4.6.0
+pexpect==4.7.0
 
 pytest==4.3.0
 pytest-cov==2.6.1

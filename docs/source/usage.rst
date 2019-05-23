@@ -121,11 +121,29 @@ Optional attribute that allows the program to check if the answer is valid or no
 
           def validate(answers, current): return boolean()
 
-Where ``answers`` is a `dict` with previous answers again and ``current`` is the current answer. Example:
+Where ``answers`` is a `dict` with previous answers again and ``current`` is the current answer.
+If you want to customize the validation message, you can raise your own error with specific reason:
+``inquirer.errors.ValidationError('', reason='your reason that will be displayed to the user')``
+inside the validation function, but be aware that if the validation passes you still have to return `True`!
+
+Example:
 
 .. code:: python
+          from inquirer import errors
+          import random
 
-          Text('age', "how old are you?", validate=lambda _, c: 0 <= c < 120)
+          def validation_function(answers, current):
+             if random.random() > 0.5:
+                raise errors.ValidationError('', reason='Sorry, just have bad mood.')
+
+             return True
+
+
+          Text('nothing', "Moody question", validate=validation_function)
+          Text('age', "How old are you?", validate=lambda _, c: 0 <= c < 120)
+
+
+
 
 ignore
 ~~~~~~
