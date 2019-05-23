@@ -9,6 +9,7 @@ from inquirer import events
 from inquirer import themes
 
 from ._text import Text
+from ._editor import Editor
 from ._password import Password
 from ._confirm import Confirm
 from ._list import List
@@ -106,6 +107,8 @@ class ConsoleRender(object):
             ev = self._event_gen.next()
             if isinstance(ev, events.KeyPressed):
                 render.process_input(ev.value)
+        except errors.ValidationError as e:
+            self._previous_error = e.value
         except errors.EndOfInput as e:
             try:
                 render.question.validate(e.selection)
@@ -154,6 +157,7 @@ class ConsoleRender(object):
     def render_factory(self, question_type):
         matrix = {
             'text': Text,
+            'editor': Editor,
             'password': Password,
             'confirm': Confirm,
             'list': List,

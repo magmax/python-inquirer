@@ -8,4 +8,7 @@ class Password(Text):
         return self.question.echo * len(self.current)
 
     def handle_validation_error(self, error):
+        if error.reason:
+            return error.reason
+
         return 'Entered value is not a valid {q}.'.format(q=self.question.name)

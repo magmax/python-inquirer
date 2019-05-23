@@ -8,6 +8,12 @@ def text(message, render=None, **kwargs):
     return render.render(question)
 
 
+def editor(message, render=None, **kwargs):
+    render = render or ConsoleRender()
+    question = questions.Editor(name='', message=message, **kwargs)
+    return render.render(question)
+
+
 def password(message, render=None, **kwargs):
     render = render or ConsoleRender()
     question = questions.Password(name='', message=message, **kwargs)

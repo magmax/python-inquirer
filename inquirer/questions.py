@@ -12,7 +12,7 @@ from . import errors
 
 
 def question_factory(kind, *args, **kwargs):
-    for clazz in (Text, Password, Confirm, List, Checkbox, Path):
+    for clazz in (Text, Editor, Password, Confirm, List, Checkbox, Path):
         if clazz.kind == kind:
             return clazz(*args, **kwargs)
     raise errors.UnknownQuestionTypeError()
@@ -153,6 +153,10 @@ class Password(Text):
     def __init__(self, name, echo='*', **kwargs):
         super(Password, self).__init__(name, **kwargs)
         self.echo = echo
+
+
+class Editor(Text):
+    kind = 'editor'
 
 
 class Confirm(Question):

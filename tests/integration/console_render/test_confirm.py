@@ -26,7 +26,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(y/N)')
 
@@ -43,7 +43,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
 
@@ -60,7 +60,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
 
@@ -77,7 +77,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
 
@@ -94,7 +94,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
 
@@ -111,7 +111,7 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('(Y/n)')
 

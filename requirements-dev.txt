@@ -6,6 +6,7 @@ pexpect==4.7.0
 pytest==4.3.0
 pytest-cov==2.6.1
 pytest-xdist==1.26.1
+mock==3.0.5
 nosexcover==1.0.11
 
 python-coveralls==2.9.1

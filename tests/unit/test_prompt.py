@@ -9,7 +9,7 @@ from inquirer import prompt
 
 class PromptTests(unittest.TestCase):
     def test_prompt_returns_a_hash(self):
-        self.assertEquals({}, prompt([]))
+        self.assertEqual({}, prompt([]))
 
     def test_prompt_renders_a_questions(self):
         question1 = MagicMock()
@@ -20,6 +20,6 @@ class PromptTests(unittest.TestCase):
 
         result = prompt([question1], render=render)
 
-        self.assertEquals({'foo': result1}, result)
+        self.assertEqual({'foo': result1}, result)
         self.assertTrue(render.render.called)
         render.render.call_args_list[0][0] == result1
