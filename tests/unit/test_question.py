@@ -14,8 +14,8 @@ class BaseQuestionTests(unittest.TestCase):
         name = 'foo'
         q = questions.Question(name)
 
-        self.assertEquals('base question', q.kind)
-        self.assertEquals(name, q.name)
+        self.assertEqual('base question', q.kind)
+        self.assertEqual(name, q.name)
 
     def test_ignore_works_for_true(self):
         name = 'foo'
@@ -164,66 +164,66 @@ class BaseQuestionTests(unittest.TestCase):
         name = 'foo'
         q = questions.question_factory('text', name)
 
-        self.assertEquals('text', q.kind)
+        self.assertEqual('text', q.kind)
         self.assertIsInstance(q, questions.Text)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_factory_confirm_type(self):
         name = 'foo'
         q = questions.question_factory('confirm', name)
 
-        self.assertEquals('confirm', q.kind)
+        self.assertEqual('confirm', q.kind)
         self.assertIsInstance(q, questions.Confirm)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_factory_password_type(self):
         name = 'foo'
         q = questions.question_factory('password', name)
 
-        self.assertEquals('password', q.kind)
+        self.assertEqual('password', q.kind)
         self.assertIsInstance(q, questions.Password)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_factory_list_type(self):
         name = 'foo'
         q = questions.question_factory('list', name)
 
-        self.assertEquals('list', q.kind)
+        self.assertEqual('list', q.kind)
         self.assertIsInstance(q, questions.List)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_factory_located_list_type(self):
         name = 'ñçÑÇ'
         q = questions.question_factory('list', name)
 
-        self.assertEquals('list', q.kind)
+        self.assertEqual('list', q.kind)
         self.assertIsInstance(q, questions.List)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_factory_checkbox_type(self):
         name = 'foo'
         q = questions.question_factory('checkbox', name)
 
-        self.assertEquals('checkbox', q.kind)
+        self.assertEqual('checkbox', q.kind)
         self.assertIsInstance(q, questions.Checkbox)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_load_from_dict_text_type(self):
         name = 'foo'
         q = questions.load_from_dict({'kind': 'text', 'name': name})
 
-        self.assertEquals('text', q.kind)
+        self.assertEqual('text', q.kind)
         self.assertIsInstance(q, questions.Text)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_load_from_json_text_type(self):
         name = 'foo'
         q = questions.load_from_json(
             '{"kind": "text", "name": "%s"}' % name)
 
-        self.assertEquals('text', q.kind)
+        self.assertEqual('text', q.kind)
         self.assertIsInstance(q, questions.Text)
-        self.assertEquals(name, q.name)
+        self.assertEqual(name, q.name)
 
     def test_factory_bad_type(self):
         name = 'foo'
@@ -236,10 +236,10 @@ class BaseQuestionTests(unittest.TestCase):
             '[{"kind": "text", "name": "%s"}]' % name)
 
         self.assertIsInstance(result, list)
-        self.assertEquals(1, len(result))
-        self.assertEquals('text', result[0].kind)
+        self.assertEqual(1, len(result))
+        self.assertEqual('text', result[0].kind)
         self.assertIsInstance(result[0], questions.Text)
-        self.assertEquals(name, result[0].name)
+        self.assertEqual(name, result[0].name)
 
 
 class TestConfirmQuestion(unittest.TestCase):
@@ -247,7 +247,7 @@ class TestConfirmQuestion(unittest.TestCase):
         name = 'foo'
         q = questions.Confirm(name)
 
-        self.assertEquals(False, q.default)
+        self.assertEqual(False, q.default)
 
 
 class TestPathQuestion(unittest.TestCase):

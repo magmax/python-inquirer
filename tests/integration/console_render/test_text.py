@@ -28,7 +28,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(stdin_msg, result)
+        self.assertEqual(stdin_msg, result)
         self.assertInStdout(message)
 
     def test_ignore_true_should_return(self):
@@ -45,7 +45,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertNotInStdout(message)
 
     def test_validation_fails(self):
@@ -65,7 +65,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('"Invalid" is not a valid foo')
 
@@ -91,7 +91,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
         self.assertInStdout(message)
         self.assertInStdout('Custom error')
 
@@ -106,7 +106,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals('b', result)
+        self.assertEqual('b', result)
 
     def test_ignore_cursors(self):
         stdin_array = [
@@ -130,7 +130,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEquals('abcde', result)
+        self.assertEqual('abcde', result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
