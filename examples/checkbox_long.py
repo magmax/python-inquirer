@@ -9,7 +9,7 @@ import inquirer
 questions = [
     inquirer.Checkbox('interests',
                       message="What are you interested in?",
-                      choices=['Choice %s' % i for i in range(20)],
+                      choices=['Choice %s' % i for i in range(40)],
                       default=['Choice 2', 'Choice 10']),
 ]
 
