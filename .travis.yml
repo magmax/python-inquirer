@@ -96,6 +96,4 @@ jobs:
           repo: magmax/python-inquirer
 
 notifications:
-  email:
-    on_success: change
-    on_failure: change
+  email: gfalse
