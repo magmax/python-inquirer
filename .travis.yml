@@ -3,8 +3,8 @@ stages:
   - name: test
   - name: deploy-pip
     if: tag IS present
-#  - name: deploy-mkdocs
-#    if: tag IS present
+  - name: deploy-docs
+    if: tag IS present
   - name: deploy-release
     if: tag IS present
 
@@ -49,7 +49,7 @@ jobs:
       name: "Publish to PyPi"
       python: '3.7'
       script:
-        - pip install -r test-requirements.txt
+        - pip install -r requirements-dev.txt
       deploy:
         provider: pypi
         user: AuHau-deploy
@@ -61,20 +61,28 @@ jobs:
         password:
           secure: "U3TCm2jfVDh1jlsLUMNT+3gORy7QselNgXmLaAAVeFsmOjyxDNfQ0jfo7vVuv5/lMvDEJCe/ODDnAudM0YGKXB40viz1fMUddjK5y4PrSIbNG+EZMyLYh6AJt4J6wQuINeyUBiqDM+uV9iRscsEAv/m3Hx05UACPO3RQHRSHwkE="
 
-#    - stage: deploy-mkdocs
-#      name: "Publish documentation"
-#      language: python
-#      python: '3.7'
-#      dist: xenial
-#      sudo: true
-#      install:
-#        - pip install -r test-requirements.txt
-#      script:
-#        - git config user.name "Adam Uhlir";
-#        - git config user.email "hello@adam-uhlir.me";
-#        - git remote add gh-token "https://${GH_TOKEN}@github.com/magmax/python-inquirer.git";
-#        - git fetch gh-token && git fetch gh-token gh-pages:gh-pages;
-#        - mkdocs gh-deploy -v --clean --remote-name gh-token;
+    - stage: deploy-docs
+      name: "Publish documentation"
+      language: python
+      python: '3.7'
+      dist: xenial
+      sudo: true
+      install:
+        - pip install -r requirements-doc.txt
+        - pip install -e .
+      script:
+        - cd ./docs
+        - make html
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: ${GH_TOKEN}
+        keep_history: true
+        committer_from_gh: true
+        local_dir: ./build/html/
+        on:
+          tags: true
+          repo: magmax/python-inquirer
 
     - stage: deploy-release
       name: "Create release"

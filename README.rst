@@ -27,7 +27,7 @@ Currently the python-inquirer supports only UNIX-based platforms (eq. Mac OS, Li
 Documentation
 =============
 
-Documentation has been moved to `ReadTheDocs`_.
+Documentation has been moved to `magmax.org/python-inquirer <https://magmax.org/python-inquirer/>`_.
 
 But here you have a couple of usage examples:
 
@@ -193,20 +193,19 @@ Licensed under `the MIT license`_.
 
 
 
-.. |inquirer text| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_text.png
+.. |inquirer text| image:: http://magmax.org/python-inquirer/_images/inquirer_text.png
   :alt: Example of Text Question
 
-.. |inquirer list| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_list.png
+.. |inquirer list| image:: http://magmax.org/python-inquirer/_images/inquirer_list.png
   :alt: Example of List Question
 
-.. |inquirer checkbox| image:: http://python-inquirer.readthedocs.org/en/latest/_images/inquirer_checkbox.png
+.. |inquirer checkbox| image:: http://magmax.org/python-inquirer/_images/inquirer_checkbox.png
   :alt: Example of Checkbox Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _Travis: https://travis-ci.org/magmax/python-inquirer
 .. _Coveralls: https://coveralls.io/r/magmax/python-inquirer
 .. _examples/: https://github.com/magmax/python-inquirer/tree/master/examples
-.. _ReadTheDocs: http://python-inquirer.readthedocs.org/
 .. _`download the python-inquirer code from GitHub`: https://github.com/magmax/python-inquirer
 .. _`download the wheel from Pypi`: https://pypi.python.org/pypi/inquirer
 
