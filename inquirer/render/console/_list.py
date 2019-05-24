@@ -4,6 +4,8 @@ from readchar import key
 from .base import BaseConsoleRender
 from inquirer import errors
 
+MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
+
 
 class List(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
@@ -12,7 +14,7 @@ class List(BaseConsoleRender):
 
     def get_options(self):
         choices = self.question.choices or []
-        if self.question.strip:
+        if len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE:
             cmin = max(0, self.current - 6)
             cmax = min(self.current + 6, len(choices))
             cchoices = choices[cmin:cmax]

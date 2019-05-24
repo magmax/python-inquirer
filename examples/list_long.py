@@ -9,9 +9,8 @@ import inquirer
 questions = [
     inquirer.List('size',
                   message="What size do you need?",
-                  choices=['Choice %s' % i for i in range(100)],
+                  choices=['Choice %s' % i for i in range(20)],
                   carousel=False,
-                  strip=True,
               ),
 ]
 
