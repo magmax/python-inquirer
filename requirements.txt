@@ -1,3 +1,2 @@
-blessings==1.7
-readchar==2.0.1
-python-editor==1.0.4
+# All dependencies should be placed in setup.py
+.
