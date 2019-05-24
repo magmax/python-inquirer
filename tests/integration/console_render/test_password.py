@@ -42,7 +42,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertEqual('b', result)
 
-    def test_ignore_cursors(self):
+    def test_cursor_movement(self):
         stdin_array = [
             'a',
             key.UP,
@@ -64,7 +64,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual('abcde', result)
+        self.assertEqual('abdce', result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
