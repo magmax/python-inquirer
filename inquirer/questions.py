@@ -254,6 +254,8 @@ class Path(Text):
         if current is None:
             raise errors.ValidationError(current)
 
+        current = self.normalize_value(current)
+
         if not is_pathname_valid(current):
             raise errors.ValidationError(current)
 
