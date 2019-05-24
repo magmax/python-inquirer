@@ -79,7 +79,7 @@ jobs:
         github_token: ${GH_TOKEN}
         keep_history: true
         committer_from_gh: true
-        local_dir: ./build/html/
+        local_dir: ./docs/build/html/
         on:
           tags: true
           repo: magmax/python-inquirer
