@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import BaseConsoleRender
+from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, \
+    half_options
 from inquirer import errors
 
 
@@ -10,19 +11,37 @@ class List(BaseConsoleRender):
         super(List, self).__init__(*args, **kwargs)
         self.current = self._current_index()
 
+    @property
+    def is_long(self):
+        choices = self.question.choices or []
+        return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
+
     def get_options(self):
         choices = self.question.choices or []
-        if self.question.strip:
-            cmin = max(0, self.current - 6)
-            cmax = min(self.current + 6, len(choices))
+        if self.is_long:
+            cmin = 0
+            cmax = MAX_OPTIONS_DISPLAYED_AT_ONCE
+
+            if half_options < self.current < len(choices) - half_options:
+                cmin += self.current - half_options
+                cmax += self.current - half_options
+            elif self.current >= len(choices) - half_options:
+                cmin += len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE
+                cmax += len(choices)
+
             cchoices = choices[cmin:cmax]
         else:
             cchoices = choices
 
-        for choice in cchoices:
-            selected = choice == choices[self.current]
+        is_in_beginning = self.current <= half_options
+        is_in_middle = half_options < self.current < len(choices) - half_options  # noqa
+        is_in_end = self.current >= len(choices) - half_options
 
-            if selected:
+        for index, choice in enumerate(cchoices):
+            if (is_in_middle and index == half_options) \
+                or (is_in_beginning and index == self.current) \
+                or (is_in_end and index == half_options + self.current % MAX_OPTIONS_DISPLAYED_AT_ONCE): # noqa
+
                 color = self.theme.List.selection_color
                 symbol = self.theme.List.selection_cursor
             else:
