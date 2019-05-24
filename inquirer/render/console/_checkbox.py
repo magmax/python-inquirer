@@ -35,17 +35,16 @@ class Checkbox(BaseConsoleRender):
         else:
             cchoices = choices
 
+        ending_milestone = max(len(choices) - half_options, half_options + 1)
         is_in_beginning = self.current <= half_options
-        is_in_middle = half_options < self.current < len(choices) - half_options  # noqa
-        is_in_end = self.current >= len(choices) - half_options
+        is_in_middle = half_options < self.current < ending_milestone
+        is_in_end = self.current >= ending_milestone
 
         for index, choice in enumerate(cchoices):
-
-            # if index in self.selection:
             if (is_in_middle and
                 self.current - half_options + index in self.selection) \
                 or (is_in_beginning and index in self.selection) \
-                or (is_in_end and len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE + index in self.selection):  # noqa
+                or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection):  # noqa
 
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color
@@ -54,9 +53,10 @@ class Checkbox(BaseConsoleRender):
                 color = self.theme.Checkbox.unselected_color
 
             selector = ' '
+            end_index = ending_milestone + index - half_options - 1
             if (is_in_middle and index == half_options) \
-                or (is_in_beginning and index == self.current) \
-                or (is_in_end and index == half_options + self.current % MAX_OPTIONS_DISPLAYED_AT_ONCE):  # noqa
+                    or (is_in_beginning and index == self.current) \
+                    or (is_in_end and end_index == self.current):
 
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
