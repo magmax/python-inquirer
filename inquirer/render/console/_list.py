@@ -21,10 +21,8 @@ class List(BaseConsoleRender):
         else:
             cchoices = choices
 
-        for choice in cchoices:
-            selected = choice == choices[self.current]
-
-            if selected:
+        for index, choice in enumerate(cchoices):
+            if index == self.current:
                 color = self.theme.List.selection_color
                 symbol = self.theme.List.selection_cursor
             else:
