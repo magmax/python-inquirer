@@ -4,6 +4,10 @@ from __future__ import print_function
 
 from blessings import Terminal
 
+# Should be odd number as there is always one question selected
+MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
+half_options = int((MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)
+
 
 class BaseConsoleRender(object):
     title_inline = False

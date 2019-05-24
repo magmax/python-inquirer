@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import division
 from readchar import key
-from .base import BaseConsoleRender
+from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, \
+    half_options
 from inquirer import errors
 
 
@@ -12,17 +13,51 @@ class Checkbox(BaseConsoleRender):
                           if v in (self.question.default or [])]
         self.current = 0
 
+    @property
+    def is_long(self):
+        choices = self.question.choices or []
+        return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
+
     def get_options(self):
-        for n in range(len(self.question.choices)):
-            choice = self.question.choices[n]
-            if n in self.selection:
+        choices = self.question.choices or []
+        if self.is_long:
+            cmin = 0
+            cmax = MAX_OPTIONS_DISPLAYED_AT_ONCE
+
+            if half_options < self.current < len(choices) - half_options:
+                cmin += self.current - half_options
+                cmax += self.current - half_options
+            elif self.current >= len(choices) - half_options:
+                cmin += len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE
+                cmax += len(choices)
+
+            cchoices = choices[cmin:cmax]
+        else:
+            cchoices = choices
+
+        is_in_beginning = self.current <= half_options
+        is_in_middle = half_options < self.current < len(choices) - half_options  # noqa
+        is_in_end = self.current >= len(choices) - half_options
+
+        for index, choice in enumerate(cchoices):
+
+            # if index in self.selection:
+            if (is_in_middle and
+                self.current - half_options + index in self.selection) \
+                or (is_in_beginning and index in self.selection) \
+                or (is_in_end and len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE + index in self.selection):  # noqa
+
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color
             else:
                 symbol = self.theme.Checkbox.unselected_icon
                 color = self.theme.Checkbox.unselected_color
+
             selector = ' '
-            if n == self.current:
+            if (is_in_middle and index == half_options) \
+                or (is_in_beginning and index == self.current) \
+                or (is_in_end and index == half_options + self.current % MAX_OPTIONS_DISPLAYED_AT_ONCE):  # noqa
+
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
             yield choice, selector + ' ' + symbol, color
