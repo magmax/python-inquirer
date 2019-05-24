@@ -11,9 +11,10 @@ class Text(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super(Text, self).__init__(*args, **kwargs)
         self.current = self.question.default or ''
+        self.cursor_offset = 0
 
     def get_current_value(self):
-        return self.current
+        return self.current + (self.terminal.move_left * self.cursor_offset)
 
     def process_input(self, pressed):
         if pressed == key.CTRL_C:
@@ -23,11 +24,25 @@ class Text(BaseConsoleRender):
             raise errors.EndOfInput(self.current)
 
         if pressed == key.BACKSPACE:
-            if len(self.current):
-                self.current = self.current[:-1]
+            if self.current and self.cursor_offset != len(self.current):
+                if self.cursor_offset > 0:
+                    self.current = (self.current[:-self.cursor_offset - 1] +
+                                    self.current[-self.cursor_offset:])
+                else:
+                    self.current = self.current[:-1]
+        elif pressed == key.LEFT:
+            if self.cursor_offset < len(self.current):
+                self.cursor_offset += 1
+        elif pressed == key.RIGHT:
+            self.cursor_offset = max(self.cursor_offset - 1, 0)
+        elif len(pressed) != 1:
             return
-
-        if len(pressed) != 1:
-            return
-
-        self.current += pressed
+        else:
+            if self.cursor_offset == 0:
+                self.current += pressed
+            else:
+                self.current = ''.join((
+                    self.current[:-self.cursor_offset],
+                    pressed,
+                    self.current[-self.cursor_offset:]
+                ))
