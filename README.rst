@@ -74,7 +74,7 @@ Example:
 List
 ----
 
-Shows a list of choices, and allows the selection of one of them.
+Shows a list of choices, and allows the selection of one of them. Default is to show 13 items.
 
 Example:
 
@@ -86,6 +86,7 @@ Example:
     inquirer.List('size',
                   message="What size do you need?",
                   choices=['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
+                  length=13
               ),
   ]
   answers = inquirer.prompt(questions)
@@ -98,7 +99,7 @@ List questions can take one extra argument :code:`carousel=False`. If set to tru
 Checkbox
 --------
 
-Shows a list of choices, with multiple selection.
+Shows a list of choices, with multiple selection. Default is to show 13 items.
 
 Example:
 
@@ -110,6 +111,7 @@ Example:
     inquirer.Checkbox('interests',
                       message="What are you interested in?",
                       choices=['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'],
+                      length=13
                       ),
   ]
   answers = inquirer.prompt(questions)
