@@ -10,5 +10,6 @@ mock==3.0.5
 nosexcover==1.0.11
 
 python-coveralls==2.9.1
+PyYAML==5.2
 
 wheel >= 0.24.0
