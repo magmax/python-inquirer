@@ -47,20 +47,32 @@ class Checkbox(BaseConsoleRender):
                 or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection):  # noqa
 
                 symbol = self.theme.Checkbox.selected_icon
+                symbol_color = self.theme.Checkbox.selected_icon_color
                 color = self.theme.Checkbox.selected_color
             else:
                 symbol = self.theme.Checkbox.unselected_icon
+                symbol_color = self.theme.Checkbox.unselected_icon_color
                 color = self.theme.Checkbox.unselected_color
 
             selector = ' '
+            selector_color = self.theme.Checkbox.selector_color_unselected
             end_index = ending_milestone + index - half_options - 1
             if (is_in_middle and index == half_options) \
                     or (is_in_beginning and index == self.current) \
                     or (is_in_end and end_index == self.current):
 
                 selector = self.theme.Checkbox.selection_icon
+                selector_color = self.theme.Checkbox.selector_color_selected
                 color = self.theme.Checkbox.selection_color
-            yield choice, selector + ' ' + symbol, color
+                symbol_color = self.theme.Checkbox.selection_icon_color
+
+            yield " {selector_color}{selector} " \
+                  "{symbol_color}{symbol} " \
+                  "{color}{choice}{t.normal}", choice, dict(
+                    selector_color=selector_color,
+                    selector=selector, symbol=symbol,
+                    color=color, symbol_color=symbol_color
+                  )
 
     def process_input(self, pressed):
         if pressed == key.UP:

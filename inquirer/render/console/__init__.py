@@ -69,11 +69,10 @@ class ConsoleRender(object):
         self._previous_error = None
 
     def _print_options(self, render):
-        for message, symbol, color in render.get_options():
-            if hasattr(message, 'decode'):  # python 2
-                message = message.decode('utf-8')
-            self.print_line(' {color}{s} {m}{t.normal}',
-                            m=message, color=color, s=symbol)
+        for message_template, choice, kwargs in render.get_options():
+            if hasattr(choice, 'decode'):  # python 2
+                choice = choice.decode('utf-8')
+            self.print_line(message_template, choice=choice, **kwargs)
 
     def _print_header(self, render):
         base = render.get_header()

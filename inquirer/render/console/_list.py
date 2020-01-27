@@ -45,11 +45,18 @@ class List(BaseConsoleRender):
                     or (is_in_end and end_index == self.current):
 
                 color = self.theme.List.selection_color
-                symbol = self.theme.List.selection_cursor
+                selector = self.theme.List.selection_cursor
+                selector_color = self.theme.Checkbox.selector_color_selected
             else:
                 color = self.theme.List.unselected_color
-                symbol = ' '
-            yield choice, symbol, color
+                selector_color = self.theme.Checkbox.selector_color_unselected
+                selector = ' '
+
+            yield " {selector_color}{selector} " \
+                  "{color}{choice}{t.normal}", choice, dict(
+                    color=color, selector=selector,
+                    selector_color=selector_color
+                  )
 
     def process_input(self, pressed):
         question = self.question

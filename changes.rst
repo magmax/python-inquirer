@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.7.0(2014/12/18)
+------------------
+
+Features
+~~~~~~~~
+
+* Now themes supports more versatile options (line separated coloring).
+* New theme added ``Node``.
+
 2.1.11(2014/12/18)
 ------------------
 
