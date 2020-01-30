@@ -34,7 +34,11 @@ class Checkbox(BaseConsoleRender):
         else:
             cchoices = choices
 
-        ending_milestone = max(len(choices) - self.half_options, self.half_options + 1)
+        # Check if length is even or odd
+        if self.MAX_OPTIONS_DISPLAYED_AT_ONCE % 2 == 0:
+            ending_milestone = max(len(choices) - self.half_options, self.half_options + 1)
+        else:
+            ending_milestone = max(len(choices) - self.half_options, self.half_options)
         is_in_beginning = self.current <= self.half_options
         is_in_middle = self.half_options < self.current < ending_milestone
         is_in_end = self.current >= ending_milestone
@@ -52,7 +56,11 @@ class Checkbox(BaseConsoleRender):
                 color = self.theme.Checkbox.unselected_color
 
             selector = ' '
-            end_index = ending_milestone + index - self.half_options - 1
+            # Check if lengthis even or odd
+            if self.MAX_OPTIONS_DISPLAYED_AT_ONCE % 2 == 0:
+                end_index = ending_milestone + index - self.half_options
+            else:
+                end_index = ending_milestone + index - self.half_options - 1
             if (is_in_middle and index == self.half_options) \
                     or (is_in_beginning and index == self.current) \
                     or (is_in_end and end_index == self.current):

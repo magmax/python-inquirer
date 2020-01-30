@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+from math import ceil, floor
 
 from blessings import Terminal
 
@@ -18,7 +19,7 @@ class BaseConsoleRender(object):
         self.show_default = show_default
         # Should be odd number as there is always one question selected
         self.MAX_OPTIONS_DISPLAYED_AT_ONCE = self.question.length
-        self.half_options = int((self.MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)
+        self.half_options = floor(self.MAX_OPTIONS_DISPLAYED_AT_ONCE / 2)
 
     def get_header(self):
         return self.question.message
