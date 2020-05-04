@@ -143,7 +143,7 @@ class Text(Question):
 
     def __init__(self, name, message='', default=None, **kwargs):
         super(Text, self).__init__(name, message=message,
-                                   default=str(default) if default
+                                   default=str(default) if default and not callable(default)
                                    else default, **kwargs)
 
 
