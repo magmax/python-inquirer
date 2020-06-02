@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import sys
-from blessings import Terminal
+from blessed import Terminal
 
 from inquirer import errors
 from inquirer import events
