@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from blessings import Terminal
+from blessed import Terminal
 
 from inquirer import themes
 from inquirer import errors

@@ -34,7 +34,7 @@ class TextTest(unittest.TestCase):
         self.set_surname()
         self.set_phone('abcde')
         self.sut.expect('I don\'t like your phone number!', timeout=1)
-        self.sut.sendline(5*key.BACKSPACE + '12345')
+        self.sut.sendline(5 * key.BACKSPACE + '12345')
         self.sut.expect_list([re.compile(b"'name': 'foo'"),
                               re.compile(b"'surname': 'bar'"),
                               re.compile(b"'phone': '12345'")],

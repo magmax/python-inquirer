@@ -82,9 +82,10 @@ class ConsoleRender(object):
                   if len(base) > self.width - 6
                   else base)
         default_value = ' ({color}{default}{normal})'.format(
-                             default=render.question.default,
-                             color=self._theme.Question.default_color,
-                             normal=self.terminal.normal)
+            default=render.question.default,
+            color=self._theme.Question.default_color,
+            normal=self.terminal.normal
+        )
         show_default = render.question.default and render.show_default
         header += default_value if show_default else ''
         msg_template = "{t.move_up}{t.clear_eol}{tq.brackets_color}["\
@@ -143,7 +144,7 @@ class ConsoleRender(object):
             self.render_in_bottombar(
                 '{t.red}{s}{t.normal}{t.bold}{msg}{t.normal} '
                 .format(msg=message, s=symbol, t=self.terminal)
-                )
+            )
 
     def render_in_bottombar(self, message):
         with self.terminal.location(0, self.height - 2):
@@ -163,7 +164,7 @@ class ConsoleRender(object):
             'list': List,
             'checkbox': Checkbox,
             'path': Path,
-            }
+        }
 
         if question_type not in matrix:
             raise errors.UnknownQuestionTypeError()

@@ -51,7 +51,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
     def test_validation_fails(self):
         stdin_array = [x for x in
                        'Invalid' + key.ENTER +
-                       key.BACKSPACE*20 +
+                       key.BACKSPACE * 20 +
                        '9999' + key.ENTER]
         stdin = helper.event_factory(*stdin_array)
 
@@ -72,7 +72,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
     def test_validation_fails_with_custom_message(self):
         stdin_array = [x for x in
                        'Invalid' + key.ENTER +
-                       key.BACKSPACE*20 +
+                       key.BACKSPACE * 20 +
                        '9999' + key.ENTER]
         stdin = helper.event_factory(*stdin_array)
 
@@ -120,7 +120,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
             key.RIGHT,
             'e',
             key.ENTER,
-            ]
+        ]
         stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'

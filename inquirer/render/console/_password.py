@@ -5,8 +5,9 @@ from ._text import Text
 
 class Password(Text):
     def get_current_value(self):
-        return self.question.echo * len(self.current) + \
-               (self.terminal.move_left * self.cursor_offset)
+        return self.question.echo * len(self.current) + (
+            self.terminal.move_left * self.cursor_offset
+        )
 
     def handle_validation_error(self, error):
         if error.reason:
