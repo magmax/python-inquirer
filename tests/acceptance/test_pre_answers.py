@@ -1,6 +1,7 @@
 import unittest
 from readchar import key
 
+import pexpect
 try:
     from pexpect import spawn
 except ImportError:
