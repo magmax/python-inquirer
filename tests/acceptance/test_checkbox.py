@@ -14,7 +14,7 @@ class CheckTest(unittest.TestCase):
 
     def test_default_input(self):
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books'\]}.*",
+        self.sut.expect(r"{'interests': \['Computers', 'Books'\]}.*",
                         timeout=1)  # noqa
 
     def test_select_the_third(self):
@@ -23,7 +23,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science'\]}.*",
+            r"{'interests': \['Computers', 'Books', 'Science'\]}.*",
             timeout=1)  # noqa
 
     def test_select_one_more(self):
@@ -34,7 +34,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",
+            r"{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",
             # noqa
             timeout=1
         )
@@ -43,7 +43,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Books', 'Computers'\]}.*",
+        self.sut.expect(r"{'interests': \['Books', 'Computers'\]}.*",
                         timeout=1)  # noqa
 
     def test_select_with_arrows(self):
@@ -60,7 +60,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.DOWN)
         self.sut.send(key.LEFT)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
 
     def test_select_last(self):
         for i in range(10):
@@ -68,7 +68,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'History'\]}.*",  # noqa
+            r"{'interests': \['Computers', 'Books', 'History'\]}.*",  # noqa
             timeout=1
         )
 
