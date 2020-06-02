@@ -265,7 +265,7 @@ class TestPathQuestion(unittest.TestCase):
         if os.environ.get('TRAVIS_PYTHON_VERSION') != 'pypy3':
             # Path component must not be longer then 255 bytes
             do_test('a' * 256, False)
-            do_test('/asdf/' + 'a' * 256, False)
+            do_test(os.path.abspath('/asdf/' + 'a' * 256), False)
             do_test('{}/{}'.format('a' * 255, 'b' * 255), True)
 
             # Path component must not contains null bytes
@@ -355,7 +355,7 @@ class TestPathQuestion(unittest.TestCase):
 
     def test_normalizing_value(self):
         # Expanding Home
-        home = os.environ.get('HOME')
+        home = os.path.expanduser('~')
         q = questions.Path('home')
 
         path = '~/some_path/some_file'
@@ -363,8 +363,11 @@ class TestPathQuestion(unittest.TestCase):
         self.assertIn(home, q.normalize_value(path))
 
         # Normalizing to absolute path
+        root = os.path.abspath(__file__).split(os.path.sep)[0]
         q = questions.Path('abs_path', normalize_to_absolute_path=True)
-        self.assertEqual('/', q.normalize_value('some/relative/path')[0])
+        self.assertEqual(root, q.normalize_value('some/relative/path').split(
+            os.path.sep
+        )[0])
 
     def test_default_value_validation(self):
 
