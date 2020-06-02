@@ -10,19 +10,15 @@ stages:
 
 language: python
 python:
-  - "2.7"
-  - "3.4"
   - "3.5"
   - "3.6"
   - "3.7"
-  - "3.8-dev"
-  - "pypy2.7-6.0"
+  - "3.8"
   - "pypy3.5-6.0"
 dist: xenial
 sudo: true
 install:
   - pip install -r requirements-dev.txt
-  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install unittest2 mock; fi
   - python setup.py install
 script:
   - make run_integration_tests
@@ -42,6 +38,20 @@ jobs:
     - stage: test
       name: "Tests"
       language: python
+      after_success:
+        - make coveralls
+
+    - stage: windows-test
+      name: "Windows Tests"
+      os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.8.2
+        - choco install make
+        - python --version
+        - python -m pip install --upgrade pip
+        - pip3 install --upgrade pytest
+      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
       after_success:
         - make coveralls
 
