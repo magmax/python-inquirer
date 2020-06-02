@@ -1,16 +1,21 @@
 import unittest
-import pexpect
 from readchar import key
+
+try:
+    from pexpect import spawn
+except ImportError:
+    from pexpect.popen_spawn import PopenSpawn as spawn
 
 
 class CheckTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/checkbox.py')
+        self.sut = spawn('python examples/checkbox.py')
         self.sut.expect('History.*', timeout=1)
 
     def test_default_input(self):
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books'\]}.*", timeout=1)  # noqa
+        self.sut.expect("{'interests': \['Computers', 'Books'\]}.*",
+                        timeout=1)  # noqa
 
     def test_select_the_third(self):
         self.sut.send(key.DOWN)
@@ -18,7 +23,8 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
+            "{'interests': \['Computers', 'Books', 'Science'\]}.*",
+            timeout=1)  # noqa
 
     def test_select_one_more(self):
         self.sut.send(key.DOWN)
@@ -28,7 +34,8 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(
-            "{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",  # noqa
+            "{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*",
+            # noqa
             timeout=1
         )
 
@@ -36,7 +43,8 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.SPACE)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Books', 'Computers'\]}.*", timeout=1)  # noqa
+        self.sut.expect("{'interests': \['Books', 'Computers'\]}.*",
+                        timeout=1)  # noqa
 
     def test_select_with_arrows(self):
         self.sut.send(key.DOWN)
@@ -67,7 +75,7 @@ class CheckTest(unittest.TestCase):
 
 class CheckWithTaggedValuesTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/checkbox_tagged.py')
+        self.sut = spawn('python examples/checkbox_tagged.py')
         self.sut.expect('History.*', timeout=1)
 
     def test_default_selection(self):

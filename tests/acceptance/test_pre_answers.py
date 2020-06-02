@@ -1,6 +1,10 @@
 import unittest
-import pexpect
 from readchar import key
+
+try:
+    from pexpect import spawn
+except ImportError:
+    from pexpect.popen_spawn import PopenSpawn as spawn
 
 
 expected_result = r"""\
@@ -14,7 +18,7 @@ expected_result = r"""\
 
 class PreAnswersTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/pre_answers.py')
+        self.sut = spawn('python examples/pre_answers.py')
 
     def test_minimal_input(self):
         # user

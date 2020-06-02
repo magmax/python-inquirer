@@ -1,11 +1,15 @@
 import unittest
-import pexpect
 from readchar import key
+
+try:
+    from pexpect import spawn
+except ImportError:
+    from pexpect.popen_spawn import PopenSpawn as spawn
 
 
 class ListTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/list.py')
+        self.sut = spawn('python examples/list.py')
         self.sut.expect('Micro.*', timeout=1)
 
     def test_default_input(self):
@@ -34,7 +38,7 @@ class ListTest(unittest.TestCase):
 
 class ListCarouselTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/list_carousel.py')
+        self.sut = spawn('python examples/list_carousel.py')
         self.sut.expect('Standard.*', timeout=1)
         import sys
         self.sut.logfile = sys.stdout
@@ -57,7 +61,7 @@ class ListCarouselTest(unittest.TestCase):
 
 class ListTaggedTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/list_tagged.py')
+        self.sut = spawn('python examples/list_tagged.py')
         self.sut.expect('Micro.*', timeout=1)
 
     def test_default_input(self):

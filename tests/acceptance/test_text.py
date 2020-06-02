@@ -1,12 +1,16 @@
 import re
 import unittest
-import pexpect
 from readchar import key
+
+try:
+    from pexpect import spawn
+except ImportError:
+    from pexpect.popen_spawn import PopenSpawn as spawn
 
 
 class TextTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/text.py')
+        self.sut = spawn('python examples/text.py')
 
     def set_name(self, name='foo'):
         self.sut.expect("What's", timeout=1)
