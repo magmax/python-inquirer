@@ -1,15 +1,11 @@
 import unittest
+import pexpect
 from readchar import key
-
-try:
-    from pexpect import spawn
-except ImportError:
-    from pexpect.popen_spawn import PopenSpawn as spawn
 
 
 class ShortcutsTest(unittest.TestCase):
     def setUp(self):
-        self.sut = spawn('python examples/shortcuts.py')
+        self.sut = pexpect.spawn('python examples/shortcuts.py')
 
     def set_username(self, name='foo'):
         self.sut.expect("Enter your username", timeout=1)

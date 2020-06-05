@@ -14,7 +14,7 @@ doc:
 
 flakes:
 	@echo Searching for static errors...
-	@flake8 --max-line-length=120 --statistics --count  inquirer tests
+	@ppinquirer tests
 
 coveralls::
 	coveralls

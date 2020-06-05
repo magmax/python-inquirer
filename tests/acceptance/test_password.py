@@ -1,15 +1,11 @@
 import unittest
+import pexpect
 from readchar import key
-
-try:
-    from pexpect import spawn
-except ImportError:
-    from pexpect.popen_spawn import PopenSpawn as spawn
 
 
 class PasswordTest(unittest.TestCase):
     def setUp(self):
-        self.sut = spawn('python examples/password.py')
+        self.sut = pexpect.spawn('python examples/password.py')
 
     def test_default_input(self):
         self.sut.expect(".*What's.*", timeout=1)
