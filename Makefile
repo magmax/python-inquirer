@@ -14,7 +14,7 @@ doc:
 
 flakes:
 	@echo Searching for static errors...
-	@ppinquirer tests
+	@py.test --cov inquirer --cov-report=term-missing --no-cov-on-fail tests/unit
 
 coveralls::
 	coveralls
