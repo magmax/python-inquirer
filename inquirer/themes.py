@@ -2,7 +2,7 @@
 import json
 
 from collections import namedtuple
-from blessings import Terminal
+from blessed import Terminal
 
 from .errors import ThemeError
 

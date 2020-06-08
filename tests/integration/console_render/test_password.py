@@ -54,7 +54,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
             key.RIGHT,
             'e',
             key.ENTER,
-            ]
+        ]
         stdin = helper.event_factory(*stdin_array)
         message = 'Foo message'
         variable = 'Bar variable'
