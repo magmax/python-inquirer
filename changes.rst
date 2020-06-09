@@ -1,6 +1,8 @@
 Changelog
 =========
 
+For changes after 2.1.11 see `GitHub Releases <https://github.com/magmax/python-inquirer/releases>`_
+
 2.1.11(2014/12/18)
 ------------------
 
@@ -119,3 +121,5 @@ Contributors:
 .. _ptbrowne: https://github.com/ptbrowne
 .. _mfwarren: https://github.com/mfwarren
 .. _matiboy: https://github.com/matiboy
+.. _realgam3: https://github.com/realgam3
+.. _jmrubio: https://github.com/jmrubio
