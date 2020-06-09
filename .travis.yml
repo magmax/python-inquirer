@@ -99,6 +99,7 @@ jobs:
       python: '3.7'
       script: echo 'Lets do it!'
       deploy:
+        draft: true
         provider: releases
         api_key: ${GH_TOKEN}
         on:
