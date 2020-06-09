@@ -22,7 +22,7 @@ You can `download the python-inquirer code from GitHub`_ or `download the wheel 
 Platforms support
 ------------------
 
-Currently the python-inquirer supports only UNIX-based platforms (eq. Mac OS, Linux, etc.). **Windows is not supported at the moment!**
+Python-inquirer supports mainly UNIX-based platforms (eq. Mac OS, Linux, etc.). Windows has experimental support, please let us know if there are any problems!
 
 Documentation
 =============
