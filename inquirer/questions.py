@@ -112,7 +112,7 @@ class Question(object):
         for choice in self._solve(self._choices):
             yield (
                 TaggedValue(*choice)
-                if isinstance(choice, tuple) and len(choice) == 2
+                if isinstance(choice, (tuple, list)) and len(choice) == 2
                 else choice
             )
 
