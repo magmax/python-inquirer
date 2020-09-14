@@ -29,6 +29,21 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         for choice in choices:
             self.assertInStdout(choice)
 
+    def test_choose_with_long_choices(self):
+        stdin = helper.event_factory(key.DOWN, key.DOWN, key.DOWN,
+                                     key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.DOWN,
+                                     key.SPACE, key.DOWN, key.DOWN, key.ENTER)
+        message = 'Number message'
+        variable = 'Number variable'
+        choices = list(range(15))
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual([8], result)
+
     def test_one_choice(self):
         stdin = helper.event_factory(key.SPACE, key.ENTER)
         message = 'Foo message'

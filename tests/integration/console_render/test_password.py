@@ -5,6 +5,7 @@ from . import helper
 from readchar import key
 
 from inquirer.render import ConsoleRender
+import inquirer
 
 
 class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
@@ -76,4 +77,34 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         sut = ConsoleRender(event_generator=stdin)
         with self.assertRaises(KeyboardInterrupt):
+            sut.render(question)
+
+    def test_validate(self):
+        stdin = helper.event_factory(
+            'p', 'a', 's', 's', key.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        def validate(answers, current):
+            return False
+
+        question = questions.Password(variable, message, validate=validate)
+
+        sut = ConsoleRender(event_generator=stdin)
+        with self.assertRaises(StopIteration):
+            sut.render(question)
+
+    def test_validate_custom_error(self):
+        stdin = helper.event_factory(
+            'p', 'a', 's', 's', key.ENTER)
+        message = 'Foo message'
+        variable = 'Bar variable'
+
+        def validate(answers, current):
+            raise inquirer.errors.ValidationError('', reason='')
+
+        question = questions.Password(variable, message, validate=validate)
+
+        sut = ConsoleRender(event_generator=stdin)
+        with self.assertRaises(StopIteration):
             sut.render(question)

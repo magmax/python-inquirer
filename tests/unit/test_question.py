@@ -376,3 +376,13 @@ class TestPathQuestion(unittest.TestCase):
                            path_type=questions.Path.DIRECTORY)
 
         questions.Path('path', default='~/.toggl_log')
+
+
+def test_tagged_value():
+    tv = questions.TaggedValue("label", "value")
+
+    assert tv.__str__() == "label"
+    assert tv.__repr__() == "value"
+    assert tv.__eq__(tv) is True
+    assert tv.__eq__("") is False
+    assert tv.__ne__(tv) is False

@@ -42,6 +42,20 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertEqual('foo', result)
 
+    def test_choose_with_long_choices(self):
+        stdin = helper.event_factory(key.DOWN, key.DOWN, key.DOWN,
+                                     key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.ENTER)
+        message = 'Number message'
+        variable = 'Number variable'
+        choices = list(range(15))
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual(10, result)
+
     def test_choose_the_second(self):
         stdin = helper.event_factory(key.DOWN, key.ENTER)
         message = 'Foo message'

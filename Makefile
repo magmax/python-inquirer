@@ -14,7 +14,7 @@ doc:
 
 flakes:
 	@echo Searching for static errors...
-	@flake8 --max-line-length=120 --statistics --count  inquirer tests
+	@flake8 inquirer tests
 
 coveralls::
 	coveralls
@@ -25,11 +25,11 @@ publish::
 
 run_unit_tests::
 	@echo Running Tests...
-	@py.test --cov inquirer --cov-report=term-missing --no-cov-on-fail tests/unit
+	@py.test tests/unit
 
 run_integration_tests::
 	@echo Running Tests...
-	@py.test --cov inquirer --cov-report=term-missing --no-cov-on-fail tests/unit tests/integration
+	@py.test tests/unit tests/integration
 
 run_acceptance_tests::
 	@echo Running Tests...
