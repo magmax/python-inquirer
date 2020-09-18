@@ -63,10 +63,10 @@ class Checkbox(BaseConsoleRender):
             yield choice, selector + ' ' + symbol, color
 
     def process_input(self, pressed):
-        if pressed == key.UP:
+        if pressed == key.UP or pressed == 'k' or pressed == '\x10':
             self.current = max(0, self.current - 1)
             return
-        elif pressed == key.DOWN:
+        elif pressed == key.DOWN or pressed == 'j' or pressed == '\x0e':
             self.current = min(len(self.question.choices) - 1,
                                self.current + 1)
             return
@@ -75,10 +75,10 @@ class Checkbox(BaseConsoleRender):
                 self.selection.remove(self.current)
             else:
                 self.selection.append(self.current)
-        elif pressed == key.LEFT:
+        elif pressed == key.LEFT or pressed == 'h' or pressed == key.CTRL_B:
             if self.current in self.selection:
                 self.selection.remove(self.current)
-        elif pressed == key.RIGHT:
+        elif pressed == key.RIGHT or pressed == 'l' or pressed == key.CTRL_F:
             if self.current not in self.selection:
                 self.selection.append(self.current)
         elif pressed == key.ENTER:

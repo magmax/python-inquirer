@@ -12,3 +12,4 @@ runtests.py
 .cache
 *.swp
 .ropeproject/
+/.vscode/
