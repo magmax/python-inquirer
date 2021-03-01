@@ -1,12 +1,12 @@
 -r requirements.txt
 
-flake8==3.7.7
-pexpect==4.7.0
+flake8==3.8.4
+pexpect==4.8.0
 
-pytest==4.3.0
-pytest-cov==2.6.1
-mock==3.0.5
+pytest==6.2.2
+pytest-cov==2.11.1
+mock==4.0.3
 
-python-coveralls==2.9.1
+python-coveralls==2.9.3
 
-wheel >= 0.24.0
+wheel >= 0.36.2
