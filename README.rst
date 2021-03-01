@@ -138,7 +138,7 @@ Example:
 License
 =======
 
-Copyright (c) 2014 Miguel Ángel García (`@magmax9`_), based on `Inquirer.js`_, by Simon Boudrias (`@vaxilart`_)
+Copyright (c) 2014-2021 Miguel Ángel García (`@magmax_en`_), based on `Inquirer.js`_, by Simon Boudrias (`@vaxilart`_)
 
 Licensed under `the MIT license`_.
 
@@ -210,7 +210,7 @@ Licensed under `the MIT license`_.
 .. _`download the wheel from Pypi`: https://pypi.python.org/pypi/inquirer
 
 .. _@vaxilart: https://twitter.com/vaxilart
-.. _@magmax9: https://twitter.com/magmax9
+.. _@magmax_en: https://twitter.com/magmax_en
 
 .. _the MIT license: http://opensource.org/licenses/MIT
 
