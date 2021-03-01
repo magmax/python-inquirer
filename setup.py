@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
-from inquirer import __version__
+
+version = "3.0.0"
+github_ref = os.getenv("GITHUB_REF")
+if github_ref and github_ref.startswith("refs/tags"):
+    version = github_ref[10:]
 
 
 def read_description():
@@ -48,17 +53,16 @@ class PyTest(TestCommand):
 
 setup(
     name="inquirer",
-    version=__version__,
+    version=version,
     description=("Collection of common interactive command line user interfaces," " based on Inquirer.js"),
     long_description=read_description(),
     cmdclass={"test": PyTest},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Environment :: Console",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
