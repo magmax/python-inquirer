@@ -33,17 +33,14 @@ class ConsoleRender(object):
             return question.default
 
         clazz = self.render_factory(question.kind)
-        render = clazz(question,
-                       terminal=self.terminal,
-                       theme=self._theme,
-                       show_default=question.show_default)
+        render = clazz(question, terminal=self.terminal, theme=self._theme, show_default=question.show_default)
 
         self.clear_eos()
 
         try:
             return self._event_loop(render)
         finally:
-            print('')
+            print("")
 
     def _event_loop(self, render):
         try:
@@ -70,38 +67,31 @@ class ConsoleRender(object):
 
     def _print_options(self, render):
         for message, symbol, color in render.get_options():
-            if hasattr(message, 'decode'):  # python 2
-                message = message.decode('utf-8')
-            self.print_line(' {color}{s} {m}{t.normal}',
-                            m=message, color=color, s=symbol)
+            if hasattr(message, "decode"):  # python 2
+                message = message.decode("utf-8")
+            self.print_line(" {color}{s} {m}{t.normal}", m=message, color=color, s=symbol)
 
     def _print_header(self, render):
         base = render.get_header()
 
-        header = (base[:self.width - 9] + '...'
-                  if len(base) > self.width - 6
-                  else base)
-        default_value = ' ({color}{default}{normal})'.format(
-            default=render.question.default,
-            color=self._theme.Question.default_color,
-            normal=self.terminal.normal
+        header = base[: self.width - 9] + "..." if len(base) > self.width - 6 else base
+        default_value = " ({color}{default}{normal})".format(
+            default=render.question.default, color=self._theme.Question.default_color, normal=self.terminal.normal
         )
         show_default = render.question.default and render.show_default
-        header += default_value if show_default else ''
-        msg_template = "{t.move_up}{t.clear_eol}{tq.brackets_color}["\
-                       "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
+        header += default_value if show_default else ""
+        msg_template = (
+            "{t.move_up}{t.clear_eol}{tq.brackets_color}[" "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
+        )
 
         # ensure any user input with { or } will not cause a formatting error
-        escaped_current_value = (
-            str(render.get_current_value())
-            .replace('{', '{{')
-            .replace('}', '}}')
-        )
+        escaped_current_value = str(render.get_current_value()).replace("{", "{{").replace("}", "}}")
         self.print_str(
-            '\n%s: %s' % (msg_template, escaped_current_value),
+            "\n%s: %s" % (msg_template, escaped_current_value),
             msg=header,
             lf=not render.title_inline,
-            tq=self._theme.Question)
+            tq=self._theme.Question,
+        )
 
     def _process_input(self, render):
         try:
@@ -118,32 +108,29 @@ class ConsoleRender(object):
                 self._previous_error = render.handle_validation_error(e)
 
     def _relocate(self):
-        print(self._position * self.terminal.move_up, end='')
+        print(self._position * self.terminal.move_up, end="")
         self._force_initial_column()
         self._position = 0
 
     def _go_to_end(self, render):
         positions = len(list(render.get_options())) - self._position
         if positions > 0:
-            print(self._position * self.terminal.move_down, end='')
+            print(self._position * self.terminal.move_down, end="")
         self._position = 0
 
     def _force_initial_column(self):
-        self.print_str('\r')
+        self.print_str("\r")
 
     def render_error(self, message):
         if message:
-            symbol = '>> '
+            symbol = ">> "
             size = len(symbol) + 1
             length = len(message)
             message = message.rstrip()
-            message = (message
-                       if length + size < self.width
-                       else message[:self.width - (size + 3)] + '...')
+            message = message if length + size < self.width else message[: self.width - (size + 3)] + "..."
 
             self.render_in_bottombar(
-                '{t.red}{s}{t.normal}{t.bold}{msg}{t.normal} '
-                .format(msg=message, s=symbol, t=self.terminal)
+                "{t.red}{s}{t.normal}{t.bold}{msg}{t.normal} ".format(msg=message, s=symbol, t=self.terminal)
             )
 
     def render_in_bottombar(self, message):
@@ -157,13 +144,13 @@ class ConsoleRender(object):
 
     def render_factory(self, question_type):
         matrix = {
-            'text': Text,
-            'editor': Editor,
-            'password': Password,
-            'confirm': Confirm,
-            'list': List,
-            'checkbox': Checkbox,
-            'path': Path,
+            "text": Text,
+            "editor": Editor,
+            "password": Password,
+            "confirm": Confirm,
+            "list": List,
+            "checkbox": Checkbox,
+            "path": Path,
         }
 
         if question_type not in matrix:
@@ -177,11 +164,11 @@ class ConsoleRender(object):
         if lf:
             self._position += 1
 
-        print(base.format(t=self.terminal, **kwargs), end='\n' if lf else '')
+        print(base.format(t=self.terminal, **kwargs), end="\n" if lf else "")
         sys.stdout.flush()
 
     def clear_eos(self):
-        print(self.terminal.clear_eos(), end='')
+        print(self.terminal.clear_eos(), end="")
 
     @property
     def width(self):

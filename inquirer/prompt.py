@@ -4,8 +4,7 @@ from .render.console import ConsoleRender
 from . import themes
 
 
-def prompt(questions, render=None, answers=None,
-           theme=themes.Default(), raise_keyboard_interrupt=False):
+def prompt(questions, render=None, answers=None, theme=themes.Default(), raise_keyboard_interrupt=False):
     render = render or ConsoleRender(theme=theme)
     answers = answers or {}
 
@@ -16,6 +15,6 @@ def prompt(questions, render=None, answers=None,
     except KeyboardInterrupt:
         if raise_keyboard_interrupt:
             raise
-        print('')
-        print('Cancelled by user')
-        print('')
+        print("")
+        print("Cancelled by user")
+        print("")

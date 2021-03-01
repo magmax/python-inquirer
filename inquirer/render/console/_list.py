@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, \
-    half_options
+from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
 from inquirer import errors
 
 
@@ -40,15 +39,17 @@ class List(BaseConsoleRender):
 
         for index, choice in enumerate(cchoices):
             end_index = ending_milestone + index - half_options - 1
-            if (is_in_middle and index == half_options) \
-                    or (is_in_beginning and index == self.current) \
-                    or (is_in_end and end_index == self.current):
+            if (
+                (is_in_middle and index == half_options)
+                or (is_in_beginning and index == self.current)
+                or (is_in_end and end_index == self.current)
+            ):
 
                 color = self.theme.List.selection_color
                 symbol = self.theme.List.selection_cursor
             else:
                 color = self.theme.List.unselected_color
-                symbol = ' '
+                symbol = " "
             yield choice, symbol, color
 
     def process_input(self, pressed):
@@ -63,14 +64,11 @@ class List(BaseConsoleRender):
             if question.carousel and self.current == len(question.choices) - 1:
                 self.current = 0
             else:
-                self.current = min(
-                    len(self.question.choices) - 1,
-                    self.current + 1
-                )
+                self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
         if pressed == key.ENTER:
             value = self.question.choices[self.current]
-            raise errors.EndOfInput(getattr(value, 'value', value))
+            raise errors.EndOfInput(getattr(value, "value", value))
 
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
@@ -85,4 +83,4 @@ class List(BaseConsoleRender):
         try:
             return self.question.choices[self.current]
         except IndexError:
-            return ''
+            return ""

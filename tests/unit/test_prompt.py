@@ -1,4 +1,5 @@
 import unittest
+
 try:
     from unittest.mock import MagicMock, Mock
 except ImportError:
@@ -13,13 +14,13 @@ class PromptTests(unittest.TestCase):
 
     def test_prompt_renders_a_questions(self):
         question1 = MagicMock()
-        question1.name = 'foo'
+        question1.name = "foo"
         result1 = object()
         render = Mock()
         render.render.return_value = result1
 
         result = prompt([question1], render=render)
 
-        self.assertEqual({'foo': result1}, result)
+        self.assertEqual({"foo": result1}, result)
         self.assertTrue(render.render.called)
         render.render.call_args_list[0][0] == result1

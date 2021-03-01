@@ -16,124 +16,111 @@ class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
 
     def test_no_as_default(self):
         stdin = helper.event_factory(key.ENTER)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        message = "Foo message"
+        variable = "Bar variable"
         expected = False
 
-        question = questions.Confirm(variable,
-                                     message=message)
+        question = questions.Confirm(variable, message=message)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('(y/N)')
+        self.assertInStdout("(y/N)")
 
     def test_yes_as_default(self):
         stdin = helper.event_factory(key.ENTER)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        message = "Foo message"
+        variable = "Bar variable"
         expected = True
 
-        question = questions.Confirm(variable,
-                                     message=message,
-                                     default=True)
+        question = questions.Confirm(variable, message=message, default=True)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('(Y/n)')
+        self.assertInStdout("(Y/n)")
 
     def test_answring_y(self):
-        stdin = helper.event_factory('y')
-        message = 'Foo message'
-        variable = 'Bar variable'
+        stdin = helper.event_factory("y")
+        message = "Foo message"
+        variable = "Bar variable"
         expected = True
 
-        question = questions.Confirm(variable,
-                                     message=message,
-                                     default=True)
+        question = questions.Confirm(variable, message=message, default=True)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('(Y/n)')
+        self.assertInStdout("(Y/n)")
 
     def test_answring_Y(self):
-        stdin = helper.event_factory('Y')
-        message = 'Foo message'
-        variable = 'Bar variable'
+        stdin = helper.event_factory("Y")
+        message = "Foo message"
+        variable = "Bar variable"
         expected = True
 
-        question = questions.Confirm(variable,
-                                     message=message,
-                                     default=True)
+        question = questions.Confirm(variable, message=message, default=True)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('(Y/n)')
+        self.assertInStdout("(Y/n)")
 
     def test_answring_n(self):
-        stdin = helper.event_factory('n')
-        message = 'Foo message'
-        variable = 'Bar variable'
+        stdin = helper.event_factory("n")
+        message = "Foo message"
+        variable = "Bar variable"
         expected = False
 
-        question = questions.Confirm(variable,
-                                     message=message,
-                                     default=True)
+        question = questions.Confirm(variable, message=message, default=True)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('(Y/n)')
+        self.assertInStdout("(Y/n)")
 
     def test_answring_N(self):
-        stdin = helper.event_factory('N')
-        message = 'Foo message'
-        variable = 'Bar variable'
+        stdin = helper.event_factory("N")
+        message = "Foo message"
+        variable = "Bar variable"
         expected = False
 
-        question = questions.Confirm(variable,
-                                     message=message,
-                                     default=True)
+        question = questions.Confirm(variable, message=message, default=True)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('(Y/n)')
+        self.assertInStdout("(Y/n)")
 
     def test_invalid_answer(self):
-        stdin = helper.event_factory('Z', 'Z', 'Z', 'Y')
-        message = 'Foo message'
-        variable = 'Bar variable'
+        stdin = helper.event_factory("Z", "Z", "Z", "Y")
+        message = "Foo message"
+        variable = "Bar variable"
 
-        question = questions.Confirm(variable,
-                                     message=message,
-                                     default=True)
+        question = questions.Confirm(variable, message=message, default=True)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertNotInStdout('Z')
+        self.assertNotInStdout("Z")
         self.assertTrue(result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin = helper.event_factory(key.CTRL_C)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        message = "Foo message"
+        variable = "Bar variable"
 
         question = questions.Confirm(variable, message)
 

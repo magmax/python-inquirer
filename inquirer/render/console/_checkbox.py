@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from readchar import key
-from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, \
-    half_options
+from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
 from inquirer import errors
 
 
 class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super(Checkbox, self).__init__(*args, **kwargs)
-        self.selection = [k for (k, v) in enumerate(self.question.choices)
-                          if v in (self.question.default or [])]
+        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.question.default or [])]
         self.current = 0
 
     @property
@@ -41,10 +39,11 @@ class Checkbox(BaseConsoleRender):
         is_in_end = self.current >= ending_milestone
 
         for index, choice in enumerate(cchoices):
-            if (is_in_middle and
-                self.current - half_options + index in self.selection) \
-                or (is_in_beginning and index in self.selection) \
-                or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection):  # noqa
+            if (
+                (is_in_middle and self.current - half_options + index in self.selection)
+                or (is_in_beginning and index in self.selection)
+                or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection)
+            ):  # noqa
 
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color
@@ -52,23 +51,24 @@ class Checkbox(BaseConsoleRender):
                 symbol = self.theme.Checkbox.unselected_icon
                 color = self.theme.Checkbox.unselected_color
 
-            selector = ' '
+            selector = " "
             end_index = ending_milestone + index - half_options - 1
-            if (is_in_middle and index == half_options) \
-                    or (is_in_beginning and index == self.current) \
-                    or (is_in_end and end_index == self.current):
+            if (
+                (is_in_middle and index == half_options)
+                or (is_in_beginning and index == self.current)
+                or (is_in_end and end_index == self.current)
+            ):
 
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
-            yield choice, selector + ' ' + symbol, color
+            yield choice, selector + " " + symbol, color
 
     def process_input(self, pressed):
         if pressed == key.UP:
             self.current = max(0, self.current - 1)
             return
         elif pressed == key.DOWN:
-            self.current = min(len(self.question.choices) - 1,
-                               self.current + 1)
+            self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
         elif pressed == key.SPACE:
             if self.current in self.selection:
@@ -85,7 +85,7 @@ class Checkbox(BaseConsoleRender):
             result = []
             for x in self.selection:
                 value = self.question.choices[x]
-                result.append(getattr(value, 'value', value))
+                result.append(getattr(value, "value", value))
             raise errors.EndOfInput(result)
         elif pressed == key.CTRL_C:
             raise KeyboardInterrupt()

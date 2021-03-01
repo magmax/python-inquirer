@@ -15,11 +15,9 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.base_teardown()
 
     def test_do_not_show_values(self):
-        stdin = helper.event_factory(
-            'm', 'y', ' ', 'p', 'a', 's', 's', 'w', 'o', 'r', 'd',
-            key.ENTER)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        stdin = helper.event_factory("m", "y", " ", "p", "a", "s", "s", "w", "o", "r", "d", key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
 
         question = questions.Password(variable, message)
 
@@ -27,50 +25,50 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut.render(question)
 
         self.assertInStdout(message)
-        self.assertNotInStdout('my password')
+        self.assertNotInStdout("my password")
 
     def test_allows_deletion(self):
-        stdin_array = ['a', key.BACKSPACE, 'b', key.ENTER]
+        stdin_array = ["a", key.BACKSPACE, "b", key.ENTER]
         stdin = helper.event_factory(*stdin_array)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        message = "Foo message"
+        variable = "Bar variable"
 
         question = questions.Password(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual('b', result)
+        self.assertEqual("b", result)
 
     def test_cursor_movement(self):
         stdin_array = [
-            'a',
+            "a",
             key.UP,
-            'b',
+            "b",
             key.DOWN,
-            'c',
+            "c",
             key.LEFT,
-            'd',
+            "d",
             key.RIGHT,
-            'e',
+            "e",
             key.ENTER,
         ]
         stdin = helper.event_factory(*stdin_array)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        message = "Foo message"
+        variable = "Bar variable"
 
         question = questions.Password(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual('abdce', result)
+        self.assertEqual("abdce", result)
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
         stdin = helper.event_factory(*stdin_array)
-        message = 'Foo message'
-        variable = 'Bar variable'
+        message = "Foo message"
+        variable = "Bar variable"
 
         question = questions.Password(variable, message)
 

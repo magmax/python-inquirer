@@ -14,16 +14,16 @@ expected_result = r"""\
 
 class PreAnswersTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/pre_answers.py')
+        self.sut = pexpect.spawn("python examples/pre_answers.py")
 
     def test_minimal_input(self):
         # user
         self.sut.expect("Please enter", timeout=1)
-        self.sut.send('abcde')
+        self.sut.send("abcde")
         self.sut.send(key.ENTER)
         # password
         self.sut.expect("Please enter", timeout=1)
-        self.sut.send('edcba')
+        self.sut.send("edcba")
         self.sut.send(key.ENTER)
         # repo
         self.sut.expect("Please enter", timeout=1)
@@ -37,7 +37,7 @@ class PreAnswersTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         # correct
         self.sut.expect("This will delete", timeout=1)
-        self.sut.send('y')
+        self.sut.send("y")
 
         # again
 

@@ -5,27 +5,27 @@ from readchar import key
 
 class ShortcutsTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn('python examples/shortcuts.py')
+        self.sut = pexpect.spawn("python examples/shortcuts.py")
 
-    def set_username(self, name='foo'):
+    def set_username(self, name="foo"):
         self.sut.expect("Enter your username", timeout=1)
         self.sut.sendline(name)
 
-    def set_password(self, password='secret'):
+    def set_password(self, password="secret"):
         self.sut.expect("Please enter your password", timeout=1)
         self.sut.sendline(password)
 
     def set_checkbox(self):
-        self.sut.expect('Please define your type of project', timeout=1)
+        self.sut.expect("Please define your type of project", timeout=1)
         self.sut.send(key.ENTER)
 
     def set_list(self):
-        self.sut.expect('Public or private?', timeout=1)
+        self.sut.expect("Public or private?", timeout=1)
         self.sut.send(key.ENTER)
 
     def set_confirm(self):
-        self.sut.expect('This will delete', timeout=1)
-        self.sut.send('y')
+        self.sut.expect("This will delete", timeout=1)
+        self.sut.send("y")
         self.sut.send(key.ENTER)
 
     def test_shortcuts(self):

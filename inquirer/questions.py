@@ -50,9 +50,7 @@ def load_from_json(question_json):
         return load_from_list(data)
     if isinstance(data, dict):
         return load_from_dict(data)
-    raise TypeError(
-        'Json contained a %s variable when a dict or list was expected',
-        type(data))
+    raise TypeError("Json contained a %s variable when a dict or list was expected", type(data))
 
 
 class TaggedValue(object):
@@ -76,16 +74,9 @@ class TaggedValue(object):
 
 
 class Question(object):
-    kind = 'base question'
+    kind = "base question"
 
-    def __init__(self,
-                 name,
-                 message='',
-                 choices=None,
-                 default=None,
-                 ignore=False,
-                 validate=True,
-                 show_default=False):
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, show_default=False):
         self.name = name
         self._message = message
         self._choices = choices or []
@@ -110,11 +101,7 @@ class Question(object):
     @property
     def choices_generator(self):
         for choice in self._solve(self._choices):
-            yield (
-                TaggedValue(*choice)
-                if isinstance(choice, tuple) and len(choice) == 2
-                else choice
-            )
+            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
     @property
     def choices(self):
@@ -139,54 +126,44 @@ class Question(object):
 
 
 class Text(Question):
-    kind = 'text'
+    kind = "text"
 
-    def __init__(self, name, message='', default=None, **kwargs):
-        super(Text, self).__init__(name, message=message,
-                                   default=str(default) if default and not callable(default)
-                                   else default, **kwargs)
+    def __init__(self, name, message="", default=None, **kwargs):
+        super(Text, self).__init__(
+            name, message=message, default=str(default) if default and not callable(default) else default, **kwargs
+        )
 
 
 class Password(Text):
-    kind = 'password'
+    kind = "password"
 
-    def __init__(self, name, echo='*', **kwargs):
+    def __init__(self, name, echo="*", **kwargs):
         super(Password, self).__init__(name, **kwargs)
         self.echo = echo
 
 
 class Editor(Text):
-    kind = 'editor'
+    kind = "editor"
 
 
 class Confirm(Question):
-    kind = 'confirm'
+    kind = "confirm"
 
     def __init__(self, name, default=False, **kwargs):
         super(Confirm, self).__init__(name, default=default, **kwargs)
 
 
 class List(Question):
-    kind = 'list'
+    kind = "list"
 
-    def __init__(self,
-                 name,
-                 message='',
-                 choices=None,
-                 default=None,
-                 ignore=False,
-                 validate=True,
-                 carousel=False):
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
 
-        super(List, self).__init__(
-            name, message, choices,
-            default, ignore, validate
-        )
+        super(List, self).__init__(name, message, choices, default, ignore, validate)
         self.carousel = carousel
 
 
 class Checkbox(Question):
-    kind = 'checkbox'
+    kind = "checkbox"
 
 
 # Solution for checking valid path based on
@@ -205,8 +182,7 @@ def is_pathname_valid(pathname):
 
         _, pathname = os.path.splitdrive(pathname)
 
-        root_dirname = os.environ.get('HOMEDRIVE', 'C:') \
-            if sys.platform == 'win32' else os.path.sep
+        root_dirname = os.environ.get("HOMEDRIVE", "C:") if sys.platform == "win32" else os.path.sep
 
         assert os.path.isdir(root_dirname)
         root_dirname = root_dirname.rstrip(os.path.sep) + os.path.sep
@@ -215,7 +191,7 @@ def is_pathname_valid(pathname):
             try:
                 os.lstat(root_dirname + pathname_part)
             except OSError as exc:
-                if hasattr(exc, 'winerror'):
+                if hasattr(exc, "winerror"):
                     if exc.winerror == ERROR_INVALID_NAME:
                         return False
                 elif exc.errno in {errno.ENAMETOOLONG, errno.ERANGE}:
@@ -227,14 +203,13 @@ def is_pathname_valid(pathname):
 
 
 class Path(Text):
-    ANY = 'any'
-    FILE = 'file'
-    DIRECTORY = 'directory'
+    ANY = "any"
+    FILE = "file"
+    DIRECTORY = "directory"
 
-    kind = 'path'
+    kind = "path"
 
-    def __init__(self, name, default=None, path_type='any', exists=None,
-                 normalize_to_absolute_path=False, **kwargs):
+    def __init__(self, name, default=None, path_type="any", exists=None, normalize_to_absolute_path=False, **kwargs):
         super(Path, self).__init__(name, default=default, **kwargs)
 
         self._path_type = path_type
@@ -245,8 +220,7 @@ class Path(Text):
             try:
                 self.validate(default)
             except errors.ValidationError:
-                raise ValueError("Default value '{}' is not valid based on "
-                                 "your Path's criteria".format(default))
+                raise ValueError("Default value '{}' is not valid based on " "your Path's criteria".format(default))
 
     def validate(self, current):
         super(Path, self).validate(current)
@@ -261,28 +235,25 @@ class Path(Text):
 
         # os.path.isdir and isfile check also existence of the path,
         # which might not be desirable
-        if self._path_type == 'file':
-            if self._exists is None and os.path.basename(current) == '':
+        if self._path_type == "file":
+            if self._exists is None and os.path.basename(current) == "":
                 raise errors.ValidationError(current)
             elif self._exists and not os.path.isfile(current):
                 raise errors.ValidationError(current)
-            elif self._exists is not None and not self._exists \
-                    and os.path.isfile(current):
+            elif self._exists is not None and not self._exists and os.path.isfile(current):
                 raise errors.ValidationError(current)
 
-        elif self._path_type == 'directory':
-            if self._exists is None and os.path.basename(current) != '':
+        elif self._path_type == "directory":
+            if self._exists is None and os.path.basename(current) != "":
                 raise errors.ValidationError(current)
             elif self._exists and not os.path.isdir(current):
                 raise errors.ValidationError(current)
-            elif self._exists is not None and not self._exists \
-                    and os.path.isdir(current):
+            elif self._exists is not None and not self._exists and os.path.isdir(current):
                 raise errors.ValidationError(current)
 
         elif self._exists and not os.path.exists(current):
             raise errors.ValidationError(current)
-        elif self._exists is not None and not self._exists \
-                and os.path.exists(current):
+        elif self._exists is not None and not self._exists and os.path.exists(current):
             raise errors.ValidationError(current)
 
     def normalize_value(self, value):

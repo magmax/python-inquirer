@@ -10,7 +10,7 @@ class Text(BaseConsoleRender):
 
     def __init__(self, *args, **kwargs):
         super(Text, self).__init__(*args, **kwargs)
-        self.current = self.question.default or ''
+        self.current = self.question.default or ""
         self.cursor_offset = 0
 
     def get_current_value(self):
@@ -26,8 +26,8 @@ class Text(BaseConsoleRender):
         if pressed == key.BACKSPACE:
             if self.current and self.cursor_offset != len(self.current):
                 if self.cursor_offset > 0:
-                    self.current = (self.current[:-self.cursor_offset - 1] +
-                                    self.current[-self.cursor_offset:])
+                    n = -self.cursor_offset
+                    self.current = self.current[: n - 1] + self.current[n:]
                 else:
                     self.current = self.current[:-1]
         elif pressed == key.LEFT:
@@ -41,8 +41,5 @@ class Text(BaseConsoleRender):
             if self.cursor_offset == 0:
                 self.current += pressed
             else:
-                self.current = ''.join((
-                    self.current[:-self.cursor_offset],
-                    pressed,
-                    self.current[-self.cursor_offset:]
-                ))
+                n = -self.cursor_offset
+                self.current = "".join((self.current[:n], pressed, self.current[n:]))
