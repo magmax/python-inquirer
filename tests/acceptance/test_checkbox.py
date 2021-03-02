@@ -1,8 +1,10 @@
+import sys
 import unittest
 import pexpect
 from readchar import key
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class CheckTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/checkbox.py")
@@ -55,6 +57,7 @@ class CheckTest(unittest.TestCase):
         self.sut.expect("{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class CheckWithTaggedValuesTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/checkbox_tagged.py")

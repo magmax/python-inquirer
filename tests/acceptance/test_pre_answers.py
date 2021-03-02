@@ -1,3 +1,4 @@
+import sys
 import unittest
 import pexpect
 from readchar import key
@@ -12,6 +13,7 @@ expected_result = r"""\
  'user': 'abcde'}\r\n"""
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class PreAnswersTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/pre_answers.py")

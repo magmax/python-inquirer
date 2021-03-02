@@ -1,9 +1,11 @@
+import sys
 import re
 import unittest
 import pexpect
 from readchar import key
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class TextTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/text.py")

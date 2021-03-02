@@ -1,8 +1,10 @@
+import sys
 import unittest
 import pexpect
 from readchar import key
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class ListTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/list.py")
@@ -32,6 +34,7 @@ class ListTest(unittest.TestCase):
         self.sut.expect("{'size': 'Micro'}.*", timeout=1)
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class ListCarouselTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/list_carousel.py")
@@ -53,6 +56,7 @@ class ListCarouselTest(unittest.TestCase):
         self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "doesn't work on Windows")
 class ListTaggedTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/list_tagged.py")
