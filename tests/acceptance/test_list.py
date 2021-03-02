@@ -36,9 +36,6 @@ class ListCarouselTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/list_carousel.py")
         self.sut.expect("Standard.*", timeout=1)
-        import sys
-
-        self.sut.logfile = sys.stdout
 
     def test_out_of_bounds_up(self):
         self.sut.send(key.UP)
