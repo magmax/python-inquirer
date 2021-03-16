@@ -25,3 +25,6 @@ class Confirm(BaseConsoleRender):
         if pressed in "nN":
             print(pressed)
             raise errors.EndOfInput(False)
+
+    def get_header_template(self):
+        return self.theme.confirm.template_for_title

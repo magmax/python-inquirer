@@ -10,6 +10,7 @@ half_options = int((MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)
 
 
 class BaseConsoleRender(object):
+    # the title and value are in the same line
     title_inline = False
 
     def __init__(self, question, theme=None, terminal=None, show_default=False, *args, **kwargs):

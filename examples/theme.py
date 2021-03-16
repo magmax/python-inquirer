@@ -1,5 +1,10 @@
-import inquirer
-from inquirer.themes import GreenPassion
+import sys
+import os
+from pprint import pprint
+
+sys.path.append(os.path.realpath("."))
+import inquirer  # noqa
+from inquirer.themes import GreenPassion  # noqa
 
 q = [
     inquirer.Text("name", message="Whats your name?", default="No one"),
@@ -9,4 +14,6 @@ q = [
     ),
 ]
 
-inquirer.prompt(q, theme=GreenPassion())
+answers = inquirer.prompt(q, theme=GreenPassion())
+
+pprint(answers)

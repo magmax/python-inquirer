@@ -71,26 +71,25 @@ class ConsoleRender(object):
                 message = message.decode("utf-8")
             self.print_line(" {color}{s} {m}{t.normal}", m=message, color=color, s=symbol)
 
+    def get_header_template(self):
+        raise NotImplementedError()
+
     def _print_header(self, render):
         base = render.get_header()
 
         header = base[: self.width - 9] + "..." if len(base) > self.width - 6 else base
         default_value = " ({color}{default}{normal})".format(
-            default=render.question.default, color=self._theme.Question.default_color, normal=self.terminal.normal
+            default=render.question.default, color=self._theme.question.default_color, normal=self.terminal.normal
         )
         show_default = render.question.default and render.show_default
         header += default_value if show_default else ""
-        msg_template = (
-            "{t.move_up}{t.clear_eol}{tq.brackets_color}[" "{tq.mark_color}?{tq.brackets_color}]{t.normal} {msg}"
-        )
-
         # ensure any user input with { or } will not cause a formatting error
-        escaped_current_value = str(render.get_current_value()).replace("{", "{{").replace("}", "}}")
         self.print_str(
-            "\n%s: %s" % (msg_template, escaped_current_value),
-            msg=header,
+            "\n{t.move_up}{t.clear_eol}" + render.get_header_template(),
             lf=not render.title_inline,
-            tq=self._theme.Question,
+            msg=header,
+            theme=self._theme.question,
+            value=render.get_current_value(),
         )
 
     def _process_input(self, render):

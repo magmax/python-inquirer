@@ -4,4 +4,5 @@ from . import Text
 
 
 class Path(Text):
-    pass
+    def get_header_template(self):
+        return self.theme.text.template_for_title

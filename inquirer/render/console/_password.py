@@ -12,3 +12,6 @@ class Password(Text):
             return error.reason
 
         return "Entered value is not a valid {q}.".format(q=self.question.name)
+
+    def get_header_template(self):
+        return self.theme.password.template_for_title

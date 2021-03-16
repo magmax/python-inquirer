@@ -19,17 +19,17 @@ class ThemeTests(unittest.TestCase):
 
     def test_load_from_dict(self):
         theme = themes.load_theme_from_dict(self.theme_dict)
-        assert theme.Question.mark_color in ["red", "\x1b[31m"]
-        assert theme.Question.brackets_color in ["yellow", "\x1b[33m"]
-        assert theme.List.selection_color in ["red", "\x1b[31m"]
-        assert theme.List.selection_cursor == "->"
+        assert theme.question.mark_color in ["red", "\x1b[31m"]
+        assert theme.question.brackets_color in ["yellow", "\x1b[33m"]
+        assert theme.list.selection_color in ["red", "\x1b[31m"]
+        assert theme.list.selection_cursor == "->"
 
     def test_load_from_json(self):
         theme = themes.load_theme_from_json(json.dumps(self.theme_dict))
-        assert theme.Question.mark_color in ["red", "\x1b[31m"]
-        assert theme.Question.brackets_color in ["yellow", "\x1b[33m"]
-        assert theme.List.selection_color in ["red", "\x1b[31m"]
-        assert theme.List.selection_cursor == "->"
+        assert theme.question.mark_color in ["red", "\x1b[31m"]
+        assert theme.question.brackets_color in ["yellow", "\x1b[33m"]
+        assert theme.list.selection_color in ["red", "\x1b[31m"]
+        assert theme.list.selection_cursor == "->"
 
     def test_invalid_question_field(self):
         with self.assertRaises(errors.ThemeError) as error:

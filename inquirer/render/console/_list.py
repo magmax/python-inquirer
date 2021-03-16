@@ -45,10 +45,10 @@ class List(BaseConsoleRender):
                 or (is_in_end and end_index == self.current)
             ):
 
-                color = self.theme.List.selection_color
-                symbol = self.theme.List.selection_cursor
+                color = self.theme.list.selection_color
+                symbol = self.theme.list.selection_cursor
             else:
-                color = self.theme.List.unselected_color
+                color = self.theme.list.unselected_color
                 symbol = " "
             yield choice, symbol, color
 
@@ -84,3 +84,6 @@ class List(BaseConsoleRender):
             return self.question.choices[self.current]
         except IndexError:
             return ""
+
+    def get_header_template(self):
+        return self.theme.list.template_for_title

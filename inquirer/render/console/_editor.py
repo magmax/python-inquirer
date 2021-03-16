@@ -15,7 +15,7 @@ class Editor(BaseConsoleRender):
 
     def get_current_value(self):
         return "{}Press <enter> to launch your editor{}".format(
-            self.theme.Editor.opening_prompt_color, self.terminal.normal
+            self.theme.editor.opening_prompt_color, self.terminal.normal
         )
 
     def handle_validation_error(self, error):
@@ -35,3 +35,6 @@ class Editor(BaseConsoleRender):
         raise errors.ValidationError(
             "You have pressed unknown key! " "Press <enter> to open editor or " "CTRL+C to exit."
         )
+
+    def get_header_template(self):
+        return self.theme.editor.template_for_title

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 
-from collections import namedtuple
 from blessed import Terminal
 
 from .errors import ThemeError
@@ -14,12 +13,12 @@ def load_theme_from_json(json_theme):
     Load a theme from a json.
     Expected format:
     {
-        "Question": {
+        "question": {
             "mark_color": "yellow",
             "brackets_color": "normal",
             ...
         },
-        "List": {
+        "list": {
             "selection_color": "bold_blue",
             "selection_cursor": "->"
         }
@@ -35,12 +34,12 @@ def load_theme_from_dict(dict_theme):
     Load a theme from a dict.
     Expected format:
     {
-        "Question": {
+        "question": {
             "mark_color": "yellow",
             "brackets_color": "normal",
             ...
         },
-        "List": {
+        "list": {
             "selection_color": "bold_blue",
             "selection_cursor": "->"
         }
@@ -50,6 +49,7 @@ def load_theme_from_dict(dict_theme):
     """
     t = Default()
     for question_type, settings in dict_theme.items():
+        question_type = question_type.lower()
         if question_type not in vars(t):
             raise ThemeError(
                 "Error while parsing theme. Question type " "`{}` not found or not customizable.".format(question_type)
@@ -69,47 +69,97 @@ def load_theme_from_dict(dict_theme):
     return t
 
 
+class ThemeItem(object):
+    def __init__(self):
+        self.template_for_title = (
+            "{theme.brackets_color}" "[{theme.mark_color}?{theme.brackets_color}]{t.normal}" " {msg}: {value}"
+        )
+
+
+class Text(ThemeItem):
+    def __init__(self):
+        super(Text, self).__init__()
+
+
+class Path(ThemeItem):
+    def __init__(self):
+        super(Path, self).__init__()
+
+
+class Confirm(ThemeItem):
+    def __init__(self):
+        super(Confirm, self).__init__()
+
+
+class Password(ThemeItem):
+    def __init__(self):
+        super(Password, self).__init__()
+        self.template_for_title = (
+            "{theme.brackets_color}" "[{theme.mark_color}?{theme.brackets_color}]{t.normal}" " {msg}: {value}"
+        )
+
+
+class Question(ThemeItem):
+    def __init__(self):
+        super(Question, self).__init__()
+        self.mark_color = term.yellow
+        self.brackets_color = term.normal
+        self.default_color = term.normal
+
+
+class Editor(ThemeItem):
+    def __init__(self):
+        super(Editor, self).__init__()
+        self.opening_prompt_color = term.bright_black
+
+
+class Checkbox(ThemeItem):
+    def __init__(self):
+        super(Checkbox, self).__init__()
+        self.selection_color = term.blue
+        self.selection_icon = ">"
+        self.selected_icon = "X"
+        self.selected_color = term.yellow + term.bold
+        self.unselected_color = term.normal
+        self.unselected_icon = "o"
+
+
+class List(ThemeItem):
+    def __init__(self):
+        super(List, self).__init__()
+        self.selection_color = term.blue
+        self.selection_cursor = ">"
+        self.unselected_color = term.normal
+
+
 class Theme(object):
     def __init__(self):
-        self.Question = namedtuple("question", "mark_color brackets_color " "default_color")
-        self.Editor = namedtuple("editor", "opening_prompt")
-        self.Checkbox = namedtuple(
-            "common",
-            "selection_color selection_icon " "selected_color unselected_color " "selected_icon unselected_icon",
-        )
-        self.List = namedtuple("List", "selection_color selection_cursor " "unselected_color")
+        super(Theme, self).__init__()
+        self.question = Question()
+        self.text = Text()
+        self.path = Path()
+        self.password = Password()
+        self.confirm = Confirm()
+        self.editor = Editor()
+        self.checkbox = Checkbox()
+        self.list = List()
 
 
 class Default(Theme):
     def __init__(self):
         super(Default, self).__init__()
-        self.Question.mark_color = term.yellow
-        self.Question.brackets_color = term.normal
-        self.Question.default_color = term.normal
-        self.Editor.opening_prompt_color = term.bright_black
-        self.Checkbox.selection_color = term.blue
-        self.Checkbox.selection_icon = ">"
-        self.Checkbox.selected_icon = "X"
-        self.Checkbox.selected_color = term.yellow + term.bold
-        self.Checkbox.unselected_color = term.normal
-        self.Checkbox.unselected_icon = "o"
-        self.List.selection_color = term.blue
-        self.List.selection_cursor = ">"
-        self.List.unselected_color = term.normal
 
 
 class GreenPassion(Theme):
     def __init__(self):
         super(GreenPassion, self).__init__()
-        self.Question.mark_color = term.yellow
-        self.Question.brackets_color = term.bright_green
-        self.Question.default_color = term.yellow
-        self.Checkbox.selection_color = term.bold_black_on_bright_green
-        self.Checkbox.selection_icon = "❯"
-        self.Checkbox.selected_icon = "◉"
-        self.Checkbox.selected_color = term.green
-        self.Checkbox.unselected_color = term.normal
-        self.Checkbox.unselected_icon = "◯"
-        self.List.selection_color = term.bold_black_on_bright_green
-        self.List.selection_cursor = "❯"
-        self.List.unselected_color = term.normal
+        self.question.brackets_color = term.bright_green
+        self.question.default_color = term.yellow
+        self.checkbox.selection_color = term.bold_black_on_bright_green
+        self.checkbox.selection_icon = "❯"
+        self.checkbox.selected_icon = "◉"
+        self.checkbox.selected_color = term.green
+        self.checkbox.unselected_color = term.normal
+        self.checkbox.unselected_icon = "◯"
+        self.list.selection_color = term.bold_black_on_bright_green
+        self.list.selection_cursor = "❯"

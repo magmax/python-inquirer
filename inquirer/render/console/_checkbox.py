@@ -45,11 +45,11 @@ class Checkbox(BaseConsoleRender):
                 or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection)
             ):  # noqa
 
-                symbol = self.theme.Checkbox.selected_icon
-                color = self.theme.Checkbox.selected_color
+                symbol = self.theme.checkbox.selected_icon
+                color = self.theme.checkbox.selected_color
             else:
-                symbol = self.theme.Checkbox.unselected_icon
-                color = self.theme.Checkbox.unselected_color
+                symbol = self.theme.checkbox.unselected_icon
+                color = self.theme.checkbox.unselected_color
 
             selector = " "
             end_index = ending_milestone + index - half_options - 1
@@ -59,8 +59,8 @@ class Checkbox(BaseConsoleRender):
                 or (is_in_end and end_index == self.current)
             ):
 
-                selector = self.theme.Checkbox.selection_icon
-                color = self.theme.Checkbox.selection_color
+                selector = self.theme.checkbox.selection_icon
+                color = self.theme.checkbox.selection_color
             yield choice, selector + " " + symbol, color
 
     def process_input(self, pressed):
@@ -89,3 +89,6 @@ class Checkbox(BaseConsoleRender):
             raise errors.EndOfInput(result)
         elif pressed == key.CTRL_C:
             raise KeyboardInterrupt()
+
+    def get_header_template(self):
+        return self.theme.text.template_for_title

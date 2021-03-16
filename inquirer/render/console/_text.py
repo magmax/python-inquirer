@@ -43,3 +43,6 @@ class Text(BaseConsoleRender):
             else:
                 n = -self.cursor_offset
                 self.current = "".join((self.current[:n], pressed, self.current[n:]))
+
+    def get_header_template(self):
+        return self.theme.text.template_for_title
