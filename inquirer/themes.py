@@ -163,3 +163,9 @@ class GreenPassion(Theme):
         self.checkbox.unselected_icon = "◯"
         self.list.selection_color = term.bold_black_on_bright_green
         self.list.selection_cursor = "❯"
+
+        # Backward compatibility. Deprecated.
+        self.Question = self.question
+        self.Editor = self.editor
+        self.Checkbox = self.checkbox
+        self.List = self.list
