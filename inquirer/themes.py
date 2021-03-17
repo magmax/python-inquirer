@@ -72,7 +72,9 @@ def load_theme_from_dict(dict_theme):
 class ThemeItem(object):
     def __init__(self):
         self.template_for_title = (
-            "{theme.brackets_color}" "[{theme.mark_color}?{theme.brackets_color}]{t.normal}" " {msg}: {value}"
+            "{theme.brackets_color}"
+            "[{theme.mark_color}?{theme.brackets_color}]{t.normal}"
+            " {header}{theme.default_color}{default}{t.normal}: {value}"
         )
 
 
@@ -95,7 +97,7 @@ class Password(ThemeItem):
     def __init__(self):
         super(Password, self).__init__()
         self.template_for_title = (
-            "{theme.brackets_color}" "[{theme.mark_color}?{theme.brackets_color}]{t.normal}" " {msg}: {value}"
+            "{theme.brackets_color}" "[{theme.mark_color}?{theme.brackets_color}]{t.normal}" " {header}: {value}"
         )
 
 

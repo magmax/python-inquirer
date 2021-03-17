@@ -78,18 +78,14 @@ class ConsoleRender(object):
         base = render.get_header()
 
         header = base[: self.width - 9] + "..." if len(base) > self.width - 6 else base
-        default_value = " ({color}{default}{normal})".format(
-            default=render.question.default, color=self._theme.question.default_color, normal=self.terminal.normal
-        )
         show_default = render.question.default and render.show_default
-        header += default_value if show_default else ""
-        # ensure any user input with { or } will not cause a formatting error
         self.print_str(
             "\n{t.move_up}{t.clear_eol}" + render.get_header_template(),
             lf=not render.title_inline,
-            msg=header,
+            header=header,
             theme=self._theme.question,
             value=render.get_current_value(),
+            default=("(%s)" % render.question.default) if show_default else "",
         )
 
     def _process_input(self, render):
