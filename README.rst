@@ -1,5 +1,5 @@
 ====================  =================================================================================
-Tests                 |travis| |coveralls|
+Tests                 |Tests| |coveralls|
 --------------------  ---------------------------------------------------------------------------------
 Downloads             |pip dm| |pip dw| |pip dd|
 --------------------  ---------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ Example:
 |inquirer checkbox|
 
 Path
---------
+----
 
 Like Text question, but with builtin validations for working with paths.
 
@@ -143,54 +143,42 @@ Copyright (c) 2014-2021 Miguel Ángel García (`@magmax_en`_), based on `Inquire
 Licensed under `the MIT license`_.
 
 
-.. |travis| image:: https://travis-ci.org/magmax/python-inquirer.png
-  :target: `Travis`_
-  :alt: Travis results
-
+.. |Tests| image:: https://github.com/magmax/python-inquirer/workflows/Tests/badge.svg
+  :target: https://github.com/magmax/python-inquirer/actions?workflow=Tests
+  :alt: Tests
 .. |coveralls| image:: https://coveralls.io/repos/magmax/python-inquirer/badge.png
   :target: `Coveralls`_
   :alt: Coveralls results_
-
 .. |pip version| image:: https://img.shields.io/pypi/v/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Latest PyPI version
-
 .. |pip dm| image:: https://img.shields.io/pypi/dm/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Last month downloads from pypi
-
 .. |pip dw| image:: https://img.shields.io/pypi/dw/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Last week downloads from pypi
-
 .. |pip dd| image:: https://img.shields.io/pypi/dd/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Yesterday downloads from pypi
-
 .. |pip license| image:: https://img.shields.io/pypi/l/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: License
-
 .. |pip wheel| image:: https://img.shields.io/pypi/wheel/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Wheel
-
 .. |pip pyversions| image::  	https://img.shields.io/pypi/pyversions/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Python versions
-
 .. |pip implem| image::  	https://img.shields.io/pypi/implementation/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Python interpreters
-
 .. |status| image::	https://img.shields.io/pypi/status/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Status
-
 .. |version| image:: https://img.shields.io/pypi/v/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Status
-
 
 
 .. |inquirer text| image:: http://magmax.org/python-inquirer/_images/inquirer_text.png
@@ -203,7 +191,6 @@ Licensed under `the MIT license`_.
   :alt: Example of Checkbox Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
-.. _Travis: https://travis-ci.org/magmax/python-inquirer
 .. _Coveralls: https://coveralls.io/r/magmax/python-inquirer
 .. _examples/: https://github.com/magmax/python-inquirer/tree/master/examples
 .. _`download the python-inquirer code from GitHub`: https://github.com/magmax/python-inquirer
