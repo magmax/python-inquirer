@@ -131,18 +131,19 @@ inside the validation function, but be aware that if the validation passes you s
 Example:
 
 .. code:: python
-          from inquirer import errors
-          import random
 
-          def validation_function(answers, current):
-             if random.random() > 0.5:
-                raise errors.ValidationError('', reason='Sorry, just have bad mood.')
+    from inquirer import errors
+    import random
 
-             return True
+    def validation_function(answers, current):
+       if random.random() > 0.5:
+          raise errors.ValidationError('', reason='Sorry, just have bad mood.')
+
+       return True
 
 
-          Text('nothing', "Moody question", validate=validation_function)
-          Text('age', "How old are you?", validate=lambda _, c: 0 <= c < 120)
+    Text('nothing', "Moody question", validate=validation_function)
+    Text('age', "How old are you?", validate=lambda _, c: 0 <= c < 120)
 
 
 
@@ -159,6 +160,25 @@ It's value is `boolean` or a `function` with the sign:
           def ignore(answers): return boolean()
 
 where ``answers`` contains the `dict` of previous answers again.
+
+Example:
+
+.. code:: python
+   questions = [
+       inquirer.Text("name", message="What's your name?"),
+       inquirer.Text(
+           "surname",
+           message="What's your surname, {name}?",
+           ignore=lambda x: x["name"].lower() == "anonymous"
+       ),
+       inquirer.Confirm("married", message="Are you married?"),
+       inquirer.Text(
+           "time_married",
+           message="How long have you been married?",
+           ignore=lambda x: not x["married"]
+       )
+   ]
+
 
 
 Path Question
