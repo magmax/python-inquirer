@@ -24,6 +24,14 @@ Platforms support
 
 Python-inquirer supports mainly UNIX-based platforms (eq. Mac OS, Linux, etc.). Windows has experimental support, please let us know if there are any problems!
 
+Installation
+============
+
+.. code:: bash
+    
+    pip install inquirer
+
+
 Documentation
 =============
 
@@ -37,6 +45,8 @@ Text
 
 .. code:: python
 
+  import re
+  
   import inquirer
   questions = [
     inquirer.Text('name', message="What's your name"),
