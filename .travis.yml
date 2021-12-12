@@ -10,11 +10,10 @@ stages:
 
 language: python
 python:
-  - "3.5"
-  - "3.6"
   - "3.7"
   - "3.8"
-  - "pypy3.5-6.0"
+  - "3.9"
+  - "3.10"
 dist: xenial
 sudo: true
 install:
