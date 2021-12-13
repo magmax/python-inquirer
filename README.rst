@@ -27,7 +27,7 @@ Python-inquirer supports mainly UNIX-based platforms (eq. Mac OS, Linux, etc.). 
 Installation
 ============
 
-.. code:: bash
+.. code:: console
     
     pip install inquirer
 
