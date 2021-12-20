@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-from math import ceil, floor
+from math import floor
 
 from blessed import Terminal
 
