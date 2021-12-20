@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+from math import floor
 
 from blessed import Terminal
-
-# Should be odd number as there is always one question selected
-MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
-half_options = int((MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)
 
 
 class BaseConsoleRender(object):
@@ -19,6 +16,9 @@ class BaseConsoleRender(object):
         self.answers = {}
         self.theme = theme
         self.show_default = show_default
+        # Should be odd number as there is always one question selected
+        self.MAX_OPTIONS_DISPLAYED_AT_ONCE = self.question.length
+        self.half_options = floor(self.MAX_OPTIONS_DISPLAYED_AT_ONCE / 2)
 
     def get_header(self):
         return self.question.message
