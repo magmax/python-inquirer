@@ -1,0 +1,10 @@
+
+comment: false
+coverage:
+  status:
+    project:
+      default:
+        target: "85"
+    patch:
+      default:
+        target: "85"

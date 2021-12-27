@@ -1,0 +1,7 @@
+[tool.coverage.paths]
+source = ["inquirer", "*/site-packages"]
+tests = ["tests", "*/tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["inquirer", "tests"]
