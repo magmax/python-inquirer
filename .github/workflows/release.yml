@@ -1,10 +1,11 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+---
 name: Release
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   release:
@@ -26,14 +27,47 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt pip
           pip --version
 
-      - name: Install dependencies
+      - name: Install Poetry
         run: |
-          pip install setuptools wheel twine
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
 
-      - name: Build and publish
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Check if there is a parent commit
+        id: check-parent-commit
         run: |
-          python setup.py sdist bdist_wheel
-          twine upload dist/*
+          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
+
+      - name: Detect and tag new version
+        id: check-version
+        if: steps.check-parent-commit.outputs.sha
+        uses: salsify/action-detect-and-tag-new-version@v2.0.1
+        with:
+          version-command: |
+            bash -o pipefail -c "poetry version | awk '{ print \$2 }'"
+
+      - name: Bump version for developmental release
+        if: "! steps.check-version.outputs.tag"
+        run: |
+          poetry version patch &&
+          version=$(poetry version | awk '{ print $2 }') &&
+          poetry version $version.dev.$(date +%s)
+
+      - name: Build package
+        run: |
+          poetry build --ansi
+
+
+      - name: Publish package on PyPI
+        if: steps.check-version.outputs.tag
+        uses: pypa/gh-action-pypi-publish@v1.4.2
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Publish the release notes
+        uses: release-drafter/release-drafter@v5.15.0
+        with:
+          publish: ${{ steps.check-version.outputs.tag != '' }}
+          tag: ${{ steps.check-version.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

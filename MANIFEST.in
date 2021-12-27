@@ -1,9 +1,0 @@
-include changes.rst
-include LICENSE
-include Makefile
-include README.rst
-include requirements.txt
-include setup.cfg
-
-recursive-include inquirer/ *
-recursive-include tests/ *
