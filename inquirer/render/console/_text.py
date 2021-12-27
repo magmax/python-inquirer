@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from readchar import key
 from .base import BaseConsoleRender
 from inquirer import errors
@@ -9,7 +7,7 @@ class Text(BaseConsoleRender):
     title_inline = True
 
     def __init__(self, *args, **kwargs):
-        super(Text, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.current = self.question.default or ""
         self.cursor_offset = 0
 

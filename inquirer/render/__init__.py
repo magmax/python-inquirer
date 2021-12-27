@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .console import ConsoleRender
 
 try:
@@ -8,7 +7,7 @@ except ImportError:
     pass
 
 
-class Render(object):
+class Render:
     def __init__(self, impl=ConsoleRender):
         self._impl = impl
 

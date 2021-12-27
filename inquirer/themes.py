@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 
 from collections import namedtuple
@@ -69,7 +68,7 @@ def load_theme_from_dict(dict_theme):
     return t
 
 
-class Theme(object):
+class Theme:
     def __init__(self):
         self.Question = namedtuple("question", "mark_color brackets_color " "default_color")
         self.Editor = namedtuple("editor", "opening_prompt")
@@ -82,7 +81,7 @@ class Theme(object):
 
 class Default(Theme):
     def __init__(self):
-        super(Default, self).__init__()
+        super().__init__()
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.normal
         self.Question.default_color = term.normal
@@ -100,7 +99,7 @@ class Default(Theme):
 
 class GreenPassion(Theme):
     def __init__(self):
-        super(GreenPassion, self).__init__()
+        super().__init__()
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.bright_green
         self.Question.default_color = term.yellow

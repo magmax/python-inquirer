@@ -4,7 +4,7 @@ class InquirerError(Exception):
 
 class ValidationError(InquirerError):
     def __init__(self, value, reason=None, *args):
-        super(ValidationError, self).__init__(*args)
+        super().__init__(*args)
         self.value = value
         self.reason = reason
 
@@ -19,7 +19,7 @@ class Aborted(InquirerError):
 
 class EndOfInput(InquirerError):
     def __init__(self, selection, *args):
-        super(EndOfInput, self).__init__(*args)
+        super().__init__(*args)
         self.selection = selection
 
 

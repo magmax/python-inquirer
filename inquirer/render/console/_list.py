@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from readchar import key
 from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
 from inquirer import errors
@@ -7,7 +5,7 @@ from inquirer import errors
 
 class List(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
-        super(List, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.current = self._current_index()
 
     @property

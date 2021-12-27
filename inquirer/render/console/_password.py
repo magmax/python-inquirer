@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from ._text import Text
 
 
@@ -11,4 +9,4 @@ class Password(Text):
         if error.reason:
             return error.reason
 
-        return "Entered value is not a valid {q}.".format(q=self.question.name)
+        return f"Entered value is not a valid {self.question.name}."

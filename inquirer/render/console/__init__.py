@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
-
 import sys
 from blessed import Terminal
 
@@ -17,9 +14,9 @@ from ._checkbox import Checkbox
 from ._path import Path
 
 
-class ConsoleRender(object):
+class ConsoleRender:
     def __init__(self, event_generator=None, theme=None, *args, **kwargs):
-        super(ConsoleRender, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._event_gen = event_generator or events.KeyEventGenerator()
         self.terminal = Terminal()
         self._previous_error = None
@@ -87,7 +84,7 @@ class ConsoleRender(object):
         # ensure any user input with { or } will not cause a formatting error
         escaped_current_value = str(render.get_current_value()).replace("{", "{{").replace("}", "}}")
         self.print_str(
-            "\n%s: %s" % (msg_template, escaped_current_value),
+            f"\n{msg_template}: {escaped_current_value}",
             msg=header,
             lf=not render.title_inline,
             tq=self._theme.Question,

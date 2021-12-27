@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from .prompt import prompt
 from .questions import (
     Text,

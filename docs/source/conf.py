@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # inquirer documentation build configuration file, created by
 # sphinx-quickstart on Mon Dec  1 20:43:04 2014.
@@ -44,8 +43,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"inquirer"
-copyright = u"2019, Miguel Ángel García & Adam Uhlíř"
+project = "inquirer"
+copyright = "2019, Miguel Ángel García & Adam Uhlíř"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -200,7 +199,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "inquirer.tex", u"inquirer Documentation", u"Miguel Ángel García", "manual"),
+    ("index", "inquirer.tex", "inquirer Documentation", "Miguel Ángel García", "manual"),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -228,7 +227,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "inquirer", u"inquirer Documentation", [u"Miguel Ángel García"], 1)]
+man_pages = [("index", "inquirer", "inquirer Documentation", ["Miguel Ángel García"], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -243,8 +242,8 @@ texinfo_documents = [
     (
         "index",
         "inquirer",
-        u"inquirer Documentation",
-        u"Miguel Ángel García",
+        "inquirer Documentation",
+        "Miguel Ángel García",
         "inquirer",
         "One line description of project.",
         "Miscellaneous",
