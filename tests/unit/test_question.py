@@ -260,14 +260,13 @@ class TestPathQuestion(unittest.TestCase):
 
         do_test(None, False)
 
-        if os.environ.get("TRAVIS_PYTHON_VERSION") != "pypy3":
-            # Path component must not be longer then 255 bytes
-            do_test("a" * 256, False)
-            do_test(os.path.abspath("/asdf/" + "a" * 256), False)
-            do_test("{}/{}".format("a" * 255, "b" * 255), True)
+        # Path component must not be longer then 255 bytes
+        do_test("a" * 256, False)
+        do_test(os.path.abspath("/asdf/" + "a" * 256), False)
+        do_test("{}/{}".format("a" * 255, "b" * 255), True)
 
-            # Path component must not contains null bytes
-            do_test("some/path/with/{}byte".format(b"\x00".decode("utf-8")), False)
+        # Path component must not contains null bytes
+        do_test("some/path/with/{}byte".format(b"\x00".decode("utf-8")), False)
 
     def test_path_type_validation_no_existence_check(self):
         def do_test(path_type, path, result=True):

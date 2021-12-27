@@ -37,7 +37,7 @@ source = ["inquirer", "tests"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 85
+fail_under = 90
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
