@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .render.console import ConsoleRender
 from . import themes
 

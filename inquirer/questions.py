@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Module that implements the questions types
 """
@@ -53,7 +52,7 @@ def load_from_json(question_json):
     raise TypeError("Json contained a %s variable when a dict or list was expected", type(data))
 
 
-class TaggedValue(object):
+class TaggedValue:
     def __init__(self, label, value):
         self.label = label
         self.value = value
@@ -73,7 +72,7 @@ class TaggedValue(object):
         return not self.__eq__(other)
 
 
-class Question(object):
+class Question:
     kind = "base question"
 
     def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, show_default=False):
@@ -101,11 +100,7 @@ class Question(object):
     @property
     def choices_generator(self):
         for choice in self._solve(self._choices):
-            yield (
-                TaggedValue(*choice)
-                if isinstance(choice, (list, tuple, set)) and len(choice) == 2
-                else choice
-            )
+            yield (TaggedValue(*choice) if isinstance(choice, (list, tuple, set)) and len(choice) == 2 else choice)
 
     @property
     def choices(self):
@@ -133,7 +128,7 @@ class Text(Question):
     kind = "text"
 
     def __init__(self, name, message="", default=None, **kwargs):
-        super(Text, self).__init__(
+        super().__init__(
             name, message=message, default=str(default) if default and not callable(default) else default, **kwargs
         )
 
@@ -142,7 +137,7 @@ class Password(Text):
     kind = "password"
 
     def __init__(self, name, echo="*", **kwargs):
-        super(Password, self).__init__(name, **kwargs)
+        super().__init__(name, **kwargs)
         self.echo = echo
 
 
@@ -154,7 +149,7 @@ class Confirm(Question):
     kind = "confirm"
 
     def __init__(self, name, default=False, **kwargs):
-        super(Confirm, self).__init__(name, default=default, **kwargs)
+        super().__init__(name, default=default, **kwargs)
 
 
 class List(Question):
@@ -162,7 +157,7 @@ class List(Question):
 
     def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
 
-        super(List, self).__init__(name, message, choices, default, ignore, validate)
+        super().__init__(name, message, choices, default, ignore, validate)
         self.carousel = carousel
 
 
@@ -214,7 +209,7 @@ class Path(Text):
     kind = "path"
 
     def __init__(self, name, default=None, path_type="any", exists=None, normalize_to_absolute_path=False, **kwargs):
-        super(Path, self).__init__(name, default=default, **kwargs)
+        super().__init__(name, default=default, **kwargs)
 
         self._path_type = path_type
         self._exists = exists
@@ -227,7 +222,7 @@ class Path(Text):
                 raise ValueError("Default value '{}' is not valid based on " "your Path's criteria".format(default))
 
     def validate(self, current):
-        super(Path, self).validate(current)
+        super().validate(current)
 
         if current is None:
             raise errors.ValidationError(current)

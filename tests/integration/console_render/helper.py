@@ -8,7 +8,7 @@ except ImportError:
 from inquirer import events
 
 
-class Iterable(object):
+class Iterable:
     def __init__(self, *args):
         self.iterator = args.__iter__()
 
@@ -20,7 +20,7 @@ def event_factory(*args):
     return Iterable(*args)
 
 
-class BaseTestCase(object):
+class BaseTestCase:
     def base_setup(self):
         self._base_stdin = sys.stdin
         self._base_stdout = sys.stdout

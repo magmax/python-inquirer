@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from readchar import key
 from .base import BaseConsoleRender
 from inquirer import errors
@@ -10,7 +8,7 @@ class Editor(BaseConsoleRender):
     title_inline = True
 
     def __init__(self, *args, **kwargs):
-        super(Editor, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.current = ""
 
     def get_current_value(self):
@@ -22,7 +20,7 @@ class Editor(BaseConsoleRender):
         if error.reason:
             return error.reason
 
-        return "Entered value is not a valid {q}.".format(q=self.question.name)
+        return f"Entered value is not a valid {self.question.name}."
 
     def process_input(self, pressed):
         if pressed == key.CTRL_C:

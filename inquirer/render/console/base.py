@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
 from blessed import Terminal
 
 # Should be odd number as there is always one question selected
@@ -9,11 +5,11 @@ MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
 half_options = int((MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)
 
 
-class BaseConsoleRender(object):
+class BaseConsoleRender:
     title_inline = False
 
     def __init__(self, question, theme=None, terminal=None, show_default=False, *args, **kwargs):
-        super(BaseConsoleRender, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.question = question
         self.terminal = terminal or Terminal()
         self.answers = {}
@@ -36,4 +32,4 @@ class BaseConsoleRender(object):
         if error.reason:
             return error.reason
 
-        return '"{e}" is not a valid {q}.'.format(e=error.value, q=self.question.name)
+        return f'"{error.value}" is not a valid {self.question.name}.'

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from readchar import key
 from inquirer import errors
 from .base import BaseConsoleRender
@@ -10,7 +8,7 @@ class Confirm(BaseConsoleRender):
 
     def get_header(self):
         confirm = "(Y/n)" if self.question.default else "(y/N)"
-        return "{msg} {c}".format(msg=self.question.message, c=confirm)
+        return f"{self.question.message} {confirm}"
 
     def process_input(self, pressed):
         if pressed == key.CTRL_C:

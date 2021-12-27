@@ -12,14 +12,14 @@ class CheckTest(unittest.TestCase):
 
     def test_default_input(self):
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books'\]}.*", timeout=1)  # noqa
 
     def test_select_the_third(self):
         self.sut.send(key.DOWN)
         self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
 
     def test_select_one_more(self):
         self.sut.send(key.DOWN)
@@ -28,33 +28,33 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*", timeout=1)  # noqa
 
     def test_unselect(self):
         self.sut.send(key.SPACE)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Books', 'Computers'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Books', 'Computers'\]}.*", timeout=1)  # noqa
 
     def test_select_with_arrows(self):
         self.sut.send(key.DOWN)
         self.sut.send(key.DOWN)
         self.sut.send(key.RIGHT)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
 
     def test_unselect_with_arrows(self):
         self.sut.send(key.DOWN)
         self.sut.send(key.LEFT)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
 
     def test_select_last(self):
         for i in range(10):
             self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")

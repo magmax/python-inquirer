@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import division
 from readchar import key
 from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
 from inquirer import errors
@@ -7,7 +5,7 @@ from inquirer import errors
 
 class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
-        super(Checkbox, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.question.default or [])]
         self.current = 0
 
