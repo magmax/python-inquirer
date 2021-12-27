@@ -1,5 +1,5 @@
 ====================  =================================================================================
-Tests                 |Tests| |coveralls|
+Tests                 |Tests| |Codecov|
 --------------------  ---------------------------------------------------------------------------------
 Downloads             |pip dm| |pip dw| |pip dd|
 --------------------  ---------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ Installation
 ============
 
 .. code:: console
-    
+
     pip install inquirer
 
 
@@ -46,7 +46,7 @@ Text
 .. code:: python
 
   import re
-  
+
   import inquirer
   questions = [
     inquirer.Text('name', message="What's your name"),
@@ -156,9 +156,9 @@ Licensed under `the MIT license`_.
 .. |Tests| image:: https://github.com/magmax/python-inquirer/workflows/Tests/badge.svg
   :target: https://github.com/magmax/python-inquirer/actions?workflow=Tests
   :alt: Tests
-.. |coveralls| image:: https://coveralls.io/repos/magmax/python-inquirer/badge.png
-  :target: `Coveralls`_
-  :alt: Coveralls results_
+.. |Codecov| image:: https://codecov.io/gh/magmax/python-inquirer/branch/master/graph/badge.svg
+  :target: https://app.codecov.io/gh/magmax/python-inquirer
+  :alt: Codecov
 .. |pip version| image:: https://img.shields.io/pypi/v/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Latest PyPI version
@@ -201,7 +201,6 @@ Licensed under `the MIT license`_.
   :alt: Example of Checkbox Question
 
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
-.. _Coveralls: https://coveralls.io/r/magmax/python-inquirer
 .. _examples/: https://github.com/magmax/python-inquirer/tree/master/examples
 .. _`download the python-inquirer code from GitHub`: https://github.com/magmax/python-inquirer
 .. _`download the wheel from Pypi`: https://pypi.python.org/pypi/inquirer

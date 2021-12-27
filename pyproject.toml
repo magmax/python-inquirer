@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "inquirer"
+version = "3.0.0"
+description = "Collection of common interactive command line user interfaces, based on Inquirer.js"
+authors = ["Miguel Ángel García <miguelangel.garcia@gmail.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "https://github.com/magmax/python-inquirer"
+repository = "https://github.com/magmax/python-inquirer"
+documentation = "https://github.com/magmax/python-inquirer"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: User Interfaces",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+blessed = ">=1.19.0"
+readchar = ">=2.0.1"
+python-editor = ">=1.0.4"
+
+[tool.poetry.dev-dependencies]
+pexpect = ">=4.8.0"
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+tests = ["tests", "*/tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["inquirer", "tests"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

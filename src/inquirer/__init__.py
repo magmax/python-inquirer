@@ -1,5 +1,5 @@
-from .prompt import prompt
-from .questions import (
+from inquirer.prompt import prompt
+from inquirer.questions import (
     Text,
     Editor,
     Password,
@@ -11,7 +11,7 @@ from .questions import (
     load_from_json,
     load_from_list,
 )
-from .shortcuts import text, editor, password, confirm, list_input, checkbox
+from inquirer.shortcuts import text, editor, password, confirm, list_input, checkbox
 
 __all__ = [
     "prompt",
