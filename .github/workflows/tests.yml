@@ -104,6 +104,7 @@ jobs:
       - name: Combine coverage data and display human readable report
         run: |
           coverage combine
+          coverage report
 
       - name: Create coverage report
         run: |
