@@ -28,7 +28,7 @@ python-editor = ">=1.0.4"
 pexpect = ">=4.8.0"
 
 [tool.coverage.paths]
-source = ["inquirer", "*/site-packages"]
+source = ["src", "*/site-packages"]
 tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
