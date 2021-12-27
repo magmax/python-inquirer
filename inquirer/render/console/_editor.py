@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from readchar import key
-from .base import BaseConsoleRender
-from inquirer import errors
 import editor
+from readchar import key
+
+from inquirer import errors
+
+from .base import BaseConsoleRender
 
 
 class Editor(BaseConsoleRender):

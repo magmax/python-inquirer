@@ -1,5 +1,5 @@
-from .render.console import ConsoleRender
 from . import questions
+from .render.console import ConsoleRender
 
 
 def text(message, render=None, **kwargs):

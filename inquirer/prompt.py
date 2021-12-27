@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .render.console import ConsoleRender
 from . import themes
+from .render.console import ConsoleRender
 
 
 def prompt(questions, render=None, answers=None, theme=themes.Default(), raise_keyboard_interrupt=False):

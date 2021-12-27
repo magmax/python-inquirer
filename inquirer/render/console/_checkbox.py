@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
+
 from readchar import key
-from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
+
 from inquirer import errors
+
+from .base import MAX_OPTIONS_DISPLAYED_AT_ONCE
+from .base import BaseConsoleRender
+from .base import half_options
 
 
 class Checkbox(BaseConsoleRender):

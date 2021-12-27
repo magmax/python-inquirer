@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-import sys
 import os
-from setuptools import setup, find_packages
+import sys
+
+from setuptools import find_packages
+from setuptools import setup
 from setuptools.command.test import test as TestCommand
+
 
 version = "3.0.0"
 github_ref = os.getenv("GITHUB_REF")
@@ -53,7 +56,7 @@ class PyTest(TestCommand):
 setup(
     name="inquirer",
     version=version,
-    description=("Collection of common interactive command line user interfaces," " based on Inquirer.js"),
+    description="Collection of common interactive command line user interfaces, based on Inquirer.js",
     long_description=read_description(),
     cmdclass={"test": PyTest},
     classifiers=[

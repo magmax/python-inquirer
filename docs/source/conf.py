@@ -58,6 +58,7 @@ copyright = u"2019, Miguel Ángel García & Adam Uhlíř"
 
 import inquirer  # noqa
 
+
 version = inquirer.__version__
 release = inquirer.__version__
 

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
+
 from inquirer import errors
+
 from .base import BaseConsoleRender
 
 

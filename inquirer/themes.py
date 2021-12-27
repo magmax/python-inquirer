@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import json
-
 from collections import namedtuple
+
 from blessed import Terminal
 
 from .errors import ThemeError
+
 
 term = Terminal()
 

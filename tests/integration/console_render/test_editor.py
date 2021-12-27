@@ -1,5 +1,6 @@
 import unittest
 
+
 try:
     from unittest.mock import patch
 except ImportError:
@@ -8,8 +9,9 @@ except ImportError:
 from readchar import key
 
 import inquirer.questions as questions
-from inquirer.render import ConsoleRender
 from inquirer import errors
+from inquirer.render import ConsoleRender
+
 from . import helper
 
 

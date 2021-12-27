@@ -1,10 +1,11 @@
 import unittest
-import inquirer.questions as questions
 
-from . import helper
 from readchar import key
 
+import inquirer.questions as questions
 from inquirer.render import ConsoleRender
+
+from . import helper
 
 
 class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):

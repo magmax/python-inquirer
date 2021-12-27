@@ -1,10 +1,10 @@
 import unittest
-import inquirer.questions as questions
+
 import inquirer.errors as errors
+import inquirer.questions as questions
+from inquirer.render import ConsoleRender
 
 from . import helper
-
-from inquirer.render import ConsoleRender
 
 
 class BasicTest(unittest.TestCase, helper.BaseTestCase):

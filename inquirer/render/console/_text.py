@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import BaseConsoleRender
+
 from inquirer import errors
+
+from .base import BaseConsoleRender
 
 
 class Text(BaseConsoleRender):

@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from readchar import key
-from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
+
 from inquirer import errors
+
+from .base import MAX_OPTIONS_DISPLAYED_AT_ONCE
+from .base import BaseConsoleRender
+from .base import half_options
 
 
 class List(BaseConsoleRender):

@@ -2,19 +2,20 @@
 from __future__ import print_function
 
 import sys
+
 from blessed import Terminal
 
 from inquirer import errors
 from inquirer import events
 from inquirer import themes
 
-from ._text import Text
-from ._editor import Editor
-from ._password import Password
-from ._confirm import Confirm
-from ._list import List
 from ._checkbox import Checkbox
+from ._confirm import Confirm
+from ._editor import Editor
+from ._list import List
+from ._password import Password
 from ._path import Path
+from ._text import Text
 
 
 class ConsoleRender(object):
