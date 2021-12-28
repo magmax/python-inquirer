@@ -6,7 +6,7 @@ import os
 import errno
 import sys
 
-from . import errors
+import inquirer.errors as errors
 
 
 class TaggedValue:

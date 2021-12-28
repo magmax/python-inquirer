@@ -1,9 +1,9 @@
 import unittest
-import inquirer.questions as questions
 
 from . import helper
 from readchar import key
 
+import inquirer
 from inquirer.render import ConsoleRender
 
 
@@ -19,7 +19,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         message = "Foo message"
         variable = "Bar variable"
 
-        question = questions.Password(variable, message)
+        question = inquirer.questions.Password(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
         sut.render(question)
@@ -33,7 +33,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         message = "Foo message"
         variable = "Bar variable"
 
-        question = questions.Password(variable, message)
+        question = inquirer.questions.Password(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
@@ -57,7 +57,7 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         message = "Foo message"
         variable = "Bar variable"
 
-        question = questions.Password(variable, message)
+        question = inquirer.questions.Password(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
@@ -70,8 +70,36 @@ class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
         message = "Foo message"
         variable = "Bar variable"
 
-        question = questions.Password(variable, message)
+        question = inquirer.questions.Password(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
         with self.assertRaises(KeyboardInterrupt):
+            sut.render(question)
+
+    def test_validate(self):
+        stdin = helper.event_factory("p", "a", "s", "s", key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        def validate(answers, current):
+            return False
+
+        question = inquirer.questions.Password(variable, message, validate=validate)
+
+        sut = ConsoleRender(event_generator=stdin)
+        with self.assertRaises(StopIteration):
+            sut.render(question)
+
+    def test_handle_validation_error_with_reason(self):
+        stdin = helper.event_factory("p", "a", "s", "s", key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        def validate(answers, current):
+            raise inquirer.errors.ValidationError("", reason="some reason")
+
+        question = inquirer.questions.Password(variable, message, validate=validate)
+
+        sut = ConsoleRender(event_generator=stdin)
+        with self.assertRaises(StopIteration):
             sut.render(question)

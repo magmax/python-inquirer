@@ -1,10 +1,10 @@
 import sys
+
 from blessed import Terminal
 
 from inquirer import errors
 from inquirer import events
 from inquirer import themes
-
 from ._text import Text
 from ._editor import Editor
 from ._password import Password

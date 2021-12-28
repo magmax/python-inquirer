@@ -3,6 +3,7 @@ import inquirer.questions as questions
 
 from . import helper
 from readchar import key
+import pytest
 
 from inquirer.render import ConsoleRender
 
@@ -40,7 +41,7 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual("foo", result)
+        assert result == "foo"
 
     def test_choose_the_second(self):
         stdin = helper.event_factory(key.DOWN, key.ENTER)
@@ -53,7 +54,32 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual("bar", result)
+        assert result == "bar"
+
+    def test_choose_with_long_choices(self):
+        stdin = helper.event_factory(
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.ENTER,
+        )
+        message = "Number message"
+        variable = "Number variable"
+        choices = list(range(15))
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == 10
 
     def test_move_up(self):
         stdin = helper.event_factory(key.DOWN, key.UP, key.ENTER)
@@ -66,7 +92,7 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual("foo", result)
+        assert result == "foo"
 
     def test_move_down_carousel(self):
         stdin = helper.event_factory(key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.ENTER)
@@ -79,7 +105,7 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual("bar", result)
+        assert result == "bar"
 
     def test_move_up_carousel(self):
         stdin = helper.event_factory(key.UP, key.ENTER)
@@ -92,7 +118,7 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual("bazz", result)
+        assert result == "bazz"
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
@@ -103,5 +129,5 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         question = questions.List(variable, message)
 
         sut = ConsoleRender(event_generator=stdin)
-        with self.assertRaises(KeyboardInterrupt):
+        with pytest.raises(KeyboardInterrupt):
             sut.render(question)
