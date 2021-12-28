@@ -24,7 +24,6 @@ Contents
    installation
    usage
    examples
-   changes
    license
    modules
 

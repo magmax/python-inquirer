@@ -212,6 +212,5 @@ Licensed under `the MIT license`_.
 .. _@vaxilart: https://twitter.com/vaxilart
 .. _@magmax_en: https://twitter.com/magmax_en
 .. _the MIT license: https://opensource.org/licenses/MIT
-.. _changes.rst: https://github.com/magmax/python-inquirer/blob/master/changes.rst
 .. github-only
 .. _Contributor Guide: https://magmax.org/python-inquirer/contributing.html
