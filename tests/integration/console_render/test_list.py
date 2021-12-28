@@ -1,10 +1,10 @@
 import unittest
-import inquirer.questions as questions
 
-from . import helper
-from readchar import key
 import pytest
+from readchar import key
 
+import inquirer.questions as questions
+import tests.integration.console_render.helper as helper
 from inquirer.render import ConsoleRender
 
 

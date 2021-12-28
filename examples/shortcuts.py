@@ -1,8 +1,10 @@
 import os
 import sys
 
+
 sys.path.append(os.path.realpath("."))
 import inquirer  # noqa
+
 
 text = inquirer.text(message="Enter your username")
 print(text)

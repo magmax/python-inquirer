@@ -4,9 +4,9 @@ from unittest.mock import patch
 from readchar import key
 
 import inquirer.questions as questions
-from inquirer.render import ConsoleRender
+import tests.integration.console_render.helper as helper
 from inquirer import errors
-from . import helper
+from inquirer.render import ConsoleRender
 
 
 class EditorRenderTest(unittest.TestCase, helper.BaseTestCase):

@@ -1,9 +1,9 @@
-from .console import ConsoleRender
+from inquirer.render.console import ConsoleRender
+
 
 try:
     from .ncourses import CoursesRender  # noqa
 except ImportError:
-    # ncourses will not be available
     pass
 
 

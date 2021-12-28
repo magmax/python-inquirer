@@ -1,5 +1,5 @@
-from inquirer.render.console import ConsoleRender
 import inquirer.questions as questions
+from inquirer.render.console import ConsoleRender
 
 
 def text(message, render=None, **kwargs):

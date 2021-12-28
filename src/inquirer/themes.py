@@ -5,6 +5,7 @@ from blessed import Terminal
 
 import inquirer.errors as errors
 
+
 term = Terminal()
 
 

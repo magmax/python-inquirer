@@ -1,9 +1,8 @@
 import unittest
-import inquirer.questions as questions
+
 import inquirer.errors as errors
-
-from . import helper
-
+import inquirer.questions as questions
+import tests.integration.console_render.helper as helper
 from inquirer.render import ConsoleRender
 
 

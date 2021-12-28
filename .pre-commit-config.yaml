@@ -1,8 +1,11 @@
 repos:
-  #  - repo: https://github.com/PyCQA/isort.git
-  #    rev: 5.7.0
-  #    hooks:
-  #    - id: isort
+  # - repo: https://github.com/pycqa/isort
+  #   rev: 5.10.1
+  #   hooks:
+  #     - id: isort
+  #       require_serial: true
+  #       types_or: [cython, pyi, python]
+  #       args: ["--filter-files"]
   - repo: https://github.com/psf/black
     rev: 21.12b0
     hooks:

@@ -1,6 +1,7 @@
 from readchar import key
+
 from inquirer import errors
-from .base import BaseConsoleRender
+from inquirer.render.console.base import BaseConsoleRender
 
 
 class Confirm(BaseConsoleRender):
