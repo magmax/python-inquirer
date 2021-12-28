@@ -1,5 +1,5 @@
 from readchar import key
-from .base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
+from inquirer.render.console.base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
 from inquirer import errors
 
 

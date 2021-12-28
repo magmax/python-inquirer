@@ -1,9 +1,9 @@
 import unittest
 
-from . import helper
 from readchar import key
 
 import inquirer
+import tests.integration.console_render.helper as helper
 from inquirer.render import ConsoleRender
 
 

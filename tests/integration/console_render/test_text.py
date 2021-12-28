@@ -1,12 +1,12 @@
 import re
 import unittest
-import inquirer.questions as questions
 
-from . import helper
 from readchar import key
 
-from inquirer.render import ConsoleRender
+import inquirer.questions as questions
+import tests.integration.console_render.helper as helper
 from inquirer import errors
+from inquirer.render import ConsoleRender
 
 
 class TextRenderTest(unittest.TestCase, helper.BaseTestCase):

@@ -1,4 +1,4 @@
-from ._text import Text
+from inquirer.render.console._text import Text
 
 
 class Password(Text):
