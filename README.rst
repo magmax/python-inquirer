@@ -1,9 +1,9 @@
 ====================  =================================================================================
-Tests                 |Tests| |Codecov|
+Tests                 |Tests| |Codecov| |Documentation|
 --------------------  ---------------------------------------------------------------------------------
 Downloads             |pip dm| |pip dw| |pip dd|
 --------------------  ---------------------------------------------------------------------------------
-About                 |pip license| |pip wheel| |pip pyversions| |pip implem|
+About                 |License| |pip wheel| |pip pyversions| |pip implem|
 --------------------  ---------------------------------------------------------------------------------
 Status                |version| |status|
 ====================  =================================================================================
@@ -145,6 +145,13 @@ Example:
   ]
   answers = inquirer.prompt(questions)
 
+
+Contributing
+============
+
+Contributions are very welcome.
+To learn more, see the `Contributor Guide`_.
+
 License
 =======
 
@@ -159,6 +166,9 @@ Licensed under `the MIT license`_.
 .. |Codecov| image:: https://codecov.io/gh/magmax/python-inquirer/branch/master/graph/badge.svg
   :target: https://app.codecov.io/gh/magmax/python-inquirer
   :alt: Codecov
+.. |Documentation| image:: https://github.com/magmax/python-inquirer/workflows/Documentation/badge.svg
+   :target: https://magmax.org/python-inquirer/
+   :alt: Read the documentation at https://magmax.org/python-inquirer/
 .. |pip version| image:: https://img.shields.io/pypi/v/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Latest PyPI version
@@ -171,7 +181,7 @@ Licensed under `the MIT license`_.
 .. |pip dd| image:: https://img.shields.io/pypi/dd/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Yesterday downloads from pypi
-.. |pip license| image:: https://img.shields.io/pypi/l/inquirer.svg
+.. |License| image:: https://img.shields.io/pypi/l/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: License
 .. |pip wheel| image:: https://img.shields.io/pypi/wheel/inquirer.svg
@@ -189,25 +199,19 @@ Licensed under `the MIT license`_.
 .. |version| image:: https://img.shields.io/pypi/v/inquirer.svg
     :target: https://pypi.python.org/pypi/inquirer
     :alt: Status
-
-
 .. |inquirer text| image:: http://magmax.org/python-inquirer/_images/inquirer_text.png
   :alt: Example of Text Question
-
 .. |inquirer list| image:: http://magmax.org/python-inquirer/_images/inquirer_list.png
   :alt: Example of List Question
-
 .. |inquirer checkbox| image:: http://magmax.org/python-inquirer/_images/inquirer_checkbox.png
   :alt: Example of Checkbox Question
-
 .. _Inquirer.js: https://github.com/SBoudrias/Inquirer.js
 .. _examples/: https://github.com/magmax/python-inquirer/tree/master/examples
 .. _`download the python-inquirer code from GitHub`: https://github.com/magmax/python-inquirer
 .. _`download the wheel from Pypi`: https://pypi.python.org/pypi/inquirer
-
 .. _@vaxilart: https://twitter.com/vaxilart
 .. _@magmax_en: https://twitter.com/magmax_en
-
-.. _the MIT license: http://opensource.org/licenses/MIT
-
+.. _the MIT license: https://opensource.org/licenses/MIT
 .. _changes.rst: https://github.com/magmax/python-inquirer/blob/master/changes.rst
+.. github-only
+.. _Contributor Guide: https://magmax.org/python-inquirer/contributing.html
