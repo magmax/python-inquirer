@@ -9,20 +9,20 @@ term = Terminal()
 
 
 def load_theme_from_json(json_theme):
-    """
-    Load a theme from a json.
+    """Load a theme from a json.
+
     Expected format:
-    {
-        "Question": {
-            "mark_color": "yellow",
-            "brackets_color": "normal",
-            ...
-        },
-        "List": {
-            "selection_color": "bold_blue",
-            "selection_cursor": "->"
-        }
-    }
+        >>> {
+        ...     "Question": {
+        ...         "mark_color": "yellow",
+        ...         "brackets_color": "normal",
+        ...         ...
+        ...     },
+        ...     "List": {
+        ...         "selection_color": "bold_blue",
+        ...         "selection_cursor": "->"
+        ...     }
+        ... }
 
     Color values should be string representing valid blessings.Terminal colors.
     """
@@ -30,20 +30,20 @@ def load_theme_from_json(json_theme):
 
 
 def load_theme_from_dict(dict_theme):
-    """
-    Load a theme from a dict.
+    """Load a theme from a dict.
+
     Expected format:
-    {
-        "Question": {
-            "mark_color": "yellow",
-            "brackets_color": "normal",
-            ...
-        },
-        "List": {
-            "selection_color": "bold_blue",
-            "selection_cursor": "->"
-        }
-    }
+        >>> {
+        ...     "Question": {
+        ...         "mark_color": "yellow",
+        ...         "brackets_color": "normal",
+        ...         ...
+        ...     },
+        ...     "List": {
+        ...         "selection_color": "bold_blue",
+        ...         "selection_cursor": "->"
+        ...     }
+        ... }
 
     Color values should be string representing valid blessings.Terminal colors.
     """

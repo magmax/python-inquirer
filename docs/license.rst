@@ -25,5 +25,5 @@ THE SOFTWARE.
 
 License taken from `MIT license`_.
 
-.. |MIT license| image:: http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png
-.. _`MIT license`: http://opensource.org/licenses/MIT
+.. |MIT license| image:: https://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png
+.. _`MIT license`: https://opensource.org/licenses/MIT

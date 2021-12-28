@@ -1,6 +1,5 @@
-"""
-Module that implements the questions types
-"""
+"""Module that implements the questions types."""
+from __future__ import annotations
 
 import json
 import os
@@ -8,48 +7,6 @@ import errno
 import sys
 
 from . import errors
-
-
-def question_factory(kind, *args, **kwargs):
-    for clazz in (Text, Editor, Password, Confirm, List, Checkbox, Path):
-        if clazz.kind == kind:
-            return clazz(*args, **kwargs)
-    raise errors.UnknownQuestionTypeError()
-
-
-def load_from_dict(question_dict):
-    """
-    Load one question from a dict.
-    It requires the keys 'name' and 'kind'.
-    :return: The Question object with associated data.
-    :return type: Question
-    """
-    return question_factory(**question_dict)
-
-
-def load_from_list(question_list):
-    """
-    Load a list of questions from a list of dicts.
-    It requires the keys 'name' and 'kind' for each dict.
-    :return: A list of Question objects with associated data.
-    :return type: List
-    """
-    return [load_from_dict(q) for q in question_list]
-
-
-def load_from_json(question_json):
-    """
-    Load Questions from a JSON string.
-    :return: A list of Question objects with associated data if the JSON
-             contains a list or a Question if the JSON contains a dict.
-    :return type: List or Dict
-    """
-    data = json.loads(question_json)
-    if isinstance(data, list):
-        return load_from_list(data)
-    if isinstance(data, dict):
-        return load_from_dict(data)
-    raise TypeError("Json contained a %s variable when a dict or list was expected", type(data))
 
 
 class TaggedValue:
@@ -262,3 +219,47 @@ class Path(Text):
             value = os.path.abspath(value)
 
         return value
+
+
+def question_factory(kind, *args, **kwargs):
+    for cl in (Text, Editor, Password, Confirm, List, Checkbox, Path):
+        if cl.kind == kind:
+            return cl(*args, **kwargs)
+    raise errors.UnknownQuestionTypeError()
+
+
+def load_from_dict(question_dict) -> Question:
+    """Load one question from a dict.
+
+    It requires the keys 'name' and 'kind'.
+
+    Returns:
+        The Question object with associated data.
+    """
+    return question_factory(**question_dict)
+
+
+def load_from_list(question_list) -> list[Question]:
+    """Load a list of questions from a list of dicts.
+
+    It requires the keys 'name' and 'kind' for each dict.
+
+    Returns:
+        A list of Question objects with associated data.
+    """
+    return [load_from_dict(q) for q in question_list]
+
+
+def load_from_json(question_json) -> list | dict:
+    """Load Questions from a JSON string.
+
+    Returns:
+        A list of Question objects with associated data if the JSON
+        contains a list or a Question if the JSON contains a dict.
+    """
+    data = json.loads(question_json)
+    if isinstance(data, list):
+        return load_from_list(data)
+    if isinstance(data, dict):
+        return load_from_dict(data)
+    raise TypeError("Json contained a %s variable when a dict or list was expected", type(data))

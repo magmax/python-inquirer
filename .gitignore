@@ -6,6 +6,7 @@ venv/
 /.coverage.*
 /.nox/
 /dist/
+/docs/_build/
 .cache
 *.swp
 __pycache__/

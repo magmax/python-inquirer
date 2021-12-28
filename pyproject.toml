@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.rst"
 homepage = "https://github.com/magmax/python-inquirer"
 repository = "https://github.com/magmax/python-inquirer"
-documentation = "https://github.com/magmax/python-inquirer"
+documentation = "https://magmax.org/python-inquirer"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
@@ -26,6 +26,13 @@ python-editor = ">=1.0.4"
 
 [tool.poetry.dev-dependencies]
 pexpect = ">=4.8.0"
+Sphinx = ">=4.3.2"
+sphinx-autobuild = ">=2021.3.14"
+furo = ">=2021.11.23"
+flake8 = ">=4.0.1"
+flake8-docstrings = ">=1.6.0"
+flake8-rst-docstrings = ">=0.2.5"
+pre-commit-hooks = ">=4.1.0"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
