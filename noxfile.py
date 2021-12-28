@@ -103,14 +103,14 @@ def precommit(session: Session) -> None:
     args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
     session.install(
         "black",
-        "darglint",
+        # "darglint",
         "flake8",
-        "flake8-bandit",
-        "flake8-bugbear",
+        # "flake8-bandit",
+        # "flake8-bugbear",
         "flake8-docstrings",
         "flake8-rst-docstrings",
-        "isort",
-        "pep8-naming",
+        # "isort",
+        # "pep8-naming",
         "pre-commit",
         "pre-commit-hooks",
         "pyupgrade",
@@ -187,7 +187,7 @@ def xdoctest(session: Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@session(name="docs-build", python=python_versions[0])
+@session(name="docs-build", python="3.9")
 def docs_build(session: Session) -> None:
     """Build the documentation."""
     args = session.posargs or [
@@ -211,7 +211,7 @@ def docs_build(session: Session) -> None:
     session.run("sphinx-build", *args)
 
 
-@session(python=python_versions[0])
+@session(python="3.9")
 def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]

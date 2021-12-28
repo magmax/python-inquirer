@@ -28,7 +28,7 @@ Question types
 |**PATH**     | Requires valid path and allows additional validations. |
 +-------------+--------------------------------------------------------+
 
-There are pictures of some of them in the :ref:`examples` section.
+There are pictures of some of them in the Examples_ section.
 
 
 Question Arguments
@@ -85,7 +85,7 @@ default
 
 Stores the default value to be used as answer. This allow the user just to press `Enter` to use it. It is optional, using ``None`` if there is no input and no default value.
 
-As in ``message` , you can use a new format string or a function with the sign:
+As in ``message``, you can use a new format string or a function with the sign:
 
 .. code:: python
 
@@ -164,6 +164,7 @@ where ``answers`` contains the `dict` of previous answers again.
 Example:
 
 .. code:: python
+
    questions = [
        inquirer.Text("name", message="What's your name?"),
        inquirer.Text(
@@ -245,7 +246,7 @@ It's possible to load the :code:`Question` objects from a :code:`dict`, or even 
 
 The method :code:`load_from_json` has been added as commodity to use JSON inputs instead. Here you have an example:
 
-.. literalinclude:: ../../examples/questions_from_json.py
+.. literalinclude:: ../examples/questions_from_json.py
 
 
 
@@ -269,7 +270,7 @@ Themes
 You can change the colorscheme and some icons passing a theme object defined in inquirer.themes
 There are Default and GreenPassion themes, but you can define your own via class, dict or json!
 
-.. literalinclude:: ../../examples/theme.py
+.. literalinclude:: ../examples/theme.py
 
 Result:
 
@@ -291,3 +292,5 @@ For one-off prompts, you can use the shortcut functions.
                                     choices=['public', 'private'])
       correct = inquirer.confirm("This will delete all your current labels and "
                               "create a new ones. Continue?", default=False)
+
+.. _Examples: examples.html

@@ -9,4 +9,4 @@ To install it, just execute:
 
 Usage example:
 
-.. literalinclude:: ../../examples/mixed.py
+.. literalinclude:: ../examples/mixed.py

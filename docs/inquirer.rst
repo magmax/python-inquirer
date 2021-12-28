@@ -58,12 +58,3 @@ inquirer.themes module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: inquirer
-    :members:
-    :undoc-members:
-    :show-inheritance:
