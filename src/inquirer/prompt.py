@@ -1,5 +1,5 @@
-from .render.console import ConsoleRender
-from . import themes
+from inquirer.render.console import ConsoleRender
+import inquirer.themes as themes
 
 
 def prompt(questions, render=None, answers=None, theme=themes.Default(), raise_keyboard_interrupt=False):

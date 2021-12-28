@@ -41,7 +41,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         self.assertInStdout(message)
-        self.assertEqual(["foo"], result)
+        assert result == ["foo"]
 
     def test_choose_the_second(self):
         stdin = helper.event_factory(key.DOWN, key.SPACE, key.ENTER)
@@ -55,7 +55,33 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         self.assertInStdout(message)
-        self.assertEqual(["bar"], result)
+        assert result == ["bar"]
+
+    def test_choose_with_long_choices(self):
+        stdin = helper.event_factory(
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.DOWN,
+            key.SPACE,
+            key.DOWN,
+            key.DOWN,
+            key.ENTER,
+        )
+        message = "Number message"
+        variable = "Number variable"
+        choices = list(range(15))
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == [8]
 
     def test_can_move(self):
         stdin = helper.event_factory(key.DOWN, key.DOWN, key.UP, key.SPACE, key.ENTER)
@@ -68,7 +94,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual(["bar"], result)
+        assert result == ["bar"]
 
     def test_cannot_move_beyond_upper_limit(self):
         stdin = helper.event_factory(
@@ -87,7 +113,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual(["foo"], result)
+        assert result == ["foo"]
 
     def test_cannot_move_beyond_lower_limit(self):
         stdin = helper.event_factory(
@@ -104,7 +130,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.printStdout()
 
-        self.assertEqual(["bazz"], result)
+        assert result == ["bazz"]
 
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
@@ -131,7 +157,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual([], result)
+        assert result == []
 
     def test_right_cursor_selects_too(self):
         stdin_array = [key.RIGHT, key.ENTER]
@@ -145,7 +171,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual(["foo"], result)
+        assert result == ["foo"]
 
     def test_right_cursor_do_not_unselect(self):
         stdin_array = [key.RIGHT, key.RIGHT, key.ENTER]
@@ -159,7 +185,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual(["foo"], result)
+        assert result == ["foo"]
 
     def test_left_cursor_unselect(self):
         stdin_array = [key.SPACE, key.LEFT, key.ENTER]
@@ -173,7 +199,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual([], result)
+        assert result == []
 
     def test_left_cursor_do_not_select(self):
         stdin_array = [key.SPACE, key.LEFT, key.LEFT, key.ENTER]
@@ -187,4 +213,4 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertEqual([], result)
+        assert result == []

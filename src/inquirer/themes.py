@@ -1,9 +1,9 @@
+import collections
 import json
 
-from collections import namedtuple
 from blessed import Terminal
 
-from .errors import ThemeError
+import inquirer.errors as errors
 
 term = Terminal()
 
@@ -50,7 +50,7 @@ def load_theme_from_dict(dict_theme):
     t = Default()
     for question_type, settings in dict_theme.items():
         if question_type not in vars(t):
-            raise ThemeError(
+            raise errors.ThemeError(
                 "Error while parsing theme. Question type " "`{}` not found or not customizable.".format(question_type)
             )
 
@@ -59,7 +59,7 @@ def load_theme_from_dict(dict_theme):
 
         for field, value in settings.items():
             if field not in question_fields:
-                raise ThemeError(
+                raise errors.ThemeError(
                     "Error while parsing theme. Field "
                     "`{}` invalid for question type `{}`".format(field, question_type)
                 )
@@ -70,13 +70,13 @@ def load_theme_from_dict(dict_theme):
 
 class Theme:
     def __init__(self):
-        self.Question = namedtuple("question", "mark_color brackets_color " "default_color")
-        self.Editor = namedtuple("editor", "opening_prompt")
-        self.Checkbox = namedtuple(
+        self.Question = collections.namedtuple("question", "mark_color brackets_color default_color")
+        self.Editor = collections.namedtuple("editor", "opening_prompt")
+        self.Checkbox = collections.namedtuple(
             "common",
-            "selection_color selection_icon " "selected_color unselected_color " "selected_icon unselected_icon",
+            "selection_color selection_icon selected_color unselected_color selected_icon unselected_icon",
         )
-        self.List = namedtuple("List", "selection_color selection_cursor " "unselected_color")
+        self.List = collections.namedtuple("List", "selection_color selection_cursor unselected_color")
 
 
 class Default(Theme):

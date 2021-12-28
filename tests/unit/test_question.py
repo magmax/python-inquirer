@@ -155,10 +155,7 @@ class BaseQuestionTests(unittest.TestCase):
         name = "foo"
         q = questions.Question(name, validate=compare)
 
-        try:
-            q.validate(expected)
-        except errors.ValidationError:
-            self.fail("Validation function did not receive the current value")
+        q.validate(expected)
 
     def test_factory_text_type(self):
         name = "foo"
@@ -359,8 +356,17 @@ class TestPathQuestion(unittest.TestCase):
         self.assertEqual(root, q.normalize_value("some/relative/path").split(os.path.sep)[0])
 
     def test_default_value_validation(self):
-
         with self.assertRaises(ValueError):
             questions.Path("path", default="~/.toggl_log", path_type=questions.Path.DIRECTORY)
 
         questions.Path("path", default="~/.toggl_log")
+
+
+def test_tagged_value():
+    tv = questions.TaggedValue("label", "value")
+
+    assert tv.__str__() == "label"
+    assert tv.__repr__() == "value"
+    assert tv.__eq__(tv) is True
+    assert tv.__eq__("") is False
+    assert tv.__ne__(tv) is False
