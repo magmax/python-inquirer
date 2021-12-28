@@ -1,9 +1,9 @@
 """Module that implements the questions types."""
 from __future__ import annotations
 
+import errno
 import json
 import os
-import errno
 import sys
 
 import inquirer.errors as errors

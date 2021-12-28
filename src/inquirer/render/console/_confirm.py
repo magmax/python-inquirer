@@ -1,4 +1,5 @@
 from readchar import key
+
 from inquirer import errors
 from inquirer.render.console.base import BaseConsoleRender
 

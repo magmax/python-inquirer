@@ -10,3 +10,4 @@ venv/
 .cache
 *.swp
 __pycache__/
+.idea

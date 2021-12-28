@@ -1,6 +1,9 @@
 from readchar import key
-from inquirer.render.console.base import BaseConsoleRender, MAX_OPTIONS_DISPLAYED_AT_ONCE, half_options
+
 from inquirer import errors
+from inquirer.render.console.base import MAX_OPTIONS_DISPLAYED_AT_ONCE
+from inquirer.render.console.base import BaseConsoleRender
+from inquirer.render.console.base import half_options
 
 
 class Checkbox(BaseConsoleRender):

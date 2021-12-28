@@ -1,5 +1,6 @@
 from blessed import Terminal
 
+
 # Should be odd number as there is always one question selected
 MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
 half_options = int((MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)

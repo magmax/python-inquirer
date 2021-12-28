@@ -1,5 +1,6 @@
 from inquirer.render.console import ConsoleRender
 
+
 try:
     from .ncourses import CoursesRender  # noqa
 except ImportError:
