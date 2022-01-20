@@ -1,4 +1,3 @@
-import editor
 from readchar import key
 
 from inquirer import errors
@@ -28,6 +27,17 @@ class Editor(BaseConsoleRender):
             raise KeyboardInterrupt()
 
         if pressed in (key.CR, key.LF, key.ENTER):
+            # The import of python-editor needs to be here, at this
+            # low level to prevent 'editor' itself from importing
+            # distutils.spawn until it is actually being used. This
+            # has to do with ubuntu (debian) python packages
+            # artificially separated from distutils.
+            #
+            # If this import is at top level inquirer breaks on ubuntu
+            # until the user explicitly apt-get install
+            # python3-distutils. With the import here it will only
+            # break if the code is utilizing the Editor prompt.
+            import editor
             data = editor.edit(contents=self.question.default or "")
             raise errors.EndOfInput(data.decode("utf-8"))
 
