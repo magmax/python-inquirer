@@ -121,6 +121,11 @@ class List(Question):
 class Checkbox(Question):
     kind = "checkbox"
 
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
+
+        super().__init__(name, message, choices, default, ignore, validate)
+        self.carousel = carousel
+
 
 # Solution for checking valid path based on
 # https://stackoverflow.com/a/34102855/1360532
