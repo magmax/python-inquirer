@@ -132,6 +132,32 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         assert result == ["bazz"]
 
+    def test_move_down_carousel(self):
+        stdin = helper.event_factory(key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.SPACE, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, carousel=True)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["bar"]
+
+    def test_move_up_carousel(self):
+        stdin = helper.event_factory(key.UP, key.SPACE, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, carousel=True)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["bazz"]
+
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
         stdin = helper.event_factory(*stdin_array)

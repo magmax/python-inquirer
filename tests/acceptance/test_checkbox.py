@@ -59,6 +59,30 @@ class CheckTest(unittest.TestCase):
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
+class CheckCarouselTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn("python examples/checkbox_carousel.py")
+        self.sut.expect("Computers.*", timeout=1)
+
+    def test_out_of_bounds_up(self):
+        self.sut.send(key.UP)
+        self.sut.expect("History.*", timeout=1)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
+
+    def test_out_of_bounds_down(self):
+        for i in range(6):
+            self.sut.send(key.DOWN)
+            # Not looking at what we expect along the way,
+            # let the last "expect" check that we got the right result
+            self.sut.expect(">.*", timeout=1)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Books'\]}.*", timeout=1)  # noqa
+
+
+@unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
 class CheckWithTaggedValuesTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/checkbox_tagged.py")
