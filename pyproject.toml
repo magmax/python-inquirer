@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "inquirer"
-version = "2.9.1"
+version = "2.9.2"
 description = "Collection of common interactive command line user interfaces, based on Inquirer.js"
 authors = ["Miguel Ángel García <miguelangel.garcia@gmail.com>"]
 license = "MIT"
