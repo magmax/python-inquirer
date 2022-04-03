@@ -1,4 +1,5 @@
 import readchar
+import os
 
 if os.name == 'nt':
     from msvcrt import getch
