@@ -1,6 +1,7 @@
 import readchar
 import os
 
+# Workaround for windows arrow keys
 if os.name == 'nt':
     from msvcrt import getch
     def winreadkey():
