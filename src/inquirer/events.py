@@ -1,5 +1,26 @@
 import readchar
 
+if os.name == 'nt':
+    from msvcrt import getch
+    def winreadkey():
+        keypress = getch()
+        if keypress == b'\xe0':
+            keypress = getch()
+        if keypress == b'H':
+            return readchar.key.UP
+        elif keypress == b'P':
+            return readchar.key.DOWN
+        elif keypress == b'K':
+            return readchar.key.LEFT
+        elif keypress == b'M':
+            return readchar.key.RIGHT
+        elif keypress == b'\r':
+            return readchar.key.ENTER
+        else:
+            return keypress.__str__()
+    readkey = winreadkey
+else:
+    readkey = readchar.readkey
 
 class Event:
     pass
