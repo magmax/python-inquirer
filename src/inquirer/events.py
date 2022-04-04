@@ -39,7 +39,7 @@ class Repaint(Event):
 
 class KeyEventGenerator:
     def __init__(self, key_generator=None):
-        self._key_gen = key_generator or readchar.readkey
+        self._key_gen = key_generator or readkey
 
     def next(self):
         return KeyPressed(self._key_gen())
