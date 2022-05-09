@@ -105,6 +105,38 @@ List questions can take one extra argument :code:`carousel=False`. If set to tru
 |inquirer list|
 
 
+Keyed List
+----
+
+Shows a list of choices, and allows the selection of one of them using a corresponding key.
+
+Example:
+
+.. code:: python
+
+
+  import inquirer
+  questions = [
+    inquirer.KeyedList('size',
+                  message="What size do you need?",
+                  choices=['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
+              ),
+  ]
+  answers = inquirer.prompt(questions)
+
+Keyed List choices use the first letter (lower case) or number of the provided choice by default. If multiple choices
+share the same key, repeated presses of the same key will cycle through the matching entries.
+Keyed Lists are otherwise similar to List but have one more additional argument,
+:code:`auto_confirm=False`. If set to True, a key press with a matching entry will cause that entry to be instantly selected.
+
+Keys can explicitly be set by providing the label, value and key as a tuple:
+:code:`choices=[('Jumbo', 'Jumbo', 'u'), ('Large', 'Large', 'a'), ...]`
+
+
+
+|inquirer list|
+
+
 Checkbox
 --------
 

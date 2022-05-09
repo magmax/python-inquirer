@@ -4,6 +4,7 @@ from __future__ import annotations
 import errno
 import json
 import os
+import re
 import sys
 
 import inquirer.errors as errors
@@ -28,6 +29,25 @@ class TaggedValue:
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
+class KeyedValue(TaggedValue):
+    def __init__(self, label, value=None, key=None):
+        self.label = label
+        self.value = value or label
+        self.key = key or self._get_key(label)
+
+    def _get_key(self, label):
+        _label = str(label)
+        k = re.search(r'([a-zA-Z\d])', _label)
+        if k:
+            return str(k.group(0)).lower()
+        return _label[0]
+
+    def __str__(self):
+        return str(self.label)
+
+    def __repr__(self):
+        return str(self.value)
 
 class Question:
     kind = "base question"
@@ -116,6 +136,21 @@ class List(Question):
 
         super().__init__(name, message, choices, default, ignore, validate)
         self.carousel = carousel
+
+
+class KeyedList(Question):
+    kind = "keyed_list"
+
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False,auto_confirm=False):
+        super().__init__(name, message, choices, default, ignore, validate)
+        self.carousel = carousel
+        self.auto_confirm = auto_confirm  # Auto Confirm selection on keypress
+
+
+    @property
+    def choices_generator(self):
+        for choice in self._solve(self._choices):
+            yield (KeyedValue(*choice) if isinstance(choice, (list, tuple, set)) and len(choice) >= 2 else KeyedValue(choice))
 
 
 class Checkbox(Question):
@@ -227,7 +262,7 @@ class Path(Text):
 
 
 def question_factory(kind, *args, **kwargs):
-    for cl in (Text, Editor, Password, Confirm, List, Checkbox, Path):
+    for cl in (Text, Editor, Password, Confirm, List, KeyedList, Checkbox, Path):
         if cl.kind == kind:
             return cl(*args, **kwargs)
     raise errors.UnknownQuestionTypeError()

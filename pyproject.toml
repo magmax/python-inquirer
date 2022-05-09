@@ -23,6 +23,7 @@ python = ">=3.7"
 blessed = ">=1.19.0"
 readchar = ">=2.0.1"
 python-editor = ">=1.0.4"
+pytest = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
 pexpect = ">=4.8.0"
