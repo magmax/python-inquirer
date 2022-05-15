@@ -33,4 +33,9 @@ class BaseConsoleRender:
         if error.reason:
             return error.reason
 
-        return f'"{error.value}" is not a valid {self.question.name}.'
+        ret = f'"{error.value}" is not a valid {self.question.name}.'
+        try:
+            ret.format()
+            return ret
+        except (ValueError, KeyError):
+            return f"Entered value is not a valid {self.question.name}."
