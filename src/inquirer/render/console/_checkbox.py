@@ -11,6 +11,9 @@ class Checkbox(BaseConsoleRender):
         super().__init__(*args, **kwargs)
         self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.question.default or [])]
         self.current = 0
+        self.limited = self.question.limited
+        if self.limited != 0 and len(self.selection) > self.limited:
+            self.selection = self.selection[-self.limited:]
 
     @property
     def is_long(self):
@@ -82,6 +85,8 @@ class Checkbox(BaseConsoleRender):
             if self.current in self.selection:
                 self.selection.remove(self.current)
             else:
+                if question.limited != 0 and len(self.selection) == question.limited:
+                    self.selection.pop(0)
                 self.selection.append(self.current)
         elif pressed == key.LEFT:
             if self.current in self.selection:

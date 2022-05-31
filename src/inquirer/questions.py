@@ -42,6 +42,7 @@ class Question:
         self.answers = {}
         self.show_default = show_default
 
+
     @property
     def ignore(self):
         return bool(self._solve(self._ignore))
@@ -121,10 +122,11 @@ class List(Question):
 class Checkbox(Question):
     kind = "checkbox"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, limited=0):
 
         super().__init__(name, message, choices, default, ignore, validate)
         self.carousel = carousel
+        self.limited = limited
 
 
 # Solution for checking valid path based on
