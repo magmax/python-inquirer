@@ -338,7 +338,7 @@ python-versions = "*"
 
 [[package]]
 name = "readchar"
-version = "3.0.4"
+version = "3.0.5"
 description = "Utilities to read single characters and key-strokes"
 category = "main"
 optional = false
@@ -798,8 +798,8 @@ pytz = [
     {file = "pytz-2021.3.tar.gz", hash = "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"},
 ]
 readchar = [
-    {file = "readchar-3.0.4-py3-none-any.whl", hash = "sha256:ebe7b51edae808101ea54b63468e8bea87e0c246301a0100f7777219eb2eb844"},
-    {file = "readchar-3.0.4.tar.gz", hash = "sha256:3ce642ade5b61efee273b3c4bf55c77a84398178842627c74fcb796e1666ab13"},
+    {file = "readchar-3.0.5-py3-none-any.whl", hash = "sha256:4c31210edfdf3e706d042c58feba2e8b6d5768b7f37002c5579fc473552f8fbb"},
+    {file = "readchar-3.0.5.tar.gz", hash = "sha256:d1f5b71e98c37b7f3b695fba9db978ab84f4f8a0ed879653d83e1d90a4c482c0"},
 ]
 requests = [
     {file = "requests-2.26.0-py2.py3-none-any.whl", hash = "sha256:6c1246513ecd5ecd4528a0906f910e8f0f9c6b8ec72030dc9fd154dc1a6efd24"},
