@@ -7,7 +7,7 @@ repos:
   #       types_or: [cython, pyi, python]
   #       args: ["--filter-files"]
   - repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 22.6.0
     hooks:
       - id: black
         language_version: python3
