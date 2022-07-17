@@ -57,6 +57,31 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
 
+    def test_navigate_with_tab(self):
+        self.sut.send(key.CTRL_I)
+        self.sut.send(key.LEFT)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
+
+    # Check after merge https://github.com/magmax/python-readchar/pull/79
+    @unittest.SkipTest
+    def test_navigate_with_shift_tab(self):
+        self.sut.send(key.DOWN)
+        self.sut.send(key.DOWN)
+        self.sut.send(key.SHIFT_TAB)
+        self.sut.send(key.LEFT)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
+
+    def test_select_all_with_ctrl_a(self):
+        self.sur.send(key.CTRL_A)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'\]}.*", timeout=1)  # noqa
+
+    def test_unselect_all_with_ctrl_q(self):
+        self.sur.send(key.CTRL_A)
+        self.sur.send(key.CTRL_Q)
+        self.sut.expect(r"{'interests': \[\]}.*", timeout=1)  # noqa
+
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
 class CheckCarouselTest(unittest.TestCase):
