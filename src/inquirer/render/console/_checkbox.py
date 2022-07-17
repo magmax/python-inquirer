@@ -65,7 +65,7 @@ class Checkbox(BaseConsoleRender):
             yield choice, selector + " " + symbol, color
 
     def process_input(self, pressed):
-        # Remove after merge https://github.com/magmax/python-readchar/pull/83
+        # Remove after merge https://github.com/magmax/python-readchar/pull/79
         key.SHIFT_TAB = "\x1b\x5b\x5a"
         question = self.question
         if pressed in (key.UP, key.SHIFT_TAB):
