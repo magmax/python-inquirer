@@ -125,6 +125,7 @@ Example:
   answers = inquirer.prompt(questions)
 
 Checkbox questions can take one extra argument :code:`carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+Use ctrl+a and ctrl+q to select and unselect all
 
 |inquirer checkbox|
 
