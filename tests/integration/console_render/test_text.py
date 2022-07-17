@@ -75,7 +75,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
         self.assertEqual(expected, result)
         self.assertInStdout(message)
-        self.assertInStdout('Entered value is not a valid foo')
+        self.assertInStdout("Entered value is not a valid foo")
 
     def test_validation_fails_with_custom_message(self):
         stdin_array = [x for x in "Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER]
