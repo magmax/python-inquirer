@@ -65,14 +65,16 @@ class Checkbox(BaseConsoleRender):
             yield choice, selector + " " + symbol, color
 
     def process_input(self, pressed):
+        # Remove after merge https://github.com/magmax/python-readchar/pull/83
+        key.SHIFT_TAB = "\x1b\x5b\x5a"
         question = self.question
-        if pressed == key.UP:
+        if pressed in (key.UP, key.SHIFT_TAB):
             if question.carousel and self.current == 0:
                 self.current = len(question.choices) - 1
             else:
                 self.current = max(0, self.current - 1)
             return
-        elif pressed == key.DOWN:
+        elif pressed in (key.DOWN, key.CTRL_I):
             if question.carousel and self.current == len(question.choices) - 1:
                 self.current = 0
             else:
@@ -89,6 +91,11 @@ class Checkbox(BaseConsoleRender):
         elif pressed == key.RIGHT:
             if self.current not in self.selection:
                 self.selection.append(self.current)
+        elif pressed == key.CTRL_A:
+            for x in self.question.choices:
+                self.selection = list(range(len(self.question.choices)))
+        elif pressed == key.CTRL_Q:
+            self.selection = []
         elif pressed == key.ENTER:
             result = []
             for x in self.selection:
