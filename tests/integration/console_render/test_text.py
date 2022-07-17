@@ -61,6 +61,22 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout(message)
         self.assertInStdout('"Invalid" is not a valid foo')
 
+    def test_validation_fails_with_brace(self):
+        stdin_array = [x for x in "{Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+
+        message = "Insert number"
+        variable = "foo"
+        expected = "9999"
+
+        question = questions.Text(variable, validate=lambda _, x: re.match(r"\d+", x), message=message)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+        self.assertEqual(expected, result)
+        self.assertInStdout(message)
+        self.assertInStdout('Entered value is not a valid foo')
+
     def test_validation_fails_with_custom_message(self):
         stdin_array = [x for x in "Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER]
         stdin = helper.event_factory(*stdin_array)
