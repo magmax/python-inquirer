@@ -75,11 +75,13 @@ class CheckTest(unittest.TestCase):
 
     def test_select_all_with_ctrl_a(self):
         self.sut.send(key.CTRL_A)
+        self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'\]}.*", timeout=1)  # noqa
 
     def test_unselect_all_with_ctrl_q(self):
         self.sut.send(key.CTRL_A)
         self.sut.send(key.CTRL_Q)
+        self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \[\]}.*", timeout=1)  # noqa
 
 
