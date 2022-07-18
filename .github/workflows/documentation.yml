@@ -40,7 +40,7 @@ jobs:
         run: nox --force-color --session=docs-build
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3.1.0
         with:
           name: docs
           path: docs/_build
