@@ -129,20 +129,17 @@ restructuredtext-lint = "*"
 
 [[package]]
 name = "furo"
-version = "2021.11.23"
+version = "2022.6.21"
 description = "A clean customisable Sphinx documentation theme."
 category = "dev"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 
 [package.dependencies]
 beautifulsoup4 = "*"
-pygments = ">=2.7,<3.0"
-sphinx = ">=4.0,<5.0"
-
-[package.extras]
-test = ["pytest", "pytest-cov", "pytest-xdist"]
-doc = ["myst-parser", "sphinx-copybutton", "sphinx-design", "sphinx-inline-tabs"]
+pygments = "*"
+sphinx = ">=4.0,<6.0"
+sphinx-basic-ng = "*"
 
 [[package]]
 name = "idna"
@@ -468,6 +465,20 @@ sphinx = "*"
 test = ["pytest", "pytest-cov"]
 
 [[package]]
+name = "sphinx-basic-ng"
+version = "0.0.1a12"
+description = "A modern skeleton for Sphinx themes."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+sphinx = ">=4.0,<6.0"
+
+[package.extras]
+docs = ["furo", "myst-parser", "sphinx-copybutton", "sphinx-inline-tabs", "ipython"]
+
+[[package]]
 name = "sphinxcontrib-applehelp"
 version = "1.0.2"
 description = "sphinxcontrib-applehelp is a sphinx extension which outputs Apple help books"
@@ -649,8 +660,8 @@ flake8-rst-docstrings = [
     {file = "flake8_rst_docstrings-0.2.7-py3-none-any.whl", hash = "sha256:5d56075dce360bcc9c6775bfe7cb431aa395de600ca7e8d40580a28d50b2a803"},
 ]
 furo = [
-    {file = "furo-2021.11.23-py3-none-any.whl", hash = "sha256:6d396451ad1aadce380c662fca9362cb10f4fd85f296d74fe3ca32006eb641d7"},
-    {file = "furo-2021.11.23.tar.gz", hash = "sha256:54cecac5f3b688b5c7370d72ecdf1cd91a6c53f0f42751f4a719184b562cde70"},
+    {file = "furo-2022.6.21-py3-none-any.whl", hash = "sha256:061b68e323345e27fcba024cf33a1e77f3dfd8d9987410be822749a706e2add6"},
+    {file = "furo-2022.6.21.tar.gz", hash = "sha256:9aa983b7488a4601d13113884bfb7254502c8729942e073a0acb87a5512af223"},
 ]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
@@ -858,6 +869,10 @@ sphinx = [
 sphinx-autobuild = [
     {file = "sphinx-autobuild-2021.3.14.tar.gz", hash = "sha256:de1ca3b66e271d2b5b5140c35034c89e47f263f2cd5db302c9217065f7443f05"},
     {file = "sphinx_autobuild-2021.3.14-py3-none-any.whl", hash = "sha256:8fe8cbfdb75db04475232f05187c776f46f6e9e04cacf1e49ce81bdac649ccac"},
+]
+sphinx-basic-ng = [
+    {file = "sphinx_basic_ng-0.0.1a12-py3-none-any.whl", hash = "sha256:e8b6efd2c5ece014156de76065eda01ddfca0fee465aa020b1e3c12f84570bbe"},
+    {file = "sphinx_basic_ng-0.0.1a12.tar.gz", hash = "sha256:cffffb14914ddd26c94b1330df1d72dab5a42e220aaeb5953076a40b9c50e801"},
 ]
 sphinxcontrib-applehelp = [
     {file = "sphinxcontrib-applehelp-1.0.2.tar.gz", hash = "sha256:a072735ec80e7675e3f432fcae8610ecf509c5f1869d17e2eecff44389cdbc58"},
