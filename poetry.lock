@@ -335,7 +335,7 @@ python-versions = "*"
 
 [[package]]
 name = "readchar"
-version = "3.0.5"
+version = "3.0.6"
 description = "Utilities to read single characters and key-strokes"
 category = "main"
 optional = false
@@ -487,8 +487,8 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-devhelp"
@@ -499,8 +499,8 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-htmlhelp"
@@ -511,8 +511,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
-test = ["pytest", "html5lib"]
+test = ["html5lib", "pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-jsmath"
@@ -523,7 +523,7 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-test = ["pytest", "flake8", "mypy"]
+test = ["mypy", "flake8", "pytest"]
 
 [[package]]
 name = "sphinxcontrib-qthelp"
@@ -534,8 +534,8 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-serializinghtml"
@@ -809,8 +809,8 @@ pytz = [
     {file = "pytz-2021.3.tar.gz", hash = "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"},
 ]
 readchar = [
-    {file = "readchar-3.0.5-py3-none-any.whl", hash = "sha256:4c31210edfdf3e706d042c58feba2e8b6d5768b7f37002c5579fc473552f8fbb"},
-    {file = "readchar-3.0.5.tar.gz", hash = "sha256:d1f5b71e98c37b7f3b695fba9db978ab84f4f8a0ed879653d83e1d90a4c482c0"},
+    {file = "readchar-3.0.6-py3-none-any.whl", hash = "sha256:98e26e62732a7de83ff42b422734157a9cc949bbf73c9d7a6b915a4e49f6ab51"},
+    {file = "readchar-3.0.6.tar.gz", hash = "sha256:64a3f0e33bf297c52fb8e113d841a316fc99a5475a1f691cda43c1a52d106698"},
 ]
 requests = [
     {file = "requests-2.26.0-py2.py3-none-any.whl", hash = "sha256:6c1246513ecd5ecd4528a0906f910e8f0f9c6b8ec72030dc9fd154dc1a6efd24"},
