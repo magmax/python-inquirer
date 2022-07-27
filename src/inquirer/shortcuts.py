@@ -42,3 +42,9 @@ def path(message, render=None, **kwargs):
     render = render or ConsoleRender()
     question = questions.Path(name="", message=message, **kwargs)
     return render.render(question)
+
+
+def keyed_list_input(message, render=None, **kwargs):
+    render = render or ConsoleRender()
+    question = questions.KeyedList(name="", message=message, **kwargs)
+    return render.render(question)

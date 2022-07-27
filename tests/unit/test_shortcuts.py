@@ -22,6 +22,7 @@ def render_mock():
         (shortcuts.list_input, "list", "list_input message"),
         (shortcuts.checkbox, "checkbox", "checkbox message"),
         (shortcuts.path, "path", "path message"),
+        (shortcuts.keyed_list_input, "keyed_list", "keyed_list_input message")
     ],
 )
 def test_shortcuts(func, kind, message, render_mock):

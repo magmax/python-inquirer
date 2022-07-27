@@ -10,6 +10,7 @@ from inquirer.render.console._editor import Editor
 from inquirer.render.console._password import Password
 from inquirer.render.console._confirm import Confirm
 from inquirer.render.console._list import List
+from inquirer.render.console._keyed_list import KeyedList
 from inquirer.render.console._checkbox import Checkbox
 from inquirer.render.console._path import Path
 
@@ -146,6 +147,7 @@ class ConsoleRender:
             "password": Password,
             "confirm": Confirm,
             "list": List,
+            "keyed_list": KeyedList,
             "checkbox": Checkbox,
             "path": Path,
         }

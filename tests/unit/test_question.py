@@ -362,6 +362,45 @@ class TestPathQuestion(unittest.TestCase):
         questions.Path("path", default="~/.toggl_log")
 
 
+class TestKeyedListQuestion(unittest.TestCase):
+
+    def test_keyed_value_inits(self):
+        question = questions.KeyedValue("label")
+        assert question.label == "label"
+        assert question.value == "label"
+        assert question.key == "l"
+
+        question = questions.KeyedValue("[l]abel")
+        assert question.label == "[l]abel"
+        assert question.value == "[l]abel"
+        assert question.key == "l"
+
+        question = questions.KeyedValue("_Label")
+        assert question.label == "_Label"
+        assert question.value == "_Label"
+        assert question.key == "l"
+
+        question = questions.KeyedValue("_label", 'o')
+        assert question.label == "_label"
+        assert question.value == "o"
+        assert question.key == "l"
+
+        question = questions.KeyedValue("_label", "value", 'l')
+        assert question.label == "_label"
+        assert question.value == "value"
+        assert question.key == "l"
+
+        question = questions.KeyedValue("_label", "value", 'o')
+        assert question.label == "_label"
+        assert question.value == "value"
+        assert question.key == "o"
+
+        question = questions.KeyedValue("label", "value", 'o')
+        assert question.label == "label"
+        assert question.value == "value"
+        assert question.key == "o"
+
+
 def test_tagged_value():
     tv = questions.TaggedValue("label", "value")
 
@@ -370,3 +409,12 @@ def test_tagged_value():
     assert tv.__eq__(tv) is True
     assert tv.__eq__("") is False
     assert tv.__ne__(tv) is False
+
+
+def test_keyed_value_builtin_methods():
+    ktv = questions.KeyedValue("label", "value", "l")
+    assert ktv.__str__() == "label"
+    assert ktv.__repr__() == "value"
+    assert ktv.__eq__(ktv) is True
+    assert ktv.__eq__("") is False
+    assert ktv.__ne__(ktv) is False
