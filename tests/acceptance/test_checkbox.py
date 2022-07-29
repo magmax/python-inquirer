@@ -63,7 +63,7 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
 
-    # Check after merge https://github.com/magmax/python-readchar/pull/79
+    # Check after merge release readchar >= dev 4.0.0
     @unittest.SkipTest
     def test_navigate_with_shift_tab(self):
         self.sut.send(key.DOWN)

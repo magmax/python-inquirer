@@ -171,6 +171,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         assert result == ["bazz"]
 
+    # Check after merge release readchar >= dev 4.0.0
     @unittest.SkipTest
     def test_move_up_with_shift_tab_carousel(self):
         stdin = helper.event_factory(key.SHIFT_TAB, key.SPACE, key.ENTER)
