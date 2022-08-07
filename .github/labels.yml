@@ -61,6 +61,9 @@
 - name: testing
   description: Testing
   color: b1fc6f
+- name: upstream_issue
+  description: This issue is caused by an upstream package
+  color: a9fd3e
 - name: wontfix
   description: This will not be worked on
   color: ffffff
