@@ -5,13 +5,13 @@ from blessed import Terminal
 from inquirer import errors
 from inquirer import events
 from inquirer import themes
-from inquirer.render.console._text import Text
-from inquirer.render.console._editor import Editor
-from inquirer.render.console._password import Password
-from inquirer.render.console._confirm import Confirm
-from inquirer.render.console._list import List
 from inquirer.render.console._checkbox import Checkbox
+from inquirer.render.console._confirm import Confirm
+from inquirer.render.console._editor import Editor
+from inquirer.render.console._list import List
+from inquirer.render.console._password import Password
 from inquirer.render.console._path import Path
+from inquirer.render.console._text import Text
 
 
 class ConsoleRender:
