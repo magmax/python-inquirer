@@ -1,37 +1,39 @@
 ---
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.29.1
+    hooks:
+      - id: pyupgrade
+        args: [--py37-plus]
+
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
-        require_serial: true
-        types_or: [cython, pyi, python]
-        args: ["--filter-files"]
+
   - repo: https://github.com/psf/black
     rev: 22.6.0
     hooks:
       - id: black
         language_version: python3
-        require_serial: true
+
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
       - id: flake8
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
-    hooks:
-      - id: trailing-whitespace
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.29.1
-    hooks:
-      - id: pyupgrade
-        types: [python]
-        args: [--py37-plus]
+
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.4.1
     hooks:
       - id: prettier
         args: [--end-of-line, auto]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
