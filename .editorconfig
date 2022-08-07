@@ -7,5 +7,10 @@ indent_style = space
 indent_size = 4
 max_line_length = 119
 
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+max_line_length = 119
+
 [Makefile]
 indent_style = tab
