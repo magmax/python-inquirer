@@ -12,8 +12,8 @@ repos:
       - id: black
         language_version: python3
         require_serial: true
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 6de8252c035844f1e679f509b5f37340b44d5c39
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
     hooks:
       - id: flake8
   - repo: https://github.com/pre-commit/pre-commit-hooks
