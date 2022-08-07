@@ -1,4 +1,4 @@
-from inquirer.render.console import Text
+from inquirer.render.console._text import Text
 
 
 class Path(Text):
