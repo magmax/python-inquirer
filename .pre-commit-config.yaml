@@ -12,9 +12,6 @@ repos:
       - id: black
         language_version: python3
         require_serial: true
-        args:
-          - -l
-          - "119"
   - repo: https://gitlab.com/pycqa/flake8
     rev: 6de8252c035844f1e679f509b5f37340b44d5c39
     hooks:
