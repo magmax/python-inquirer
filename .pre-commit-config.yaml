@@ -1,3 +1,4 @@
+---
 repos:
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
