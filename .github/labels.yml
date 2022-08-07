@@ -7,6 +7,9 @@
 - name: breaking
   description: Breaking Changes
   color: bfd4f2
+- name: blocked
+  description: waiting for something else
+  color: cccccc
 - name: bug
   description: Something isn't working
   color: d73a4a
