@@ -16,6 +16,8 @@ categories:
     label: "ci"
   - title: ":books: Documentation"
     label: "documentation"
+  - title: ":mortar_board: Examples"
+    label: "examples"
   - title: ":hammer: Refactoring"
     label: "refactoring"
   - title: ":lipstick: Style"

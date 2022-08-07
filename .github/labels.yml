@@ -31,6 +31,9 @@
 - name: enhancement
   description: New feature or request
   color: a2eeef
+- name: examples
+  description: Additons or changes to examples
+  color: 50edb0
 - name: github_actions
   description: Pull requests that update Github_actions code
   color: "000000"
