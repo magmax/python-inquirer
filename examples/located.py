@@ -11,7 +11,7 @@ LangQuestion = [
     inquirer.List(
         "lang",
         message="Select Language",
-        choices=["English", "Français", "Deutsche", "Español"],
+        choices=["English", "Français", "Deutsch", "Español"],
     ),
 ]
 
