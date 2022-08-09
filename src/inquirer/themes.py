@@ -113,3 +113,20 @@ class GreenPassion(Theme):
         self.List.selection_color = term.bold_black_on_bright_green
         self.List.selection_cursor = "❯"
         self.List.unselected_color = term.normal
+
+
+class BlueComposure(Theme):
+    def __init__(self):
+        super().__init__()
+        self.Question.mark_color = term.yellow
+        self.Question.brackets_color = term.dodgerblue
+        self.Question.default_color = term.deepskyblue2
+        self.Checkbox.selection_icon = "➤"
+        self.Checkbox.selection_color = term.bold_black_on_darkslategray3
+        self.Checkbox.selected_icon = "☒"
+        self.Checkbox.selected_color = term.cyan3
+        self.Checkbox.unselected_icon = "☐"
+        self.Checkbox.unselected_color = term.normal
+        self.List.selection_color = term.bold_black_on_darkslategray3
+        self.List.selection_cursor = "➤"
+        self.List.unselected_color = term.normal

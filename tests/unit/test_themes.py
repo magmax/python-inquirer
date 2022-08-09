@@ -61,3 +61,24 @@ def test_themes_green_passion():
     assert hasattr(t.List, "selection_color")
     assert hasattr(t.List, "selection_cursor")
     assert hasattr(t.List, "unselected_color")
+
+
+def test_themes_blue_composure():
+    t = themes.BlueComposure()
+
+    assert hasattr(t, "Question")
+    assert hasattr(t.Question, "mark_color")
+    assert hasattr(t.Question, "brackets_color")
+    assert hasattr(t.Question, "default_color")
+    assert hasattr(t, "Editor")
+    assert hasattr(t, "Checkbox")
+    assert hasattr(t.Checkbox, "selection_color")
+    assert hasattr(t.Checkbox, "selection_icon")
+    assert hasattr(t.Checkbox, "selected_icon")
+    assert hasattr(t.Checkbox, "selected_color")
+    assert hasattr(t.Checkbox, "unselected_icon")
+    assert hasattr(t.Checkbox, "unselected_color")
+    assert hasattr(t, "List")
+    assert hasattr(t.List, "selection_color")
+    assert hasattr(t.List, "selection_cursor")
+    assert hasattr(t.List, "unselected_color")
