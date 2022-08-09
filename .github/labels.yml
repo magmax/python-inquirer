@@ -7,6 +7,9 @@
 - name: breaking
   description: Breaking Changes
   color: bfd4f2
+- name: blocked
+  description: waiting for something else
+  color: cccccc
 - name: bug
   description: Something isn't working
   color: d73a4a
@@ -28,6 +31,9 @@
 - name: enhancement
   description: New feature or request
   color: a2eeef
+- name: examples
+  description: Additons or changes to examples
+  color: 50edb0
 - name: github_actions
   description: Pull requests that update Github_actions code
   color: "000000"
@@ -61,6 +67,9 @@
 - name: testing
   description: Testing
   color: b1fc6f
+- name: upstream_issue
+  description: This issue is caused by an upstream package
+  color: a9fd3e
 - name: wontfix
   description: This will not be worked on
   color: ffffff
