@@ -187,7 +187,7 @@ def xdoctest(session: Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@session(name="docs-build", python="3.9")
+@session(name="docs-build", python=python_versions[0])
 def docs_build(session: Session) -> None:
     """Build the documentation."""
     args = session.posargs or [

@@ -26,7 +26,7 @@ python-editor = ">=1.0.4"
 
 [tool.poetry.dev-dependencies]
 pexpect = ">=4.8.0"
-Sphinx = ">=4.3.2"
+sphinx = {version=">=4.3.2", python="<4"}
 sphinx-autobuild = ">=2021.3.14"
 furo = ">=2021.11.23"
 flake8 = ">=4.0.1"
