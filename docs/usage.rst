@@ -267,8 +267,16 @@ Remember the ``prompt`` always require a list of ``Question`` as input.
 Themes
 ------
 
-You can change the colorscheme and some icons passing a theme object defined in inquirer.themes
-There are Default and GreenPassion themes, but you can define your own via class, dict or json!
+Simply change the colorscheme and some icons passing a theme object defined in inquirer.themes.
+You can define your own via class, dict or json or you can use on of the pre-defined themes: `Default`, `GreenPassion` and `BlueComposure`.
+Keep in mind however, that not every console supports all colors and unicode-characters! So test which theme works for you.
+
+|inquirer themes compare|
+
+.. |inquirer themes compare| image:: images/inquirer_theme-compare.png
+  :alt: Example of theme (GreenPassion)
+
+Here is an example how to use a theme:
 
 .. literalinclude:: ../examples/theme.py
 
