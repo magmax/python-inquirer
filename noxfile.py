@@ -190,14 +190,7 @@ def xdoctest(session: Session) -> None:
 @session(name="docs-build", python=python_versions[0])
 def docs_build(session: Session) -> None:
     """Build the documentation."""
-    args = session.posargs or [
-        "-b",
-        "linkcheck",
-        "-W",
-        "--keep-going",
-        "docs",
-        "docs/_build",
-    ]
+    args = session.posargs or ["docs", "docs/_build"]
     if not session.posargs and "FORCE_COLOR" in os.environ:
         args.insert(0, "--color")
 
