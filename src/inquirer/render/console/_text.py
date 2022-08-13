@@ -29,6 +29,14 @@ class Text(BaseConsoleRender):
                     self.current = self.current[: n - 1] + self.current[n:]
                 else:
                     self.current = self.current[:-1]
+        elif pressed == key.SUPR:
+            if self.current and self.cursor_offset:
+                n = -self.cursor_offset
+                self.cursor_offset -= 1
+                if n < -1:
+                    self.current = self.current[:n] + self.current[n + 1 :]  # noqa E203
+                else:
+                    self.current = self.current[:n]
         elif pressed == key.LEFT:
             if self.cursor_offset < len(self.current):
                 self.cursor_offset += 1
