@@ -98,7 +98,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout(message)
         self.assertInStdout("Custom error")
 
-    def test_allows_deletion(self):
+    def test_allows_BACKSPACE_deletion(self):
         stdin_array = ["a", key.BACKSPACE, "b", key.ENTER]
         stdin = helper.event_factory(*stdin_array)
         message = "Foo message"
@@ -110,6 +110,19 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         self.assertEqual("b", result)
+
+    def test_allows_DELETE_deletion(self):
+        stdin_array = ["a", "b", key.LEFT, key.LEFT, "c", key.SUPR, key.SUPR, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        question = questions.Text(variable, message)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual("c", result)
 
     def test_cursor_movement(self):
         stdin_array = [
