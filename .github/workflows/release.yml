@@ -64,7 +64,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Publish the release notes
-        uses: release-drafter/release-drafter@v5.20.0
+        uses: release-drafter/release-drafter@v5.20.1
         with:
           publish: ${{ steps.check-version.outputs.tag != '' }}
           tag: ${{ steps.check-version.outputs.tag }}
