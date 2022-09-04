@@ -100,7 +100,11 @@ Example:
   ]
   answers = inquirer.prompt(questions)
 
-List questions can take one extra argument :code:`carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+List questions can take extra arguments
+
+:code:`carousel=False` If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+
+:code:`preprocessor=function_or_lambda` This options allows you to set choices with types other than :code:`str`, eg. :code:`dict` so you can store metadata alongside the choices, the function should extract the string representing this choice.
 
 |inquirer list|
 
@@ -124,7 +128,13 @@ Example:
   ]
   answers = inquirer.prompt(questions)
 
-Checkbox questions can take one extra argument :code:`carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+Checkbox questions can take extra arguments
+
+:code:`carousel=False` If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+
+:code:`preprocessor=function_or_lambda` This options allows you to set choices with types other than :code:`str`, eg. :code:`dict` so you can store metadata alongside the choices, the function should extract the string representing this choice.
+
+
 
 |inquirer checkbox|
 

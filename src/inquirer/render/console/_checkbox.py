@@ -19,6 +19,8 @@ class Checkbox(BaseConsoleRender):
 
     def get_options(self):
         choices = self.question.choices or []
+        if self.question._preprocessor:
+            choices = [self.question._preprocessor(c) for c in choices]
         if self.is_long:
             cmin = 0
             cmax = MAX_OPTIONS_DISPLAYED_AT_ONCE

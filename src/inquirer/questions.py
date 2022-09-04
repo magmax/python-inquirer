@@ -7,6 +7,7 @@ import os
 import sys
 
 import inquirer.errors as errors
+from typing import Callable, Any
 
 
 class TaggedValue:
@@ -32,10 +33,11 @@ class TaggedValue:
 class Question:
     kind = "base question"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, show_default=False):
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, show_default=False, preprocessor: Callable[[Any], str] = None):
         self.name = name
         self._message = message
         self._choices = choices or []
+        self._preprocessor = preprocessor
         self._default = default
         self._ignore = ignore
         self._validate = validate
@@ -112,18 +114,18 @@ class Confirm(Question):
 class List(Question):
     kind = "list"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, preprocessor = None):
 
-        super().__init__(name, message, choices, default, ignore, validate)
+        super().__init__(name, message, choices, default, ignore, validate, preprocessor=preprocessor)
         self.carousel = carousel
 
 
 class Checkbox(Question):
     kind = "checkbox"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
+    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, preprocessor = None):
 
-        super().__init__(name, message, choices, default, ignore, validate)
+        super().__init__(name, message, choices, default, ignore, validate, preprocessor=preprocessor)
         self.carousel = carousel
 
 
