@@ -58,6 +58,32 @@ class ListCarouselTest(unittest.TestCase):
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
+class CheckOtherTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn("python examples/list_other.py")
+        self.sut.expect("Standard.*", timeout=1)
+
+    def test_other_input(self):
+        self.sut.send(key.ENTER)
+        self.sut.send("Hello world")
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Hello world'}.*", timeout=1)
+
+    def test_other_blank_input(self):
+        self.sut.send(key.ENTER)
+        self.sut.send(key.ENTER)  # blank input
+        self.sut.send(key.ENTER)
+        self.sut.send("Hello world")
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Hello world'}.*", timeout=1)
+
+    def test_other_select_choice(self):
+        self.sut.send(key.DOWN)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
+
+
+@unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
 class ListTaggedTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/list_tagged.py")

@@ -1,6 +1,7 @@
 from readchar import key
 
 from inquirer import errors
+from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 from inquirer.render.console.base import MAX_OPTIONS_DISPLAYED_AT_ONCE
 from inquirer.render.console.base import BaseConsoleRender
 from inquirer.render.console.base import half_options
@@ -62,6 +63,10 @@ class Checkbox(BaseConsoleRender):
 
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
+
+            if choice == GLOBAL_OTHER_CHOICE:
+                symbol = "+"
+
             yield choice, selector + " " + symbol, color
 
     def process_input(self, pressed):
@@ -79,7 +84,9 @@ class Checkbox(BaseConsoleRender):
                 self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
         elif pressed == key.SPACE:
-            if self.current in self.selection:
+            if self.question.choices[self.current] == GLOBAL_OTHER_CHOICE:
+                self.other_input()
+            elif self.current in self.selection:
                 self.selection.remove(self.current)
             else:
                 self.selection.append(self.current)
@@ -97,3 +104,16 @@ class Checkbox(BaseConsoleRender):
             raise errors.EndOfInput(result)
         elif pressed == key.CTRL_C:
             raise KeyboardInterrupt()
+
+    def other_input(self):
+        other = super().other_input()
+
+        # Clear the print that inquirer.text made
+        print(self.terminal.move_up + self.terminal.clear_eol, end="")
+
+        if not other:
+            return
+
+        index = self.question.add_choice(other)
+        if index not in self.selection:
+            self.selection.append(index)
