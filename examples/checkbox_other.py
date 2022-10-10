@@ -14,6 +14,7 @@ questions = [
         choices=["Computers", "Books", "Science", "Nature", "Fantasy", "History"],
         default=["Computers", "Books"],
         other=True,
+        carousel=True,
     ),
 ]
 

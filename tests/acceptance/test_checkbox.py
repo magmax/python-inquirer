@@ -89,26 +89,32 @@ class CheckOtherTest(unittest.TestCase):
         self.sut.expect("Computers.*", timeout=1)
 
     def test_other_input(self):
+        self.sut.send(key.UP)
+        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
         self.sut.send(key.SPACE)
+        self.sut.expect(r": ", timeout=1)
         self.sut.send("Hello world")
+        self.sut.expect(r"Hello world.*", timeout=1)
         self.sut.send(key.ENTER)
+        self.sut.expect(r"> X Hello world[\s\S]*\+ Other\.\.\..*", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}", timeout=1)  # noqa
 
     def test_other_blank_input(self):
+        self.sut.send(key.UP)
+        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
         self.sut.send(key.SPACE)
-        self.sut.send(key.ENTER)  # blank input
-        self.sut.send(key.SPACE)
-        self.sut.send("Hello world")
+        self.sut.expect(r": ", timeout=1)
+        self.sut.send(key.ENTER) # blank input
+        self.sut.expect(r"> \+ Other\.\.\..*", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.send(key.ENTER)
-        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Computers', 'Books'\]}", timeout=1)  # noqa
 
     def test_other_select_choice(self):
-        self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
+        self.sut.expect(r"[^X] Computers.*", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.expect(r"{'interests': \['Books'\]}.*", timeout=1)  # noqa
+        self.sut.expect(r"{'interests': \['Books'\]}", timeout=1)  # noqa
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
