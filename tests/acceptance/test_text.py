@@ -1,7 +1,6 @@
 import re
 import sys
 import unittest
-import os
 
 import pexpect
 from readchar import key
@@ -50,7 +49,10 @@ class TextAutocompleteTest(unittest.TestCase):
         self.sut = pexpect.spawn("python examples/text_autocomplete.py")
 
     def test_autocomplete(self):
+        self.sut.expect(": .*", timeout=1)
         self.sut.send("random")
+        self.sut.expect(": random.*", timeout=1)
         self.sut.send(key.TAB)
+        self.sut.expect(": inquirer.*", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.expect("{'name': '" + os.getlogin() + "'}", timeout=1)
+        self.sut.expect("{'name': 'inquirer'}", timeout=1)
