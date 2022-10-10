@@ -46,9 +46,10 @@ class Question:
     ):
         if other:
             choices = choices or []
-            choices.insert(0, GLOBAL_OTHER_CHOICE)
+            choices.append(GLOBAL_OTHER_CHOICE)
 
         self.name = name
+        self._other = other
         self._message = message
         self._choices = choices or []
         self._default = default
@@ -62,6 +63,10 @@ class Question:
             index = self._choices.index(choice)
             return index
         except ValueError:
+            if self._other:
+                self._choices.insert(-1, choice)
+                return len(self._choices) - 2
+
             self._choices.append(choice)
             return len(self._choices) - 1
 
