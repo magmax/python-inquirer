@@ -1,6 +1,7 @@
 import re
 import sys
 import unittest
+import os
 
 import pexpect
 from readchar import key
@@ -41,3 +42,15 @@ class TextTest(unittest.TestCase):
         self.sut.expect_list(
             [re.compile(b"'name': 'foo'"), re.compile(b"'surname': 'bar'"), re.compile(b"'phone': '12345'")], timeout=1
         )
+
+
+@unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
+class TextAutocompleteTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn("python examples/text_autocomplete.py")
+
+    def test_autocomplete(self):
+        self.sut.send("random")
+        self.sut.send(key.TAB)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'name': '" + os.getlogin() + "'}", timeout=1)

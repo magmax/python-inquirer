@@ -11,6 +11,7 @@ class Text(BaseConsoleRender):
         super().__init__(*args, **kwargs)
         self.current = self.question.default or ""
         self.cursor_offset = 0
+        self._autocomplete_state = 0
 
     def get_current_value(self):
         return self.current + (self.terminal.move_left * self.cursor_offset)
@@ -22,7 +23,11 @@ class Text(BaseConsoleRender):
         if pressed in (key.CR, key.LF, key.ENTER):
             raise errors.EndOfInput(self.current)
 
-        if pressed == key.BACKSPACE:
+        if pressed == key.TAB and self.question.autocomplete:
+            self.current = str(self.question.autocomplete(self.current, self._autocomplete_state))
+            self.cursor_offset = 0
+            self._autocomplete_state += 1
+        elif pressed == key.BACKSPACE:
             if self.current and self.cursor_offset != len(self.current):
                 if self.cursor_offset > 0:
                     n = -self.cursor_offset

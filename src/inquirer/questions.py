@@ -111,10 +111,11 @@ class Question:
 class Text(Question):
     kind = "text"
 
-    def __init__(self, name, message="", default=None, **kwargs):
+    def __init__(self, name, message="", default=None, autocomplete=None, **kwargs):
         super().__init__(
             name, message=message, default=str(default) if default and not callable(default) else default, **kwargs
         )
+        self.autocomplete = autocomplete
 
 
 class Password(Text):
