@@ -105,7 +105,7 @@ class CheckOtherTest(unittest.TestCase):
         self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
         self.sut.send(key.SPACE)
         self.sut.expect(r": ", timeout=1)
-        self.sut.send(key.ENTER) # blank input
+        self.sut.send(key.ENTER)  # blank input
         self.sut.expect(r"> \+ Other\.\.\..*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books'\]}", timeout=1)  # noqa
