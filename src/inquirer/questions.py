@@ -141,7 +141,16 @@ class List(Question):
     kind = "list"
 
     def __init__(
-        self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, other=False, autocomplete=None
+        self,
+        name,
+        message="",
+        choices=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        carousel=False,
+        other=False,
+        autocomplete=None,
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other)
@@ -153,7 +162,16 @@ class Checkbox(Question):
     kind = "checkbox"
 
     def __init__(
-        self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, other=False, autocomplete=None
+        self,
+        name,
+        message="",
+        choices=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        carousel=False,
+        other=False,
+        autocomplete=None,
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other)
