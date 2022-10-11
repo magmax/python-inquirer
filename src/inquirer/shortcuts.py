@@ -2,9 +2,9 @@ import inquirer.questions as questions
 from inquirer.render.console import ConsoleRender
 
 
-def text(message, render=None, **kwargs):
+def text(message, autocomplete=None, render=None, **kwargs):
     render = render or ConsoleRender()
-    question = questions.Text(name="", message=message, **kwargs)
+    question = questions.Text(name="", message=message, autocomplete=autocomplete, **kwargs)
     return render.render(question)
 
 

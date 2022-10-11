@@ -20,7 +20,7 @@ class BaseConsoleRender:
         self.show_default = show_default
 
     def other_input(self):
-        other = inquirer.text(self.question.message)
+        other = inquirer.text(self.question.message, autocomplete=self.question.autocomplete)
         return other
 
     def get_header(self):
