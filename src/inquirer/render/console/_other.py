@@ -1,6 +1,6 @@
 class OtherChoice:
     def __str__(self):
-        return "Other..."
+        return "Other"
 
 
 GLOBAL_OTHER_CHOICE = OtherChoice()
