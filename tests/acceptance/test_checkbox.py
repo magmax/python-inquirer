@@ -90,23 +90,23 @@ class CheckOtherTest(unittest.TestCase):
 
     def test_other_input(self):
         self.sut.send(key.UP)
-        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.SPACE)
         self.sut.expect(r": ", timeout=1)
         self.sut.send("Hello world")
         self.sut.expect(r"Hello world.*", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.expect(r"> X Hello world[\s\S]*\+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"> X Hello world[\s\S]*\+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}", timeout=1)  # noqa
 
     def test_other_blank_input(self):
         self.sut.send(key.UP)
-        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.SPACE)
         self.sut.expect(r": ", timeout=1)
         self.sut.send(key.ENTER)  # blank input
-        self.sut.expect(r"> \+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"> \+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books'\]}", timeout=1)  # noqa
 

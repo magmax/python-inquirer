@@ -65,7 +65,7 @@ class CheckOtherTest(unittest.TestCase):
 
     def test_other_input(self):
         self.sut.send(key.UP)
-        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r": ", timeout=1)
         self.sut.send("Hello world")
@@ -75,11 +75,11 @@ class CheckOtherTest(unittest.TestCase):
 
     def test_other_blank_input(self):
         self.sut.send(key.UP)
-        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r": ", timeout=1)
         self.sut.send(key.ENTER)  # blank input
-        self.sut.expect(r"\+ Other\.\.\..*", timeout=1)
+        self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r": ", timeout=1)
         self.sut.send("Hello world")
