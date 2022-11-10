@@ -49,7 +49,6 @@ class Question:
             choices.append(GLOBAL_OTHER_CHOICE)
 
         self.name = name
-        self._other = other
         self._message = message
         self._choices = choices or []
         self._default = default
@@ -57,6 +56,7 @@ class Question:
         self._validate = validate
         self.answers = {}
         self.show_default = show_default
+        self._other = other
 
     def add_choice(self, choice):
         try:
