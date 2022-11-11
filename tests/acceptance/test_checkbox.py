@@ -1,8 +1,11 @@
 import sys
 import unittest
+from re import escape
 
 import pexpect
 from readchar import key
+
+from inquirer.themes import Default as Theme
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
@@ -85,6 +88,7 @@ class CheckCarouselTest(unittest.TestCase):
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
 class CheckOtherTest(unittest.TestCase):
     def setUp(self):
+        self.theme = Theme()
         self.sut = pexpect.spawn("python examples/checkbox_other.py")
         self.sut.expect("Computers.*", timeout=1)
 
@@ -96,7 +100,7 @@ class CheckOtherTest(unittest.TestCase):
         self.sut.send("Hello world")
         self.sut.expect(r"Hello world.*", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.expect(r"> X Hello world[\s\S]*\+ Other.*", timeout=1)
+        self.sut.expect(rf"> {escape(self.theme.Checkbox.selected_icon)} Hello world[\s\S]*\+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}", timeout=1)  # noqa
 
@@ -112,7 +116,7 @@ class CheckOtherTest(unittest.TestCase):
 
     def test_other_select_choice(self):
         self.sut.send(key.SPACE)
-        self.sut.expect(r"[^X] Computers.*", timeout=1)
+        self.sut.expect(rf"{escape(self.theme.Checkbox.unselected_icon)} Computers.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Books'\]}", timeout=1)  # noqa
 
