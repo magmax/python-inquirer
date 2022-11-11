@@ -1,5 +1,7 @@
 from blessed import Terminal
 
+import inquirer
+
 
 # Should be odd number as there is always one question selected
 MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
@@ -16,6 +18,10 @@ class BaseConsoleRender:
         self.answers = {}
         self.theme = theme
         self.show_default = show_default
+
+    def other_input(self):
+        other = inquirer.text(self.question.message)
+        return other
 
     def get_header(self):
         return self.question.message

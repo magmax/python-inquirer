@@ -7,6 +7,7 @@ import os
 import sys
 
 import inquirer.errors as errors
+from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 
 
 class TaggedValue:
@@ -32,7 +33,17 @@ class TaggedValue:
 class Question:
     kind = "base question"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, show_default=False):
+    def __init__(
+        self,
+        name,
+        message="",
+        choices=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        show_default=False,
+        other=False,
+    ):
         self.name = name
         self._message = message
         self._choices = choices or []
@@ -41,6 +52,22 @@ class Question:
         self._validate = validate
         self.answers = {}
         self.show_default = show_default
+        self._other = other
+
+        if self._other:
+            self._choices.append(GLOBAL_OTHER_CHOICE)
+
+    def add_choice(self, choice):
+        try:
+            index = self._choices.index(choice)
+            return index
+        except ValueError:
+            if self._other:
+                self._choices.insert(-1, choice)
+                return len(self._choices) - 2
+
+            self._choices.append(choice)
+            return len(self._choices) - 1
 
     @property
     def ignore(self):
@@ -112,18 +139,22 @@ class Confirm(Question):
 class List(Question):
     kind = "list"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
+    def __init__(
+        self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, other=False
+    ):
 
-        super().__init__(name, message, choices, default, ignore, validate)
+        super().__init__(name, message, choices, default, ignore, validate, other=other)
         self.carousel = carousel
 
 
 class Checkbox(Question):
     kind = "checkbox"
 
-    def __init__(self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False):
+    def __init__(
+        self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, other=False
+    ):
 
-        super().__init__(name, message, choices, default, ignore, validate)
+        super().__init__(name, message, choices, default, ignore, validate, other=other)
         self.carousel = carousel
 
 
