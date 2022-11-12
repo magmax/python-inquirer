@@ -60,6 +60,23 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
 
+    def test_select_all_with_ctrl_a(self):
+        self.sut.send(key.CTRL_A)
+        self.sut.send(key.ENTER)
+        self.sut.expect(
+            r"{'interests': \['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'\]}.*", timeout=1
+        )  # noqa
+
+    def test_reset_with_ctrl_r(self):
+        self.sut.send(key.CTRL_R)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \[\]}.*", timeout=1)  # noqa
+
+    def test_default_invert_selection_with_ctrl_i(self):
+        self.sut.send(key.CTRL_I)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Science', 'Nature', 'Fantasy', 'History'\]}.*", timeout=1)  # noqa
+
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
 class CheckCarouselTest(unittest.TestCase):
