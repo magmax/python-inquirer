@@ -19,20 +19,23 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.7"
+# <4.0 necessary to be able to resolve urllib3 and be able to use a safe version
+python = ">=3.8,<4.0"
 blessed = ">=1.19.0"
 readchar = ">=3.0.6"
 python-editor = ">=1.0.4"
 
 [tool.poetry.dev-dependencies]
-pexpect = ">=4.8.0"
-sphinx = {version=">=4.3.2", python="<4"}
-sphinx-autobuild = ">=2021.3.14"
-furo = ">=2021.11.23"
-flake8 = ">=4.0.1"
+flake8 = ">=4.0.1,<5.0.0"
 flake8-docstrings = ">=1.6.0"
 flake8-rst-docstrings = ">=0.2.5"
-pre-commit-hooks = ">=4.1.0"
+furo = ">=2022.9.29"
+pexpect = ">=4.8.0"
+pre-commit = ">=2.20.0"
+pre-commit-hooks = ">=4.3.0"
+safety = ">=2.3.1"
+sphinx = ">=5.3.0"
+sphinx-autobuild = ">=2021.3.14"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
