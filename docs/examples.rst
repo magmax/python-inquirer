@@ -40,6 +40,11 @@ Result on something like:
 
 |inquirer checkbox|
 
+Apart from all the controlls supported by other questions, checkbox supports some more as shown above:
+
+* `Ctrl + A` to select all.
+* `Ctrl + R` to un-select all the choices, even the defaults.
+* `Ctrl + I` to invert/toggle all the choices.
 
 The :code:`choices` list can also be a list of tuples. The first value in each tuple should be the label displayed to the user. The second value in each tuple should be the actual value for that option. This allows you to have the user choose options that are not plain strings in the code.
 
@@ -64,7 +69,7 @@ Result on something like:
 .. |inquirer list| image:: images/inquirer_list.png
   :alt: Example of List Question
 
-.. |inquirer checkbox| image:: images/inquirer_checkbox.png
+.. |inquirer checkbox| image:: images/inquirer_checkbox.gif
   :alt: Example of Checkbox Question
 
 .. |inquirer theme| image:: images/inquirer_theme.gif
