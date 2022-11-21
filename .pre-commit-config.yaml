@@ -58,7 +58,3 @@ repos:
     rev: v2.1.2
     hooks:
       - id: prettier
-  - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
