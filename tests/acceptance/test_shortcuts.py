@@ -14,7 +14,7 @@ class ShortcutsTest(unittest.TestCase):
         self.sut.expect("Enter your username", timeout=1)
         self.sut.sendline(name)
 
-    def set_password(self, password="secret"):
+    def set_password(self, password="secret"):  # nosec
         self.sut.expect("Please enter your password", timeout=1)
         self.sut.sendline(password)
 

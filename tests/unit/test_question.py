@@ -122,16 +122,6 @@ class BaseQuestionTests(unittest.TestCase):
 
         q.validate(None)
 
-    def test_validate_function_raising_exception(self):
-        def raise_exc(x, y):
-            raise Exception("foo")
-
-        name = "foo"
-        q = questions.Question(name, validate=raise_exc)
-
-        with self.assertRaises(errors.ValidationError):
-            q.validate(None)
-
     def test_validate_function_raising_validation_error(self):
         err = errors.ValidationError("", reason="foo")
 
