@@ -96,8 +96,6 @@ class Question:
                 return
         except errors.ValidationError as e:
             raise e
-        except Exception:
-            pass
         raise errors.ValidationError(current)
 
     def _solve(self, prop, *args, **kwargs):
@@ -176,7 +174,9 @@ def is_pathname_valid(pathname):
 
         root_dirname = os.environ.get("HOMEDRIVE", "C:") if sys.platform == "win32" else os.path.sep
 
-        assert os.path.isdir(root_dirname)
+        if not os.path.isdir(root_dirname):
+            raise Exception("'%s' is not a directory.", root_dirname)
+
         root_dirname = root_dirname.rstrip(os.path.sep) + os.path.sep
 
         for pathname_part in pathname.split(os.path.sep):
