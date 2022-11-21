@@ -49,7 +49,7 @@ source = ["inquirer", "tests"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 95
+fail_under = 97
 
 [tool.black]
 line-length = 119
