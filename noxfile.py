@@ -23,10 +23,11 @@ except ImportError:
 
 
 package = "inquirer"
-python_versions = ["3.10", "3.9", "3.8", "3.7"]
+python_versions = ["3.11", "3.10", "3.9", "3.8"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",
+    "safety",
     "tests",
     "docs-build",
 )
@@ -42,7 +43,7 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
     Args:
         session: The Session object.
     """
-    assert session.bin is not None  # noqa: S101
+    assert session.bin is not None  # nosec
 
     # Only patch hooks containing a reference to this session's bindir. Support
     # quoting rules for Python and bash, but strip the outermost quotes so we
@@ -67,6 +68,11 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
             """,
         # pre-commit >= 2.16.0
         "bash": f"""\
+            VIRTUAL_ENV={shlex.quote(virtualenv)}
+            PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
+            """,
+        # pre-commit >= 2.17.0 on Windows forces sh shebang
+        "/bin/sh": f"""\
             VIRTUAL_ENV={shlex.quote(virtualenv)}
             PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
             """,
@@ -109,7 +115,7 @@ def precommit(session: Session) -> None:
         # "flake8-bugbear",
         "flake8-docstrings",
         "flake8-rst-docstrings",
-        # "isort",
+        "isort",
         # "pep8-naming",
         "pre-commit",
         "pre-commit-hooks",
@@ -120,12 +126,12 @@ def precommit(session: Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@session(python=python_versions[0])
+@session(python=python_versions[2])
 def safety(session: Session) -> None:
     """Scan dependencies for insecure packages."""
     requirements = session.poetry.export_requirements()
     session.install("safety")
-    session.run("safety", "check", "--full-report", f"--file={requirements}")
+    session.run("safety", "check", f"--file={requirements}")
 
 
 @session(python=python_versions)
