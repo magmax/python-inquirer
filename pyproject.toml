@@ -27,7 +27,7 @@ python-editor = ">=1.0.4"
 
 [tool.poetry.dev-dependencies]
 bandit = ">=1.7.4"
-flake8 = ">=4.0.1,<5.0.0"
+flake8 = ">=4.0.1,<6.0.0"
 flake8-docstrings = ">=1.6.0"
 furo = ">=2022.9.29"
 isort = ">=5.10.1"
