@@ -174,6 +174,19 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertEqual("abcb", result)
 
+    def test_TAB_with_non_str_autocomplete(self):
+        stdin_array = ["a", key.TAB, "b", key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        question = questions.Text(variable, message, autocomplete=lambda _text, _state: 1337)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual("ab", result)
+
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
         stdin = helper.event_factory(*stdin_array)
