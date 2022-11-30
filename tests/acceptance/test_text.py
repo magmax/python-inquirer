@@ -41,3 +41,18 @@ class TextTest(unittest.TestCase):
         self.sut.expect_list(
             [re.compile(b"'name': 'foo'"), re.compile(b"'surname': 'bar'"), re.compile(b"'phone': '12345'")], timeout=1
         )
+
+
+@unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
+class TextAutocompleteTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn("python examples/text_autocomplete.py")
+
+    def test_autocomplete(self):
+        self.sut.expect(": .*", timeout=1)
+        self.sut.send("random")
+        self.sut.expect(": random.*", timeout=1)
+        self.sut.send(key.TAB)
+        self.sut.expect(": inquirer.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'name': 'inquirer'}", timeout=1)

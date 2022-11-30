@@ -109,10 +109,11 @@ class Question:
 class Text(Question):
     kind = "text"
 
-    def __init__(self, name, message="", default=None, **kwargs):
+    def __init__(self, name, message="", default=None, autocomplete=None, **kwargs):
         super().__init__(
             name, message=message, default=str(default) if default and not callable(default) else default, **kwargs
         )
+        self.autocomplete = autocomplete
 
 
 class Password(Text):
@@ -138,22 +139,42 @@ class List(Question):
     kind = "list"
 
     def __init__(
-        self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, other=False
+        self,
+        name,
+        message="",
+        choices=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        carousel=False,
+        other=False,
+        autocomplete=None,
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other)
         self.carousel = carousel
+        self.autocomplete = autocomplete
 
 
 class Checkbox(Question):
     kind = "checkbox"
 
     def __init__(
-        self, name, message="", choices=None, default=None, ignore=False, validate=True, carousel=False, other=False
+        self,
+        name,
+        message="",
+        choices=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        carousel=False,
+        other=False,
+        autocomplete=None,
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other)
         self.carousel = carousel
+        self.autocomplete = autocomplete
 
 
 # Solution for checking valid path based on

@@ -148,6 +148,80 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertEqual("abdce", result)
 
+    def test_TAB_without_autocomplete(self):
+        stdin_array = ["a", key.TAB, "b", key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        question = questions.Text(variable, message)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual("a\tb", result)
+
+    def test_TAB_with_autocomplete(self):
+        stdin_array = ["a", key.TAB, "b", key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        question = questions.Text(variable, message, autocomplete=lambda _text, _state: "abc")
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual("abcb", result)
+
+    def test_TAB_with_non_str_autocomplete(self):
+        stdin_array = ["a", key.TAB, "b", key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        question = questions.Text(variable, message, autocomplete=lambda _text, _state: 1337)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual("ab", result)
+
+    def test_TAB_with_autocomplete_cycle(self):
+        stdin_array = ["a", key.TAB, key.TAB, key.TAB, "b", key.TAB, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+
+        prev_state_cell = None
+
+        def autocomplete_func(text, state):
+            nonlocal prev_state_cell
+
+            # Swap state memory
+            prev_state = prev_state_cell
+            prev_state_cell = state
+
+            if state == 0:
+                if prev_state is None:
+                    # First call
+                    pass
+                else:
+                    # After we pressed TAB 3 times and then pressed b, then TAB again
+                    # state should be 0 again
+                    assert prev_state == 2
+                    return "it worked"
+            else:
+                assert state == prev_state + 1
+            return text
+
+        question = questions.Text(variable, message, autocomplete=autocomplete_func)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertEqual("it worked", result)
+
     def test_ctrl_c_breaks_execution(self):
         stdin_array = [key.CTRL_C]
         stdin = helper.event_factory(*stdin_array)
