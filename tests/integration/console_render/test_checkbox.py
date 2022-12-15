@@ -240,3 +240,87 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         assert result == []
+
+    def test_select_all(self):
+        stdin_array = [key.CTRL_A, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == choices
+
+    def test_reset_one_selection(self):
+        stdin_array = [key.SPACE, key.CTRL_R, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == []
+
+    def test_reset_all_selection(self):
+        stdin_array = [key.CTRL_A, key.CTRL_R, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == []
+
+    def test_invert_one_selection(self):
+        stdin_array = [key.SPACE, key.CTRL_I, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["bar", "bazz"]
+
+    def test_invert_all(self):
+        stdin_array = [key.CTRL_I, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == choices
+
+    def test_double_invert_all(self):
+        stdin_array = [key.CTRL_I, key.CTRL_I, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == []
