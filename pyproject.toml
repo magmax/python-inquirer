@@ -19,8 +19,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-# <4.0 necessary to be able to resolve urllib3 and be able to use a safe version
-python = ">=3.8,<4.0"
+python = ">=3.8"
 blessed = ">=1.19.0"
 readchar = ">=3.0.6"
 python-editor = ">=1.0.4"
