@@ -1,4 +1,9 @@
 ---
+template: |
+  ## Changes
+
+  $CHANGES
+
 categories:
   - title: ":boom: Breaking Changes"
     label: "breaking"
@@ -6,8 +11,10 @@ categories:
     label: "enhancement"
   - title: ":fire: Removals and Deprecations"
     label: "removal"
-  - title: ":lady_beetle: Fixes"
+  - title: ":beetle: Fixes"
     label: "bug"
+  - title: ":raising_hand: Help wanted"
+    label: "help wanted"
   - title: ":racehorse: Performance"
     label: "performance"
   - title: ":rotating_light: Testing"
@@ -16,8 +23,6 @@ categories:
     label: "ci"
   - title: ":books: Documentation"
     label: "documentation"
-  - title: ":mortar_board: Examples"
-    label: "examples"
   - title: ":hammer: Refactoring"
     label: "refactoring"
   - title: ":lipstick: Style"
@@ -26,7 +31,6 @@ categories:
     labels:
       - "dependencies"
       - "build"
-template: |
-  ## Changes
 
-  $CHANGES
+exclude-labels:
+  - "skip-changelog"

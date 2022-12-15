@@ -1,7 +1,7 @@
 ---
 name: Labeler
 
-on:
+"on":
   push:
     branches:
       - main
@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3
 
       - name: Run Labeler
-        uses: crazy-max/ghaction-github-labeler@v4.1.0
+        uses: crazy-max/ghaction-github-labeler@v4
         with:
           skip-delete: true
