@@ -1,7 +1,7 @@
 ---
 name: Documentation
 
-on:
+"on":
   schedule:
     - cron: "0 0 * * 0" # every week at midnight
   push:
@@ -18,8 +18,8 @@ jobs:
     name: Build documentation & check links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.2.0
-      - uses: actions/setup-python@v4.3.0
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
@@ -40,7 +40,7 @@ jobs:
         run: nox --force-color --session=docs-build
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3
         with:
           name: docs
           path: docs/_build
