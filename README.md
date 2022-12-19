@@ -117,8 +117,6 @@ answers = inquirer.prompt(questions)
 
 Checkbox questions can take one extra argument `carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
 
-{{ inquirer checkbox }}
-
 ### Path
 
 Like Text question, but with builtin validations for working with paths.
