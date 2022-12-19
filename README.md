@@ -4,11 +4,11 @@
 [![Status](https://img.shields.io/pypi/status/inquirer.svg)][pypi status]
 [![Python Version](https://img.shields.io/pypi/pyversions/inquirer)][pypi status]
 [![License](https://img.shields.io/pypi/l/inquirer)][license]
-
+<br>
 [![Read the documentation at https://python-inquirer.readthedocs.io/](https://img.shields.io/readthedocs/python-inquirer/latest.svg?label=Read%20the%20Docs)][read the docs]
 [![Tests](https://github.com/magmax/python-inquirer/workflows/Tests/badge.svg)][tests]
 [![Codecov](https://codecov.io/gh/magmax/python-inquirer/branch/main/graph/badge.svg)][codecov]
-
+<br>
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
 
