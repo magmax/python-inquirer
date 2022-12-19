@@ -1,99 +1,27 @@
----
-substitutions:
-  Codecov: |-
-    ```{image} https://codecov.io/gh/magmax/python-inquirer/branch/master/graph/badge.svg
-    :alt: Codecov
-    :target: https://app.codecov.io/gh/magmax/python-inquirer
-    ```
-  Documentation: |-
-    ```{image} https://github.com/magmax/python-inquirer/workflows/Documentation/badge.svg
-    :alt: Read the documentation at https://magmax.org/python-inquirer/
-    :target: https://magmax.org/python-inquirer/
-    ```
-  License: |-
-    ```{image} https://img.shields.io/pypi/l/inquirer.svg
-    :alt: License
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  Tests: |-
-    ```{image} https://github.com/magmax/python-inquirer/workflows/Tests/badge.svg
-    :alt: Tests
-    :target: https://github.com/magmax/python-inquirer/actions?workflow=Tests
-    ```
-  inquirer checkbox: |-
-    ```{image} http://magmax.org/python-inquirer/_images/inquirer_checkbox.png
-    :alt: Example of Checkbox Question
-    ```
-  inquirer list: |-
-    ```{image} http://magmax.org/python-inquirer/_images/inquirer_list.png
-    :alt: Example of List Question
-    ```
-  inquirer text: |-
-    ```{image} http://magmax.org/python-inquirer/_images/inquirer_text.png
-    :alt: Example of Text Question
-    ```
-  pip dd: |-
-    ```{image} https://img.shields.io/pypi/dd/inquirer.svg
-    :alt: Yesterday downloads from pypi
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  pip dm: |-
-    ```{image} https://img.shields.io/pypi/dm/inquirer.svg
-    :alt: Last month downloads from pypi
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  pip dw: |-
-    ```{image} https://img.shields.io/pypi/dw/inquirer.svg
-    :alt: Last week downloads from pypi
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  pip implem: |-
-    ```{image} https://img.shields.io/pypi/implementation/inquirer.svg
-    :alt: Python interpreters
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  pip pyversions: |-
-    ```{image} https://img.shields.io/pypi/pyversions/inquirer.svg
-    :alt: Python versions
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  pip version: |-
-    ```{image} https://img.shields.io/pypi/v/inquirer.svg
-    :alt: Latest PyPI version
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  pip wheel: |-
-    ```{image} https://img.shields.io/pypi/wheel/inquirer.svg
-    :alt: Wheel
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  status: |-
-    ```{image} https://img.shields.io/pypi/status/inquirer.svg
-    :alt: Status
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
-  version: |-
-    ```{image} https://img.shields.io/pypi/v/inquirer.svg
-    :alt: Status
-    :target: https://pypi.python.org/pypi/inquirer
-    ```
----
+# python-inquirer
 
-```{eval-rst}
-====================  =================================================================================
-Tests                 |Tests| |Codecov|
---------------------  ---------------------------------------------------------------------------------
-Downloads             |pip dm| |pip dw| |pip dd|
---------------------  ---------------------------------------------------------------------------------
-About                 |License| |pip wheel| |pip pyversions| |pip implem|
---------------------  ---------------------------------------------------------------------------------
-Status                |version| |status| |Documentation|
-====================  =================================================================================
-```
+[![PyPI](https://img.shields.io/pypi/v/python-inquirer.svg)][pypi status]
+[![Status](https://img.shields.io/pypi/status/python-inquirer.svg)][pypi status]
+[![Python Version](https://img.shields.io/pypi/pyversions/python-inquirer)][pypi status]
+[![License](https://img.shields.io/pypi/l/python-inquirer)][license]
+
+[![Read the documentation at https://python-inquirer.readthedocs.io/](https://img.shields.io/readthedocs/python-inquirer/latest.svg?label=Read%20the%20Docs)][read the docs]
+[![Tests](https://github.com/magmax/python-inquirer/workflows/Tests/badge.svg)][tests]
+[![Codecov](https://codecov.io/gh/magmax/python-inquirer/branch/main/graph/badge.svg)][codecov]
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
+
+[pypi status]: https://pypi.org/project/python-inquirer/
+[read the docs]: https://python-inquirer.readthedocs.io/
+[tests]: https://github.com/magmax/python-inquirer/actions?workflow=Tests
+[codecov]: https://app.codecov.io/gh/magmax/python-inquirer
+[pre-commit]: https://github.com/pre-commit/pre-commit
+[black]: https://github.com/psf/black
 
 Collection of common interactive command line user interfaces, based on [Inquirer.js].
 
-# Goal and Philosophy
+## Goal and Philosophy
 
 Born as a [Inquirer.js] clone, it shares part of the goals and philosophy.
 
@@ -101,23 +29,23 @@ So, **Inquirer** should ease the process of asking end user **questions**, **par
 
 You can [download the python-inquirer code from GitHub] or [download the wheel from Pypi].
 
-## Platforms support
+### Platforms support
 
 Python-inquirer supports mainly UNIX-based platforms (eq. Mac OS, Linux, etc.). Windows has experimental support, please let us know if there are any problems!
 
-# Installation
+## Installation
 
 ```sh
 pip install inquirer
 ```
 
-# Documentation
+## Documentation
 
 Documentation has been moved to [magmax.org/python-inquirer](https://magmax.org/python-inquirer/).
 
 But here you have a couple of usage examples:
 
-## Text
+### Text
 
 ```python
 import re
@@ -133,14 +61,11 @@ questions = [
 answers = inquirer.prompt(questions)
 ```
 
-{{ inquirer text }}
-
-## Editor
+### Editor
 
 Like a Text question, but used for larger answers. It opens external text editor which is used to collect the answer.
 
-The environment variables \$VISUAL and \$EDITOR, can be used to specify which editor should be used. If not present
-inquirer fallbacks to `vim -> emacs -> nano` in this order based on availability in the system.
+The environment variables $VISUAL and $EDITOR, can be used to specify which editor should be used. If not present inquirer fallbacks to `vim -> emacs -> nano` in this order based on availability in the system.
 
 External editor handling is done using great library [python-editor](https://github.com/fmoo/python-editor).
 
@@ -154,7 +79,7 @@ questions = [
 answers = inquirer.prompt(questions)
 ```
 
-## List
+### List
 
 Shows a list of choices, and allows the selection of one of them.
 
@@ -171,11 +96,9 @@ questions = [
 answers = inquirer.prompt(questions)
 ```
 
-List questions can take one extra argument {code}`carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+List questions can take one extra argument `carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
 
-{{ inquirer list }}
-
-## Checkbox
+### Checkbox
 
 Shows a list of choices, with multiple selection.
 
@@ -192,11 +115,11 @@ questions = [
 answers = inquirer.prompt(questions)
 ```
 
-Checkbox questions can take one extra argument {code}`carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+Checkbox questions can take one extra argument `carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
 
 {{ inquirer checkbox }}
 
-## Path
+### Path
 
 Like Text question, but with builtin validations for working with paths.
 
@@ -213,19 +136,20 @@ questions = [
 answers = inquirer.prompt(questions)
 ```
 
-# Contributing
+## Contributing
 
 Contributions are very welcome.
 To learn more, see the [Contributor Guide].
 
-# License
+## License
 
 Copyright (c) 2014-2021 Miguel Ángel García ([@magmax_en]), based on [Inquirer.js], by Simon Boudrias ([@vaxilart])
 
-Licensed under [the MIT license].
+Distributed under the terms of the [MIT license][license].
 
 <!-- github-only -->
 
+[license]: https://github.com/magmax/python-inquirer/blob/main/LICENSE
 [@magmax_en]: https://twitter.com/magmax_en
 [@vaxilart]: https://twitter.com/vaxilart
 [contributor guide]: CONTRIBUTING.md
@@ -233,4 +157,3 @@ Licensed under [the MIT license].
 [download the wheel from pypi]: https://pypi.python.org/pypi/inquirer
 [examples/]: https://github.com/magmax/python-inquirer/tree/master/examples
 [inquirer.js]: https://github.com/SBoudrias/Inquirer.js
-[the mit license]: https://opensource.org/licenses/MIT
