@@ -84,7 +84,7 @@ class Question:
     @property
     def choices_generator(self):
         for choice in self._solve(self._choices):
-            yield (TaggedValue(*choice) if isinstance(choice, (list, tuple, set)) and len(choice) == 2 else choice)
+            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
     @property
     def choices(self):
