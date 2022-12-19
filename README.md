@@ -1,5 +1,3 @@
-# python-inquirer
-
 [![PyPI](https://img.shields.io/pypi/v/inquirer.svg)][pypi status]
 [![Status](https://img.shields.io/pypi/status/inquirer.svg)][pypi status]
 [![Python Version](https://img.shields.io/pypi/pyversions/inquirer)][pypi status]
@@ -18,6 +16,8 @@
 [codecov]: https://app.codecov.io/gh/magmax/python-inquirer
 [pre-commit]: https://github.com/pre-commit/pre-commit
 [black]: https://github.com/psf/black
+
+# python-inquirer
 
 Collection of common interactive command line user interfaces, based on [Inquirer.js].
 
