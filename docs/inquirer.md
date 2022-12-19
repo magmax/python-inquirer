@@ -1,60 +1,63 @@
-inquirer package
-================
+# inquirer package
 
-Subpackages
------------
+## Subpackages
 
-.. toctree::
+```{toctree}
+inquirer.render
+```
 
-    inquirer.render
+## Submodules
 
-Submodules
-----------
+## inquirer.errors module
 
-inquirer.errors module
-----------------------
-
+```{eval-rst}
 .. automodule:: inquirer.errors
     :members:
     :undoc-members:
     :show-inheritance:
+```
 
-inquirer.events module
-----------------------
+## inquirer.events module
 
+```{eval-rst}
 .. automodule:: inquirer.events
     :members:
     :undoc-members:
     :show-inheritance:
+```
 
-inquirer.prompt module
-----------------------
+## inquirer.prompt module
 
+```{eval-rst}
 .. automodule:: inquirer.prompt
     :members:
     :undoc-members:
     :show-inheritance:
+```
 
-inquirer.questions module
--------------------------
+## inquirer.questions module
 
+```{eval-rst}
 .. automodule:: inquirer.questions
     :members:
     :undoc-members:
     :show-inheritance:
+```
 
-inquirer.shortcuts module
--------------------------
+## inquirer.shortcuts module
 
+```{eval-rst}
 .. automodule:: inquirer.shortcuts
     :members:
     :undoc-members:
     :show-inheritance:
+```
 
-inquirer.themes module
-----------------------
+## inquirer.themes module
 
+```{eval-rst}
 .. automodule:: inquirer.themes
     :members:
     :undoc-members:
     :show-inheritance:
+```
