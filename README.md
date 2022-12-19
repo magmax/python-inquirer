@@ -1,9 +1,9 @@
 # python-inquirer
 
-[![PyPI](https://img.shields.io/pypi/v/python-inquirer.svg)][pypi status]
-[![Status](https://img.shields.io/pypi/status/python-inquirer.svg)][pypi status]
-[![Python Version](https://img.shields.io/pypi/pyversions/python-inquirer)][pypi status]
-[![License](https://img.shields.io/pypi/l/python-inquirer)][license]
+[![PyPI](https://img.shields.io/pypi/v/inquirer.svg)][pypi status]
+[![Status](https://img.shields.io/pypi/status/inquirer.svg)][pypi status]
+[![Python Version](https://img.shields.io/pypi/pyversions/inquirer)][pypi status]
+[![License](https://img.shields.io/pypi/l/inquirer)][license]
 
 [![Read the documentation at https://python-inquirer.readthedocs.io/](https://img.shields.io/readthedocs/python-inquirer/latest.svg?label=Read%20the%20Docs)][read the docs]
 [![Tests](https://github.com/magmax/python-inquirer/workflows/Tests/badge.svg)][tests]
@@ -12,7 +12,7 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
 
-[pypi status]: https://pypi.org/project/python-inquirer/
+[pypi status]: https://pypi.org/project/inquirer/
 [read the docs]: https://python-inquirer.readthedocs.io/
 [tests]: https://github.com/magmax/python-inquirer/actions?workflow=Tests
 [codecov]: https://app.codecov.io/gh/magmax/python-inquirer
