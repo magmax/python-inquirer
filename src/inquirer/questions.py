@@ -164,6 +164,7 @@ class Checkbox(Question):
         name,
         message="",
         choices=None,
+        locked=None,
         default=None,
         ignore=False,
         validate=True,
@@ -173,6 +174,7 @@ class Checkbox(Question):
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other)
+        self.locked = locked
         self.carousel = carousel
         self.autocomplete = autocomplete
 

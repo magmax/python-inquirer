@@ -10,8 +10,14 @@ from inquirer.render.console.base import half_options
 class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.question.default or [])]
+        self.locked = self.question.locked or []
+        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.set_default_choices())]
         self.current = 0
+
+    def set_default_choices(self):
+        default = self.question.default or []
+        final = set(default + self.locked)
+        return list(final)
 
     @property
     def is_long(self):
@@ -71,6 +77,7 @@ class Checkbox(BaseConsoleRender):
 
     def process_input(self, pressed):
         question = self.question
+        is_current_choice_locked = question.choices[self.current] in self.locked
         if pressed == key.UP:
             if question.carousel and self.current == 0:
                 self.current = len(question.choices) - 1
@@ -87,12 +94,14 @@ class Checkbox(BaseConsoleRender):
             if self.question.choices[self.current] == GLOBAL_OTHER_CHOICE:
                 self.other_input()
             elif self.current in self.selection:
-                self.selection.remove(self.current)
+                if not is_current_choice_locked:
+                    self.selection.remove(self.current)
             else:
                 self.selection.append(self.current)
         elif pressed == key.LEFT:
             if self.current in self.selection:
-                self.selection.remove(self.current)
+                if not is_current_choice_locked:
+                    self.selection.remove(self.current)
         elif pressed == key.RIGHT:
             if self.current not in self.selection:
                 self.selection.append(self.current)
