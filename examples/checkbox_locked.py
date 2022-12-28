@@ -12,7 +12,7 @@ questions = [
         "courses",
         message="Which courses would you like to take?",
         choices=["Programming fundamentals", "Fullstack development", "Data science", "DevOps"],
-        locked=["Programming fundamentals"]
+        locked=["Programming fundamentals"],
     ),
 ]
 
