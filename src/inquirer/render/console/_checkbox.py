@@ -44,14 +44,12 @@ class Checkbox(BaseConsoleRender):
         is_in_beginning = self.current <= half_options
         is_in_middle = half_options < self.current < ending_milestone
         is_in_end = self.current >= ending_milestone
-
         for index, choice in enumerate(cchoices):
             if (
                 (is_in_middle and self.current - half_options + index in self.selection)
                 or (is_in_beginning and index in self.selection)
                 or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection)
             ):  # noqa
-
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color
             else:
@@ -67,6 +65,9 @@ class Checkbox(BaseConsoleRender):
             ):
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
+
+            if choice in self.locked:
+                color = self.theme.Checkbox.locked_option_color
 
             if choice == GLOBAL_OTHER_CHOICE:
                 symbol = "+"
