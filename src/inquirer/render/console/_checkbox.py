@@ -11,13 +11,12 @@ class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.locked = self.question.locked or []
-        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.set_default_choices())]
+        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in self.set_default_choices()]
         self.current = 0
 
     def set_default_choices(self):
         default = self.question.default or []
-        final = set(default + self.locked)
-        return list(final)
+        return default + self.locked
 
     @property
     def is_long(self):
@@ -66,7 +65,6 @@ class Checkbox(BaseConsoleRender):
                 or (is_in_beginning and index == self.current)
                 or (is_in_end and end_index == self.current)
             ):
-
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
 
