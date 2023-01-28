@@ -28,7 +28,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
+          pip install --constraint=.github/workflows/python-constraints.txt poetry
           poetry --version
 
       - name: Check if there is a parent commit
