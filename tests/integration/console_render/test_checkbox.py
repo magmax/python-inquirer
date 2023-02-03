@@ -325,8 +325,22 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         assert result == []
 
-    def test_unselect_locked(self):
-        stdin_array = [key.SPACE, key.LEFT, key.ENTER]
+    def test_unselect_locked_space(self):
+        stdin_array = [key.SPACE, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, locked=["foo"])
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["foo"]
+
+    def test_unselect_locked_left(self):
+        stdin_array = [key.LEFT, key.ENTER]
         stdin = helper.event_factory(*stdin_array)
         message = "Foo message"
         variable = "Bar variable"

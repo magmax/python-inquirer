@@ -75,7 +75,8 @@ class Theme:
         self.Editor = collections.namedtuple("editor", "opening_prompt")
         self.Checkbox = collections.namedtuple(
             "common",
-            "selection_color selection_icon selected_color unselected_color selected_icon unselected_icon",
+            "selection_color selection_icon selected_color unselected_color "
+            "selected_icon unselected_icon locked_option_color",
         )
         self.List = collections.namedtuple("List", "selection_color selection_cursor unselected_color")
 

@@ -11,10 +11,10 @@ class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.locked = self.question.locked or []
-        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in self.set_default_choices()]
+        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in self.default_choices()]
         self.current = 0
 
-    def set_default_choices(self):
+    def default_choices(self):
         default = self.question.default or []
         return default + self.locked
 

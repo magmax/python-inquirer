@@ -159,8 +159,12 @@ class CheckLockedTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
 
-    def test_locked_option(self):
+    def test_locked_option_space(self):
         self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
+
+    def test_locked_option_left_key(self):
         self.sut.send(key.LEFT)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
