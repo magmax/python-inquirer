@@ -49,7 +49,6 @@ class ConsoleRender:
                 self._print_options(render)
 
                 self._process_input(render)
-                self._force_initial_column()
         except errors.EndOfInput as e:
             self._go_to_end(render)
             return e.selection
@@ -103,8 +102,7 @@ class ConsoleRender:
                 self._previous_error = render.handle_validation_error(e)
 
     def _relocate(self):
-        print(self._position * self.terminal.move_up, end="")
-        self._force_initial_column()
+        print("\r" + self._position * self.terminal.move_up, end="")
         self._position = 0
 
     def _go_to_end(self, render):
@@ -112,9 +110,6 @@ class ConsoleRender:
         if positions > 0:
             print(self._position * self.terminal.move_down, end="")
         self._position = 0
-
-    def _force_initial_column(self):
-        self.print_str("\r")
 
     def render_error(self, message):
         if message:
