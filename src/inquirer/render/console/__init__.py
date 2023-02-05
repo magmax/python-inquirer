@@ -153,7 +153,7 @@ class ConsoleRender:
         return matrix.get(question_type)
 
     def print_line(self, base, lf=True, **kwargs):
-        self.print_str(base + self.terminal.clear_eol(), lf=lf, **kwargs)
+        self.print_str(base + self.terminal.clear_eol, lf=lf, **kwargs)
 
     def print_str(self, base, lf=False, **kwargs):
         if lf:
@@ -163,7 +163,7 @@ class ConsoleRender:
         sys.stdout.flush()
 
     def clear_eos(self):
-        print(self.terminal.clear_eos(), end="")
+        print(self.terminal.clear_eos, end="")
 
     @property
     def width(self):
