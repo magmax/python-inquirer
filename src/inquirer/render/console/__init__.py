@@ -43,7 +43,7 @@ class ConsoleRender:
         try:
             while True:
                 self._relocate()
-                self._print_status_bar(render)
+                self._print_status_bar()
 
                 self._print_header(render)
                 self._print_options(render)
@@ -54,7 +54,7 @@ class ConsoleRender:
             self._go_to_end(render)
             return e.selection
 
-    def _print_status_bar(self, render):
+    def _print_status_bar(self):
         if self._previous_error is None:
             self.clear_bottombar()
             return
