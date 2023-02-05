@@ -1,3 +1,4 @@
+import math
 import sys
 
 from blessed import Terminal
@@ -32,8 +33,6 @@ class ConsoleRender:
         clazz = self.render_factory(question.kind)
         render = clazz(question, terminal=self.terminal, theme=self._theme, show_default=question.show_default)
 
-        self.clear_eos()
-
         try:
             return self._event_loop(render)
         finally:
@@ -42,7 +41,7 @@ class ConsoleRender:
     def _event_loop(self, render):
         try:
             while True:
-                self._relocate()
+                self._relocate_and_clear()
                 self._print_status_bar()
 
                 self._print_header(render)
@@ -101,8 +100,9 @@ class ConsoleRender:
             except errors.ValidationError as e:
                 self._previous_error = render.handle_validation_error(e)
 
-    def _relocate(self):
+    def _relocate_and_clear(self):
         print("\r" + self._position * self.terminal.move_up, end="")
+        self.clear_eos()
         self._position = 0
 
     def _go_to_end(self, render):
@@ -151,11 +151,13 @@ class ConsoleRender:
         self.print_str(base + self.terminal.clear_eol, lf=lf, **kwargs)
 
     def print_str(self, base, lf=False, **kwargs):
+        msg = base.format(t=self.terminal, **kwargs)
+        print(msg, end="\n" if lf else "")
+        sys.stdout.flush()
+
+        self._position += math.floor((self.terminal.length(msg) - 1) / self.width)
         if lf:
             self._position += 1
-
-        print(base.format(t=self.terminal, **kwargs), end="\n" if lf else "")
-        sys.stdout.flush()
 
     def clear_eos(self):
         print(self.terminal.clear_eos, end="")
