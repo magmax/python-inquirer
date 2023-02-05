@@ -132,7 +132,8 @@ class ConsoleRender:
         with self.terminal.location(0, self.height - 2):
             self.clear_eos()
 
-    def render_factory(self, question_type):
+    @staticmethod
+    def render_factory(question_type):
         matrix = {
             "text": Text,
             "editor": Editor,
