@@ -78,10 +78,11 @@ class ConsoleRender:
             header += f" ({self._theme.Question.default_color}{default_value}{self.terminal.normal})"
 
         header_ending = ": "
-        extra_if_long = "..."
-        maximum_width = self.width - len(header_ending + extra_if_long)
-        if self.terminal.length(header) > maximum_width:
-            header = self.terminal.truncate(header, maximum_width) + extra_if_long
+        if render.question.trim_header:
+            extra_if_long = "..."
+            maximum_width = self.width - len(header_ending + extra_if_long)
+            if self.terminal.length(header) > maximum_width:
+                header = self.terminal.truncate(header, maximum_width) + extra_if_long
 
         full_header = f"{header}{header_ending}{str(render.get_current_value())}"
         self.print_str(full_header, lf=not render.title_inline)
