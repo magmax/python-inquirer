@@ -69,17 +69,21 @@ class ConsoleRender:
     def _print_header(self, render):
         header = render.get_header()
 
-        if len(header) > self.width - 6:
-            header = header[: self.width - 9] + "..."
+        header_prefix_template = "{tq.brackets_color}[{tq.mark_color}?{tq.brackets_color}]{t.normal}"
+        header_prefix = header_prefix_template.format(tq=self._theme.Question, t=self.terminal)
+        header = f"{header_prefix} {header}"
 
         default_value = render.question.default
         if default_value and render.show_default:
             header += f" ({self._theme.Question.default_color}{default_value}{self.terminal.normal})"
 
-        msg_prefix_template = "{tq.brackets_color}[{tq.mark_color}?{tq.brackets_color}]{t.normal}"
-        msg_prefix = msg_prefix_template.format(tq=self._theme.Question, t=self.terminal)
-        full_header = f"{msg_prefix} {header}: {str(render.get_current_value())}"
+        header_ending = ": "
+        extra_if_long = "..."
+        maximum_width = self.width - len(header_ending + extra_if_long)
+        if self.terminal.length(header) > maximum_width:
+            header = self.terminal.truncate(header, maximum_width) + extra_if_long
 
+        full_header = f"{header}{header_ending}{str(render.get_current_value())}"
         self.print_str(full_header, lf=not render.title_inline)
 
     def _process_input(self, render):
