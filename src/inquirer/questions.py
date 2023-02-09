@@ -156,11 +156,13 @@ class List(Question):
         other=False,
         autocomplete=None,
         trim_header=True,
+        trim_choices=False,
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other, trim_header=trim_header)
         self.carousel = carousel
         self.autocomplete = autocomplete
+        self.trim_choices = trim_choices
 
 
 class Checkbox(Question):
@@ -178,11 +180,13 @@ class Checkbox(Question):
         other=False,
         autocomplete=None,
         trim_header=True,
+        trim_choices=False,
     ):
 
         super().__init__(name, message, choices, default, ignore, validate, other=other, trim_header=trim_header)
         self.carousel = carousel
         self.autocomplete = autocomplete
+        self.trim_choices = trim_choices
 
 
 # Solution for checking valid path based on

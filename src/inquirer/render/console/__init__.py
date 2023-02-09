@@ -64,7 +64,13 @@ class ConsoleRender:
         for message, symbol, color in render.get_options():
             if hasattr(message, "decode"):  # python 2
                 message = message.decode("utf-8")
-            self.print_line(f" {color}{symbol} {message}{self.terminal.normal}")
+            choice = f" {color}{symbol} {message}{self.terminal.normal}"
+            if render.question.trim_choices:
+                extra_if_long = "..."
+                maximum_width = self.width - len(extra_if_long)
+                if self.terminal.length(choice) > maximum_width:
+                    choice = self.terminal.truncate(choice, maximum_width) + extra_if_long
+            self.print_line(choice)
 
     def _print_header(self, render):
         header = render.get_header()
