@@ -148,7 +148,7 @@ class ConsoleRender:
         self.print_str(msg, lf=lf)
 
     def print_str(self, msg, lf=False):
-        print(msg, end="\n" if lf else "")
+        print("\r" + msg, end="\n" if lf else "")
         sys.stdout.flush()
 
         self._position += math.floor((self.terminal.length(msg) - 1) / self.width)
