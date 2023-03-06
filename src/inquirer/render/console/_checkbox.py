@@ -10,8 +10,13 @@ from inquirer.render.console.base import half_options
 class Checkbox(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in (self.question.default or [])]
+        self.locked = self.question.locked or []
+        self.selection = [k for (k, v) in enumerate(self.question.choices) if v in self.default_choices()]
         self.current = 0
+
+    def default_choices(self):
+        default = self.question.default or []
+        return default + self.locked
 
     @property
     def is_long(self):
@@ -39,14 +44,12 @@ class Checkbox(BaseConsoleRender):
         is_in_beginning = self.current <= half_options
         is_in_middle = half_options < self.current < ending_milestone
         is_in_end = self.current >= ending_milestone
-
         for index, choice in enumerate(cchoices):
             if (
                 (is_in_middle and self.current - half_options + index in self.selection)
                 or (is_in_beginning and index in self.selection)
                 or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection)
             ):  # noqa
-
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color
             else:
@@ -60,9 +63,11 @@ class Checkbox(BaseConsoleRender):
                 or (is_in_beginning and index == self.current)
                 or (is_in_end and end_index == self.current)
             ):
-
                 selector = self.theme.Checkbox.selection_icon
                 color = self.theme.Checkbox.selection_color
+
+            if choice in self.locked:
+                color = self.theme.Checkbox.locked_option_color
 
             if choice == GLOBAL_OTHER_CHOICE:
                 symbol = "+"
@@ -71,6 +76,7 @@ class Checkbox(BaseConsoleRender):
 
     def process_input(self, pressed):
         question = self.question
+        is_current_choice_locked = question.choices[self.current] in self.locked
         if pressed == key.UP:
             if question.carousel and self.current == 0:
                 self.current = len(question.choices) - 1
@@ -87,12 +93,14 @@ class Checkbox(BaseConsoleRender):
             if self.question.choices[self.current] == GLOBAL_OTHER_CHOICE:
                 self.other_input()
             elif self.current in self.selection:
-                self.selection.remove(self.current)
+                if not is_current_choice_locked:
+                    self.selection.remove(self.current)
             else:
                 self.selection.append(self.current)
         elif pressed == key.LEFT:
             if self.current in self.selection:
-                self.selection.remove(self.current)
+                if not is_current_choice_locked:
+                    self.selection.remove(self.current)
         elif pressed == key.RIGHT:
             if self.current not in self.selection:
                 self.selection.append(self.current)

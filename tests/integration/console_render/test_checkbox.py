@@ -324,3 +324,73 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         assert result == []
+
+    def test_unselect_locked_space(self):
+        stdin_array = [key.SPACE, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, locked=["foo"])
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["foo"]
+
+    def test_unselect_locked_left(self):
+        stdin_array = [key.LEFT, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, locked=["foo"])
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["foo"]
+
+    def test_two_locked_options(self):
+        stdin_array = [key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, locked=["foo", "bazz"])
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["foo", "bazz"]
+
+    def test_locked_with_typo(self):
+        stdin_array = [key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, locked=["fooo"])
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == []
+
+    def test_locked_with_default(self):
+        stdin_array = [key.DOWN, key.SPACE, key.ENTER]
+        stdin = helper.event_factory(*stdin_array)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.Checkbox(variable, message, choices=choices, locked=["bar"], default=["bar"])
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == ["bar"]

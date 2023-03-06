@@ -147,3 +147,31 @@ class CheckWithTaggedValuesTest(unittest.TestCase):
     def test_default_selection(self):
         self.sut.send(key.ENTER)
         self.sut.expect("{'interests': ", timeout=1)
+
+
+@unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
+class CheckLockedTest(unittest.TestCase):
+    def setUp(self):
+        self.sut = pexpect.spawn("python examples/checkbox_locked.py")
+        self.sut.expect("DevOps.*", timeout=1)
+
+    def test_default_selection(self):
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
+
+    def test_locked_option_space(self):
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
+
+    def test_locked_option_left_key(self):
+        self.sut.send(key.LEFT)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
+
+    def test_locked_with_another_option(self):
+        self.sut.send(key.DOWN)
+        self.sut.send(key.DOWN)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals', 'Data science'\]}", timeout=1)
