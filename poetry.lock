@@ -777,14 +777,14 @@ files = [
 
 [[package]]
 name = "readchar"
-version = "4.0.3"
+version = "4.0.4"
 description = "Library to easily read single chars and key strokes"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "readchar-4.0.3-py3-none-any.whl", hash = "sha256:3d4351c563aba4ae7d4e0b821a234d48bc748f45b74e3f38b50cba3857b57acb"},
-    {file = "readchar-4.0.3.tar.gz", hash = "sha256:1d920d0e9ab76ec5d42192a68d15af2562663b5dfbf4a67cf9eba520e1ca57e6"},
+    {file = "readchar-4.0.4-py3-none-any.whl", hash = "sha256:274e08aebb64542362ebf0b06cfa8e7ba7595dc419b812c19d6bc17c2d4fa4bb"},
+    {file = "readchar-4.0.4.tar.gz", hash = "sha256:79b1d27eb9160568102219c872fef8d13bf7f16094c09ee287f620f6f2a7c031"},
 ]
 
 [package.dependencies]
