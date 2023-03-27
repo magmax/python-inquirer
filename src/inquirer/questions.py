@@ -43,6 +43,7 @@ class Question:
         validate=True,
         show_default=False,
         other=False,
+        trim_header=True,
     ):
         self.name = name
         self._message = message
@@ -53,6 +54,7 @@ class Question:
         self.answers = {}
         self.show_default = show_default
         self._other = other
+        self.trim_header = trim_header
 
         if self._other:
             self._choices.append(GLOBAL_OTHER_CHOICE)
@@ -109,9 +111,13 @@ class Question:
 class Text(Question):
     kind = "text"
 
-    def __init__(self, name, message="", default=None, autocomplete=None, **kwargs):
+    def __init__(self, name, message="", default=None, autocomplete=None, trim_header=True, **kwargs):
         super().__init__(
-            name, message=message, default=str(default) if default and not callable(default) else default, **kwargs
+            name,
+            message=message,
+            default=str(default) if default and not callable(default) else default,
+            trim_header=trim_header,
+            **kwargs,
         )
         self.autocomplete = autocomplete
 
@@ -119,8 +125,8 @@ class Text(Question):
 class Password(Text):
     kind = "password"
 
-    def __init__(self, name, echo="*", **kwargs):
-        super().__init__(name, **kwargs)
+    def __init__(self, name, echo="*", trim_header=True, **kwargs):
+        super().__init__(name, trim_header=trim_header, **kwargs)
         self.echo = echo
 
 
@@ -131,8 +137,8 @@ class Editor(Text):
 class Confirm(Question):
     kind = "confirm"
 
-    def __init__(self, name, default=False, **kwargs):
-        super().__init__(name, default=default, **kwargs)
+    def __init__(self, name, default=False, trim_header=True, **kwargs):
+        super().__init__(name, default=default, trim_header=trim_header, **kwargs)
 
 
 class List(Question):
@@ -149,11 +155,14 @@ class List(Question):
         carousel=False,
         other=False,
         autocomplete=None,
+        trim_header=True,
+        trim_choices=False,
     ):
 
-        super().__init__(name, message, choices, default, ignore, validate, other=other)
+        super().__init__(name, message, choices, default, ignore, validate, other=other, trim_header=trim_header)
         self.carousel = carousel
         self.autocomplete = autocomplete
+        self.trim_choices = trim_choices
 
 
 class Checkbox(Question):
@@ -170,11 +179,14 @@ class Checkbox(Question):
         carousel=False,
         other=False,
         autocomplete=None,
+        trim_header=True,
+        trim_choices=False,
     ):
 
-        super().__init__(name, message, choices, default, ignore, validate, other=other)
+        super().__init__(name, message, choices, default, ignore, validate, other=other, trim_header=trim_header)
         self.carousel = carousel
         self.autocomplete = autocomplete
+        self.trim_choices = trim_choices
 
 
 # Solution for checking valid path based on
@@ -222,8 +234,17 @@ class Path(Text):
 
     kind = "path"
 
-    def __init__(self, name, default=None, path_type="any", exists=None, normalize_to_absolute_path=False, **kwargs):
-        super().__init__(name, default=default, **kwargs)
+    def __init__(
+        self,
+        name,
+        default=None,
+        trim_header=True,
+        path_type="any",
+        exists=None,
+        normalize_to_absolute_path=False,
+        **kwargs,
+    ):
+        super().__init__(name, default=default, trim_header=trim_header, **kwargs)
 
         self._path_type = path_type
         self._exists = exists

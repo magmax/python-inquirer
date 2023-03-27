@@ -64,7 +64,10 @@ class ConsoleRender:
         for message, symbol, color in render.get_options():
             if hasattr(message, "decode"):  # python 2
                 message = message.decode("utf-8")
-            self.print_line(f" {color}{symbol} {message}{self.terminal.normal}")
+            choice = f" {color}{symbol} {message}{self.terminal.normal}"
+            if render.question.trim_choices:
+                choice = self.trim_str(choice)
+            self.print_line(choice)
 
     def _print_header(self, render):
         header = render.get_header()
@@ -78,12 +81,12 @@ class ConsoleRender:
             header += f" ({self._theme.Question.default_color}{default_value}{self.terminal.normal})"
 
         header_ending = ": "
-        extra_if_long = "..."
-        maximum_width = self.width - len(header_ending + extra_if_long)
-        if self.terminal.length(header) > maximum_width:
-            header = self.terminal.truncate(header, maximum_width) + extra_if_long
+        if render.question.trim_header:
+            header = self.trim_str(header, extra_after_trimming=header_ending)
+        else:
+            header += header_ending
 
-        full_header = f"{header}{header_ending}{str(render.get_current_value())}"
+        full_header = f"{header}{str(render.get_current_value())}"
         self.print_str(full_header, lf=not render.title_inline)
 
     def _process_input(self, render):
@@ -169,3 +172,10 @@ class ConsoleRender:
     @property
     def height(self):
         return self.terminal.width or 24
+
+    def trim_str(self, msg: str, extra_after_trimming: str = ""):
+        extra_if_long = "..."
+        maximum_width = self.width - len(extra_if_long + extra_after_trimming)
+        if self.terminal.length(msg) > maximum_width:
+            return self.terminal.truncate(msg, maximum_width) + extra_if_long + extra_after_trimming
+        return msg + extra_after_trimming
