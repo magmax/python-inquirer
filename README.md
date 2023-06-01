@@ -142,7 +142,7 @@ To learn more, see the [Contributor Guide].
 
 ## License
 
-Copyright (c) 2014-2021 Miguel Ángel García ([@magmax_en]), based on [Inquirer.js], by Simon Boudrias ([@vaxilart])
+Copyright (c) 2014-2023 Miguel Ángel García ([@magmax_en]), based on [Inquirer.js], by Simon Boudrias ([@vaxilart])
 
 Distributed under the terms of the [MIT license][license].
 
