@@ -46,6 +46,7 @@ class ConsoleRender:
                 self._print_status_bar(render)
 
                 self._print_header(render)
+                self._print_hint(render)
                 self._print_options(render)
 
                 self._process_input(render)
@@ -89,6 +90,13 @@ class ConsoleRender:
             lf=not render.title_inline,
             tq=self._theme.Question,
         )
+
+    def _print_hint(self, render):
+        msg_template = (
+            "{t.move_up}{t.clear_eol}{t.normal} {msg}"
+        )
+        if render.hint:
+            self.print_str(f"\n {msg_template}", msg=render.hint, lf=not render.title_inline, tq=self._theme.Question)
 
     def _process_input(self, render):
         try:

@@ -42,6 +42,7 @@ class Question:
         ignore=False,
         validate=True,
         show_default=False,
+        hints=None,
         other=False,
     ):
         self.name = name
@@ -52,6 +53,7 @@ class Question:
         self._validate = validate
         self.answers = {}
         self.show_default = show_default
+        self.hints = hints or []
         self._other = other
 
         if self._other:
@@ -164,6 +166,7 @@ class Checkbox(Question):
         name,
         message="",
         choices=None,
+        hints=None,
         locked=None,
         default=None,
         ignore=False,
@@ -173,7 +176,7 @@ class Checkbox(Question):
         autocomplete=None,
     ):
 
-        super().__init__(name, message, choices, default, ignore, validate, other=other)
+        super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.locked = locked
         self.carousel = carousel
         self.autocomplete = autocomplete
