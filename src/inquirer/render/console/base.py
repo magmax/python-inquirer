@@ -26,9 +26,8 @@ class BaseConsoleRender:
     def get_header(self):
         return self.question.message
 
-    @property
-    def hint(self):
-        return ""
+    def get_hint(self):
+        return "", ""
 
     def get_current_value(self):
         return ""

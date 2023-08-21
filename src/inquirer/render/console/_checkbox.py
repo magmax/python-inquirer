@@ -14,12 +14,15 @@ class Checkbox(BaseConsoleRender):
         self.selection = [k for (k, v) in enumerate(self.question.choices) if v in self.default_choices()]
         self.current = 0
 
-    @property
-    def hint(self):
+    def get_hint(self):
         try:
-            return self.question.hints[self.question.choices[self.current]]
+            hint = self.question.hints[self.question.choices[self.current]]
+            if hint:
+                return hint, self.theme.Checkbox.selection_color
+            else :
+                return "\r", ""
         except KeyError:
-            return ""
+            return "\r", ""
 
     def default_choices(self):
         default = self.question.default or []

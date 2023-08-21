@@ -17,16 +17,18 @@ class List(BaseConsoleRender):
         choices = self.question.choices or []
         return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
     
-    @property
-    def hint(self):
+    def get_hint(self):
         try:
             choice = self.question.choices[self.current]
             hint = self.question.hints[choice]
-            return f"{choice}: {hint}"
+            if hint:
+                return f"{choice}: {hint}", self.theme.List.selection_color
+            else:
+                return f"{choice}", self.theme.List.selection_color
         except KeyError:
-            return ""
+            return "\r", ""
         except IndexError:
-            return ""
+            return "\r", ""
 
     def get_options(self):
         choices = self.question.choices or []

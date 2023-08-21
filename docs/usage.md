@@ -115,6 +115,21 @@ If any of the list values is a pair, it should be a tuple like: `(label, value)`
 
 As before, the `answers` is a `dict` containing the previous answers.
 
+### hints
+**Optional** for `Checkbox` and `List` questions; the rest of them do not have hints.
+
+The hint for the selected choice will be shown above the first choice.
+
+```python
+from inquirer import questions
+choices = {
+    "foo": "Foo",
+    "bar": "Bar",
+    "bazz": "Bazz",
+}
+question = questions.Checkbox("foo", "Choose one:", choices=choices.keys(), hints=choices)
+```
+
 ### validate
 
 Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the sign:

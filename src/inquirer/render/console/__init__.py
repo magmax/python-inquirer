@@ -93,10 +93,11 @@ class ConsoleRender:
 
     def _print_hint(self, render):
         msg_template = (
-            "{t.move_up}{t.clear_eol}{t.normal} {msg}"
+            "{t.move_up}{t.clear_eol}{color} {msg}"
         )
-        if render.hint:
-            self.print_str(f"\n {msg_template}", msg=render.hint, lf=not render.title_inline, tq=self._theme.Question)
+        hint, color = render.get_hint()
+        if hint:
+            self.print_str(f"\n {msg_template}", msg=hint, color=color, lf=not render.title_inline, tq=self._theme.Question)
 
     def _process_input(self, render):
         try:
