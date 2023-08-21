@@ -17,8 +17,8 @@ class Checkbox(BaseConsoleRender):
     @property
     def hint(self):
         try:
-            return self.question.hints[self.current]
-        except IndexError:
+            return self.question.hints[self.question.choices[self.current]]
+        except KeyError:
             return ""
 
     def default_choices(self):

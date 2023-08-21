@@ -53,7 +53,7 @@ class Question:
         self._validate = validate
         self.answers = {}
         self.show_default = show_default
-        self.hints = hints or []
+        self.hints = hints or {}
         self._other = other
 
         if self._other:
@@ -145,6 +145,7 @@ class List(Question):
         name,
         message="",
         choices=None,
+        hints=None,
         default=None,
         ignore=False,
         validate=True,
@@ -153,7 +154,7 @@ class List(Question):
         autocomplete=None,
     ):
 
-        super().__init__(name, message, choices, default, ignore, validate, other=other)
+        super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
 
