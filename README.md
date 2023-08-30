@@ -40,7 +40,7 @@ pip install inquirer
 
 ## Documentation
 
-Documentation has been moved to [magmax.org/python-inquirer](https://magmax.org/python-inquirer/).
+Documentation has been moved to [python-inquirer.readthedocs.io](https://python-inquirer.readthedocs.io/).
 
 But here you have a couple of usage examples:
 
@@ -64,7 +64,7 @@ answers = inquirer.prompt(questions)
 
 Like a Text question, but used for larger answers. It opens external text editor which is used to collect the answer.
 
-The environment variables $VISUAL and $EDITOR, can be used to specify which editor should be used. If not present inquirer fallbacks to `vim -> emacs -> nano` in this order based on availability in the system.
+The environment variables `$VISUAL` and `$EDITOR`, can be used to specify which editor should be used. If not present inquirer fallbacks to `vim -> emacs -> nano` in this order based on availability in the system.
 
 External editor handling is done using great library [python-editor](https://github.com/fmoo/python-editor).
 
@@ -142,7 +142,7 @@ To learn more, see the [Contributor Guide].
 
 ## License
 
-Copyright (c) 2014-2021 Miguel Ángel García ([@magmax_en]), based on [Inquirer.js], by Simon Boudrias ([@vaxilart])
+Copyright (c) 2014-2023 Miguel Ángel García ([@magmax_en]), based on [Inquirer.js], by Simon Boudrias ([@vaxilart])
 
 Distributed under the terms of the [MIT license][license].
 
