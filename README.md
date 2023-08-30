@@ -40,7 +40,7 @@ pip install inquirer
 
 ## Documentation
 
-Documentation has been moved to [magmax.org/python-inquirer](https://magmax.org/python-inquirer/).
+Documentation has been moved to [readthedocs.io](https://python-inquirer.readthedocs.io/).
 
 But here you have a couple of usage examples:
 
