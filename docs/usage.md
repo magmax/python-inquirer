@@ -69,7 +69,7 @@ questions = [
 The value can be a `function`, with the following signature:
 
 ```python
-def get_message(answers): return str()
+def get_message(answers: dict) -> str:
 ```
 
 Example:
@@ -92,7 +92,7 @@ Stores the default value to be used as answer. This allow the user just to press
 As in `message`, you can use a new format string or a function with the signature:
 
 ```python
-def get_default(answers): return str()
+def get_default(answers: dict) -> str():
 ```
 
 Where `answers` is a `dict` containing all previous answers.
@@ -108,7 +108,7 @@ It contains the list of selectable answers.
 Its value can be a `list` of strings, new format style strings or pairs(tuples) or a `function` that returns that list, with the signature:
 
 ```python
-def get_choices(answers): return list(str())
+def get_choices(answers: dict) -> list[str]:
 ```
 
 If any of the list values is a pair, it should be a tuple like: `(label, value)`. Then the `label` will be shown but the `value` will be returned.
@@ -120,7 +120,7 @@ As before, the `answers` is a `dict` containing the previous answers.
 Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the signature:
 
 ```python
-def validate(answers, current): return boolean()
+def validate(answers: dict, current: str) -> bool:
 ```
 
 Where `answers` is a `dict` with previous answers again and `current` is the current answer.
@@ -152,7 +152,7 @@ Questions are statically created and some of them may be optional depending on o
 It's value is `boolean` or a `function` with the signature:
 
 ```python
-def ignore(answers): return boolean()
+def ignore(answers: dict) -> bool:
 ```
 
 where `answers` contains the `dict` of previous answers again.
