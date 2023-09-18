@@ -75,10 +75,12 @@ def get_message(answers: dict) -> str:
 Example:
 
 ```python
+from inquirer import text
+
 def get_message(answers):
     return "What's your name?"
 
-Text(name='name', message= get_message)
+text(name='name', message= get_message)
 ```
 
 Where `answers` is the dictionary with previous answers.
@@ -131,7 +133,7 @@ inside the validation function, but be aware that if the validation passes you s
 Example:
 
 ```python
-from inquirer import errors
+from inquirer import errors, text
 import random
 
 def validation_function(answers, current):
@@ -141,8 +143,8 @@ def validation_function(answers, current):
    return True
 
 
-Text('nothing', "Moody question", validate=validation_function)
-Text('age', "How old are you?", validate=lambda _, c: 0 <= int(c) < 120)
+text('nothing', "Moody question", validate=validation_function)
+text('age', "How old are you?", validate=lambda _, c: 0 <= int(c) < 120)
 ```
 
 ### ignore
@@ -160,6 +162,8 @@ where `answers` contains the `dict` of previous answers again.
 Example:
 
 ```python
+import inquirer
+
 questions = [
     inquirer.Text("name", message="What's your name?"),
     inquirer.Text(
