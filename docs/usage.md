@@ -66,7 +66,7 @@ questions = [
 ]
 ```
 
-The value can be a `function`, with the next sign:
+The value can be a `function`, with the following signature:
 
 ```python
 def get_message(answers): return str()
@@ -89,7 +89,7 @@ If the `message` is too long for the terminal, it will be cut to fit.
 
 Stores the default value to be used as answer. This allow the user just to press `Enter` to use it. It is optional, using `None` if there is no input and no default value.
 
-As in `message`, you can use a new format string or a function with the sign:
+As in `message`, you can use a new format string or a function with the signature:
 
 ```python
 def get_default(answers): return str()
@@ -105,7 +105,7 @@ Remember that it should be a list for `Checkbox` questions.
 
 It contains the list of selectable answers.
 
-Its value can be a `list` of strings, new format style strings or pairs(tuples) or a `function` that returns that list, with the sign:
+Its value can be a `list` of strings, new format style strings or pairs(tuples) or a `function` that returns that list, with the signature:
 
 ```python
 def get_choices(answers): return list(str())
@@ -117,7 +117,7 @@ As before, the `answers` is a `dict` containing the previous answers.
 
 ### validate
 
-Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the sign:
+Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the signature:
 
 ```python
 def validate(answers, current): return boolean()
@@ -142,14 +142,14 @@ def validation_function(answers, current):
 
 
 Text('nothing', "Moody question", validate=validation_function)
-Text('age', "How old are you?", validate=lambda _, c: 0 <= c < 120)
+Text('age', "How old are you?", validate=lambda _, c: 0 <= int(c) < 120)
 ```
 
 ### ignore
 
 Questions are statically created and some of them may be optional depending on other answers. This attribute allows to control this by hiding the question.
 
-It's value is `boolean` or a `function` with the sign:
+It's value is `boolean` or a `function` with the signature:
 
 ```python
 def ignore(answers): return boolean()
