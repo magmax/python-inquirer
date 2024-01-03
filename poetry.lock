@@ -298,6 +298,26 @@ conda = ["pyyaml"]
 pipenv = ["pipenv (<=2022.12.19)"]
 
 [[package]]
+name = "editor"
+version = "1.5.1"
+description = "🖋 Open the default text editor 🖋"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = []
+develop = false
+
+[package.dependencies]
+runs = "*"
+xmod = "*"
+
+[package.source]
+type = "git"
+url = "https://github.com/Cube707/editor"
+reference = "HEAD"
+resolved_reference = "75c7c0c59ef7776a340eeafc0fe7b5228f257eb2"
+
+[[package]]
 name = "filelock"
 version = "3.13.1"
 description = "A platform independent file lock."
@@ -834,19 +854,6 @@ files = [
 diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
-name = "python-editor"
-version = "1.0.4"
-description = "Programmatically open an editor, capture the result."
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "python-editor-1.0.4.tar.gz", hash = "sha256:51fda6bcc5ddbbb7063b2af7509e43bd84bfc32a4ff71349ec7847713882327b"},
-    {file = "python_editor-1.0.4-py2-none-any.whl", hash = "sha256:5f98b069316ea1c2ed3f67e7f5df6c0d8f10b689964a4a811ff64f0106819ec8"},
-    {file = "python_editor-1.0.4-py3-none-any.whl", hash = "sha256:1bf6e860a8ad52a14c3ee1252d5dc25b2030618ed80c022598f00176adc8367d"},
-]
-
-[[package]]
 name = "pytz"
 version = "2023.3.post1"
 description = "World timezone definitions, modern and historical"
@@ -1068,6 +1075,21 @@ files = [
     {file = "ruamel.yaml.clib-0.2.8-cp39-cp39-win_amd64.whl", hash = "sha256:25ac8c08322002b06fa1d49d1646181f0b2c72f5cbc15a85e80b4c30a544bb15"},
     {file = "ruamel.yaml.clib-0.2.8.tar.gz", hash = "sha256:beb2e0404003de9a4cab9753a8805a8fe9320ee6673136ed7f04255fe60bb512"},
 ]
+
+[[package]]
+name = "runs"
+version = "1.2.0"
+description = "🏃 Run a block of text as a subprocess 🏃"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "runs-1.2.0-py3-none-any.whl", hash = "sha256:ec6fe3b24dfa20c5c4e5c4806d3b35bb880aad0e787a8610913c665c5a7cc07c"},
+    {file = "runs-1.2.0.tar.gz", hash = "sha256:8804271011b7a2eeb0d77c3e3f556e5ce5f602fa0dd2a31ed0c1222893be69b7"},
+]
+
+[package.dependencies]
+xmod = "*"
 
 [[package]]
 name = "safety"
@@ -1450,6 +1472,18 @@ files = [
 ]
 
 [[package]]
+name = "xmod"
+version = "1.8.0"
+description = "🌱 Turn any object into a module 🌱"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "xmod-1.8.0-py3-none-any.whl", hash = "sha256:11ae15c4e14d4cd7f62131d269053ad0e16199fc2aeda9431a375038c06f11ac"},
+    {file = "xmod-1.8.0.tar.gz", hash = "sha256:429ff6bbfdcc2864f1d3a640d09349aeff880150c0a0da2efb51e0d85b8ec447"},
+]
+
+[[package]]
 name = "zipp"
 version = "3.17.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -1468,4 +1502,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1"
-content-hash = "f3a2817f41dd03b75b6237b0c934b4380d236cb89fe0cd7b778c64c864f6fc61"
+content-hash = "ffed4447f67c7eeaa4f8bd6a2a47a3a001fe4227cdb62164ee9d25d6b80ee038"
