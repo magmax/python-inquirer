@@ -16,9 +16,9 @@ class EditorRenderTest(unittest.TestCase, helper.BaseTestCase):
     def tearDown(self):
         self.base_teardown()
 
-    @patch("editor.edit")
-    def test_basic_render(self, edit):
-        edit.return_value = b"Some text"
+    @patch("inquirer.render.console._editor.editor")
+    def test_basic_render(self, editor):
+        editor.return_value = "Some text"
         stdin = [key.ENTER]
         message = "Foo message"
         variable = "Bar variable"
@@ -30,11 +30,11 @@ class EditorRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         self.assertEqual("Some text", result)
         self.assertInStdout(message)
-        self.assertTrue(edit.called)
+        self.assertTrue(editor.called)
 
-    @patch("editor.edit")
+    @patch("inquirer.render.console._editor.editor")
     def test_ignore_true_should_return(self, edit):
-        edit.return_value = b"Some text"
+        edit.return_value = "Some text"
         stdin = [key.ENTER]
         message = "Foo message"
         variable = "Bar variable"
@@ -49,10 +49,10 @@ class EditorRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertNotInStdout(message)
         self.assertFalse(edit.called)
 
-    @patch("editor.edit")
+    @patch("inquirer.render.console._editor.editor")
     def test_validation_fails(self, edit):
         stdin = [key.ENTER, key.ENTER]
-        edit.side_effect = [b"Only one line", b"Two\nLines\nCool"]
+        edit.side_effect = ["Only one line", "Two\nLines\nCool"]
 
         message = "Insert number"
         variable = "foo"
@@ -70,10 +70,10 @@ class EditorRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout("Entered value is not a valid foo")
         self.assertTrue(edit.called)
 
-    @patch("editor.edit")
+    @patch("inquirer.render.console._editor.editor")
     def test_validation_fails_with_custom_error(self, edit):
         stdin = [key.ENTER, key.ENTER]
-        edit.side_effect = [b"Only one line", b"Two\nLines\nCool"]
+        edit.side_effect = ["Only one line", "Two\nLines\nCool"]
 
         message = "Insert number"
         variable = "foo"
@@ -94,7 +94,7 @@ class EditorRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout("Some bad reason")
         self.assertTrue(edit.called)
 
-    @patch("editor.edit")
+    @patch("inquirer.render.console._editor.editor")
     def test_ctrl_c_breaks_execution(self, edit):
         stdin = [key.CTRL_C]
         message = "Foo message"

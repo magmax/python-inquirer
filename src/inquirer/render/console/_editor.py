@@ -28,8 +28,8 @@ class Editor(BaseConsoleRender):
             raise KeyboardInterrupt()
 
         if pressed in (key.CR, key.LF, key.ENTER):
-            data = editor.edit(contents=self.question.default or "")
-            raise errors.EndOfInput(data.decode("utf-8"))
+            data = editor(text=self.question.default or "")
+            raise errors.EndOfInput(data)
 
         raise errors.ValidationError(
             "You have pressed unknown key! " "Press <enter> to open editor or " "CTRL+C to exit."
