@@ -27,7 +27,7 @@ classifiers = [
 python = ">=3.8.1"
 blessed = ">=1.19.0"
 readchar = ">=3.0.6"
-editor = { git = "https://github.com/Cube707/editor" } # ">=1.5.1" # TODO: waiting for https://github.com/rec/editor/pull/8
+editor = ">=1.6.0"
 
 [tool.poetry.dev-dependencies]
 bandit = ">=1.7.4"
