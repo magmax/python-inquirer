@@ -150,7 +150,6 @@ class List(Question):
         other=False,
         autocomplete=None,
     ):
-
         super().__init__(name, message, choices, default, ignore, validate, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
@@ -172,7 +171,6 @@ class Checkbox(Question):
         other=False,
         autocomplete=None,
     ):
-
         super().__init__(name, message, choices, default, ignore, validate, other=other)
         self.locked = locked
         self.carousel = carousel
