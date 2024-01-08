@@ -18,11 +18,11 @@ class Checkbox(BaseConsoleRender):
         try:
             hint = self.question.hints[self.question.choices[self.current]]
             if hint:
-                return hint, self.theme.Checkbox.selection_color
+                return hint
             else :
-                return "\r", ""
+                return "\r"
         except KeyError:
-            return "\r", ""
+            return "\r"
 
     def default_choices(self):
         default = self.question.default or []

@@ -27,7 +27,7 @@ class BaseConsoleRender:
         return self.question.message
 
     def get_hint(self):
-        return "", ""
+        return ""
 
     def get_current_value(self):
         return ""
