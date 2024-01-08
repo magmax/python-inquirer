@@ -17,10 +17,7 @@ class Checkbox(BaseConsoleRender):
     def get_hint(self):
         try:
             hint = self.question.hints[self.question.choices[self.current]]
-            if hint:
-                return hint
-            else :
-                return ""
+            return hint or ""
         except KeyError:
             return ""
 

@@ -25,9 +25,7 @@ class List(BaseConsoleRender):
                 return f"{choice}: {hint}"
             else:
                 return f"{choice}"
-        except KeyError:
-            return ""
-        except IndexError:
+        except (KeyError, IndexError):
             return ""
 
     def get_options(self):
