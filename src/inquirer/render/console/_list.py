@@ -26,9 +26,9 @@ class List(BaseConsoleRender):
             else:
                 return f"{choice}"
         except KeyError:
-            return "\r"
+            return ""
         except IndexError:
-            return "\r"
+            return ""
 
     def get_options(self):
         choices = self.question.choices or []

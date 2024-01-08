@@ -20,9 +20,9 @@ class Checkbox(BaseConsoleRender):
             if hint:
                 return hint
             else :
-                return "\r"
+                return ""
         except KeyError:
-            return "\r"
+            return ""
 
     def default_choices(self):
         default = self.question.default or []
