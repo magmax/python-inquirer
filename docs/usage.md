@@ -66,19 +66,21 @@ questions = [
 ]
 ```
 
-The value can be a `function`, with the next sign:
+The value can be a `function`, with the following signature:
 
 ```python
-def get_message(answers): return str()
+def get_message(answers: dict) -> str:
 ```
 
 Example:
 
 ```python
+from inquirer import text
+
 def get_message(answers):
     return "What's your name?"
 
-Text(name='name', message= get_message)
+text(name='name', message= get_message)
 ```
 
 Where `answers` is the dictionary with previous answers.
@@ -89,10 +91,10 @@ If the `message` is too long for the terminal, it will be cut to fit.
 
 Stores the default value to be used as answer. This allow the user just to press `Enter` to use it. It is optional, using `None` if there is no input and no default value.
 
-As in `message`, you can use a new format string or a function with the sign:
+As in `message`, you can use a new format string or a function with the signature:
 
 ```python
-def get_default(answers): return str()
+def get_default(answers: dict) -> str():
 ```
 
 Where `answers` is a `dict` containing all previous answers.
@@ -105,10 +107,10 @@ Remember that it should be a list for `Checkbox` questions.
 
 It contains the list of selectable answers.
 
-Its value can be a `list` of strings, new format style strings or pairs(tuples) or a `function` that returns that list, with the sign:
+Its value can be a `list` of strings, new format style strings or pairs(tuples) or a `function` that returns that list, with the signature:
 
 ```python
-def get_choices(answers): return list(str())
+def get_choices(answers: dict) -> list[str]:
 ```
 
 If any of the list values is a pair, it should be a tuple like: `(label, value)`. Then the `label` will be shown but the `value` will be returned.
@@ -132,10 +134,10 @@ question = questions.Checkbox("foo", "Choose one:", choices=choices.keys(), hint
 
 ### validate
 
-Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the sign:
+Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the signature:
 
 ```python
-def validate(answers, current): return boolean()
+def validate(answers: dict, current: str) -> bool:
 ```
 
 Where `answers` is a `dict` with previous answers again and `current` is the current answer.
@@ -146,7 +148,7 @@ inside the validation function, but be aware that if the validation passes you s
 Example:
 
 ```python
-from inquirer import errors
+from inquirer import errors, text
 import random
 
 def validation_function(answers, current):
@@ -156,18 +158,18 @@ def validation_function(answers, current):
    return True
 
 
-Text('nothing', "Moody question", validate=validation_function)
-Text('age', "How old are you?", validate=lambda _, c: 0 <= c < 120)
+text('nothing', "Moody question", validate=validation_function)
+text('age', "How old are you?", validate=lambda _, c: 0 <= int(c) < 120)
 ```
 
 ### ignore
 
 Questions are statically created and some of them may be optional depending on other answers. This attribute allows to control this by hiding the question.
 
-It's value is `boolean` or a `function` with the sign:
+It's value is `boolean` or a `function` with the signature:
 
 ```python
-def ignore(answers): return boolean()
+def ignore(answers: dict) -> bool:
 ```
 
 where `answers` contains the `dict` of previous answers again.
@@ -175,6 +177,8 @@ where `answers` contains the `dict` of previous answers again.
 Example:
 
 ```python
+import inquirer
+
 questions = [
     inquirer.Text("name", message="What's your name?"),
     inquirer.Text(

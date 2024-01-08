@@ -57,7 +57,6 @@ class List(BaseConsoleRender):
                 or (is_in_beginning and index == self.current)
                 or (is_in_end and end_index == self.current)
             ):
-
                 color = self.theme.List.selection_color
                 symbol = "+" if choice == GLOBAL_OTHER_CHOICE else self.theme.List.selection_cursor
             else:

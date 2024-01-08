@@ -1,4 +1,4 @@
-pip==23.2
-nox==2022.11.21
-nox-poetry==1.0.2
-virtualenv==20.24.0
+pip==23.3.2
+nox==2023.4.22
+nox-poetry==1.0.3
+virtualenv==20.25.0

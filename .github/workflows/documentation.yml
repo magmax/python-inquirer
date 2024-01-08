@@ -8,10 +8,12 @@ name: Documentation
     paths:
       - "**.md"
       - "docs/**"
+      - ".github/workflows/documentation.yml"
   pull_request:
     paths:
       - "**.md"
       - "docs/**"
+      - ".github/workflows/documentation.yml"
 
 jobs:
   docs:
@@ -19,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Upgrade pip
         run: |
