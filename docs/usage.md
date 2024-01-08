@@ -118,6 +118,7 @@ If any of the list values is a pair, it should be a tuple like: `(label, value)`
 As before, the `answers` is a `dict` containing the previous answers.
 
 ### hints
+
 **Optional** for `Checkbox` and `List` questions; the rest of them do not have hints.
 
 The hint for the selected choice will be shown above the first choice.

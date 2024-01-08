@@ -141,7 +141,7 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
             "bar": "Bar",
             "bazz": "Bazz",
         }
-        
+
         question = questions.List(variable, message, choices=choices.keys(), hints=choices)
 
         sut = ConsoleRender(event_generator=stdin)
@@ -158,7 +158,7 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
             "bar": "Bar",
             "bazz": "Bazz",
         }
-        
+
         question = questions.List(variable, message, choices=choices.keys(), hints=choices)
 
         sut = ConsoleRender(event_generator=stdin)

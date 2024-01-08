@@ -404,7 +404,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
             "bar": "Bar",
             "bazz": "Bazz",
         }
-        
+
         question = questions.Checkbox(variable, message, choices=choices.keys(), hints=choices)
 
         sut = ConsoleRender(event_generator=stdin)
@@ -421,7 +421,7 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
             "bar": "Bar",
             "bazz": "Bazz",
         }
-        
+
         question = questions.Checkbox(variable, message, choices=choices.keys(), hints=choices)
 
         sut = ConsoleRender(event_generator=stdin)
