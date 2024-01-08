@@ -11,9 +11,10 @@ from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 
 
 class TaggedValue:
-    def __init__(self, label, value):
-        self.label = label
-        self.value = value
+    def __init__(self, choice):
+        self.label = choice[0]
+        self.value = choice[1]
+        self._hash = hash(choice)
 
     def __str__(self):
         return self.label
@@ -24,10 +25,15 @@ class TaggedValue:
     def __eq__(self, other):
         if isinstance(other, TaggedValue):
             return self.value == other.value
+        if isinstance(other, tuple):
+            return self.label, self.value == other
         return self.value == other
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __hash__(self) -> int:
+        return self._hash
 
 
 class Question:
@@ -86,7 +92,7 @@ class Question:
     @property
     def choices_generator(self):
         for choice in self._solve(self._choices):
-            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
+            yield (TaggedValue(choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
     @property
     def choices(self):
@@ -153,7 +159,6 @@ class List(Question):
         other=False,
         autocomplete=None,
     ):
-
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
@@ -176,7 +181,6 @@ class Checkbox(Question):
         other=False,
         autocomplete=None,
     ):
-
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.locked = locked
         self.carousel = carousel

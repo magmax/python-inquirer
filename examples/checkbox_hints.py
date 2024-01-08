@@ -4,10 +4,10 @@ import inquirer  # noqa
 
 
 choices_hints = {
-    "Computers": "The really Geeky stuff",
-    "Books": "Its just so cosy",
-    "Science": "I want to know it all",
-    "Nature": "Always outdoors",
+    ("Computers", 'c'): "The really Geeky stuff",
+    ("Books", 'b'): "Its just so cosy",
+    ("Science", 's'): "I want to know it all",
+    ("Nature", 'n'): "Always outdoors",
 }
 
 questions = [
