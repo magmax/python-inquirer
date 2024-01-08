@@ -17,6 +17,17 @@ class List(BaseConsoleRender):
         choices = self.question.choices or []
         return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
 
+    def get_hint(self):
+        try:
+            choice = self.question.choices[self.current]
+            hint = self.question.hints[choice]
+            if hint:
+                return f"{choice}: {hint}"
+            else:
+                return f"{choice}"
+        except (KeyError, IndexError):
+            return ""
+
     def get_options(self):
         choices = self.question.choices or []
         if self.is_long:
@@ -87,9 +98,3 @@ class List(BaseConsoleRender):
             return self.question.choices.index(self.question.default)
         except ValueError:
             return 0
-
-    def get_current_value(self):
-        try:
-            return self.question.choices[self.current]
-        except IndexError:
-            return ""

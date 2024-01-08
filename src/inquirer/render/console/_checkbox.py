@@ -14,6 +14,13 @@ class Checkbox(BaseConsoleRender):
         self.selection = [k for (k, v) in enumerate(self.question.choices) if v in self.default_choices()]
         self.current = 0
 
+    def get_hint(self):
+        try:
+            hint = self.question.hints[self.question.choices[self.current]]
+            return hint or ""
+        except KeyError:
+            return ""
+
     def default_choices(self):
         default = self.question.default or []
         return default + self.locked

@@ -11,23 +11,29 @@ from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 
 
 class TaggedValue:
-    def __init__(self, label, value):
-        self.label = label
-        self.value = value
+    def __init__(self, choice):
+        self.label = choice[0]
+        self.tag = choice[1]
+        self._hash = hash(choice)
 
     def __str__(self):
         return self.label
 
     def __repr__(self):
-        return self.value
+        return repr(self.tag)
 
     def __eq__(self, other):
         if isinstance(other, TaggedValue):
-            return self.value == other.value
-        return self.value == other
+            return other.tag == self.tag
+        if isinstance(other, tuple):
+            return other == (self.label, self.tag)
+        return other == self.tag
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __hash__(self) -> int:
+        return self._hash
 
 
 class Question:
@@ -42,6 +48,7 @@ class Question:
         ignore=False,
         validate=True,
         show_default=False,
+        hints=None,
         other=False,
     ):
         self.name = name
@@ -52,6 +59,7 @@ class Question:
         self._validate = validate
         self.answers = {}
         self.show_default = show_default
+        self.hints = hints or {}
         self._other = other
 
         if self._other:
@@ -84,7 +92,7 @@ class Question:
     @property
     def choices_generator(self):
         for choice in self._solve(self._choices):
-            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
+            yield (TaggedValue(choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
     @property
     def choices(self):
@@ -143,6 +151,7 @@ class List(Question):
         name,
         message="",
         choices=None,
+        hints=None,
         default=None,
         ignore=False,
         validate=True,
@@ -150,7 +159,7 @@ class List(Question):
         other=False,
         autocomplete=None,
     ):
-        super().__init__(name, message, choices, default, ignore, validate, other=other)
+        super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
 
@@ -163,6 +172,7 @@ class Checkbox(Question):
         name,
         message="",
         choices=None,
+        hints=None,
         locked=None,
         default=None,
         ignore=False,
@@ -171,7 +181,7 @@ class Checkbox(Question):
         other=False,
         autocomplete=None,
     ):
-        super().__init__(name, message, choices, default, ignore, validate, other=other)
+        super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.locked = locked
         self.carousel = carousel
         self.autocomplete = autocomplete

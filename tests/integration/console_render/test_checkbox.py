@@ -394,3 +394,37 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         assert result == ["bar"]
+
+    def test_first_hint_is_shown(self):
+        stdin = helper.event_factory(key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = {
+            "foo": "Foo",
+            "bar": "Bar",
+            "bazz": "Bazz",
+        }
+
+        question = questions.Checkbox(variable, message, choices=choices.keys(), hints=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("Foo")
+
+    def test_second_hint_is_shown(self):
+        stdin = helper.event_factory(key.DOWN, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = {
+            "foo": "Foo",
+            "bar": "Bar",
+            "bazz": "Bazz",
+        }
+
+        question = questions.Checkbox(variable, message, choices=choices.keys(), hints=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("Bar")

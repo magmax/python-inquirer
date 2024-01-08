@@ -26,6 +26,9 @@ class BaseConsoleRender:
     def get_header(self):
         return self.question.message
 
+    def get_hint(self):
+        return ""
+
     def get_current_value(self):
         return ""
 

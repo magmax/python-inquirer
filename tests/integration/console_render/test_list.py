@@ -131,3 +131,37 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         with pytest.raises(KeyboardInterrupt):
             sut.render(question)
+
+    def test_first_hint_is_shown(self):
+        stdin = helper.event_factory(key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = {
+            "foo": "Foo",
+            "bar": "Bar",
+            "bazz": "Bazz",
+        }
+
+        question = questions.List(variable, message, choices=choices.keys(), hints=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("Foo")
+
+    def test_second_hint_is_shown(self):
+        stdin = helper.event_factory(key.DOWN, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = {
+            "foo": "Foo",
+            "bar": "Bar",
+            "bazz": "Bazz",
+        }
+
+        question = questions.List(variable, message, choices=choices.keys(), hints=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("Bar")
