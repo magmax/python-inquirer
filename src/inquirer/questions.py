@@ -13,21 +13,21 @@ from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 class TaggedValue:
     def __init__(self, choice):
         self.label = choice[0]
-        self.value = choice[1]
+        self.tag = choice[1]
         self._hash = hash(choice)
 
     def __str__(self):
         return self.label
 
     def __repr__(self):
-        return self.value
+        return repr(self.tag)
 
     def __eq__(self, other):
         if isinstance(other, TaggedValue):
-            return self.value == other.value
+            return other.tag == self.tag
         if isinstance(other, tuple):
-            return self.label, self.value == other
-        return self.value == other
+            return other == (self.label, self.tag)
+        return other == self.tag
 
     def __ne__(self, other):
         return not self.__eq__(other)

@@ -353,10 +353,17 @@ class TestPathQuestion(unittest.TestCase):
 
 
 def test_tagged_value():
-    tv = questions.TaggedValue("label", "value")
+    LABEL = "label"
+    TAG = "l"
+    tp = (LABEL, TAG)
+    tv = questions.TaggedValue(tp)
 
-    assert tv.__str__() == "label"
-    assert tv.__repr__() == "value"
-    assert tv.__eq__(tv) is True
-    assert tv.__eq__("") is False
-    assert tv.__ne__(tv) is False
+    assert (str(tv) == str(LABEL)) is True
+    assert (repr(tv) == repr(TAG)) is True
+    assert (hash(tv) == hash(tp)) is True
+
+    assert (tv == tv) is True
+    assert (tv != tv) is False
+    assert (tv == tp) is True
+    assert (tv == TAG) is True
+    assert (tv == "") is False
