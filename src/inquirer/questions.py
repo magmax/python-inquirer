@@ -1,4 +1,5 @@
 """Module that implements the questions types."""
+
 from __future__ import annotations
 
 import errno
