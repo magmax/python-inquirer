@@ -12,29 +12,29 @@ from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 
 
 class TaggedValue:
-    def __init__(self, choice):
-        self.label = choice[0]
-        self.tag = choice[1]
-        self._hash = hash(choice)
+    def __init__(self, tag, value):
+        self.tag = tag
+        self.value = value
+        self.tuple = (tag, value)
 
     def __str__(self):
-        return self.label
+        return self.tag
 
     def __repr__(self):
-        return repr(self.tag)
+        return repr(self.value)
 
     def __eq__(self, other):
         if isinstance(other, TaggedValue):
-            return other.tag == self.tag
+            return other.value == self.value
         if isinstance(other, tuple):
-            return other == (self.label, self.tag)
-        return other == self.tag
+            return other == self.tuple
+        return other == self.value
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self) -> int:
-        return self._hash
+        return hash(self.tuple)
 
 
 class Question:
@@ -93,7 +93,7 @@ class Question:
     @property
     def choices_generator(self):
         for choice in self._solve(self._choices):
-            yield (TaggedValue(choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
+            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
     @property
     def choices(self):
