@@ -99,7 +99,7 @@ This will allow a chance to talk it over with the owners and validate your appro
 <!-- github-only -->
 
 [code of conduct]: CODE_OF_CONDUCT.md
-[documentation]: https://magmax.org/python-inquirer/
+[documentation]: https://python-inquirer.readthedocs.io
 [issue tracker]: https://github.com/magmax/python-inquirer/issues
 [mit license]: https://opensource.org/licenses/MIT
 [nox]: https://nox.thea.codes/

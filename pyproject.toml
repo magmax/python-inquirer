@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/magmax/python-inquirer"
 repository = "https://github.com/magmax/python-inquirer"
-documentation = "https://magmax.org/python-inquirer"
+documentation = "https://python-inquirer.readthedocs.io"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.8",
