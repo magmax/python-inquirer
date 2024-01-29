@@ -3,9 +3,9 @@ from pprint import pprint
 import inquirer  # noqa
 
 choices_hints = {
-    "Jumbo": "The biggest one we have",
-    "Large": "If you need the extra kick",
     "Standard": "For your every day use",
+    "Large": "If you need the extra kick",
+    "Jumbo": "The biggest one we have",
 }
 
 questions = [
