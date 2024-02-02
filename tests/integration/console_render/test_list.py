@@ -132,6 +132,33 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         with pytest.raises(KeyboardInterrupt):
             sut.render(question)
 
+    def test_type_char(self):
+        stdin = helper.event_factory('b', 'A', 'z', key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+        matcher = lambda entry, search: entry.lower().startswith(search.lower())
+
+        question = questions.List(variable, message, choices=choices, carousel=True, matcher=matcher)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == "bazz"
+
+    def test_type_char_without_matcher(self):
+        stdin = helper.event_factory('b', 'A', 'z', key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.List(variable, message, choices=choices, carousel=True)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == "foo"
+
     def test_first_hint_is_shown(self):
         stdin = helper.event_factory(key.ENTER)
         message = "Foo message"
