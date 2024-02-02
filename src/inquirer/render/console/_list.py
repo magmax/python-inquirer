@@ -11,11 +11,18 @@ class List(BaseConsoleRender):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.current = self._current_index()
+        self.input = ""
 
     @property
     def is_long(self):
         choices = self.question.choices or []
         return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
+
+    def get_current_value(self):
+        if self.question.search:
+            return self.input
+        else:
+            return ""
 
     def get_hint(self):
         try:
@@ -89,6 +96,16 @@ class List(BaseConsoleRender):
                     return
 
             raise errors.EndOfInput(getattr(value, "value", value))
+
+        if pressed.isprintable():
+            self.input += pressed
+            for choice in self.question.choices:
+                if choice.startswith(self.input):
+                    self.current = self.question.choices.index(choice)
+                    break
+
+        if pressed == chr(127):
+            self.input = self.input[:-1]
 
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
