@@ -60,7 +60,7 @@ class Question:
         self._validate = validate
         self.answers = {}
         self.show_default = show_default
-        self.hints = hints or {}
+        self.hints = hints
         self._other = other
 
         if self._other:

@@ -93,7 +93,9 @@ class ConsoleRender:
 
     def _print_hint(self, render):
         msg_template = "{t.move_up}{t.clear_eol}{color}{msg}"
-        hint = render.get_hint()
+        hint = ""
+        if render.question.hints is not None:
+            hint = render.get_hint()
         color = self._theme.Question.mark_color
         if hint:
             self.print_str(
