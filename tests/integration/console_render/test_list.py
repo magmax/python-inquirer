@@ -137,7 +137,10 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         message = "Foo message"
         variable = "Bar variable"
         choices = ["foo", "bar", "bazz"]
-        matcher = lambda entry, search: entry.lower().startswith(search.lower())
+
+        # To make the search case-insensitive
+        def matcher(entry, search):
+            return entry.lower().startswith(search.lower())
 
         question = questions.List(variable, message, choices=choices, carousel=True, matcher=matcher)
 

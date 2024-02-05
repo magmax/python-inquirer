@@ -94,15 +94,16 @@ class List(BaseConsoleRender):
 
             raise errors.EndOfInput(getattr(value, "value", value))
 
-        if self.question.matcher != None:
+        if self.question.matcher is not None:
             if pressed.isprintable():
                 self.input += pressed
                 for choice in self.question.choices:
                     if self.question.matcher(choice, self.input):
                         self.current = self.question.choices.index(choice)
                         break
-    
-            if pressed == chr(127):
+
+            # BACKSPACE gives a \x7f on linux while it gives a \x08 on windows
+            if pressed == chr(127) or pressed == chr(8):
                 self.input = self.input[:-1]
 
         if pressed == key.CTRL_C:
