@@ -192,3 +192,19 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut.render(question)
 
         self.assertInStdout("Bar")
+
+    def test_taggedValue_with_dict(self):
+        stdin = helper.event_factory(key.DOWN, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = [
+            ("aa", {"a": 1}),
+            ("bb", {"b": 2}),
+        ]
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("bb")
