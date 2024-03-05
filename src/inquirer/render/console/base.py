@@ -16,6 +16,8 @@ class BaseConsoleRender:
 
         if isinstance(question, inquirer.List) and question.lenlimit is not None:
             self.max_options_displayed_at_once = question.lenlimit
+        elif isinstance(question, inquirer.Checkbox) and question.lenlimit is not None:
+            self.max_options_displayed_at_once = question.lenlimit
         else:
             self.max_options_displayed_at_once = 13
 
