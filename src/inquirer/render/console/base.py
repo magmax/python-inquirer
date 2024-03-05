@@ -3,11 +3,6 @@ from blessed import Terminal
 import inquirer
 
 
-# Should be odd number as there is always one question selected
-MAX_OPTIONS_DISPLAYED_AT_ONCE = 13
-half_options = int((MAX_OPTIONS_DISPLAYED_AT_ONCE - 1) / 2)
-
-
 class BaseConsoleRender:
     title_inline = False
 
@@ -18,6 +13,14 @@ class BaseConsoleRender:
         self.answers = {}
         self.theme = theme
         self.show_default = show_default
+
+        if isinstance(question, inquirer.List) and question.lenlimit is not None:
+            self.max_options_displayed_at_once = question.lenlimit
+        else:
+            self.max_options_displayed_at_once = 13
+        
+        # Should be odd number as there is always one question selected
+        self.half_options = int((self.max_options_displayed_at_once - 1) / 2)
 
     def other_input(self):
         other = inquirer.text(self.question.message, autocomplete=self.question.autocomplete)
