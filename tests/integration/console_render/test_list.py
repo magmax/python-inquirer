@@ -181,3 +181,17 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut.render(question)
 
         self.assertInStdout("bb")
+
+    def test_lenlimit_parameter(self):
+        stdin = helper.event_factory(key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+        lenlimit = 5
+
+        question = questions.List(variable, message, choices=choices, lenlimit=lenlimit)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result is not None

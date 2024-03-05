@@ -18,7 +18,7 @@ class BaseConsoleRender:
             self.max_options_displayed_at_once = question.lenlimit
         else:
             self.max_options_displayed_at_once = 13
-        
+
         # Should be odd number as there is always one question selected
         self.half_options = int((self.max_options_displayed_at_once - 1) / 2)
 

@@ -13,7 +13,7 @@ class List(BaseConsoleRender):
     @property
     def is_long(self):
         choices = self.question.choices or []
-        return len(choices) >= self.max_options_displayed_at_once 
+        return len(choices) >= self.max_options_displayed_at_once
 
     def get_hint(self):
         try:
@@ -30,13 +30,13 @@ class List(BaseConsoleRender):
         choices = self.question.choices or []
         if self.is_long:
             cmin = 0
-            cmax = self.max_options_displayed_at_once 
+            cmax = self.max_options_displayed_at_once
 
             if self.half_options < self.current < len(choices) - self.half_options:
                 cmin += self.current - self.half_options
                 cmax += self.current - self.half_options
             elif self.current >= len(choices) - self.half_options:
-                cmin += len(choices) - self.max_options_displayed_at_once 
+                cmin += len(choices) - self.max_options_displayed_at_once
                 cmax += len(choices)
 
             cchoices = choices[cmin:cmax]
