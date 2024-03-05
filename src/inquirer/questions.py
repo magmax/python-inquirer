@@ -183,11 +183,13 @@ class Checkbox(Question):
         carousel=False,
         other=False,
         autocomplete=None,
+        lenlimit=None
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.locked = locked
         self.carousel = carousel
         self.autocomplete = autocomplete
+        self.lenlimit = lenlimit
 
 
 # Solution for checking valid path based on
