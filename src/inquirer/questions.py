@@ -183,7 +183,7 @@ class Checkbox(Question):
         carousel=False,
         other=False,
         autocomplete=None,
-        lenlimit=None
+        lenlimit=None,
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.locked = locked
