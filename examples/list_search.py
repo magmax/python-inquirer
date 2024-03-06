@@ -5,6 +5,7 @@ from pprint import pprint
 
 sys.path.append(os.path.realpath("."))
 import inquirer  # noqa
+from readchar import key
 
 
 # To make the search case-insensitive
@@ -23,7 +24,7 @@ questions = [
     inquirer.List(
         "size", message="What size do you need?",
         choices=["Jumbo", "Large", "Standard"],
-        carousel=True, search=True, matcher=matcher
+        carousel=True, matcher=matcher
     ),
 ]
 
