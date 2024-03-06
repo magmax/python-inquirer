@@ -18,6 +18,9 @@ class List(BaseConsoleRender):
         choices = self.question.choices or []
         return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
 
+    def get_current_value(self):
+        return self.search
+
     def get_hint(self):
         try:
             choice = self.question.choices[self.current]
