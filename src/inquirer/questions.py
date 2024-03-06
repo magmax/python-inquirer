@@ -159,13 +159,11 @@ class List(Question):
         carousel=False,
         other=False,
         autocomplete=None,
-        search=False,
         matcher=None
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
-        self.search = search
         self.matcher = matcher
 
 

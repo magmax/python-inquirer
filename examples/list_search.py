@@ -8,8 +8,15 @@ import inquirer  # noqa
 
 
 # To make the search case-insensitive
-def matcher(entry, search):
-    return entry.lower().startswith(search.lower())
+def matcher(choices, pressedKey, searchString):
+    if pressedKey == key.BACKSPACE:
+        searchString = searchString[:-1]
+    elif pressedKey.isprintable():
+        searchString += pressedKey
+    for i in range(len(choices)):
+        if choices[i].lower().startswith(searchString.lower()):
+            return (i, searchString)
+    return (0, searchString)
 
 
 questions = [
