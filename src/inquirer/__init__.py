@@ -15,6 +15,7 @@ from inquirer.shortcuts import editor
 from inquirer.shortcuts import list_input
 from inquirer.shortcuts import password
 from inquirer.shortcuts import text
+from inquirer.shortcuts import path
 
 
 __all__ = [
@@ -35,4 +36,5 @@ __all__ = [
     "confirm",
     "list_input",
     "checkbox",
+    "path",
 ]
