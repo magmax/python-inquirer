@@ -2,9 +2,7 @@ from readchar import key
 
 from inquirer import errors
 from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
-from inquirer.render.console.base import MAX_OPTIONS_DISPLAYED_AT_ONCE
 from inquirer.render.console.base import BaseConsoleRender
-from inquirer.render.console.base import half_options
 
 
 class Checkbox(BaseConsoleRender):
@@ -28,34 +26,34 @@ class Checkbox(BaseConsoleRender):
     @property
     def is_long(self):
         choices = self.question.choices or []
-        return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
+        return len(choices) >= self.max_options_displayed_at_once
 
     def get_options(self):
         choices = self.question.choices or []
         if self.is_long:
             cmin = 0
-            cmax = MAX_OPTIONS_DISPLAYED_AT_ONCE
+            cmax = self.max_options_displayed_at_once
 
-            if half_options < self.current < len(choices) - half_options:
-                cmin += self.current - half_options
-                cmax += self.current - half_options
-            elif self.current >= len(choices) - half_options:
-                cmin += len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE
+            if self.half_options < self.current < len(choices) - self.half_options:
+                cmin += self.current - self.half_options
+                cmax += self.current - self.half_options
+            elif self.current >= len(choices) - self.half_options:
+                cmin += len(choices) - self.max_options_displayed_at_once
                 cmax += len(choices)
 
             cchoices = choices[cmin:cmax]
         else:
             cchoices = choices
 
-        ending_milestone = max(len(choices) - half_options, half_options + 1)
-        is_in_beginning = self.current <= half_options
-        is_in_middle = half_options < self.current < ending_milestone
+        ending_milestone = max(len(choices) - self.half_options, self.half_options + 1)
+        is_in_beginning = self.current <= self.half_options
+        is_in_middle = self.half_options < self.current < ending_milestone
         is_in_end = self.current >= ending_milestone
         for index, choice in enumerate(cchoices):
             if (
-                (is_in_middle and self.current - half_options + index in self.selection)
+                (is_in_middle and self.current - self.half_options + index in self.selection)
                 or (is_in_beginning and index in self.selection)
-                or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection)
+                or (is_in_end and index + max(len(choices) - self.max_options_displayed_at_once, 0) in self.selection)
             ):  # noqa
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color
@@ -64,9 +62,9 @@ class Checkbox(BaseConsoleRender):
                 color = self.theme.Checkbox.unselected_color
 
             selector = " "
-            end_index = ending_milestone + index - half_options - 1
+            end_index = ending_milestone + index - self.half_options - 1
             if (
-                (is_in_middle and index == half_options)
+                (is_in_middle and index == self.half_options)
                 or (is_in_beginning and index == self.current)
                 or (is_in_end and end_index == self.current)
             ):
