@@ -94,6 +94,32 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         assert result == "foo"
 
+    def test_move_up_alt_keys(self):
+        stdin = helper.event_factory(key.DOWN, key.CTRL_P, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == "foo"
+
+    def test_move_down_alt_keys(self):
+        stdin = helper.event_factory(key.CTRL_N, key.UP, key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == "foo"
+
     def test_move_down_carousel(self):
         stdin = helper.event_factory(key.DOWN, key.DOWN, key.DOWN, key.DOWN, key.ENTER)
         message = "Foo message"

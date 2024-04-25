@@ -66,13 +66,13 @@ class List(BaseConsoleRender):
 
     def process_input(self, pressed):
         question = self.question
-        if pressed == key.UP:
+        if pressed in (key.UP, key.CTRL_P):
             if question.carousel and self.current == 0:
                 self.current = len(question.choices) - 1
             else:
                 self.current = max(0, self.current - 1)
             return
-        if pressed == key.DOWN:
+        if pressed in (key.DOWN, key.CTRL_N):
             if question.carousel and self.current == len(question.choices) - 1:
                 self.current = 0
             else:
