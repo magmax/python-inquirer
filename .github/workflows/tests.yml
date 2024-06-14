@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v5
@@ -101,7 +101,7 @@ jobs:
     needs: tests
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
