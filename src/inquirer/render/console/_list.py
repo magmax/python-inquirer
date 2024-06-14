@@ -61,7 +61,7 @@ class List(BaseConsoleRender):
                 symbol = "+" if choice == GLOBAL_OTHER_CHOICE else self.theme.List.selection_cursor
             else:
                 color = self.theme.List.unselected_color
-                symbol = " "
+                symbol = " " if choice == GLOBAL_OTHER_CHOICE else " " * len(self.theme.List.selection_cursor)
             yield choice, symbol, color
 
     def process_input(self, pressed):
