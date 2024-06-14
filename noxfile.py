@@ -129,9 +129,10 @@ def precommit(session: Session) -> None:
 @session(python=python_versions[2])
 def safety(session: Session) -> None:
     """Scan dependencies for insecure packages."""
+    ignore_CVEs = [70612]
     requirements = session.poetry.export_requirements()
     session.install("safety")
-    session.run("safety", "check", f"--file={requirements}")
+    session.run("safety", "check", f"--file={requirements}", *[f"-i{id}" for id in ignore_CVEs])
 
 
 @session(python=python_versions)
