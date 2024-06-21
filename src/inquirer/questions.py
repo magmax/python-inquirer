@@ -259,7 +259,7 @@ class Path(Text):
 
         # os.path.isdir and isfile check also existence of the path,
         # which might not be desirable
-        if self._path_type == "file":
+        if self._path_type == Path.FILE:
             if self._exists is None and os.path.basename(current) == "":
                 raise errors.ValidationError(current)
             elif self._exists and not os.path.isfile(current):
@@ -267,7 +267,7 @@ class Path(Text):
             elif self._exists is not None and not self._exists and os.path.isfile(current):
                 raise errors.ValidationError(current)
 
-        elif self._path_type == "directory":
+        elif self._path_type == Path.DIRECTORY:
             if self._exists is None and os.path.basename(current) != "":
                 raise errors.ValidationError(current)
             elif self._exists and not os.path.isdir(current):
