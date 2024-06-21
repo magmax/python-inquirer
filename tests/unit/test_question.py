@@ -330,9 +330,32 @@ class TestPathQuestion(unittest.TestCase):
             do_test(questions.Path.DIRECTORY, some_existing_dir)
             do_test(questions.Path.DIRECTORY, some_non_existing_dir, False)
             do_test(questions.Path.DIRECTORY, some_existing_file, False)
-
         finally:
             shutil.rmtree(root)
+
+    def test_dir_and_file_same_name(self):
+        root = pathlib.Path(tempfile.mkdtemp())
+        some_file = root / "foo"
+        some_dir = root / "foo/"
+
+        def do_test(exists, type):
+            q = questions.Path("test", exists=exists, path_type=type)
+            with self.assertRaises(errors.ValidationError):
+                q.validate(str(some_dir))
+
+        some_file.touch()
+        try:
+            do_test(exists=True, type=questions.Path.DIRECTORY)
+            do_test(exists=False, type=questions.Path.DIRECTORY)
+        finally:
+            some_file.unlink()
+
+        some_dir.mkdir()
+        try:
+            do_test(exists=True, type=questions.Path.FILE)
+            do_test(exists=False, type=questions.Path.FILE)
+        finally:
+            some_dir.rmdir()
 
     def test_default_value_validation(self):
         root = pathlib.Path(tempfile.mkdtemp())
