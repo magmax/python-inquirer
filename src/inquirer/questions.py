@@ -236,7 +236,11 @@ class Path(Text):
     def __init__(self, name, default=None, path_type="any", exists=None, normalize_to_absolute_path=False, **kwargs):
         super().__init__(name, default=default, **kwargs)
 
-        self._path_type = path_type
+        if path_type in (Path.ANY, Path.FILE, Path.DIRECTORY):
+            self._path_type = path_type
+        else:
+            raise ValueError("'path_type' must be one of [ANY, FILE, DIRECTORY]")
+
         self._exists = exists
         self._normalize_to_absolute_path = normalize_to_absolute_path
 
