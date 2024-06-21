@@ -226,7 +226,7 @@ class Path(Text):
         except (ValueError, OSError) as e:
             raise errors.ValidationError(e)
 
-        if self._exists and not path.exists():
+        if (self._exists is True and not path.exists()) or (self._exists is False and path.exists()):
             raise errors.ValidationError(current)
 
         # os.path.isdir and isfile check also existence of the path,
