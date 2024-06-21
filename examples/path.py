@@ -17,6 +17,12 @@ questions = [
         exists=True,
         message="Give me existing file",
     ),
+    inquirer.Path(
+        "existing_dir",
+        path_type=inquirer.Path.DIRECTORY,
+        exists=True,
+        message="Give me existing dir",
+    ),
 ]
 
 answers = inquirer.prompt(questions)

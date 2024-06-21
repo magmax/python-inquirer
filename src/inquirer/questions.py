@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import errno
 import json
-import os
-import sys
+import pathlib
 
 import inquirer.errors as errors
 from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
@@ -188,44 +186,6 @@ class Checkbox(Question):
         self.autocomplete = autocomplete
 
 
-# Solution for checking valid path based on
-# https://stackoverflow.com/a/34102855/1360532
-ERROR_INVALID_NAME = 123
-
-
-def is_pathname_valid(pathname):
-    """
-    `True` if the passed pathname is a valid pathname for the current OS;
-    `False` otherwise.
-    """
-    try:
-        if not isinstance(pathname, str) or not pathname:
-            return False
-
-        _, pathname = os.path.splitdrive(pathname)
-
-        root_dirname = os.environ.get("HOMEDRIVE", "C:") if sys.platform == "win32" else os.path.sep
-
-        if not os.path.isdir(root_dirname):
-            raise Exception("'%s' is not a directory.", root_dirname)
-
-        root_dirname = root_dirname.rstrip(os.path.sep) + os.path.sep
-
-        for pathname_part in pathname.split(os.path.sep):
-            try:
-                os.lstat(root_dirname + pathname_part)
-            except OSError as exc:
-                if hasattr(exc, "winerror"):
-                    if exc.winerror == ERROR_INVALID_NAME:
-                        return False
-                elif exc.errno in {errno.ENAMETOOLONG, errno.ERANGE}:
-                    return False
-    except (ValueError, TypeError):
-        return False
-    else:
-        return True
-
-
 class Path(Text):
     ANY = "any"
     FILE = "file"
@@ -233,7 +193,7 @@ class Path(Text):
 
     kind = "path"
 
-    def __init__(self, name, default=None, path_type="any", exists=None, normalize_to_absolute_path=False, **kwargs):
+    def __init__(self, name, default=None, path_type="any", exists=None, **kwargs):
         super().__init__(name, default=default, **kwargs)
 
         if path_type in (Path.ANY, Path.FILE, Path.DIRECTORY):
@@ -242,7 +202,6 @@ class Path(Text):
             raise ValueError("'path_type' must be one of [ANY, FILE, DIRECTORY]")
 
         self._exists = exists
-        self._normalize_to_absolute_path = normalize_to_absolute_path
 
         if default is not None:
             try:
@@ -250,47 +209,39 @@ class Path(Text):
             except errors.ValidationError:
                 raise ValueError("Default value '{}' is not valid based on " "your Path's criteria".format(default))
 
-    def validate(self, current):
+    def validate(self, current: str):
         super().validate(current)
 
         if current is None:
             raise errors.ValidationError(current)
 
-        current = self.normalize_value(current)
+        path = pathlib.Path(current)
 
-        if not is_pathname_valid(current):
+        # this block validates the path in correspondence with the OS
+        # it will error if the path contains invalid characters
+        try:
+            path.lstat()
+        except FileNotFoundError:
+            pass
+        except (ValueError, OSError) as e:
+            raise errors.ValidationError(e)
+
+        if self._exists and not path.exists():
             raise errors.ValidationError(current)
 
         # os.path.isdir and isfile check also existence of the path,
         # which might not be desirable
         if self._path_type == Path.FILE:
-            if self._exists is None and os.path.basename(current) == "":
+            if current.endswith(("\\", "/")):
                 raise errors.ValidationError(current)
-            elif self._exists and not os.path.isfile(current):
-                raise errors.ValidationError(current)
-            elif self._exists is not None and not self._exists and os.path.isfile(current):
+            if path.exists() and not path.is_file():
                 raise errors.ValidationError(current)
 
-        elif self._path_type == Path.DIRECTORY:
-            if self._exists is None and os.path.basename(current) != "":
+        if self._path_type == Path.DIRECTORY:
+            if current == "":
                 raise errors.ValidationError(current)
-            elif self._exists and not os.path.isdir(current):
+            if path.exists() and not path.is_dir():
                 raise errors.ValidationError(current)
-            elif self._exists is not None and not self._exists and os.path.isdir(current):
-                raise errors.ValidationError(current)
-
-        elif self._exists and not os.path.exists(current):
-            raise errors.ValidationError(current)
-        elif self._exists is not None and not self._exists and os.path.exists(current):
-            raise errors.ValidationError(current)
-
-    def normalize_value(self, value):
-        value = os.path.expanduser(value)
-
-        if self._normalize_to_absolute_path:
-            value = os.path.abspath(value)
-
-        return value
 
 
 def question_factory(kind, *args, **kwargs):
