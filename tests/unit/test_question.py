@@ -351,6 +351,20 @@ class TestPathQuestion(unittest.TestCase):
 
         questions.Path("path", default="~/.toggl_log")
 
+    def test_path_type_value_validation(self):
+        questions.Path("abs_path", path_type=questions.Path.ANY)
+        questions.Path("abs_path", path_type="any")
+        questions.Path("abs_path", path_type=questions.Path.FILE)
+        questions.Path("abs_path", path_type="file")
+        questions.Path("abs_path", path_type=questions.Path.DIRECTORY)
+        questions.Path("abs_path", path_type="directory")
+
+        with self.assertRaises(ValueError):
+            questions.Path("abs_path", path_type=questions.Path.kind)
+
+        with self.assertRaises(ValueError):
+            questions.Path("abs_path", path_type="false")
+
 
 def test_tagged_value():
     LABEL = "label"
