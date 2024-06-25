@@ -233,12 +233,11 @@ class Path(Text):
 
     kind = "path"
 
-    def __init__(self, name, default=None, path_type="any", exists=None, normalize_to_absolute_path=False, **kwargs):
+    def __init__(self, name, default=None, path_type="any", exists=None, **kwargs):
         super().__init__(name, default=default, **kwargs)
 
         self._path_type = path_type
         self._exists = exists
-        self._normalize_to_absolute_path = normalize_to_absolute_path
 
         if default is not None:
             try:
@@ -282,9 +281,6 @@ class Path(Text):
 
     def normalize_value(self, value):
         value = os.path.expanduser(value)
-
-        if self._normalize_to_absolute_path:
-            value = os.path.abspath(value)
 
         return value
 
