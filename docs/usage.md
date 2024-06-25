@@ -227,17 +227,6 @@ By default nothing is enforced (`None`)
 Path('config_file', 'Point me to your configuration file.', exists=True, path_type=Path.File)
 ```
 
-### normalize_to_absolute_path
-
-Argument which will enable normalization on the provided path. When enabled, in case of relative path would be provided
-the Question will normalize it to absolute path.
-
-Expects `bool` value. Default `False`.
-
-```python
-Path('config_file', 'Point me to your configuration file.', normalize_to_absolute_path=True)
-```
-
 ## Creating the Question object
 
 With this information, it is easy to create a `Question` object:

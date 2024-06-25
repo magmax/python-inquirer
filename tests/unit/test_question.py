@@ -1,7 +1,8 @@
-import os
+import pathlib
 import shutil
 import tempfile
 import unittest
+import sys
 
 from inquirer import errors
 from inquirer import questions
@@ -247,13 +248,22 @@ class TestPathQuestion(unittest.TestCase):
 
         do_test(None, False)
 
-        # Path component must not be longer then 255 bytes
-        do_test("a" * 256, False)
-        do_test(os.path.abspath("/asdf/" + "a" * 256), False)
-        do_test("{}/{}".format("a" * 255, "b" * 255), True)
-
         # Path component must not contains null bytes
-        do_test("some/path/with/{}byte".format(b"\x00".decode("utf-8")), False)
+        do_test("some/path/with/{}byte".format("\x00"), False)
+
+    @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
+    def test_path_validation_linux(self):
+        q = questions.Path("validation_test")
+        for path in []:
+            with self.assertRaises(errors.ValidationError):
+                q.validate(path)
+
+    @unittest.skipUnless(sys.platform.startswith("win"), "Windows only")
+    def test_path_validation_windows(self):
+        q = questions.Path("validation_test")
+        for path in ["fo:/bar"]:
+            with self.assertRaises(errors.ValidationError):
+                q.validate(path)
 
     def test_path_type_validation_no_existence_check(self):
         def do_test(path_type, path, result=True):
@@ -281,75 +291,107 @@ class TestPathQuestion(unittest.TestCase):
         do_test(questions.Path.FILE, "/aa/bb")
         do_test(questions.Path.FILE, "~/aa/.bb")
 
-        do_test(questions.Path.DIRECTORY, "./aa/bb", False)
+        do_test(questions.Path.DIRECTORY, "./aa/bb")
         do_test(questions.Path.DIRECTORY, "./aa/")
-        do_test(questions.Path.DIRECTORY, "aa/bb", False)
+        do_test(questions.Path.DIRECTORY, "aa/bb")
         do_test(questions.Path.DIRECTORY, "aa/")
         do_test(questions.Path.DIRECTORY, "/aa/")
         do_test(questions.Path.DIRECTORY, "~/aa/")
-        do_test(questions.Path.DIRECTORY, "/aa/bb", False)
-        do_test(questions.Path.DIRECTORY, "~/aa/bb", False)
+        do_test(questions.Path.DIRECTORY, "/aa/bb")
+        do_test(questions.Path.DIRECTORY, "~/aa/bb")
 
-    def test_path_type_validation_existing(self):
-        root = tempfile.mkdtemp()
-        some_existing_dir = os.path.join(root, "some_dir")
-        some_non_existing_dir = os.path.join(root, "some_non_existing_dir")
-        some_existing_file = os.path.join(root, "some_file")
-        some_non_existing_file = os.path.join(root, "some_non_existing_file")
+    def test_path_type_validation_existence_check(self):
+        root = pathlib.Path(tempfile.mkdtemp())
+        some_non_existing_dir = root / "some_non_existing_dir"
+        some_existing_dir = root / "some_dir"
+        some_existing_dir.mkdir()
+        some_non_existing_file = root / "some_non_existing_file"
+        some_existing_file = root / "some_file"
+        some_existing_file.touch()
 
-        os.mkdir(some_existing_dir)
-        open(some_existing_file, "a").close()
-
-        def do_test(path_type, path, exists, result=True):
-            q = questions.Path("path_type_test", exists=exists, path_type=path_type)
+        def do_test(path_type, path, result=True):
+            q = questions.Path("path_type_test", exists=True, path_type=path_type)
             if result:
-                self.assertIsNone(q.validate(path))
+                self.assertIsNone(q.validate(str(path)))
             else:
                 with self.assertRaises(errors.ValidationError):
-                    q.validate(path)
+                    q.validate(str(path))
 
         try:
-            do_test(questions.Path.ANY, some_existing_file, True, True)
-            do_test(questions.Path.ANY, some_non_existing_file, True, False)
-            do_test(questions.Path.ANY, some_existing_file, False, False)
-            do_test(questions.Path.ANY, some_non_existing_file, False, True)
-            do_test(questions.Path.ANY, some_existing_dir, True, True)
-            do_test(questions.Path.ANY, some_non_existing_dir, True, False)
-            do_test(questions.Path.ANY, some_existing_dir, False, False)
-            do_test(questions.Path.ANY, some_non_existing_dir, False, True)
+            do_test(questions.Path.ANY, some_existing_file)
+            do_test(questions.Path.ANY, some_non_existing_file, False)
+            do_test(questions.Path.ANY, some_existing_dir)
+            do_test(questions.Path.ANY, some_non_existing_dir, False)
 
-            do_test(questions.Path.FILE, some_existing_file, True, True)
-            do_test(questions.Path.FILE, some_non_existing_file, True, False)
-            do_test(questions.Path.FILE, some_non_existing_file, False, True)
-            do_test(questions.Path.FILE, some_existing_file, False, False)
+            do_test(questions.Path.FILE, some_existing_file)
+            do_test(questions.Path.FILE, some_non_existing_file, False)
+            do_test(questions.Path.FILE, some_existing_dir, False)
 
-            do_test(questions.Path.DIRECTORY, some_existing_dir, True, True)
-            do_test(questions.Path.DIRECTORY, some_non_existing_dir, True, False)
-            do_test(questions.Path.DIRECTORY, some_existing_dir, False, False)
-            do_test(questions.Path.DIRECTORY, some_non_existing_dir, False, True)
-
+            do_test(questions.Path.DIRECTORY, some_existing_dir)
+            do_test(questions.Path.DIRECTORY, some_non_existing_dir, False)
+            do_test(questions.Path.DIRECTORY, some_existing_file, False)
         finally:
             shutil.rmtree(root)
 
-    def test_normalizing_value(self):
-        # Expanding Home
-        home = os.path.expanduser("~")
-        q = questions.Path("home")
+    def test_dir_and_file_same_name(self):
+        root = pathlib.Path(tempfile.mkdtemp())
+        some_file = root / "foo"
+        some_dir = root / "foo/"
 
-        path = "~/some_path/some_file"
-        self.assertNotIn(home, path)
-        self.assertIn(home, q.normalize_value(path))
+        def do_test(exists, type):
+            q = questions.Path("test", exists=exists, path_type=type)
+            with self.assertRaises(errors.ValidationError):
+                q.validate(str(some_dir))
 
-        # Normalizing to absolute path
-        root = os.path.abspath(__file__).split(os.path.sep)[0]
-        q = questions.Path("abs_path", normalize_to_absolute_path=True)
-        self.assertEqual(root, q.normalize_value("some/relative/path").split(os.path.sep)[0])
+        some_file.touch()
+        try:
+            do_test(exists=True, type=questions.Path.DIRECTORY)
+            do_test(exists=False, type=questions.Path.DIRECTORY)
+        finally:
+            some_file.unlink()
+
+        some_dir.mkdir()
+        try:
+            do_test(exists=True, type=questions.Path.FILE)
+            do_test(exists=False, type=questions.Path.FILE)
+        finally:
+            some_dir.rmdir()
 
     def test_default_value_validation(self):
-        with self.assertRaises(ValueError):
-            questions.Path("path", default="~/.toggl_log", path_type=questions.Path.DIRECTORY)
+        root = pathlib.Path(tempfile.mkdtemp())
+        some_non_existing_dir = root / "some_non_existing_dir"
+        some_existing_dir = root / "some_dir"
+        some_existing_dir.mkdir()
+        some_non_existing_file = root / "some_non_existing_file"
+        some_existing_file = root / "some_file"
+        some_existing_file.touch()
 
-        questions.Path("path", default="~/.toggl_log")
+        def do_test(default, path_type, exists, result=True):
+            if result:
+                questions.Path("path", default=str(default), exists=exists, path_type=path_type)
+            else:
+                with self.assertRaises(ValueError):
+                    questions.Path("path", default=str(default), exists=exists, path_type=path_type)
+
+        do_test(some_existing_dir, questions.Path.DIRECTORY, exists=True)
+        do_test(some_non_existing_dir, questions.Path.DIRECTORY, exists=True, result=False)
+
+        do_test(some_existing_file, questions.Path.FILE, exists=True)
+        do_test(some_non_existing_file, questions.Path.FILE, exists=True, result=False)
+
+    def test_path_type_value_validation(self):
+        questions.Path("abs_path", path_type=questions.Path.ANY)
+        questions.Path("abs_path", path_type="any")
+        questions.Path("abs_path", path_type=questions.Path.FILE)
+        questions.Path("abs_path", path_type="file")
+        questions.Path("abs_path", path_type=questions.Path.DIRECTORY)
+        questions.Path("abs_path", path_type="directory")
+
+        with self.assertRaises(ValueError):
+            questions.Path("abs_path", path_type=questions.Path.kind)
+
+        with self.assertRaises(ValueError):
+            questions.Path("abs_path", path_type="false")
 
 
 def test_tagged_value():
