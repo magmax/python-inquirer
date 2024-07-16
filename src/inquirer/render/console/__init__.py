@@ -37,7 +37,7 @@ class ConsoleRender:
         try:
             return self._event_loop(render)
         finally:
-            print("")
+            print('', end='')
 
     def _event_loop(self, render):
         try:
