@@ -37,8 +37,8 @@
 - name: help wanted
   description: Extra attention is needed
   color: "008672"
-- name: invalid
-  description: This doesn't seem right
+- name: needs more info
+  description: Incomplete issue provided, can  not reproduce
   color: "e4e669"
 - name: performance
   description: Performance
