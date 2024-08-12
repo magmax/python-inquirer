@@ -26,7 +26,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.8.1"
 blessed = ">=1.19.0"
-readchar = ">=3.0.6"
+readchar = ">=4.2.0"
 editor = ">=1.6.0"
 
 [tool.poetry.dev-dependencies]
