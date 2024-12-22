@@ -84,13 +84,13 @@ class Checkbox(BaseConsoleRender):
     def process_input(self, pressed):
         question = self.question
         is_current_choice_locked = question.choices[self.current] in self.locked
-        if pressed == key.UP:
+        if pressed == key.UP or pressed == "k":
             if question.carousel and self.current == 0:
                 self.current = len(question.choices) - 1
             else:
                 self.current = max(0, self.current - 1)
             return
-        elif pressed == key.DOWN:
+        elif pressed == key.DOWN or pressed == "j":
             if question.carousel and self.current == len(question.choices) - 1:
                 self.current = 0
             else:
@@ -104,11 +104,11 @@ class Checkbox(BaseConsoleRender):
                     self.selection.remove(self.current)
             else:
                 self.selection.append(self.current)
-        elif pressed == key.LEFT:
+        elif pressed == key.LEFT or pressed == "h":
             if self.current in self.selection:
                 if not is_current_choice_locked:
                     self.selection.remove(self.current)
-        elif pressed == key.RIGHT:
+        elif pressed == key.RIGHT or pressed == "l":
             if self.current not in self.selection:
                 self.selection.append(self.current)
         elif pressed == key.CTRL_A:

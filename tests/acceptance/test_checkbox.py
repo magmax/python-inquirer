@@ -25,11 +25,27 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
 
+    def test_select_the_third_vim_keys(self):
+        self.sut.send("j")
+        self.sut.send("j")
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
+
     def test_select_one_more(self):
         self.sut.send(key.DOWN)
         self.sut.send(key.DOWN)
         self.sut.send(key.SPACE)
         self.sut.send(key.DOWN)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*", timeout=1)  # noqa
+
+    def test_select_one_more_vim_keys(self):
+        self.sut.send("j")
+        self.sut.send("j")
+        self.sut.send(key.SPACE)
+        self.sut.send("j")
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science', 'Nature'\]}.*", timeout=1)  # noqa
@@ -47,15 +63,35 @@ class CheckTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
 
+    def test_select_with_arrows_vim_keys(self):
+        self.sut.send("j")
+        self.sut.send("j")
+        self.sut.send(key.RIGHT)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Science'\]}.*", timeout=1)  # noqa
+
     def test_unselect_with_arrows(self):
         self.sut.send(key.DOWN)
         self.sut.send(key.LEFT)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
 
+    def test_unselect_with_arrows_vim_keys(self):
+        self.sut.send("j")
+        self.sut.send("h")
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers'\]}.*", timeout=1)  # noqa
+
     def test_select_last(self):
         for i in range(10):
             self.sut.send(key.DOWN)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
+
+    def test_select_last_vim_keys(self):
+        for i in range(10):
+            self.sut.send("j")
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
@@ -91,9 +127,26 @@ class CheckCarouselTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
 
+    def test_out_of_bounds_up_vim_keys(self):
+        self.sut.send("k")
+        self.sut.expect("History.*", timeout=1)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'History'\]}.*", timeout=1)  # noqa
+
     def test_out_of_bounds_down(self):
         for i in range(6):
             self.sut.send(key.DOWN)
+            # Not looking at what we expect along the way,
+            # let the last "expect" check that we got the right result
+            self.sut.expect(">.*", timeout=1)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Books'\]}.*", timeout=1)  # noqa
+
+    def test_out_of_bounds_down_vim_keys(self):
+        for i in range(6):
+            self.sut.send("j")
             # Not looking at what we expect along the way,
             # let the last "expect" check that we got the right result
             self.sut.expect(">.*", timeout=1)
@@ -121,8 +174,30 @@ class CheckOtherTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}", timeout=1)  # noqa
 
+    def test_other_input_vim_keys(self):
+        self.sut.send("k")
+        self.sut.expect(r"\+ Other.*", timeout=1)
+        self.sut.send(key.SPACE)
+        self.sut.expect(r": ", timeout=1)
+        self.sut.send("Hello world")
+        self.sut.expect(r"Hello world.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect(rf"> {escape(self.theme.Checkbox.selected_icon)} Hello world[\s\S]*\+ Other.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books', 'Hello world'\]}", timeout=1)  # noqa
+
     def test_other_blank_input(self):
         self.sut.send(key.UP)
+        self.sut.expect(r"\+ Other.*", timeout=1)
+        self.sut.send(key.SPACE)
+        self.sut.expect(r": ", timeout=1)
+        self.sut.send(key.ENTER)  # blank input
+        self.sut.expect(r"> \+ Other.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'interests': \['Computers', 'Books'\]}", timeout=1)  # noqa
+
+    def test_other_blank_input_vim_keys(self):
+        self.sut.send("k")
         self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.SPACE)
         self.sut.expect(r": ", timeout=1)
@@ -169,9 +244,21 @@ class CheckLockedTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
 
+    def test_locked_option_left_key_vim_keys(self):
+        self.sut.send("h")
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals'\]}", timeout=1)
+
     def test_locked_with_another_option(self):
         self.sut.send(key.DOWN)
         self.sut.send(key.DOWN)
+        self.sut.send(key.SPACE)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r"{'courses': \['Programming fundamentals', 'Data science'\]}", timeout=1)
+
+    def test_locked_with_another_option_vim_keys(self):
+        self.sut.send("j")
+        self.sut.send("j")
         self.sut.send(key.SPACE)
         self.sut.send(key.ENTER)
         self.sut.expect(r"{'courses': \['Programming fundamentals', 'Data science'\]}", timeout=1)
