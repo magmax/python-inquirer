@@ -21,8 +21,20 @@ class ListTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Large'}.*", timeout=1)
 
+    def test_change_selection_vim_keys(self):
+        self.sut.send("j")
+        self.sut.expect("Micro.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Large'}.*", timeout=1)
+
     def test_out_of_bounds_up(self):
         self.sut.send(key.UP)
+        self.sut.expect("Micro.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
+
+    def test_out_of_bounds_up_vim_keys(self):
+        self.sut.send("k")
         self.sut.expect("Micro.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
@@ -47,11 +59,24 @@ class ListCarouselTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Standard'}.*", timeout=1)
 
+    def test_out_of_bounds_up_vim_keys(self):
+        self.sut.send("k")
+        self.sut.expect("Standard.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Standard'}.*", timeout=1)
+
     def test_out_of_bounds_down(self):
         for i in range(3):
             self.sut.send(key.DOWN)
             # Not looking at what we expect along the way,
             # let the last "expect" check that we got the right result
+            self.sut.expect(">.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
+
+    def test_out_of_bounds_down_vim_keys(self):
+        for i in range(3):
+            self.sut.send("j")
             self.sut.expect(">.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Jumbo'}.*", timeout=1)
@@ -73,8 +98,32 @@ class CheckOtherTest(unittest.TestCase):
         self.sut.send(key.ENTER)
         self.sut.expect("{'size': 'Hello world'}.*", timeout=1)
 
+    def test_other_input_vim_keys(self):
+        self.sut.send("k")
+        self.sut.expect(r"\+ Other.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r": ", timeout=1)
+        self.sut.send("Hello world")
+        self.sut.expect(r"Hello world", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Hello world'}.*", timeout=1)
+
     def test_other_blank_input(self):
         self.sut.send(key.UP)
+        self.sut.expect(r"\+ Other.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r": ", timeout=1)
+        self.sut.send(key.ENTER)  # blank input
+        self.sut.expect(r"\+ Other.*", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect(r": ", timeout=1)
+        self.sut.send("Hello world")
+        self.sut.expect(r"Hello world", timeout=1)
+        self.sut.send(key.ENTER)
+        self.sut.expect("{'size': 'Hello world'}.*", timeout=1)
+
+    def test_other_blank_input_vim_keys(self):
+        self.sut.send("k")
         self.sut.expect(r"\+ Other.*", timeout=1)
         self.sut.send(key.ENTER)
         self.sut.expect(r": ", timeout=1)
