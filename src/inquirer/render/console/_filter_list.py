@@ -70,7 +70,22 @@ class FilterList(BaseConsoleRender):
                 symbol = " " if choice == GLOBAL_OTHER_CHOICE else " " * len(self.theme.List.selection_cursor)
             yield choice, symbol, color
 
+    def _get_current_choice(self):
+        return self.question.choices[self.current]
+
     def process_input(self, pressed):
+        prev_choice = self._get_current_choice()
+
+        self._process_control_input(pressed)
+
+        self._process_text_input(pressed)
+
+        current_choice = self._get_current_choice()
+        if prev_choice != current_choice:
+            if self.question.choice_callback:
+                self.question.choice_callback(current_choice)
+
+    def _process_control_input(self, pressed):
         question = self.question
         if pressed == key.UP:
             if question.carousel and self.current == 0:
@@ -85,7 +100,7 @@ class FilterList(BaseConsoleRender):
                 self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
         if pressed == key.ENTER:
-            value = self.question.choices[self.current]
+            value = self._get_current_choice()
 
             if value == GLOBAL_OTHER_CHOICE:
                 value = self.other_input()
@@ -99,10 +114,7 @@ class FilterList(BaseConsoleRender):
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
 
-        # Add text processing
-        self._process_text(pressed)
-
-    def _process_text(self, pressed):
+    def _process_text_input(self, pressed):
         prev_text = self.current_text
 
         if pressed == key.TAB and self.question.autocomplete:

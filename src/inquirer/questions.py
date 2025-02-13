@@ -192,11 +192,13 @@ class FilterList(Question):
         other=False,
         autocomplete=None,
         filter_func=None,
+        choice_callback=None,
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
         self.filter_func = filter_func
+        self.choice_callback = choice_callback
 
 
 class Checkbox(Question):
