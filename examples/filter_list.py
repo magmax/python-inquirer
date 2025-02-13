@@ -34,13 +34,19 @@ def filter_func(text, collection):
     return list(g)
 
 
+def callback_listener(item):
+    with open('choice_logs.txt', 'a') as f:
+        f.write(str(item) + '\n')
+
+
 questions = [
     inquirer.FilterList(
-        "size",
+        "food selection",
         message="Select item ",
         choices=choices,
         carousel=False,
-        filter_func= filter_func,
+        filter_func=filter_func,
+        choice_callback=callback_listener
     ),
 ]
 
