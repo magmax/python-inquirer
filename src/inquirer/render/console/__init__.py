@@ -9,6 +9,7 @@ from inquirer.render.console._checkbox import Checkbox
 from inquirer.render.console._confirm import Confirm
 from inquirer.render.console._editor import Editor
 from inquirer.render.console._list import List
+from inquirer.render.console._filter_list import FilterList
 from inquirer.render.console._password import Password
 from inquirer.render.console._path import Path
 from inquirer.render.console._text import Text
@@ -32,8 +33,6 @@ class ConsoleRender:
         clazz = self.render_factory(question.kind)
         render = clazz(question, terminal=self.terminal, theme=self._theme, show_default=question.show_default)
 
-        self.clear_eos()
-
         try:
             return self._event_loop(render)
         finally:
@@ -42,6 +41,7 @@ class ConsoleRender:
     def _event_loop(self, render):
         try:
             while True:
+                self.clear_eos()
                 self._relocate()
                 self._print_status_bar(render)
 
@@ -158,6 +158,7 @@ class ConsoleRender:
             "password": Password,
             "confirm": Confirm,
             "list": List,
+            "filter_list": FilterList,
             "checkbox": Checkbox,
             "path": Path,
         }

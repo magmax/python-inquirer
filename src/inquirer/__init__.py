@@ -3,6 +3,7 @@ from inquirer.questions import Checkbox
 from inquirer.questions import Confirm
 from inquirer.questions import Editor
 from inquirer.questions import List
+from inquirer.questions import FilterList
 from inquirer.questions import Password
 from inquirer.questions import Path
 from inquirer.questions import Text
