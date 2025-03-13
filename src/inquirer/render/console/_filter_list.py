@@ -163,9 +163,10 @@ class FilterList(BaseConsoleRender):
         if self.question.filter_func:
             if prev_text != self.current_text:
                 self.current = 0
-                self.question.apply_filter(self._filter_func)
-                if self.current_text == '':
+                if self.current_text == "":
                     self.question.remove_filter()
+                else:
+                    self.question.apply_filter(self._filter_func)
 
     def _filter_func(self, choices):
         return self.question.filter_func(self.current_text, choices)
