@@ -163,10 +163,12 @@ class FilterList(BaseConsoleRender):
         if self.question.filter_func:
             if prev_text != self.current_text:
                 self.current = 0
-                f = lambda x: self.question.filter_func(self.current_text, x)
-                self.question.apply_filter(f)
+                self.question.apply_filter(self._filter_func)
                 if self.current_text == '':
                     self.question.remove_filter()
+
+    def _filter_func(self, choices):
+        return self.question.filter_func(self.current_text, choices)
 
     def _current_index(self):
         try:
