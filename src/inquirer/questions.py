@@ -189,7 +189,7 @@ class FilterList(Question):
         self._filtered_choices = None
 
     def apply_filter(self, filter_func):
-        self._filtered_choices = filter_func(self._choices)
+        self._filtered_choices = list(filter_func(self._choices))
 
     def remove_filter(self):
         self._filtered_choices = None

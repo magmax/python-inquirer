@@ -31,7 +31,7 @@ choices = [
 
 def filter_func(text, collection):
     g = fuzzyfinder(text, collection, accessor=lambda x: str(x))
-    return list(g)
+    return g
 
 
 def callback_listener(item):
