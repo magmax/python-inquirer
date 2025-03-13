@@ -1,5 +1,5 @@
 pip==25.0.1
 pipx==1.4.3,!=1.5,!=1.6.0
 nox==2025.2.9
-nox-poetry==1.2.0
+nox-poetry==1.1.0
 virtualenv==20.27.1
