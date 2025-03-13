@@ -71,7 +71,10 @@ class FilterList(BaseConsoleRender):
             yield choice, symbol, color
 
     def _get_current_choice(self):
-        return self.question.choices[self.current]
+        try:
+            return self.question.choices[self.current]
+        except (KeyError, IndexError):
+            return None
 
     def process_input(self, pressed):
         prev_choice = self._get_current_choice()
@@ -81,7 +84,7 @@ class FilterList(BaseConsoleRender):
         self._process_text_input(pressed)
 
         current_choice = self._get_current_choice()
-        if prev_choice != current_choice:
+        if current_choice and prev_choice != current_choice:
             if self.question.choice_callback:
                 self.question.choice_callback(current_choice)
 
@@ -100,6 +103,10 @@ class FilterList(BaseConsoleRender):
                 self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
         if pressed == key.ENTER:
+            if not self.question.choices:
+                # filter_list can be empty, then key.ENTER does nothing
+                return
+
             value = self._get_current_choice()
 
             if value == GLOBAL_OTHER_CHOICE:
@@ -116,6 +123,9 @@ class FilterList(BaseConsoleRender):
 
     def _process_text_input(self, pressed):
         prev_text = self.current_text
+
+        if pressed == key.ENTER:
+            return
 
         if pressed == key.TAB and self.question.autocomplete:
             if self._autocomplete_state is None:

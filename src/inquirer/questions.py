@@ -196,7 +196,7 @@ class FilterList(Question):
 
     @property
     def choices_generator(self):
-        choices = self._filtered_choices or self._choices
+        choices = self._choices if self._filtered_choices is None else self._filtered_choices
         for choice in self._solve(choices):
             yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
