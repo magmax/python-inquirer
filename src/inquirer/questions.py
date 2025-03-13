@@ -60,7 +60,6 @@ class Question:
         self.show_default = show_default
         self.hints = hints
         self._other = other
-        self._filtered_choices = None
 
         if self._other:
             self._choices.append(GLOBAL_OTHER_CHOICE)
@@ -77,12 +76,6 @@ class Question:
             self._choices.append(choice)
             return len(self._choices) - 1
 
-    def apply_filter(self, filter_func):
-        self._filtered_choices = filter_func(self.unfiltered_choices_generator)
-
-    def remove_filter(self):
-        self._filtered_choices = None
-
     @property
     def ignore(self):
         return bool(self._solve(self._ignore))
@@ -97,12 +90,6 @@ class Question:
 
     @property
     def choices_generator(self):
-        choices = self._filtered_choices or self._choices
-        for choice in self._solve(choices):
-            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
-
-    @property
-    def unfiltered_choices_generator(self):
         for choice in self._solve(self._choices):
             yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
@@ -199,6 +186,19 @@ class FilterList(Question):
         self.autocomplete = autocomplete
         self.filter_func = filter_func
         self.choice_callback = choice_callback
+        self._filtered_choices = None
+
+    def apply_filter(self, filter_func):
+        self._filtered_choices = filter_func(self._choices)
+
+    def remove_filter(self):
+        self._filtered_choices = None
+
+    @property
+    def choices_generator(self):
+        choices = self._filtered_choices or self._choices
+        for choice in self._solve(choices):
+            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
 
 
 class Checkbox(Question):
