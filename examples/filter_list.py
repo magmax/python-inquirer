@@ -1,55 +1,34 @@
-import os
-import sys
+import random
 from pprint import pprint
 
-try:
-    from fuzzyfinder import fuzzyfinder
-except ImportError:
-    raise ImportError(
-        "The required package 'fuzzyfinder' is not installed. Install it using:\n\n"
-        "    pip install fuzzyfinder\n"
-    )
-
-sys.path.append(os.path.realpath("."))
 import inquirer  # noqa
 
 
-choices = [
-    "apple", "banana", "grapefruit", "blueberry", "strawberry", "blackberry",
-    "raspberry", "cherry", "mango", "pineapple", "watermelon", "cantaloupe",
-    "honeydew", "kiwi", "papaya", "fig", "pomegranate", "date", "coconut",
-    "lemon", "lime", "orange", "tangerine", "peach", "plum", "apricot",
-    "pear", "persimmon", "guava", "passionfruit", "lychee", "dragonfruit",
-    "starfruit", "durian", "jackfruit", "elderberry", "mulberry", "boysenberry",
-    "carrot", "potato", "tomato", "cucumber", "lettuce", "spinach", "broccoli",
-    "cauliflower", "cabbage", "zucchini", "squash", "pumpkin", "radish",
-    "beet", "onion", "garlic", "shallot", "leek", "celery", "asparagus",
-    "artichoke", "pepper", "chili", "jalapeno", "habanero", "ghost pepper",
-    "serrano", "poblano", "corn", "peas", "green beans", "chickpeas",
-    "lentils", "soybeans", "quinoa", "rice", "barley", "oats", "wheat"]
+choice_change = []
+choices = list(random.__dict__.keys())
+random.shuffle(choices)
 
 
 def filter_func(text, collection):
-    g = fuzzyfinder(text, collection, accessor=lambda x: str(x))
-    return g
+    return filter(lambda x: text in x, collection)
 
 
 def callback_listener(item):
-    with open('choice_logs.txt', 'a') as f:
-        f.write(str(item) + '\n')
+    choice_change.append(item)
 
 
 questions = [
     inquirer.FilterList(
-        "food selection",
+        "python object attribute",
         message="Select item ",
         choices=choices,
         carousel=False,
         filter_func=filter_func,
-        choice_callback=callback_listener
+        choice_callback=callback_listener,
     ),
 ]
 
 answers = inquirer.prompt(questions)
 
+pprint(choice_change)
 pprint(answers)
