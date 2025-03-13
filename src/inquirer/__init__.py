@@ -26,6 +26,7 @@ __all__ = [
     "Password",
     "Confirm",
     "List",
+    "FilterList",
     "Checkbox",
     "Path",
     "load_from_list",
