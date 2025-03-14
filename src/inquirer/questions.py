@@ -163,6 +163,44 @@ class List(Question):
         self.autocomplete = autocomplete
 
 
+class FilterList(Question):
+    kind = "filter_list"
+
+    def __init__(
+        self,
+        name,
+        message="",
+        choices=None,
+        hints=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        carousel=False,
+        other=False,
+        autocomplete=None,
+        filter_func=None,
+        choice_callback=None,
+    ):
+        super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
+        self.carousel = carousel
+        self.autocomplete = autocomplete
+        self.filter_func = filter_func
+        self.choice_callback = choice_callback
+        self._filtered_choices = None
+
+    def apply_filter(self, filter_func):
+        self._filtered_choices = list(filter_func(self._choices))
+
+    def remove_filter(self):
+        self._filtered_choices = None
+
+    @property
+    def choices_generator(self):
+        choices = self._choices if self._filtered_choices is None else self._filtered_choices
+        for choice in self._solve(choices):
+            yield (TaggedValue(*choice) if isinstance(choice, tuple) and len(choice) == 2 else choice)
+
+
 class Checkbox(Question):
     kind = "checkbox"
 
