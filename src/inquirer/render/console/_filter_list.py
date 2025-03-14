@@ -1,3 +1,5 @@
+import sys
+
 from readchar import key
 
 from inquirer import errors
@@ -69,6 +71,11 @@ class FilterList(BaseConsoleRender):
                 color = self.theme.List.unselected_color
                 symbol = " " if choice == GLOBAL_OTHER_CHOICE else " " * len(self.theme.List.selection_cursor)
             yield choice, symbol, color
+        self._clear_eos_and_flush()
+
+    def _clear_eos_and_flush(self):
+        print(self.terminal.clear_eos(), end="")
+        sys.stdout.flush()
 
     def _get_current_choice(self):
         try:

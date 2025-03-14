@@ -33,6 +33,8 @@ class ConsoleRender:
         clazz = self.render_factory(question.kind)
         render = clazz(question, terminal=self.terminal, theme=self._theme, show_default=question.show_default)
 
+        self.clear_eos()
+
         try:
             return self._event_loop(render)
         finally:
@@ -41,7 +43,6 @@ class ConsoleRender:
     def _event_loop(self, render):
         try:
             while True:
-                self.clear_eos()
                 self._relocate()
                 self._print_status_bar(render)
 
