@@ -1,12 +1,23 @@
-import random
+import sys
 from pprint import pprint
 
 import inquirer  # noqa
 
 
+args = sys.argv
+
+if 'hint' in args:
+    choices_hints = {k: f'{str(v)[:10]}...' for k,v in inquirer.__dict__.items()}
+else:
+    choices_hints = None
+
+carousel =  True if 'carousel' in args else False
+other = True if 'other' in args else False
+
+
 choice_change = []
-choices = list(random.__dict__.keys())
-random.shuffle(choices)
+choices = list(inquirer.__dict__.keys())
+choices.sort()
 
 
 def filter_func(text, collection):
@@ -19,10 +30,12 @@ def callback_listener(item):
 
 questions = [
     inquirer.FilterList(
-        "python object attribute",
+        "attribute",
         message="Select item ",
         choices=choices,
-        carousel=False,
+        carousel=carousel,
+        other=other,
+        hints= choices_hints,
         filter_func=filter_func,
         choice_callback=callback_listener,
     ),
@@ -30,5 +43,5 @@ questions = [
 
 answers = inquirer.prompt(questions)
 
-pprint(choice_change)
+print(choice_change)
 pprint(answers)
