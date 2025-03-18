@@ -8,7 +8,7 @@ from inquirer.render.console.base import MAX_OPTIONS_DISPLAYED_AT_ONCE
 import pexpect
 from readchar import key
 
-
+CHOICES_DICT = inquirer.__dict__
 CHOICES = list(inquirer.__dict__.keys())
 CHOICES.sort()
 
@@ -76,7 +76,6 @@ class CheckOtherTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/filter_list.py other carousel")
         self.sut.expect(CHOICES[MAX_OPTIONS_DISPLAYED_AT_ONCE-1], timeout=1)
-        #self.sut.expect(f"Standard.*", timeout=1)
 
     def test_other_input(self):
         self.sut.send(key.UP)
@@ -110,9 +109,11 @@ class CheckOtherTest(unittest.TestCase):
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
 class ListTaggedTest(unittest.TestCase):
     def setUp(self):
-        self.sut = pexpect.spawn("python examples/list_tagged.py")
-        self.sut.expect("Micro.*", timeout=1)
+        self.sut = pexpect.spawn("python examples/filter_list.py tag")
+        self.sut.expect(f"{CHOICES[0]}.*", timeout=1)
 
     def test_default_input(self):
         self.sut.send(key.ENTER)
-        self.sut.expect("{'size': 'xxl'}.*", timeout=1)
+        c = CHOICES[0]
+        tag = str(CHOICES_DICT[c])[:5]
+        self.sut.expect(f"{{'attribute': '{tag}'}}.*", timeout=1)

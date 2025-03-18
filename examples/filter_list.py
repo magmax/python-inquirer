@@ -19,6 +19,9 @@ choice_change = []
 choices = list(inquirer.__dict__.keys())
 choices.sort()
 
+if 'tag' in args:
+    choices = [(k,str(inquirer.__dict__[k])[:5]) for k in choices]
+
 
 def filter_func(text, collection):
     return filter(lambda x: text in x, collection)
