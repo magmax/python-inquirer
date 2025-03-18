@@ -15,7 +15,6 @@ class FilterList(BaseConsoleRender):
         self.current = self._current_index()
         self.current_text = ""
         self.cursor_offset = 0
-        self._autocomplete_state = None
 
     def get_current_value(self):
         return self.current_text + (self.terminal.move_left * self.cursor_offset)
@@ -103,7 +102,7 @@ class FilterList(BaseConsoleRender):
             else:
                 self.current = max(0, self.current - 1)
             return
-        if pressed == key.DOWN:
+        if pressed == key.DOWN or pressed == key.TAB:
             if question.carousel and self.current == len(question.choices) - 1:
                 self.current = 0
             else:
@@ -131,23 +130,8 @@ class FilterList(BaseConsoleRender):
     def _process_text_input(self, pressed):
         prev_text = self.current_text
 
-        if pressed == key.ENTER:
+        if pressed == key.ENTER or pressed == key.TAB:
             return
-
-        if pressed == key.TAB and self.question.autocomplete:
-            if self._autocomplete_state is None:
-                self._autocomplete_state = [self.current_text, 0]
-
-            [text, state] = self._autocomplete_state
-            autocomplete = self.question.autocomplete(text, state)
-            if isinstance(autocomplete, str):
-                self.current_text = autocomplete
-                self._autocomplete_state[1] += 1
-            else:
-                self._autocomplete_state = None
-            return
-
-        self._autocomplete_state = None
 
         if pressed == key.BACKSPACE:
             if self.current_text and self.cursor_offset != len(self.current_text):
