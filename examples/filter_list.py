@@ -4,23 +4,20 @@ from pprint import pprint
 import inquirer  # noqa
 
 
-args = sys.argv
+choices_map = str.__dict__
+choices = sorted(choices_map.keys())
+choice_change = []
 
+
+# prepare FilterList arguments
+args = sys.argv[1:]
 if "hint" in args:
-    choices_hints = {k: f"{str(v)[:10]}..." for k, v in inquirer.__dict__.items()}
+    choices_hints = {k: f"{str(v)[:10]}..." for k, v in choices_map.items()}
 else:
     choices_hints = None
-
 carousel = True if "carousel" in args else False
 other = True if "other" in args else False
-
-
-choice_change = []
-choices = list(inquirer.__dict__.keys())
-choices.sort()
-
-if "tag" in args:
-    choices = [(k, str(inquirer.__dict__[k])[:5]) for k in choices]
+choices = [(k, str(choices_map[k])[:5]) for k in choices] if "tag" in args else choices
 
 
 def filter_func(text, collection):
