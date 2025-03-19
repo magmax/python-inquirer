@@ -132,27 +132,11 @@ class FilterList(BaseConsoleRender):
 
         if pressed == key.ENTER or pressed == key.TAB:
             return
-
-        if pressed == key.BACKSPACE:
-            if self.current_text and self.cursor_offset != len(self.current_text):
-                if self.cursor_offset > 0:
-                    n = -self.cursor_offset
-                    self.current_text = self.current_text[: n - 1] + self.current_text[n:]
-                else:
-                    self.current_text = self.current_text[:-1]
-        elif pressed == key.SUPR:
-            if self.current_text and self.cursor_offset:
-                n = -self.cursor_offset
-                self.cursor_offset -= 1
-                if n < -1:
-                    self.current_text = self.current_text[:n] + self.current_text[n + 1 :]  # noqa E203
-                else:
-                    self.current_text = self.current_text[:n]
-        elif pressed == key.LEFT:
-            if self.cursor_offset < len(self.current_text):
-                self.cursor_offset += 1
-        elif pressed == key.RIGHT:
-            self.cursor_offset = max(self.cursor_offset - 1, 0)
+        if pressed == key.CTRL_W:
+            self.current_text = ""
+        elif pressed == key.BACKSPACE:
+            if self.current_text:
+                self.current_text = self.current_text[:-1]
         elif len(pressed) != 1:
             return
         else:
@@ -161,13 +145,12 @@ class FilterList(BaseConsoleRender):
             else:
                 n = -self.cursor_offset
                 self.current_text = "".join((self.current_text[:n], pressed, self.current_text[n:]))
-        if self.question.filter_func:
-            if prev_text != self.current_text:
-                self.current = 0
-                if self.current_text == "":
-                    self.question.remove_filter()
-                else:
-                    self.question.apply_filter(self._filter_func)
+        if prev_text != self.current_text:
+            self.current = 0
+            if self.current_text == "":
+                self.question.remove_filter()
+            else:
+                self.question.apply_filter(self._filter_func)
 
     def _filter_func(self, choices):
         return self.question.filter_func(self.current_text, choices)
