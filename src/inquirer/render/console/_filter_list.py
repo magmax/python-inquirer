@@ -15,6 +15,9 @@ class FilterList(BaseConsoleRender):
         self.current = self._current_index()
         self.current_text = ""
 
+    def get_current_value(self):
+        return self.current_text
+
     @property
     def is_long(self):
         choices = self.question.choices or []

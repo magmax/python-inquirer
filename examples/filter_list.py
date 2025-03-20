@@ -21,7 +21,7 @@ choices = [(k, str(choices_map[k])[:5]) for k in choices] if "tag" in args else 
 
 
 def filter_func(text, collection):
-    return filter(lambda x: text in x, collection)
+    return filter(lambda x: text in str(x), collection)
 
 
 def callback_listener(item):

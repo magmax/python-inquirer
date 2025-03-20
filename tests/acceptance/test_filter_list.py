@@ -18,7 +18,6 @@ PRM = PublicParams()
 class FilterListTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/filter_list.py")
-        self.sut.logfile = sys.stdout.buffer
         self.choices = PRM.choices
         self.query = ""
         self.sut.expect(f"{self.choices[0]}.*", timeout=1)
@@ -30,20 +29,6 @@ class FilterListTest(unittest.TestCase):
     def _search(self, query="__"):
         self._filter_choices(query)
         self.sut.send(query)
-        c = self.choices[0]
-        self.sut.expect(f"{c}.*", timeout=1)
-
-    def backspace_everything(self):
-        if self.query:
-            self.sut.send(key.BACKSPACE * len(self.query))
-        self.choices = PRM.choices
-        c = self.choices[0]
-        self.sut.expect(f"{c}.*", timeout=1)
-
-    def ctrl_w(self):
-        if self.query:
-            self.sut.send(key.CTRL_W)
-        self.choices = PRM.choices
         c = self.choices[0]
         self.sut.expect(f"{c}.*", timeout=1)
 
@@ -117,11 +102,14 @@ class FilterListTest(unittest.TestCase):
 
     def test_ctrl_w(self):
         self._search("__s")
-        self.ctrl_w()
+        self.sut.send(key.CTRL_W)
+        self.choices = PRM.choices
+        c = self.choices[0]
+        self.sut.expect(f"{c}.*", timeout=1)
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
-class ListCarouselTest(unittest.TestCase):
+class FilterListCarouselTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/filter_list.py carousel")
         self.choices = PRM.choices
@@ -182,7 +170,7 @@ class CheckOtherTest(unittest.TestCase):
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
-class ListTaggedTest(unittest.TestCase):
+class FilterListTaggedTest(unittest.TestCase):
     def setUp(self):
         self.sut = pexpect.spawn("python examples/filter_list.py tag")
         self.choices = PRM.choices
