@@ -14,10 +14,6 @@ class FilterList(BaseConsoleRender):
         super().__init__(*args, **kwargs)
         self.current = self._current_index()
         self.current_text = ""
-        self.cursor_offset = 0
-
-    def get_current_value(self):
-        return self.current_text + (self.terminal.move_left * self.cursor_offset)
 
     @property
     def is_long(self):
@@ -109,11 +105,10 @@ class FilterList(BaseConsoleRender):
                 self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
         if pressed == key.ENTER:
-            if not self.question.choices:
+            value = self._get_current_choice()
+            if not value:
                 # filter_list can be empty, then key.ENTER does nothing
                 return
-
-            value = self._get_current_choice()
 
             if value == GLOBAL_OTHER_CHOICE:
                 value = self.other_input()
@@ -140,14 +135,10 @@ class FilterList(BaseConsoleRender):
         elif len(pressed) != 1:
             return
         else:
-            if self.cursor_offset == 0:
-                self.current_text += pressed
-            else:
-                n = -self.cursor_offset
-                self.current_text = "".join((self.current_text[:n], pressed, self.current_text[n:]))
+            self.current_text += pressed
         if prev_text != self.current_text:
             self.current = 0
-            if self.current_text == "":
+            if not self.current_text:
                 self.question.remove_filter()
             else:
                 self.question.apply_filter(self._filter_func)
