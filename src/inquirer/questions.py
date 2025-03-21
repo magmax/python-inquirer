@@ -184,9 +184,12 @@ class FilterList(Question):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
         self.autocomplete = autocomplete
-        self.filter_func = filter_func
+        self.filter_func = filter_func if filter_func else self._filter_func
         self.choice_callback = choice_callback
         self._filtered_choices = None
+
+    def _filter_func(self, text, collection):
+        return filter(lambda x: text in str(x), collection)
 
     def apply_filter(self, filter_func):
         self._filtered_choices = list(filter_func(self._choices))
