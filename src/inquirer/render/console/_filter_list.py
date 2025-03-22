@@ -82,16 +82,8 @@ class FilterList(BaseConsoleRender):
             return None
 
     def process_input(self, pressed):
-        prev_choice = self._get_current_choice()
-
         self._process_control_input(pressed)
-
         self._process_text_input(pressed)
-
-        current_choice = self._get_current_choice()
-        if current_choice and prev_choice != current_choice:
-            if self.question.choice_callback:
-                self.question.choice_callback(current_choice)
 
     def _process_control_input(self, pressed):
         question = self.question

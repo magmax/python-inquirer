@@ -24,7 +24,7 @@ class FilterListTest(unittest.TestCase):
 
     def _filter_choices(self, query="__"):
         self.query = query
-        self.choices = list(filter(lambda x: query in x, PRM.choices))
+        self.choices = list(filter(lambda x: query in str(x), PRM.choices))
 
     def _search(self, query="__"):
         self._filter_choices(query)
