@@ -110,8 +110,8 @@ class FilterList(BaseConsoleRender):
         if pressed == key.ENTER:
             value = self._get_current_choice()
             if not value:
-                # filter_list can be empty, then key.ENTER does nothing
-                return
+                # filter_list can be empty, then key.ENTER returns user search input
+                value = self.get_current_value()
 
             if value == GLOBAL_OTHER_CHOICE:
                 value = self.other_input()

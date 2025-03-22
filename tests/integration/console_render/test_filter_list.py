@@ -8,20 +8,50 @@ import tests.integration.console_render.helper as helper
 from inquirer.render import ConsoleRender
 
 
-class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
+class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
     def setUp(self):
         self.base_setup()
+        self.choices = sorted(str.__dict__.keys())
+        self.query = ""
 
     def tearDown(self):
         self.base_teardown()
 
-    def test_all_choices_are_shown(self):
+    def _filter_choices(self, query, collection):
+        self.query = query
+        self.choices = list(filter(lambda x: query in str(x), collection))
+        self.query = query
+        return self.choices
+
+
+    def perform_query(self, query=None, 
+                      choices=["foo", "bar", "bazz"]):
+        key_input = []
+        message = "A message"
+        variable = "Variable Choice"
+        filtered_choices = choices
+
+        question = questions.FilterList(variable, message, choices=choices)
+        if query:
+            filtered_choices = self._filter_choices(query, choices)
+            key_input.extend(list(query))
+        key_input.append(key.ENTER)
+        stdin = helper.event_factory(*key_input)
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+        
+        self.assertInStdout(message)
+        for choice in filtered_choices:
+            self.assertInStdout(choice)
+        return result
+
+    def test_choices_are_shown(self):
         stdin = helper.event_factory(key.ENTER)
         message = "Foo message"
         variable = "Bar variable"
         choices = ["foo", "bar", "bazz"]
 
-        question = questions.FilterList(variable, message, choices=choices)
+        question = questions.List(variable, message, choices=choices)
 
         sut = ConsoleRender(event_generator=stdin)
         sut.render(question)
@@ -29,6 +59,14 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout(message)
         for choice in choices:
             self.assertInStdout(choice)
+
+    def test_filter(self, query="b"):
+        result = self.perform_query(query)
+        assert result == "bar"
+
+    def test_choices_are_not_found(self, query="dont_exist"):
+        res = self.perform_query(query)
+        assert res == query
 
     def test_choose_the_first(self):
         stdin = helper.event_factory(key.ENTER)

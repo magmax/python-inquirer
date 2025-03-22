@@ -78,10 +78,11 @@ class FilterListTest(unittest.TestCase):
         self.test_out_of_bounds_down()
 
     def test_notfound_behaviour(self):
-        self.sut.send("this_query_does_not_exist")
+        query = "this_query_does_not_exist"
+        self.sut.send(query)
         self.sut.expect(r"\s*$", timeout=1)
         self.sut.send(key.ENTER)
-        self.sut.expect(r"\s*$", timeout=1)
+        self.sut.expect(f"{{'attribute': '{query}'}}.*", timeout=1)
 
     def test_backspace(self):
         q = "__s"
