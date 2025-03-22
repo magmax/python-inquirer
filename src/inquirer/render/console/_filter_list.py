@@ -139,6 +139,7 @@ class FilterList(BaseConsoleRender):
             return
         else:
             self.current_text += pressed
+
         if prev_text != self.current_text:
             self.current = 0
             if not self.current_text:

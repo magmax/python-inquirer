@@ -23,23 +23,21 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.query = query
         return self.choices
 
-
-    def perform_query(self, query=None, 
-                      choices=["foo", "bar", "bazz"]):
+    def perform_query(self, query, choices=["foo", "bar", "bazz"]):
         key_input = []
         message = "A message"
         variable = "Variable Choice"
         filtered_choices = choices
 
         question = questions.FilterList(variable, message, choices=choices)
-        if query:
-            filtered_choices = self._filter_choices(query, choices)
-            key_input.extend(list(query))
+        filtered_choices = self._filter_choices(query, choices)
+        key_input.extend(list(query))
         key_input.append(key.ENTER)
         stdin = helper.event_factory(*key_input)
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
-        
+
+        self.assertInStdout(query)
         self.assertInStdout(message)
         for choice in filtered_choices:
             self.assertInStdout(choice)
@@ -68,6 +66,42 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         res = self.perform_query(query)
         assert res == query
 
+    def test_ctrl_w(self):
+        query = "bazz"
+        keys = list(query) + [key.CTRL_W, key.ENTER]
+        stdin = helper.event_factory(*keys)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertInStdout(message)
+        for choice in choices:
+            self.assertInStdout(choice)
+        assert result == "foo"
+
+    def test_backspace(self):
+        query = "b"
+        keys = list(query) + [key.BACKSPACE, key.ENTER]
+        stdin = helper.event_factory(*keys)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.List(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        self.assertInStdout(message)
+        for choice in choices:
+            self.assertInStdout(choice)
+        assert result == "foo"
+
     def test_choose_the_first(self):
         stdin = helper.event_factory(key.ENTER)
         message = "Foo message"
@@ -94,18 +128,9 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         assert result == "bar"
 
-    def test_choose_with_long_choices(self):
+    def test_choose_with_long_choices(self, downkey=key.DOWN):
         stdin = helper.event_factory(
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
-            key.DOWN,
+            *[downkey] * 10,
             key.ENTER,
         )
         message = "Number message"
@@ -118,6 +143,9 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         assert result == 10
+
+    def test_tab_key(self):
+        self.test_choose_with_long_choices(key.TAB)
 
     def test_move_up(self):
         stdin = helper.event_factory(key.DOWN, key.UP, key.ENTER)
@@ -219,3 +247,19 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut.render(question)
 
         self.assertInStdout("bb")
+
+    def test_custom_filter_func(self):
+        def custom_func(txt, itr):
+            return [list(itr)[-1]]
+
+        keys = list("query") + [key.ENTER]
+        stdin = helper.event_factory(*keys)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        question = questions.FilterList(variable, message, choices=choices, filter_func=custom_func)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+        assert result == "bazz"
