@@ -24,15 +24,13 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         return self.choices
 
     def perform_query(self, query, choices=["foo", "bar", "bazz"]):
-        key_input = []
+        key_input = list(query) + [key.ENTER]
         message = "A message"
         variable = "Variable Choice"
         filtered_choices = choices
 
         question = questions.FilterList(variable, message, choices=choices)
         filtered_choices = self._filter_choices(query, choices)
-        key_input.extend(list(query))
-        key_input.append(key.ENTER)
         stdin = helper.event_factory(*key_input)
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
@@ -49,7 +47,7 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         variable = "Bar variable"
         choices = ["foo", "bar", "bazz"]
 
-        question = questions.List(variable, message, choices=choices)
+        question = questions.FilterList(variable, message, choices=choices)
 
         sut = ConsoleRender(event_generator=stdin)
         sut.render(question)
@@ -74,7 +72,7 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         variable = "Bar variable"
         choices = ["foo", "bar", "bazz"]
 
-        question = questions.List(variable, message, choices=choices)
+        question = questions.FilterList(variable, message, choices=choices)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
@@ -85,22 +83,19 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         assert result == "foo"
 
     def test_backspace(self):
-        query = "b"
-        keys = list(query) + [key.BACKSPACE, key.ENTER]
+        query = "barX"
+        keys = list(query) + [key.BACKSPACE] + [key.ENTER]
         stdin = helper.event_factory(*keys)
         message = "Foo message"
         variable = "Bar variable"
         choices = ["foo", "bar", "bazz"]
 
-        question = questions.List(variable, message, choices=choices)
+        question = questions.FilterList(variable, message, choices=choices)
 
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
 
-        self.assertInStdout(message)
-        for choice in choices:
-            self.assertInStdout(choice)
-        assert result == "foo"
+        assert result == "bar"
 
     def test_choose_the_first(self):
         stdin = helper.event_factory(key.ENTER)
