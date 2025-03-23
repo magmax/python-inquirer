@@ -263,3 +263,23 @@ class FilterListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender(event_generator=stdin)
         result = sut.render(question)
         assert result == "bazz"
+
+    def test_default_search_ignores_tags(self):
+        query = "tag"
+        stdin = helper.event_factory(*list(query), key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = [
+            ("xx", "tag1"),
+            ("yy", "tag2"),
+        ]
+
+        question = questions.FilterList(variable, message, choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        # not found behaviour returns search/query input
+        assert result == query
+        assert result != "tag1"
+        assert result != "tag2"

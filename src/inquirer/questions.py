@@ -187,8 +187,10 @@ class FilterList(Question):
         self.filter_func = filter_func if filter_func else self._filter_func
         self._all_choices = choices
 
-    def _filter_func(self, text, collection):
-        return filter(lambda x: text in str(x), collection)
+    def _filter_func(self, text, all_choices):
+        # here we reset the 'self.choices' property, to use str() cast
+        self._choices = all_choices
+        return filter(lambda x: text in str(x), self.choices)
 
     def apply_filter(self, filter_func):
         self._choices = list(filter_func(self._all_choices))
