@@ -18,8 +18,10 @@ other = True if "other" in args else False
 choices = [(k, str(choices_map[k])[:5]) for k in choices] if "tag" in args else choices
 
 
-def filter_func(text, collection):
-    return filter(lambda x: text in str(x), collection)
+def filter_func(text, all_choices):
+    # `all_choices` is the global `choices` in this example
+    # in `tag` choices, tuples are cast to `str`. It's the user's responsibility to change this behaviour
+    return filter(lambda x: text in str(x), all_choices)
 
 
 questions = [

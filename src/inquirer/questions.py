@@ -179,7 +179,6 @@ class FilterList(Question):
         other=False,
         autocomplete=None,
         filter_func=None,
-        # choice_callback=None,
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
@@ -188,7 +187,7 @@ class FilterList(Question):
         self._all_choices = choices
 
     def _filter_func(self, text, all_choices):
-        # here we reset the 'self.choices' property, to use str() cast
+        # reset 'self.choices' property to use str() cast, filter what user sees
         self._choices = all_choices
         return filter(lambda x: text in str(x), self.choices)
 
