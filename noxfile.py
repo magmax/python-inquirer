@@ -112,7 +112,7 @@ def safety(session: nox.Session) -> None:
     ignore_CVEs = [70612]
 
     # Use modern approach for requirements export
-    requirements = session.run(
+    requirements: str | None = session.run(
         "poetry",
         "export",
         "--dev",
@@ -122,7 +122,8 @@ def safety(session: nox.Session) -> None:
         external=True,
         silent=True,
     )
-
+    if requirements is None:
+        session.error("Failed to export requirements.txt from poetry.")
     session.install("safety")
     with session.chdir(session.create_tmp()):
         requirements_file = Path("requirements.txt")
