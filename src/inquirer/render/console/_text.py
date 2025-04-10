@@ -1,3 +1,5 @@
+from typing import Any, Optional, Tuple
+
 from readchar import key
 
 from inquirer import errors
@@ -5,18 +7,18 @@ from inquirer.render.console.base import BaseConsoleRender
 
 
 class Text(BaseConsoleRender):
-    title_inline = True
+    title_inline: bool = True
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         self.current = self.question.default or ""
         self.cursor_offset = 0
-        self._autocomplete_state = None
+        self._autocomplete_state: Optional[Tuple[str, int]] = None
 
     def get_current_value(self):
         return self.current + (self.terminal.move_left * self.cursor_offset)
 
-    def process_input(self, pressed):
+    def process_input(self, pressed: str):
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
 

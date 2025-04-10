@@ -4,31 +4,38 @@ from __future__ import annotations
 
 import json
 import pathlib
+from typing import Any, Callable, Dict, Generic, Optional, Tuple, Type, TypeVar, Union, cast
 
 import inquirer.errors as errors
 from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 
+T = TypeVar("T")
+ValidatorType = Union[bool, Callable[[Dict[str, Any], Any], bool]]
+MessageType = Union[str, Callable[[Dict[str, Any]], str]]
+ChoiceType = Union[str, Tuple[str, T]]
+IgnoreType = Union[bool, Callable[[Dict[str, Any]], bool]]
 
-class TaggedValue:
-    def __init__(self, tag, value):
+
+class TaggedValue(Generic[T]):
+    def __init__(self, tag: str, value: T):
         self.tag = tag
         self.value = value
         self.tuple = (tag, value)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.tag
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return repr(self.value)
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, TaggedValue):
             return other.value == self.value
         if isinstance(other, tuple):
             return other == self.tuple
         return other == self.value
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         return not self.__eq__(other)
 
     def __hash__(self) -> int:
@@ -37,26 +44,27 @@ class TaggedValue:
 
 class Question:
     kind = "base question"
+    carousel: bool = False
 
     def __init__(
         self,
-        name,
-        message="",
-        choices=None,
-        default=None,
-        ignore=False,
-        validate=True,
-        show_default=False,
-        hints=None,
-        other=False,
+        name: str,
+        message: MessageType = "",
+        choices: list[ChoiceType[Any]] | None = None,
+        default: Any = None,
+        ignore: IgnoreType = False,
+        validate: ValidatorType = True,
+        show_default: bool = False,
+        hints: dict[str, str] | None = None,
+        other: bool = False,
     ):
         self.name = name
         self._message = message
-        self._choices = choices or []
+        self._choices: list[ChoiceType[Any]] = choices or []
         self._default = default
         self._ignore = ignore
         self._validate = validate
-        self.answers = {}
+        self.answers: dict[str, Any] = {}
         self.show_default = show_default
         self.hints = hints
         self._other = other
@@ -64,7 +72,7 @@ class Question:
         if self._other:
             self._choices.append(GLOBAL_OTHER_CHOICE)
 
-    def add_choice(self, choice):
+    def add_choice(self, choice: str | tuple[str, Any]) -> int:
         try:
             index = self._choices.index(choice)
             return index
@@ -77,15 +85,15 @@ class Question:
             return len(self._choices) - 1
 
     @property
-    def ignore(self):
+    def ignore(self) -> bool:
         return bool(self._solve(self._ignore))
 
     @property
-    def message(self):
-        return self._solve(self._message)
+    def message(self) -> str:
+        return cast(str, self._solve(self._message))
 
     @property
-    def default(self):
+    def default(self) -> Any:
         return self.answers.get(self.name) or self._solve(self._default)
 
     @property
@@ -97,7 +105,7 @@ class Question:
     def choices(self):
         return list(self.choices_generator)
 
-    def validate(self, current):
+    def validate(self, current: Any):
         try:
             if self._solve(self._validate, current):
                 return
@@ -105,7 +113,7 @@ class Question:
             raise e
         raise errors.ValidationError(current)
 
-    def _solve(self, prop, *args, **kwargs):
+    def _solve(self, prop: Any, *args: Any, **kwargs: Any) -> Any:
         if callable(prop):
             return prop(self.answers, *args, **kwargs)
         if isinstance(prop, str):
@@ -114,9 +122,16 @@ class Question:
 
 
 class Text(Question):
-    kind = "text"
+    kind: str = "text"
 
-    def __init__(self, name, message="", default=None, autocomplete=None, **kwargs):
+    def __init__(
+        self,
+        name: str,
+        message: MessageType = "",
+        default: Any = None,
+        autocomplete: Callable[[str, int], str | None] | None = None,
+        **kwargs: Any,
+    ):
         super().__init__(
             name, message=message, default=str(default) if default and not callable(default) else default, **kwargs
         )
@@ -126,7 +141,7 @@ class Text(Question):
 class Password(Text):
     kind = "password"
 
-    def __init__(self, name, echo="*", **kwargs):
+    def __init__(self, name: str, echo: str = "*", **kwargs: Any):
         super().__init__(name, **kwargs)
         self.echo = echo
 
@@ -138,7 +153,7 @@ class Editor(Text):
 class Confirm(Question):
     kind = "confirm"
 
-    def __init__(self, name, default=False, **kwargs):
+    def __init__(self, name: str, default: bool = False, **kwargs: Any):
         super().__init__(name, default=default, **kwargs)
 
 
@@ -147,16 +162,16 @@ class List(Question):
 
     def __init__(
         self,
-        name,
-        message="",
-        choices=None,
-        hints=None,
-        default=None,
-        ignore=False,
-        validate=True,
-        carousel=False,
-        other=False,
-        autocomplete=None,
+        name: str,
+        message: MessageType = "",
+        choices: list[ChoiceType[Any]] | None = None,
+        hints: dict[str, str] | None = None,
+        default: Any = None,
+        ignore: IgnoreType = False,
+        validate: ValidatorType = True,
+        carousel: bool = False,
+        other: bool = False,
+        autocomplete: Callable[[str, int], str | None] | None = None,
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.carousel = carousel
@@ -168,17 +183,17 @@ class Checkbox(Question):
 
     def __init__(
         self,
-        name,
-        message="",
-        choices=None,
-        hints=None,
-        locked=None,
-        default=None,
-        ignore=False,
-        validate=True,
-        carousel=False,
-        other=False,
-        autocomplete=None,
+        name: str,
+        message: MessageType = "",
+        choices: list[ChoiceType[Any]] | None = None,
+        hints: dict[str, str] | None = None,
+        locked: list[Any] | None = None,
+        default: list[Any] | None = None,
+        ignore: IgnoreType = False,
+        validate: ValidatorType = True,
+        carousel: bool = False,
+        other: bool = False,
+        autocomplete: Callable[[str, int], str | None] | None = None,
     ):
         super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
         self.locked = locked
@@ -193,7 +208,14 @@ class Path(Text):
 
     kind = "path"
 
-    def __init__(self, name, default=None, path_type="any", exists=None, **kwargs):
+    def __init__(
+        self,
+        name: str,
+        default: str | None = None,
+        path_type: str = "any",
+        exists: bool | None = None,
+        **kwargs: Any,
+    ):
         super().__init__(name, default=default, **kwargs)
 
         if path_type in (Path.ANY, Path.FILE, Path.DIRECTORY):
@@ -207,9 +229,9 @@ class Path(Text):
             try:
                 self.validate(default)
             except errors.ValidationError:
-                raise ValueError("Default value '{}' is not valid based on " "your Path's criteria".format(default))
+                raise ValueError(f"Default value '{default}' is not valid based on your Path's criteria")
 
-    def validate(self, current: str):
+    def validate(self, current: str | None) -> None:
         super().validate(current)
 
         if current is None:
@@ -244,14 +266,14 @@ class Path(Text):
                 raise errors.ValidationError(current)
 
 
-def question_factory(kind, *args, **kwargs):
+def question_factory(kind: str, *args: Any, **kwargs: Any) -> Question:
     for cl in (Text, Editor, Password, Confirm, List, Checkbox, Path):
         if cl.kind == kind:
             return cl(*args, **kwargs)
     raise errors.UnknownQuestionTypeError()
 
 
-def load_from_dict(question_dict) -> Question:
+def load_from_dict(question_dict: dict[str, Any]) -> Question:
     """Load one question from a dict.
 
     It requires the keys 'name' and 'kind'.
@@ -262,7 +284,7 @@ def load_from_dict(question_dict) -> Question:
     return question_factory(**question_dict)
 
 
-def load_from_list(question_list) -> list[Question]:
+def load_from_list(question_list: list[dict[str, Any]]) -> list[Question]:
     """Load a list of questions from a list of dicts.
 
     It requires the keys 'name' and 'kind' for each dict.
@@ -273,7 +295,7 @@ def load_from_list(question_list) -> list[Question]:
     return [load_from_dict(q) for q in question_list]
 
 
-def load_from_json(question_json) -> list | dict:
+def load_from_json(question_json: str | bytes | bytearray) -> list[Question] | Question:
     """Load Questions from a JSON string.
 
     Returns:
@@ -285,4 +307,4 @@ def load_from_json(question_json) -> list | dict:
         return load_from_list(data)
     if isinstance(data, dict):
         return load_from_dict(data)
-    raise TypeError("Json contained a %s variable when a dict or list was expected", type(data))
+    raise TypeError(f"Json contained a {type(data)} variable when a dict or list was expected")

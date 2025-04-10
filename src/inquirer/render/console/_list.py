@@ -17,7 +17,7 @@ class List(BaseConsoleRender):
         choices = self.question.choices or []
         return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
 
-    def get_hint(self):
+    def get_hint(self) -> str:
         try:
             choice = self.question.choices[self.current]
             hint = self.question.hints[choice]
@@ -64,7 +64,7 @@ class List(BaseConsoleRender):
                 symbol = " " if choice == GLOBAL_OTHER_CHOICE else " " * len(self.theme.List.selection_cursor)
             yield choice, symbol, color
 
-    def process_input(self, pressed):
+    def process_input(self, pressed: str) -> None:
         question = self.question
         if pressed == key.UP:
             if question.carousel and self.current == 0:

@@ -1,15 +1,15 @@
-import collections
 import json
+from typing import Dict, TypeVar
 
 from blessed import Terminal
-
-import inquirer.errors as errors
-
+from inquirer import errors
 
 term = Terminal()
 
+T = TypeVar("T", bound="Theme")
 
-def load_theme_from_json(json_theme):
+
+def load_theme_from_json(json_theme: str | bytes | bytearray) -> "Theme":
     """Load a theme from a json.
 
     Expected format:
@@ -30,7 +30,7 @@ def load_theme_from_json(json_theme):
     return load_theme_from_dict(json.loads(json_theme))
 
 
-def load_theme_from_dict(dict_theme):
+def load_theme_from_dict(dict_theme: Dict[str, Dict[str, str]]) -> "Theme":
     """Load a theme from a dict.
 
     Expected format:
@@ -48,11 +48,11 @@ def load_theme_from_dict(dict_theme):
 
     Color values should be string representing valid blessings.Terminal colors.
     """
-    t = Default()
+    t = Theme()
     for question_type, settings in dict_theme.items():
         if question_type not in vars(t):
             raise errors.ThemeError(
-                "Error while parsing theme. Question type " "`{}` not found or not customizable.".format(question_type)
+                f"Error while parsing theme. Question type `{question_type}` not found or not customizable."
             )
 
         # calculating fields of namedtuple, hence the filtering
@@ -61,29 +61,45 @@ def load_theme_from_dict(dict_theme):
         for field, value in settings.items():
             if field not in question_fields:
                 raise errors.ThemeError(
-                    "Error while parsing theme. Field "
-                    "`{}` invalid for question type `{}`".format(field, question_type)
+                    f"Error while parsing theme. Field `{field}` invalid for question type `{question_type}`"
                 )
             actual_value = getattr(term, value) or value
             setattr(getattr(t, question_type), field, actual_value)
     return t
 
 
+class QuestionTheme:
+    mark_color: str
+    brackets_color: str
+    default_color: str
+
+
+class EditorTheme:
+    opening_prompt_color: str
+
+
+class CheckboxTheme:
+    selection_color: str
+    selection_icon: str
+    selected_color: str
+    unselected_color: str
+    selected_icon: str
+    unselected_icon: str
+    locked_option_color: str
+
+
+class ListTheme:
+    selection_color: str
+    selection_cursor: str
+    unselected_color: str
+
+
 class Theme:
-    def __init__(self):
-        self.Question = collections.namedtuple("question", "mark_color brackets_color default_color")
-        self.Editor = collections.namedtuple("editor", "opening_prompt")
-        self.Checkbox = collections.namedtuple(
-            "common",
-            "selection_color selection_icon selected_color unselected_color "
-            "selected_icon unselected_icon locked_option_color",
-        )
-        self.List = collections.namedtuple("List", "selection_color selection_cursor unselected_color")
-
-
-class Default(Theme):
-    def __init__(self):
-        super().__init__()
+    def __init__(self) -> None:
+        self.Question = QuestionTheme()
+        self.Editor = EditorTheme()
+        self.Checkbox = CheckboxTheme()
+        self.List = ListTheme()
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.normal
         self.Question.default_color = term.normal
@@ -100,8 +116,8 @@ class Default(Theme):
         self.List.unselected_color = term.normal
 
 
-class GreenPassion(Default):
-    def __init__(self):
+class GreenPassion(Theme):
+    def __init__(self) -> None:
         super().__init__()
         self.Question.brackets_color = term.bright_green
         self.Checkbox.selection_color = term.bold_black_on_bright_green
@@ -113,8 +129,8 @@ class GreenPassion(Default):
         self.List.selection_cursor = "❯"
 
 
-class BlueComposure(Default):
-    def __init__(self):
+class BlueComposure(Theme):
+    def __init__(self) -> None:
         super().__init__()
         self.Question.brackets_color = term.dodgerblue
         self.Question.default_color = term.deepskyblue2
