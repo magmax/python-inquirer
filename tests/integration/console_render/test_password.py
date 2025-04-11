@@ -1,13 +1,11 @@
-import unittest
-
 from readchar import key
 
 import inquirer
-import tests.integration.console_render.helper as helper
 from inquirer.render import ConsoleRender
+from tests.integration.console_render import helper
 
 
-class PasswordRenderTest(unittest.TestCase, helper.BaseTestCase):
+class PasswordRenderTest(helper.BaseTestCase):
     def setUp(self):
         self.base_setup()
 

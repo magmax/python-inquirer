@@ -1,5 +1,5 @@
+from unittest.case import TestCase
 import sys
-
 
 try:
     from StringIO import StringIO  # type: ignore
@@ -21,7 +21,7 @@ def event_factory(*args: str):
     return Iterable(*args)
 
 
-class BaseTestCase:
+class BaseTestCase(TestCase):
     def base_setup(self):
         self._base_stdin = sys.stdin
         self._base_stdout = sys.stdout

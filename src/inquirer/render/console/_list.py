@@ -23,8 +23,7 @@ class List(BaseConsoleRender):
             hint = self.question.hints[choice]
             if hint:
                 return f"{choice}: {hint}"
-            else:
-                return f"{choice}"
+            return f"{choice}"
         except (KeyError, IndexError):
             return ""
 

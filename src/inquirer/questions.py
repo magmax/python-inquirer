@@ -6,13 +6,14 @@ import json
 import pathlib
 from typing import Any, Callable, Dict, Generic, Tuple, TypeVar, Union, cast
 
-import inquirer.errors as errors
-from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
+from inquirer import errors
+from inquirer.render.console._other import GLOBAL_OTHER_CHOICE, OtherChoice
+
 
 T = TypeVar("T")
 ValidatorType = Union[bool, Callable[[Dict[str, Any], Any], bool]]
 MessageType = Union[str, Callable[[Dict[str, Any]], str]]
-ChoiceType = Union[str, Tuple[str, T]]
+ChoiceType = Union[str, Tuple[str, T], OtherChoice]
 IgnoreType = Union[bool, Callable[[Dict[str, Any]], bool]]
 
 
@@ -30,7 +31,7 @@ class TaggedValue(Generic[T]):
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, TaggedValue):
-            return other.value == self.value
+            return other.value == self.value  # type: ignore[operator]
         if isinstance(other, tuple):
             return other == self.tuple
         return other == self.value

@@ -1,13 +1,11 @@
-import unittest
-
 from readchar import key
 
-import inquirer.questions as questions
-import tests.integration.console_render.helper as helper
+from inquirer import questions
 from inquirer.render import ConsoleRender
+from tests.integration.console_render import helper
 
 
-class ConfirmRenderTest(unittest.TestCase, helper.BaseTestCase):
+class ConfirmRenderTest(helper.BaseTestCase):
     def setUp(self):
         self.base_setup()
 

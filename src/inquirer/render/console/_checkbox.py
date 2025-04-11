@@ -114,7 +114,7 @@ class Checkbox(BaseConsoleRender):
             if self.current not in self.selection:
                 self.selection.append(self.current)
         elif pressed == key.CTRL_A:
-            self.selection = [i for i in range(len(self.question.choices))]
+            self.selection = list(range(len(self.question.choices)))
         elif pressed == key.CTRL_R:
             self.selection = []
         elif pressed == key.CTRL_I:

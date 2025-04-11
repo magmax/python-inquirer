@@ -1,12 +1,10 @@
-import unittest
-
-import inquirer.errors as errors
-import inquirer.questions as questions
-import tests.integration.console_render.helper as helper
+from inquirer import errors
+from inquirer import questions
 from inquirer.render import ConsoleRender
+from tests.integration.console_render import helper
 
 
-class BasicTest(unittest.TestCase, helper.BaseTestCase):
+class BasicTest(helper.BaseTestCase):
     def test_rendering_erroneous_type(self):
         question = questions.Question("foo", "bar")
 
