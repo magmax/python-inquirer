@@ -75,7 +75,7 @@ class QuestionTheme:
 
 
 class EditorTheme:
-    opening_prompt_color: str
+    opening_prompt: str
 
 
 class CheckboxTheme:
@@ -103,7 +103,7 @@ class Theme:
         self.Question.mark_color = term.yellow
         self.Question.brackets_color = term.normal
         self.Question.default_color = term.normal
-        self.Editor.opening_prompt_color = term.bright_black
+        self.Editor.opening_prompt = term.bright_black
         self.Checkbox.selection_color = term.cyan
         self.Checkbox.selection_icon = ">"
         self.Checkbox.selected_icon = "[X]"

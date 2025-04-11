@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 from unittest.mock import Mock
-
+from inquirer.render import Render
 import pytest
 
 import inquirer
@@ -26,13 +26,13 @@ def test_prompt_renders_a_questions():
     render.render.return_value = result1
 
 
-def test_print(capsys, render_mock_raise_keyboard):
+def test_print(capsys, render_mock_raise_keyboard: "Render"):
     inquirer.prompt([MagicMock()], render=render_mock_raise_keyboard)
     out, _ = capsys.readouterr()
 
     assert "Cancelled by user" in out.rstrip().lstrip()
 
 
-def test_raise_keyboard(render_mock_raise_keyboard):
+def test_raise_keyboard(render_mock_raise_keyboard: Render):
     with pytest.raises(KeyboardInterrupt):
         inquirer.prompt([MagicMock()], render=render_mock_raise_keyboard, raise_keyboard_interrupt=True)

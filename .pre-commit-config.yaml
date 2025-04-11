@@ -34,7 +34,7 @@ repos:
         entry: end-of-file-fixer
         language: system
         types: [text]
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]
       - id: flake8
         name: flake8
         entry: flake8
@@ -53,7 +53,7 @@ repos:
         entry: trailing-whitespace-fixer
         language: system
         types: [text]
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]
   - repo: https://github.com/prettier/pre-commit
     rev: v2.1.2
     hooks:

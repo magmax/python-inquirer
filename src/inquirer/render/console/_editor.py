@@ -13,7 +13,9 @@ class Editor(BaseConsoleRender):
         self.current = ""
 
     def get_current_value(self):
-        return f"{self.theme.Editor.opening_prompt_color}Press <enter> to launch your editor{self.terminal.normal}"
+        if self.theme is None:
+            raise errors.ThemeError("Theme does not have Editor theme.")
+        return f"{self.theme.Editor.opening_prompt}Press <enter> to launch your editor{self.terminal.normal}"
 
     def handle_validation_error(self, error: errors.ValidationError) -> str:
         if error.reason:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import pathlib
-from typing import Any, Callable, Dict, Generic, Optional, Tuple, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Generic, Tuple, TypeVar, Union, cast
 
 import inquirer.errors as errors
 from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
