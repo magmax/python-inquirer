@@ -106,10 +106,9 @@ def pre_commit(session: nox.Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@nox.session(python=python_versions[2])
+@nox.session(python=["3.13", "3.10"])
 def safety(session: nox.Session) -> None:
     """Scan dependencies for insecure packages."""
-    ignore_CVEs = [70612]
 
     # Use modern approach for requirements export
     requirements: str | None = session.run(
@@ -128,7 +127,7 @@ def safety(session: nox.Session) -> None:
     with session.chdir(session.create_tmp()):
         requirements_file = Path("requirements.txt")
         requirements_file.write_text(requirements)
-        session.run("safety", "check", f"--file={requirements_file}", *[f"-i{id}" for id in ignore_CVEs])
+        session.run("safety", "check", f"--file={requirements_file}")
 
 
 @nox.session(python=python_versions)
@@ -207,7 +206,7 @@ def docs_build(session: nox.Session) -> None:
     session.run("sphinx-build", *args)
 
 
-@nox.session(python="3.9")
+@nox.session(python=python_versions[0])
 def docs(session: nox.Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]
