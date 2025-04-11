@@ -1,14 +1,11 @@
-import unittest
-
 import pytest
 from readchar import key
-
-import inquirer.questions as questions
-import tests.integration.console_render.helper as helper
+from inquirer import questions
 from inquirer.render import ConsoleRender
+from tests.integration.console_render import helper
 
 
-class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
+class ListRenderTest(helper.BaseTestCase):
     def setUp(self):
         self.base_setup()
 

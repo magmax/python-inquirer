@@ -1,15 +1,11 @@
 import re
-import unittest
-
 from readchar import key
-
-import inquirer.questions as questions
-import tests.integration.console_render.helper as helper
-from inquirer import errors
+from inquirer import questions, errors
 from inquirer.render import ConsoleRender
+from tests.integration.console_render import helper
 
 
-class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
+class TextRenderTest(helper.BaseTestCase):
     def setUp(self):
         self.base_setup()
 
@@ -46,7 +42,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertNotInStdout(message)
 
     def test_validation_fails(self):
-        stdin_array = [x for x in "Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER]
+        stdin_array = list("Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER)
         stdin = helper.event_factory(*stdin_array)
 
         message = "Insert number"
@@ -62,7 +58,7 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout('"Invalid" is not a valid foo')
 
     def test_validation_fails_with_brace(self):
-        stdin_array = [x for x in "{Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER]
+        stdin_array = list("{Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER)
         stdin = helper.event_factory(*stdin_array)
 
         message = "Insert number"
@@ -78,14 +74,14 @@ class TextRenderTest(unittest.TestCase, helper.BaseTestCase):
         self.assertInStdout("Entered value is not a valid foo")
 
     def test_validation_fails_with_custom_message(self):
-        stdin_array = [x for x in "Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER]
+        stdin_array = list("Invalid" + key.ENTER + key.BACKSPACE * 20 + "9999" + key.ENTER)
         stdin = helper.event_factory(*stdin_array)
 
         message = "Insert number"
         variable = "foo"
         expected = "9999"
 
-        def raise_exc(x, current):
+        def raise_exc(_, current: str):
             if current != "9999":
                 raise errors.ValidationError("", reason="Custom error")
             return True

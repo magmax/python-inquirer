@@ -1,8 +1,6 @@
-from unittest.mock import Mock
-
 import pytest
-
-import inquirer.shortcuts as shortcuts
+from unittest.mock import Mock
+from inquirer import shortcuts
 
 
 @pytest.fixture()

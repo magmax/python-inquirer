@@ -10,11 +10,11 @@ repository = "https://github.com/magmax/python-inquirer"
 documentation = "https://python-inquirer.readthedocs.io"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -24,24 +24,24 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.8.1"
-blessed = ">=1.19.0"
-readchar = ">=4.2.0"
-editor = ">=1.6.0"
+python = ">=3.9"
+blessed = ">=1.20.0"
+readchar = ">=4.2.1"
+editor = ">=1.6.6"
 
 [tool.poetry.dev-dependencies]
-bandit = ">=1.7.4"
-flake8 = ">=6.1.0"
-flake8-docstrings = ">=1.6.0"
-furo = ">=2022.9.29"
-isort = ">=5.10.1"
-pexpect = ">=4.8.0"
-pre-commit = ">=2.17.0"
-pre-commit-hooks = ">=4.3.0"
-pyupgrade = ">=2.31.1"
-safety = ">=2.3.1"
-sphinx = ">=5.3.0"
-sphinx-autobuild = ">=2021.3.14"
+bandit = ">=1.8.3"
+flake8 = ">=7.1.1"
+flake8-docstrings = ">=1.7.0"
+furo = ">=2024.8.6"
+isort = ">=6.0.0"
+pexpect = ">=4.9.0"
+pre-commit = ">=4.0.0"
+pre-commit-hooks = ">=5.0.0"
+pyupgrade = ">=3.19.1"
+safety = ">=3.3.1"
+sphinx = ">=8.2.3"
+sphinx-autobuild = ">=2024.10.3"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

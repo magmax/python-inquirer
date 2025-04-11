@@ -13,17 +13,17 @@ class Editor(BaseConsoleRender):
         self.current = ""
 
     def get_current_value(self):
-        return "{}Press <enter> to launch your editor{}".format(
-            self.theme.Editor.opening_prompt_color, self.terminal.normal
-        )
+        if self.theme is None:
+            raise errors.ThemeError("Theme does not have Editor theme.")
+        return f"{self.theme.Editor.opening_prompt}Press <enter> to launch your editor{self.terminal.normal}"
 
-    def handle_validation_error(self, error):
+    def handle_validation_error(self, error: errors.ValidationError) -> str:
         if error.reason:
             return error.reason
 
         return f"Entered value is not a valid {self.question.name}."
 
-    def process_input(self, pressed):
+    def process_input(self, pressed: str) -> None:
         if pressed == key.CTRL_C:
             raise KeyboardInterrupt()
 
@@ -31,6 +31,4 @@ class Editor(BaseConsoleRender):
             data = editor(text=self.question.default or "")
             raise errors.EndOfInput(data)
 
-        raise errors.ValidationError(
-            "You have pressed unknown key! " "Press <enter> to open editor or " "CTRL+C to exit."
-        )
+        raise errors.ValidationError("You have pressed unknown key! Press <enter> to open editor or CTRL+C to exit.")

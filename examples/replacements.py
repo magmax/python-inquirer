@@ -8,7 +8,7 @@ import inquirer  # noqa
 
 
 def initials(answers):
-    return "Are these your initials? {}{}".format(answers["name"][0], answers["surname"][0])
+    return f"Are these your initials? {answers["name"][0]}{answers["surname"][0]}"
 
 
 questions = [

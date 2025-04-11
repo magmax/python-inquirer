@@ -5,7 +5,7 @@ from re import escape
 import pexpect
 from readchar import key
 
-from inquirer.themes import Default as Theme
+from inquirer.themes import Theme
 
 
 @unittest.skipUnless(sys.platform.startswith("lin"), "Linux only")
