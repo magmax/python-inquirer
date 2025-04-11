@@ -126,7 +126,7 @@ def safety(session: nox.Session) -> None:
     session.install("safety")
     with session.chdir(session.create_tmp()):
         requirements_file = Path("requirements.txt")
-        requirements_file.write_text(requirements)
+        requirements_file.write_text(requirements, encoding="utf-8")
         session.run("safety", "check", f"--file={requirements_file}")
 
 
