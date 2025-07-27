@@ -100,7 +100,7 @@ class Default(Theme):
         self.List.unselected_color = term.normal
 
 
-class RedComposure(Default):
+class RedSolace(Default):
     def __init__(self):
         super().__init__()
         self.Question.brackets_color = term.red2
