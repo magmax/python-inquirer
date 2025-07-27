@@ -87,7 +87,7 @@ def test_themes_blue_composure():
 
 
 def test_themes_red_composure():
-    t = themes.RedComposure()
+    t = themes.RedSolace()
 
     assert hasattr(t, "Question")
     assert hasattr(t.Question, "mark_color")
