@@ -78,7 +78,7 @@ jobs:
           print("::set-output result={}".format(result))
 
       - name: Restore pre-commit cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: matrix.session == 'pre-commit'
         with:
           path: ~/.cache/pre-commit
@@ -92,10 +92,11 @@ jobs:
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: coverage-data
+          name: coverage-data-${{ strategy.job-index }}
           path: ".coverage.*"
+          include-hidden-files: true
 
   coverage:
     runs-on: ubuntu-latest
@@ -126,9 +127,10 @@ jobs:
           nox --version
 
       - name: Download coverage data
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: coverage-data
+          pattern: coverage-data-*
+          merge-multiple: true
 
       - name: Combine coverage data and display human readable report
         run: |
