@@ -24,7 +24,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.9.2"
 blessed = ">=1.19.0"
 readchar = ">=4.2.0"
 editor = ">=1.6.0"
