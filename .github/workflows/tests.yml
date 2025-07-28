@@ -90,6 +90,14 @@ jobs:
         run: |
           nox --force-color --python=${{ matrix.python }}
 
+      - name: Upload error log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipx-error.log
+          path: "/opt/pipx/logs/cmd_*.log"
+          include-hidden-files: true
+
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
         uses: actions/upload-artifact@v4
