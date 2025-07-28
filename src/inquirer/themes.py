@@ -100,6 +100,20 @@ class Default(Theme):
         self.List.unselected_color = term.normal
 
 
+class RedSolace(Default):
+    def __init__(self):
+        super().__init__()
+        self.Question.brackets_color = term.red2
+        self.Question.default_color = term.firebrick1
+        self.Checkbox.selection_icon = "➠"
+        self.Checkbox.selection_color = term.bold_black_on_bright_red
+        self.Checkbox.selected_icon = "🔥"
+        self.Checkbox.selected_color = term.webmaroon
+        self.Checkbox.unselected_icon = "❑"
+        self.List.selection_color = term.bold_black_on_bright_red
+        self.List.selection_cursor = "➠"
+
+
 class GreenPassion(Default):
     def __init__(self):
         super().__init__()
