@@ -163,6 +163,41 @@ class List(Question):
         self.autocomplete = autocomplete
 
 
+class FilterList(Question):
+    kind = "filter_list"
+
+    def __init__(
+        self,
+        name,
+        message="",
+        choices=None,
+        hints=None,
+        default=None,
+        ignore=False,
+        validate=True,
+        carousel=False,
+        other=False,
+        autocomplete=None,
+        filter_func=None,
+    ):
+        super().__init__(name, message, choices, default, ignore, validate, hints=hints, other=other)
+        self.carousel = carousel
+        self.autocomplete = autocomplete
+        self.filter_func = filter_func if filter_func else self._filter_func
+        self._all_choices = choices
+
+    def _filter_func(self, text, all_choices):
+        # reset 'self.choices' property to use str() cast, filter what user sees
+        self._choices = all_choices
+        return filter(lambda x: text in str(x), self.choices)
+
+    def apply_filter(self, filter_func):
+        self._choices = list(filter_func(self._all_choices))
+
+    def remove_filter(self):
+        self._choices = self._all_choices
+
+
 class Checkbox(Question):
     kind = "checkbox"
 
