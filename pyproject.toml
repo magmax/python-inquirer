@@ -46,6 +46,8 @@ pyupgrade = ">=2.31.1"
 safety = ">=2.3.1"
 sphinx = ">=5.3.0"
 sphinx-autobuild = ">=2021.3.14"
+nox = "^2025.5.1"
+nox-poetry = "^1.2.0"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
