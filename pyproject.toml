@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "inquirer"
 version = "3.4.0"
@@ -29,7 +33,7 @@ blessed = ">=1.19.0"
 readchar = ">=4.2.0"
 editor = ">=1.6.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 bandit = ">=1.7.4"
 flake8 = ">=6.1.0"
 flake8-docstrings = ">=1.6.0"
@@ -42,6 +46,8 @@ pyupgrade = ">=2.31.1"
 safety = ">=2.3.1"
 sphinx = ">=5.3.0"
 sphinx-autobuild = ">=2021.3.14"
+nox = "^2025.5.1"
+nox-poetry = "^1.2.0"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -62,7 +68,3 @@ line-length = 119
 profile = "black"
 force_single_line = true
 lines_after_imports = 2
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
