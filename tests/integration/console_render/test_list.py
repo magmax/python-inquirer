@@ -132,6 +132,30 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         with pytest.raises(KeyboardInterrupt):
             sut.render(question)
 
+    def test_type_char(self):
+        stdin = helper.event_factory('b', 'A', 'z', key.ENTER)
+        message = "Foo message"
+        variable = "Bar variable"
+        choices = ["foo", "bar", "bazz"]
+
+        # To make the search case-insensitive
+        def matcher(choices, pressedKey, searchString):
+            if pressedKey == key.BACKSPACE:
+                searchString = searchString[:-1]
+            elif pressedKey.isprintable():
+                searchString += pressedKey
+            for i in range(len(choices)):
+                if choices[i].lower().startswith(searchString.lower()):
+                    return (i, searchString)
+            return (0, searchString)
+
+        question = questions.List(variable, message, choices=choices, carousel=True, matcher=matcher)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == "bazz"
+
     def test_first_hint_is_shown(self):
         stdin = helper.event_factory(key.ENTER)
         message = "Foo message"
