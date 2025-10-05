@@ -138,8 +138,8 @@ class Editor(Text):
 class Confirm(Question):
     kind = "confirm"
 
-    def __init__(self, name, default=False, **kwargs):
-        super().__init__(name, default=default, **kwargs)
+    def __init__(self, name, message="", default=False, **kwargs):
+        super().__init__(name, message=message, default=default, **kwargs)
 
 
 class List(Question):
