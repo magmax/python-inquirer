@@ -97,6 +97,8 @@ answers = inquirer.prompt(questions)
 
 List questions can take one extra argument `carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
 
+Besides the arrow keys, `Page Up` and `Page Down` move the selection a full page at a time, which is handy for long lists. When `carousel` is enabled they wrap around just like the arrow keys.
+
 ### Checkbox
 
 Shows a list of choices, with multiple selection.
@@ -115,6 +117,8 @@ answers = inquirer.prompt(questions)
 ```
 
 Checkbox questions can take extra argument `carousel=False`. If set to true, the answers will rotate (back to first when pressing down on last choice, and down to last choice when pressing up on first choice)
+
+As with `List`, `Page Up` and `Page Down` move the cursor a full page at a time and wrap around when `carousel` is enabled.
 
 Another argument that can be used is `locked=<List>`. The given choices in the locked argument cannot be removed. This is useful if you want to make clear that a specific option out of the choices must be chosen.
 

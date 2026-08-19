@@ -181,3 +181,58 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         sut.render(question)
 
         self.assertInStdout("bb")
+
+    def test_page_down_jumps_a_page(self):
+        stdin = helper.event_factory(key.PAGE_DOWN, key.ENTER)
+        choices = list(range(20))
+
+        question = questions.List("number", "Number message", choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == 13
+
+    def test_page_up_jumps_a_page(self):
+        stdin = helper.event_factory(key.PAGE_DOWN, key.PAGE_UP, key.ENTER)
+        choices = list(range(20))
+
+        question = questions.List("number", "Number message", choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == 0
+
+    def test_page_down_stops_at_the_last_choice(self):
+        stdin = helper.event_factory(key.PAGE_DOWN, key.PAGE_DOWN, key.ENTER)
+        choices = list(range(20))
+
+        question = questions.List("number", "Number message", choices=choices)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == 19
+
+    def test_page_up_wraps_when_carousel_is_enabled(self):
+        stdin = helper.event_factory(key.PAGE_UP, key.ENTER)
+        choices = list(range(20))
+
+        question = questions.List("number", "Number message", choices=choices, carousel=True)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == 19
+
+    def test_page_down_wraps_when_carousel_is_enabled(self):
+        stdin = helper.event_factory(key.PAGE_DOWN, key.PAGE_DOWN, key.PAGE_DOWN, key.ENTER)
+        choices = list(range(20))
+
+        question = questions.List("number", "Number message", choices=choices, carousel=True)
+
+        sut = ConsoleRender(event_generator=stdin)
+        result = sut.render(question)
+
+        assert result == 0

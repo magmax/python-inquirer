@@ -96,6 +96,18 @@ class Checkbox(BaseConsoleRender):
             else:
                 self.current = min(len(self.question.choices) - 1, self.current + 1)
             return
+        elif pressed == key.PAGE_UP:
+            if question.carousel and self.current == 0:
+                self.current = len(question.choices) - 1
+            else:
+                self.current = max(0, self.current - MAX_OPTIONS_DISPLAYED_AT_ONCE)
+            return
+        elif pressed == key.PAGE_DOWN:
+            if question.carousel and self.current == len(question.choices) - 1:
+                self.current = 0
+            else:
+                self.current = min(len(self.question.choices) - 1, self.current + MAX_OPTIONS_DISPLAYED_AT_ONCE)
+            return
         elif pressed == key.SPACE:
             if self.question.choices[self.current] == GLOBAL_OTHER_CHOICE:
                 self.other_input()
