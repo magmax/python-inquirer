@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import MagicMock
 
 import inquirer.errors as errors
 import inquirer.questions as questions
@@ -13,3 +14,10 @@ class BasicTest(unittest.TestCase, helper.BaseTestCase):
         sut = ConsoleRender()
         with self.assertRaises(errors.UnknownQuestionTypeError):
             sut.render(question)
+
+    def test_height_uses_terminal_height_not_width(self):
+        sut = ConsoleRender()
+        sut.terminal = MagicMock(width=123, height=45)
+
+        self.assertEqual(sut.height, 45)
+        self.assertEqual(sut.width, 123)
