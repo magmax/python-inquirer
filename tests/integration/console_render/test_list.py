@@ -236,3 +236,33 @@ class ListRenderTest(unittest.TestCase, helper.BaseTestCase):
         result = sut.render(question)
 
         assert result == 0
+
+    def test_max_options_displayed_at_once_shows_more_choices(self):
+        stdin = helper.event_factory(key.ENTER)
+        message = "Pick one"
+        variable = "many"
+        choices = [f"opt-{i:03d}" for i in range(40)]
+
+        question = questions.List(
+            variable, message, choices=choices, max_options_displayed_at_once=25
+        )
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("opt-000")
+        self.assertInStdout("opt-024")
+        self.assertNotInStdout("opt-025")
+
+    def test_max_options_displayed_at_once_default_unchanged(self):
+        stdin = helper.event_factory(key.ENTER)
+        message = "Pick one"
+        variable = "many"
+        choices = [f"opt-{i:03d}" for i in range(40)]
+
+        question = questions.List(variable, message, choices=choices)
+        sut = ConsoleRender(event_generator=stdin)
+        sut.render(question)
+
+        self.assertInStdout("opt-000")
+        self.assertInStdout("opt-012")
+        self.assertNotInStdout("opt-013")

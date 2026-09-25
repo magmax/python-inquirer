@@ -4,7 +4,6 @@ from inquirer import errors
 from inquirer.render.console._other import GLOBAL_OTHER_CHOICE
 from inquirer.render.console.base import MAX_OPTIONS_DISPLAYED_AT_ONCE
 from inquirer.render.console.base import BaseConsoleRender
-from inquirer.render.console.base import half_options
 
 
 class Checkbox(BaseConsoleRender):
@@ -26,21 +25,32 @@ class Checkbox(BaseConsoleRender):
         return default + self.locked
 
     @property
+    def max_options_displayed(self):
+        value = getattr(self.question, "max_options_displayed_at_once", None)
+        return value if value else MAX_OPTIONS_DISPLAYED_AT_ONCE
+
+    @property
+    def half_options(self):
+        return int((self.max_options_displayed - 1) / 2)
+
+    @property
     def is_long(self):
         choices = self.question.choices or []
-        return len(choices) >= MAX_OPTIONS_DISPLAYED_AT_ONCE
+        return len(choices) >= self.max_options_displayed
 
     def get_options(self):
         choices = self.question.choices or []
+        max_options = self.max_options_displayed
+        half_options = self.half_options
         if self.is_long:
             cmin = 0
-            cmax = MAX_OPTIONS_DISPLAYED_AT_ONCE
+            cmax = max_options
 
             if half_options < self.current < len(choices) - half_options:
                 cmin += self.current - half_options
                 cmax += self.current - half_options
             elif self.current >= len(choices) - half_options:
-                cmin += len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE
+                cmin += len(choices) - max_options
                 cmax += len(choices)
 
             cchoices = choices[cmin:cmax]
@@ -55,7 +65,7 @@ class Checkbox(BaseConsoleRender):
             if (
                 (is_in_middle and self.current - half_options + index in self.selection)
                 or (is_in_beginning and index in self.selection)
-                or (is_in_end and index + max(len(choices) - MAX_OPTIONS_DISPLAYED_AT_ONCE, 0) in self.selection)
+                or (is_in_end and index + max(len(choices) - max_options, 0) in self.selection)
             ):  # noqa
                 symbol = self.theme.Checkbox.selected_icon
                 color = self.theme.Checkbox.selected_color

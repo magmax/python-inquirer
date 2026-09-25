@@ -133,6 +133,16 @@ choices = {
 question = questions.Checkbox("foo", "Choose one:", choices=choices.keys(), hints=choices)
 ```
 
+### max_options_displayed_at_once
+
+**Optional** for `Checkbox` and `List` questions. When `None` (default), at most 13 choices are visible at once and the list scrolls around the cursor. Set it to a positive integer to display more (or fewer) choices in the visible window.
+
+```python
+from inquirer import questions
+choices = [f"item-{i}" for i in range(200)]
+question = questions.List("pick", "Pick one:", choices=choices, max_options_displayed_at_once=25)
+```
+
 ### validate
 
 Optional attribute that allows the program to check if the answer is valid or not. It requires a `boolean` value or a `function` with the signature:
