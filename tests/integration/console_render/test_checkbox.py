@@ -325,6 +325,16 @@ class CheckboxRenderTest(unittest.TestCase, helper.BaseTestCase):
 
         assert result == []
 
+    def test_bulk_selection_preserves_locked_choices(self):
+        for pressed, expected in ((key.CTRL_R, ["foo"]), (key.CTRL_I, ["foo", "bazz"])):
+            with self.subTest(pressed=pressed):
+                question = questions.Checkbox(
+                    "answer", choices=["foo", "bar", "bazz"], locked=["foo"], default=["bar"]
+                )
+                stdin = helper.event_factory(pressed, key.ENTER)
+                result = ConsoleRender(event_generator=stdin).render(question)
+                assert result == expected
+
     def test_unselect_locked_space(self):
         stdin_array = [key.SPACE, key.ENTER]
         stdin = helper.event_factory(*stdin_array)

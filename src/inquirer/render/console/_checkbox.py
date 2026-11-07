@@ -126,9 +126,11 @@ class Checkbox(BaseConsoleRender):
         elif pressed == key.CTRL_A:
             self.selection = [i for i in range(len(self.question.choices))]
         elif pressed == key.CTRL_R:
-            self.selection = []
+            self.selection = [i for i, choice in enumerate(question.choices) if choice in self.locked]
         elif pressed == key.CTRL_I:
-            self.selection = [i for i in range(len(self.question.choices)) if i not in self.selection]
+            self.selection = [
+                i for i, choice in enumerate(question.choices) if choice in self.locked or i not in self.selection
+            ]
         elif pressed == key.ENTER:
             result = []
             for x in self.selection:
